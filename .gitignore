@@ -33,7 +33,7 @@ build/
 .vscode/
 
 # Ignorar configuraciones locales sensibles
-src/main/resources/application-dev.properties
+**/application-dev.properties
 
 # Logs y archivos temporales
 *.log
