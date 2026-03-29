@@ -1,8 +1,10 @@
 package com.taller.gestion_taller.domain.repositories;
 
+import com.taller.gestion_taller.domain.model.Cliente;
+
 import java.util.Optional;
 
 public interface ClienteRepository {
-    Optional<Cliente> buscarPorDni(String dni);
-    Cliente guardar(Cliente cliente);
+    Cliente save(Cliente cliente);
+    Optional<Cliente> findByDni(String dni);
 }
