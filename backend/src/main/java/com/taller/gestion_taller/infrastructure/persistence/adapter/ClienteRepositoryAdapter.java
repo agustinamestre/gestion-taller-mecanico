@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -30,10 +31,18 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
             throw new BusinessRunTimeException(BusinessErrors.clienteDniDuplicado(cliente.getDni()));
         }
     }
-    
+
     @Override
     public Optional<Cliente> findByDni(String dni) {
         return jpaClienteRepository.findByDni(dni)
                 .map(persistenceMapper::toDomain);
+    }
+
+    @Override
+    public List<Cliente> findAll() {
+        return jpaClienteRepository.findAll()
+                .stream()
+                .map(persistenceMapper::toDomain)
+                .toList();
     }
 }
