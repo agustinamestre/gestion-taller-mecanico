@@ -1,5 +1,7 @@
 package com.taller.gestion_taller.infrastructure.rest.exception.advice;
 
+import com.taller.gestion_taller.domain.exception.BusinessError;
+import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.infrastructure.rest.exception.ApiError;
 import com.taller.gestion_taller.infrastructure.rest.exception.ApiErrorResponse;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
@@ -100,21 +102,26 @@ public class GlobalExceptionHandler {
         return new ApiErrorResponse(requestURI, errors);
     }
 
-    // EXCEPCIONES DE NEGOCIO
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(value = NOT_FOUND)
+    public ApiErrorResponse externalNotFoundException(NotFoundException ex, ServletWebRequest request) {
+        return ApiErrorResponse.crearResponseConError(request.getRequest().getRequestURI(), toApiError(ex.getBusinessError()));
+    }
 
     @ExceptionHandler(BusinessRunTimeException.class)
     @ResponseStatus(BAD_REQUEST)
     public ApiErrorResponse handleBusinessException(BusinessRunTimeException ex, ServletWebRequest request) {
         List<ApiError> apiErrors = ex.getErrors().stream()
-                .map(businessError -> new ApiError(
-                        businessError.code(),
-                        businessError.message(),
-                        businessError.logDetail()))
+                .map(this::toApiError)
                 .toList();
         return new ApiErrorResponse(request.getRequest().getRequestURI(), apiErrors);
     }
 
     // UTILS
+
+    private ApiError toApiError(BusinessError businessError) {
+        return new ApiError(businessError.code(), businessError.message(), businessError.logDetail());
+    }
 
     private String getGenericErrorMessageAndCause(Exception ex) {
         if (ex.getCause() != null) {
