@@ -1,10 +1,7 @@
 package com.taller.gestion_taller.infrastructure.config;
 
 import com.taller.gestion_taller.application.mapper.ClienteApplicationMapper;
-import com.taller.gestion_taller.application.usecases.cliente.ListarClientes;
-import com.taller.gestion_taller.application.usecases.cliente.ListarClientesUseCase;
-import com.taller.gestion_taller.application.usecases.cliente.RegistrarCliente;
-import com.taller.gestion_taller.application.usecases.cliente.RegistrarClienteUseCase;
+import com.taller.gestion_taller.application.usecases.cliente.*;
 import com.taller.gestion_taller.domain.repositories.ClienteRepository;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ClientePersistenceMapper;
 import com.taller.gestion_taller.infrastructure.rest.mapper.ClienteRestMapper;
@@ -38,5 +35,10 @@ public class BeanConfiguration {
     @Bean
     public ListarClientes listarClientesUseCase(ClienteRepository clienteRepository) {
         return new ListarClientesUseCase(clienteRepository);
+    }
+
+    @Bean
+    public ListarCliente listarClienteUseCase(ClienteRepository clienteRepository) {
+        return new ListarClienteUseCase(clienteRepository);
     }
 }

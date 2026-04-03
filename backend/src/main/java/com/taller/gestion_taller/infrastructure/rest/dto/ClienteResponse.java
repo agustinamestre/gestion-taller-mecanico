@@ -11,6 +11,8 @@ public record ClienteResponse(
         String email,
         String direccion,
         boolean activo,
-        LocalDate fechaCreacion
+        LocalDate fechaCreacion,
+        LocalDate fechaModificacion
+
 ) {
 }

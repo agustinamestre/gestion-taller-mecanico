@@ -1,6 +1,7 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
 import com.taller.gestion_taller.application.command.RegistrarClienteCommand;
+import com.taller.gestion_taller.application.usecases.cliente.ListarCliente;
 import com.taller.gestion_taller.application.usecases.cliente.ListarClientes;
 import com.taller.gestion_taller.application.usecases.cliente.RegistrarCliente;
 import com.taller.gestion_taller.domain.model.Cliente;
@@ -11,22 +12,19 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping(path="/clientes")
+@RequestMapping(path = "/clientes")
 @RequiredArgsConstructor
 public class ClienteController {
 
     private final RegistrarCliente registrarCliente;
     private final ListarClientes listarClientes;
     private final ClienteRestMapper clienteRestMapper;
+    private final ListarCliente listarCliente;
 
     @PostMapping()
     public ResponseEntity<ClienteResponse> registrar(@Valid @RequestBody ClienteRequest request) {
@@ -44,6 +42,15 @@ public class ClienteController {
         List<Cliente> clientes = listarClientes.listarClientes();
 
         List<ClienteResponse> response = clienteRestMapper.domainListToResponseList(clientes);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/{nroDocumento}")
+    public ResponseEntity<ClienteResponse> buscarPorNroDocumento(@PathVariable String nroDocumento) {
+        Cliente cliente = listarCliente.listarCliente(nroDocumento);
+
+        ClienteResponse response = clienteRestMapper.domainToResponse(cliente);
 
         return ResponseEntity.ok(response);
     }
