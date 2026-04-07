@@ -18,4 +18,5 @@ public class DesactivarMarcaUseCase implements DesactivarMarca {
                 .map(marcaRepository::save)
                 .orElseThrow(() -> new NotFoundException(BusinessErrors.marcaNoEncontrada()));
     }
+
 }
