@@ -16,6 +16,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -62,7 +63,11 @@ class ModificarMarcaUseCaseTest {
 
         when(marcaRepository.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> useCase.modificarMarca(id, command));
+        Exception exception = assertThrows(NotFoundException.class, () -> {
+            useCase.modificarMarca(id, command);
+        });
+
+        assertTrue(exception.getMessage().contains("No se encontro la marca ingresada."));;
         verify(marcaRepository, never()).save(any());
     }
 }
