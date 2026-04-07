@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -50,7 +51,11 @@ class DesactivarMarcaUseCaseTest {
 
         when(marcaRepository.findById(id)).thenReturn(Optional.empty());
 
-        assertThrows(NotFoundException.class, () -> useCase.desactivarMarca(id));
+        Exception exception = assertThrows(NotFoundException.class, () -> {
+            useCase.desactivarMarca(id);
+        });
+
+        assertTrue(exception.getMessage().contains("No se encontro la marca ingresada."));
         verify(marcaRepository, never()).save(any());
     }
 }

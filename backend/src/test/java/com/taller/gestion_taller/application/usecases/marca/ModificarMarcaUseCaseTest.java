@@ -67,7 +67,7 @@ class ModificarMarcaUseCaseTest {
             useCase.modificarMarca(id, command);
         });
 
-        assertTrue(exception.getMessage().contains("No se encontro la marca ingresada."));;
+        assertTrue(exception.getMessage().contains("No se encontro la marca ingresada."));
         verify(marcaRepository, never()).save(any());
     }
 }
