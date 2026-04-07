@@ -20,7 +20,7 @@ public class ModificarMarcaUseCase implements ModificarMarca {
         return marcaRepository.findById(id)
                 .map(marca -> {
                     marcaValidator.validarNombreUnico(command.nombre(), marca.getNombre());
-                    return marca; // Retornamos la marca para que el siguiente .map la reciba
+                    return marca;
                 })
                 .map(marca -> marca.actualizarNombre(command.nombre()))
                 .map(marcaRepository::save)
