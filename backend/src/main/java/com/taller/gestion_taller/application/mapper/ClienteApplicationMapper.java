@@ -10,7 +10,7 @@ public interface ClienteApplicationMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "activo", constant = "true")
-    @Mapping(target = "fechaCreacion", expression = "java(java.time.LocalDate.now())")
-    @Mapping(target = "fechaModificacion", expression = "java(java.time.LocalDate.now())")
+    @Mapping(target = "fechaCreacion", ignore = true)
+    @Mapping(target = "fechaModificacion", ignore = true)
     Cliente commandToDomain(RegistrarClienteCommand command);
 }
