@@ -12,10 +12,6 @@ public final class BusinessErrors {
         return new BusinessError(campo.toUpperCase() + "_INVALIDO", MessageFormat.format(CAMPO_INVALIDO_MSG, campo, detalle));
     }
 
-    public static BusinessError campoDniInvalido() {
-        return new BusinessError("DNI_INVALIDO", "DNI debe tener 7 u 8 digitos numericos");
-    }
-
     public static BusinessError clienteDniDuplicado(String dni) {
         return new BusinessError("CLIENTE_DNI_DUPLICADO", "Ya existe un cliente con DNI: " + dni, "Intento de registro con DNI duplicado: " + dni);
     }
@@ -24,5 +20,20 @@ public final class BusinessErrors {
         return new BusinessError("CLIENTE_NO_ENCONTRADO", "No se encontro un cliente con DNI: " + dni, "Busqueda fallida para DNI: " + dni);
     }
 
+    public static BusinessError clienteYaDadoDeBaja() {
+        return new BusinessError("CLIENTE_YA_DESACTIVADO", "El cliente ya se encuentra inactivo.");
+    }
+
+    public static BusinessError marcaDuplicada(String nombre) {
+        return new BusinessError("MARCA_DUPLICADA", "Ya existe una marca con el nombre: " + nombre);
+    }
+
+    public static BusinessError marcaYaDesactivada() {
+        return new BusinessError("MARCA_YA_DESACTIVADA", "La marca ya se encuentra desactivada.");
+    }
+
+    public static BusinessError marcaNoEncontrada() {
+        return new BusinessError("MARCA_NO_ENCONTRADA", "No se encontro la marca ingresada.");
+    }
 
 }
