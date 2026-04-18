@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
+import com.taller.gestion_taller.application.command.ModificarModeloCommand;
 import com.taller.gestion_taller.application.command.RegistrarModeloCommand;
 import com.taller.gestion_taller.application.usecases.modelo.*;
 import com.taller.gestion_taller.domain.model.Modelo;
@@ -23,6 +24,7 @@ public class ModeloController {
 
     private final RegistrarModelo registrarModelo;
     private final ListarModelos listarModelos;
+    private final ModificarModelo modificarModelo;
 
     private final ModeloRestMapper modeloRestMapper;
 
@@ -38,6 +40,14 @@ public class ModeloController {
     public ResponseEntity<List<ModeloResponse>> listar(@RequestParam(required = false) Long marcaId) {
         List<Modelo> modelos = listarModelos.listar(Optional.ofNullable(marcaId));
         List<ModeloResponse> response = modeloRestMapper.domainListToResponseList(modelos);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ModeloResponse> modificar(@PathVariable Long id, @Valid @RequestBody ModeloRequest request) {
+        ModificarModeloCommand command = modeloRestMapper.requestToModificarCommand(request);
+        Modelo modelo = modificarModelo.modificar(id, command);
+        ModeloResponse response = modeloRestMapper.domainToResponse(modelo);
         return ResponseEntity.ok(response);
     }
 }
