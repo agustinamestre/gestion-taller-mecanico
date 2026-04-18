@@ -128,4 +128,10 @@ public class BeanConfiguration {
     public ListarModelos listarModelosUseCase(ModeloRepository modeloRepository) {
         return new ListarModelosUseCase(modeloRepository);
     }
+
+    @Bean
+    public ModificarModelo modificarModeloUseCase(ModeloRepository modeloRepository, MarcaRepository marcaRepository, ModeloValidator modeloValidator) {
+        return new ModificarModeloUseCase(modeloRepository, marcaRepository, modeloValidator);
+    }
+
 }
