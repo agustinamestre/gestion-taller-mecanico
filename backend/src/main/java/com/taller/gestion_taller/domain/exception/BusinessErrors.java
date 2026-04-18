@@ -36,4 +36,16 @@ public final class BusinessErrors {
         return new BusinessError("MARCA_NO_ENCONTRADA", "No se encontro la marca ingresada.");
     }
 
+    public static BusinessError modeloDuplicado(String nombre, String marca) {
+        return new BusinessError("MODELO_DUPLICADO", MessageFormat.format("Ya existe el modelo {0} para la marca {1}", nombre, marca));
+    }
+
+    public static BusinessError modeloNoEncontrado() {
+        return new BusinessError("MODELO_NO_ENCONTRADA", "No se encontro el modelo ingresado.");
+    }
+
+    public static BusinessError modeloYaDesactivado() {
+        return new BusinessError("MODELO_YA_DESACTIVADO", "El modelo ya se encuentra desactivado.");
+    }
+
 }

@@ -2,14 +2,20 @@ package com.taller.gestion_taller.infrastructure.config;
 
 import com.taller.gestion_taller.application.mapper.ClienteApplicationMapper;
 import com.taller.gestion_taller.application.mapper.MarcaApplicationMapper;
+import com.taller.gestion_taller.application.mapper.ModeloApplicationMapper;
 import com.taller.gestion_taller.application.usecases.cliente.*;
 import com.taller.gestion_taller.application.usecases.marca.*;
+import com.taller.gestion_taller.application.usecases.modelo.*;
 import com.taller.gestion_taller.domain.repositories.ClienteRepository;
 import com.taller.gestion_taller.domain.repositories.MarcaRepository;
+import com.taller.gestion_taller.domain.repositories.ModeloRepository;
 import com.taller.gestion_taller.domain.service.MarcaValidator;
+import com.taller.gestion_taller.domain.service.ModeloValidator;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ClientePersistenceMapper;
+import com.taller.gestion_taller.infrastructure.persistence.mapper.ModeloPersistenceMapper;
 import com.taller.gestion_taller.infrastructure.rest.mapper.ClienteRestMapper;
 import com.taller.gestion_taller.infrastructure.rest.mapper.MarcaRestMapper;
+import com.taller.gestion_taller.infrastructure.rest.mapper.ModeloRestMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +34,18 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public ModeloApplicationMapper modeloApplicationMapper() {
+        return Mappers.getMapper(ModeloApplicationMapper.class);
+    }
+
+    @Bean
     public MarcaRestMapper marcaRestMapper() {
         return Mappers.getMapper(MarcaRestMapper.class);
+    }
+
+    @Bean
+    public ModeloRestMapper modeloRestMapper() {
+        return Mappers.getMapper(ModeloRestMapper.class);
     }
 
     @Bean
@@ -40,6 +56,11 @@ public class BeanConfiguration {
     @Bean
     public ClientePersistenceMapper clientePersistenceMapper() {
         return Mappers.getMapper(ClientePersistenceMapper.class);
+    }
+
+    @Bean
+    public ModeloPersistenceMapper modeloPersistenceMapper() {
+        return Mappers.getMapper(ModeloPersistenceMapper.class);
     }
 
     @Bean
@@ -92,4 +113,14 @@ public class BeanConfiguration {
         return new MarcaValidator(marcaRepository);
     }
 
+    // MODELO BEANS
+    @Bean
+    public RegistrarModelo registrarModeloUseCase(ModeloRepository modeloRepository, MarcaRepository marcaRepository, ModeloApplicationMapper modeloApplicationMapper, ModeloValidator modeloValidator) {
+        return new RegistrarModeloUseCase(modeloRepository, marcaRepository, modeloApplicationMapper, modeloValidator);
+    }
+
+    @Bean
+    public ModeloValidator modeloValidator(ModeloRepository modeloRepository) {
+        return new ModeloValidator(modeloRepository);
+    }
 }
