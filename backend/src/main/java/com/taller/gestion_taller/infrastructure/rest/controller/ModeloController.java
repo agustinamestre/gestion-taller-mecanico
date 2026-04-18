@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 
 @RestController
 @RequestMapping(path = "/modelos")
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class ModeloController {
 
     private final RegistrarModelo registrarModelo;
-
+    private final ListarModelos listarModelos;
 
     private final ModeloRestMapper modeloRestMapper;
 
@@ -31,5 +34,10 @@ public class ModeloController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-
+    @GetMapping()
+    public ResponseEntity<List<ModeloResponse>> listar(@RequestParam(required = false) Long marcaId) {
+        List<Modelo> modelos = listarModelos.listar(Optional.ofNullable(marcaId));
+        List<ModeloResponse> response = modeloRestMapper.domainListToResponseList(modelos);
+        return ResponseEntity.ok(response);
+    }
 }

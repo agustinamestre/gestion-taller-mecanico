@@ -123,4 +123,9 @@ public class BeanConfiguration {
     public ModeloValidator modeloValidator(ModeloRepository modeloRepository) {
         return new ModeloValidator(modeloRepository);
     }
+
+    @Bean
+    public ListarModelos listarModelosUseCase(ModeloRepository modeloRepository) {
+        return new ListarModelosUseCase(modeloRepository);
+    }
 }
