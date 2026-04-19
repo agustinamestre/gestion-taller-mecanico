@@ -3,19 +3,25 @@ package com.taller.gestion_taller.infrastructure.config;
 import com.taller.gestion_taller.application.mapper.ClienteApplicationMapper;
 import com.taller.gestion_taller.application.mapper.MarcaApplicationMapper;
 import com.taller.gestion_taller.application.mapper.ModeloApplicationMapper;
+import com.taller.gestion_taller.application.mapper.ProductoApplicationMapper;
 import com.taller.gestion_taller.application.usecases.cliente.*;
 import com.taller.gestion_taller.application.usecases.marca.*;
 import com.taller.gestion_taller.application.usecases.modelo.*;
+import com.taller.gestion_taller.application.usecases.producto.RegistrarProducto;
+import com.taller.gestion_taller.application.usecases.producto.RegistrarProductoUseCase;
 import com.taller.gestion_taller.domain.repositories.ClienteRepository;
 import com.taller.gestion_taller.domain.repositories.MarcaRepository;
 import com.taller.gestion_taller.domain.repositories.ModeloRepository;
+import com.taller.gestion_taller.domain.repositories.ProductoRepository;
 import com.taller.gestion_taller.domain.service.MarcaValidator;
 import com.taller.gestion_taller.domain.service.ModeloValidator;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ClientePersistenceMapper;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ModeloPersistenceMapper;
+import com.taller.gestion_taller.infrastructure.persistence.mapper.ProductoPersistenceMapper;
 import com.taller.gestion_taller.infrastructure.rest.mapper.ClienteRestMapper;
 import com.taller.gestion_taller.infrastructure.rest.mapper.MarcaRestMapper;
 import com.taller.gestion_taller.infrastructure.rest.mapper.ModeloRestMapper;
+import com.taller.gestion_taller.infrastructure.rest.mapper.ProductoRestMapper;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -39,6 +45,11 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public ProductoApplicationMapper productoApplicationMapper() {
+        return Mappers.getMapper(ProductoApplicationMapper.class);
+    }
+
+    @Bean
     public MarcaRestMapper marcaRestMapper() {
         return Mappers.getMapper(MarcaRestMapper.class);
     }
@@ -54,6 +65,11 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public ProductoRestMapper productoRestMapper() {
+        return Mappers.getMapper(ProductoRestMapper.class);
+    }
+
+    @Bean
     public ClientePersistenceMapper clientePersistenceMapper() {
         return Mappers.getMapper(ClientePersistenceMapper.class);
     }
@@ -61,6 +77,11 @@ public class BeanConfiguration {
     @Bean
     public ModeloPersistenceMapper modeloPersistenceMapper() {
         return Mappers.getMapper(ModeloPersistenceMapper.class);
+    }
+
+    @Bean
+    public ProductoPersistenceMapper productoPersistenceMapper() {
+        return Mappers.getMapper(ProductoPersistenceMapper.class);
     }
 
     @Bean
@@ -139,5 +160,10 @@ public class BeanConfiguration {
         return new DesactivarModeloUseCase(modeloRepository);
     }
 
+    // PRODUCTO BEANS
+    @Bean
+    public RegistrarProducto registrarProductoUseCase(ProductoRepository productoRepository, ProductoApplicationMapper productoApplicationMapper) {
+        return new RegistrarProductoUseCase(productoRepository, productoApplicationMapper);
+    }
 
 }
