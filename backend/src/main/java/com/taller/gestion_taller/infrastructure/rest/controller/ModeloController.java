@@ -25,6 +25,7 @@ public class ModeloController {
     private final RegistrarModelo registrarModelo;
     private final ListarModelos listarModelos;
     private final ModificarModelo modificarModelo;
+    private final DesactivarModelo desactivarModelo;
 
     private final ModeloRestMapper modeloRestMapper;
 
@@ -49,5 +50,11 @@ public class ModeloController {
         Modelo modelo = modificarModelo.modificar(id, command);
         ModeloResponse response = modeloRestMapper.domainToResponse(modelo);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> desactivar(@PathVariable Long id) {
+        desactivarModelo.desactivar(id);
+        return ResponseEntity.noContent().build();
     }
 }

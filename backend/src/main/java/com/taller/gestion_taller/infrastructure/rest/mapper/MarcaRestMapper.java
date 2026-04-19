@@ -9,7 +9,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper()
+@Mapper
 public interface MarcaRestMapper {
 
     RegistrarMarcaCommand requestToCommand(MarcaRequest request);
