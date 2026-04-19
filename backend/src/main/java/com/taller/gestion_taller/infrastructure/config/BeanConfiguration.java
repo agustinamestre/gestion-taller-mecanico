@@ -134,4 +134,10 @@ public class BeanConfiguration {
         return new ModificarModeloUseCase(modeloRepository, marcaRepository, modeloValidator);
     }
 
+    @Bean
+    public DesactivarModelo desactivarModeloUseCase(ModeloRepository modeloRepository) {
+        return new DesactivarModeloUseCase(modeloRepository);
+    }
+
+
 }
