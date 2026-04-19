@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.domain.exception;
 
+import com.taller.gestion_taller.domain.model.TipoProducto;
 import java.text.MessageFormat;
 
 public final class BusinessErrors {
@@ -46,6 +47,10 @@ public final class BusinessErrors {
 
     public static BusinessError modeloYaDesactivado() {
         return new BusinessError("MODELO_YA_DESACTIVADO", "El modelo ya se encuentra desactivado.");
+    }
+
+    public static BusinessError productoDuplicado(String nombre, TipoProducto tipo) {
+        return new BusinessError("PRODUCTO_DUPLICADO", MessageFormat.format("Ya existe un producto con el nombre {0} y tipo {1}", nombre, tipo));
     }
 
 }
