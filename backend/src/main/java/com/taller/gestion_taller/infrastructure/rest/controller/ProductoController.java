@@ -2,10 +2,7 @@ package com.taller.gestion_taller.infrastructure.rest.controller;
 
 import com.taller.gestion_taller.application.command.ModificarProductoCommand;
 import com.taller.gestion_taller.application.command.RegistrarProductoCommand;
-import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipo;
-import com.taller.gestion_taller.application.usecases.producto.DesactivarProducto;
-import com.taller.gestion_taller.application.usecases.producto.ModificarProducto;
-import com.taller.gestion_taller.application.usecases.producto.RegistrarProducto;
+import com.taller.gestion_taller.application.usecases.producto.*;
 import com.taller.gestion_taller.domain.model.Producto;
 import com.taller.gestion_taller.infrastructure.rest.dto.ModificarProductoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.ProductoRequest;
@@ -28,7 +25,8 @@ public class ProductoController {
     private final RegistrarProducto registrarProducto;
     private final BuscarProductoPorTipo buscarProductoPorTipo;
     private final ModificarProducto modificarProducto;
-    private final DesactivarProducto desactivarProducto; // Added
+    private final DesactivarProducto desactivarProducto;
+    private final ObtenerTiposProducto obtenerTiposProducto;
     private final ProductoRestMapper productoRestMapper;
 
     @PostMapping
@@ -37,6 +35,11 @@ public class ProductoController {
         Producto producto = registrarProducto.registrar(command);
         ProductoResponse response = productoRestMapper.domainToResponse(producto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/tipos")
+    public ResponseEntity<List<String>> obtenerTipos() {
+        return ResponseEntity.ok(obtenerTiposProducto.obtener());
     }
 
     @GetMapping("/tipo/{tipo}")

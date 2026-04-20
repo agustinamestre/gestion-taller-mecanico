@@ -182,7 +182,12 @@ public class BeanConfiguration {
     }
 
     @Bean
-        public ProductoValidator productoValidator(ProductoRepository productoRepository) {
+    public ObtenerTiposProducto obtenerTiposProductoUseCase() {
+        return new ObtenerTiposProductoUseCase();
+    }
+
+    @Bean
+    public ProductoValidator productoValidator(ProductoRepository productoRepository) {
         return new ProductoValidator(productoRepository);
     }
 
