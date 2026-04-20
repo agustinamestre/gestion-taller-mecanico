@@ -7,16 +7,14 @@ import com.taller.gestion_taller.application.mapper.ProductoApplicationMapper;
 import com.taller.gestion_taller.application.usecases.cliente.*;
 import com.taller.gestion_taller.application.usecases.marca.*;
 import com.taller.gestion_taller.application.usecases.modelo.*;
-import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipo;
-import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipoUseCase;
-import com.taller.gestion_taller.application.usecases.producto.RegistrarProducto;
-import com.taller.gestion_taller.application.usecases.producto.RegistrarProductoUseCase;
+import com.taller.gestion_taller.application.usecases.producto.*;
 import com.taller.gestion_taller.domain.repositories.ClienteRepository;
 import com.taller.gestion_taller.domain.repositories.MarcaRepository;
 import com.taller.gestion_taller.domain.repositories.ModeloRepository;
 import com.taller.gestion_taller.domain.repositories.ProductoRepository;
 import com.taller.gestion_taller.domain.service.MarcaValidator;
 import com.taller.gestion_taller.domain.service.ModeloValidator;
+import com.taller.gestion_taller.domain.service.ProductoValidator;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ClientePersistenceMapper;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ModeloPersistenceMapper;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ProductoPersistenceMapper;
@@ -171,6 +169,16 @@ public class BeanConfiguration {
     @Bean
     public BuscarProductoPorTipo buscarProductoPorTipoUseCase(ProductoRepository productoRepository) {
         return new BuscarProductoPorTipoUseCase(productoRepository);
+    }
+
+    @Bean
+    public ModificarProducto modificarProductoUseCase(ProductoRepository productoRepository, ProductoValidator productoValidator) {
+        return new ModificarProductoUseCase(productoRepository, productoValidator);
+    }
+
+    @Bean
+        public ProductoValidator productoValidator(ProductoRepository productoRepository) {
+        return new ProductoValidator(productoRepository);
     }
 
 }
