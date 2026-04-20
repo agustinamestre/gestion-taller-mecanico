@@ -1,6 +1,8 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
 import com.taller.gestion_taller.application.command.RegistrarProductoCommand;
+import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipo;
+import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipoUseCase;
 import com.taller.gestion_taller.application.usecases.producto.RegistrarProducto;
 import com.taller.gestion_taller.domain.model.Producto;
 import com.taller.gestion_taller.infrastructure.rest.dto.ProductoRequest;
@@ -10,10 +12,10 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/productos")
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductoController {
 
     private final RegistrarProducto registrarProducto;
+    private final BuscarProductoPorTipo buscarProductoPorTipo;
     private final ProductoRestMapper productoRestMapper;
 
     @PostMapping
@@ -29,5 +32,15 @@ public class ProductoController {
         Producto producto = registrarProducto.registrar(command);
         ProductoResponse response = productoRestMapper.domainToResponse(producto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @GetMapping("/tipo/{tipo}")
+    public ResponseEntity<List<ProductoResponse>> buscarPorTipo(@PathVariable String tipo) {
+        List<ProductoResponse> response = buscarProductoPorTipo.buscarPorTipo(tipo)
+                .stream()
+                .map(productoRestMapper::domainToResponse)
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(response);
     }
 }

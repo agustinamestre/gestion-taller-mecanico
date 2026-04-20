@@ -53,4 +53,8 @@ public final class BusinessErrors {
         return new BusinessError("PRODUCTO_DUPLICADO", MessageFormat.format("Ya existe un producto con el nombre {0} y tipo {1}", nombre, tipo));
     }
 
+    public static BusinessError productosNoEncontradosPorTipo(String tipo) {
+        return new BusinessError("PRODUCTOS_NO_ENCONTRADOS", "No se encontraron productos del tipo: " + tipo);
+    }
+
 }

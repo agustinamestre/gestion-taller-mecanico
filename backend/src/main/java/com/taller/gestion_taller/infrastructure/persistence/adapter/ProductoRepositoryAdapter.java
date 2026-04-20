@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -41,5 +43,12 @@ public class ProductoRepositoryAdapter implements ProductoRepository {
     @Override
     public boolean existePorNombreYTipo(String nombre, TipoProducto tipo) {
         return jpaProductoRepository.existsByNombreAndTipo(nombre, tipo);
+    }
+
+    @Override
+    public List<Producto> buscarPorTipo(TipoProducto tipo) {
+        return jpaProductoRepository.findByTipo(tipo).stream()
+                .map(persistenceMapper::toDomain)
+                .collect(Collectors.toList());
     }
 }

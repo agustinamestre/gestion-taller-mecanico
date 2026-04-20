@@ -7,6 +7,8 @@ import com.taller.gestion_taller.application.mapper.ProductoApplicationMapper;
 import com.taller.gestion_taller.application.usecases.cliente.*;
 import com.taller.gestion_taller.application.usecases.marca.*;
 import com.taller.gestion_taller.application.usecases.modelo.*;
+import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipo;
+import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipoUseCase;
 import com.taller.gestion_taller.application.usecases.producto.RegistrarProducto;
 import com.taller.gestion_taller.application.usecases.producto.RegistrarProductoUseCase;
 import com.taller.gestion_taller.domain.repositories.ClienteRepository;
@@ -164,6 +166,11 @@ public class BeanConfiguration {
     @Bean
     public RegistrarProducto registrarProductoUseCase(ProductoRepository productoRepository, ProductoApplicationMapper productoApplicationMapper) {
         return new RegistrarProductoUseCase(productoRepository, productoApplicationMapper);
+    }
+
+    @Bean
+    public BuscarProductoPorTipo buscarProductoPorTipoUseCase(ProductoRepository productoRepository) {
+        return new BuscarProductoPorTipoUseCase(productoRepository);
     }
 
 }
