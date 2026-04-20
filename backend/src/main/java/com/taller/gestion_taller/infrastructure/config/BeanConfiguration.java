@@ -177,6 +177,11 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public DesactivarProducto desactivarProductoUseCase(ProductoRepository productoRepository) {
+        return new DesactivarProductoUseCase(productoRepository);
+    }
+
+    @Bean
         public ProductoValidator productoValidator(ProductoRepository productoRepository) {
         return new ProductoValidator(productoRepository);
     }

@@ -3,6 +3,7 @@ package com.taller.gestion_taller.infrastructure.rest.controller;
 import com.taller.gestion_taller.application.command.ModificarProductoCommand;
 import com.taller.gestion_taller.application.command.RegistrarProductoCommand;
 import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipo;
+import com.taller.gestion_taller.application.usecases.producto.DesactivarProducto;
 import com.taller.gestion_taller.application.usecases.producto.ModificarProducto;
 import com.taller.gestion_taller.application.usecases.producto.RegistrarProducto;
 import com.taller.gestion_taller.domain.model.Producto;
@@ -27,6 +28,7 @@ public class ProductoController {
     private final RegistrarProducto registrarProducto;
     private final BuscarProductoPorTipo buscarProductoPorTipo;
     private final ModificarProducto modificarProducto;
+    private final DesactivarProducto desactivarProducto; // Added
     private final ProductoRestMapper productoRestMapper;
 
     @PostMapping
@@ -53,5 +55,11 @@ public class ProductoController {
         Producto producto = modificarProducto.modificar(id, command);
         ProductoResponse response = productoRestMapper.domainToResponse(producto);
         return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> desactivar(@PathVariable Long id) {
+        desactivarProducto.desactivar(id);
+        return ResponseEntity.noContent().build();
     }
 }
