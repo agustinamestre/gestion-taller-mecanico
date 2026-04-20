@@ -61,4 +61,8 @@ public final class BusinessErrors {
         return new BusinessError("PRODUCTOS_NO_ENCONTRADOS", "No se encontraron productos del tipo: " + tipo);
     }
 
+    public static BusinessError productoYaDesactivado() {
+        return new BusinessError("PRODUCTO_YA_DESACTIVADO", "El producto ya se encuentra desactivado.");
+    }
+
 }

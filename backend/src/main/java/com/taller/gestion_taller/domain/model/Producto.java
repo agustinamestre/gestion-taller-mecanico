@@ -1,5 +1,7 @@
 package com.taller.gestion_taller.domain.model;
 
+import com.taller.gestion_taller.domain.exception.BusinessErrors;
+import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,6 +26,15 @@ public class Producto {
                 .nombre(nombre)
                 .descripcion(deberiaMantenerDescripcionAnterior(descripcion) ? this.descripcion : descripcion)
                 .tipo(tipo)
+                .build();
+    }
+
+    public Producto desactivar() {
+        if (!this.activo) {
+            throw new BusinessRunTimeException(BusinessErrors.productoYaDesactivado());
+        }
+        return this.toBuilder()
+                .activo(false)
                 .build();
     }
 
