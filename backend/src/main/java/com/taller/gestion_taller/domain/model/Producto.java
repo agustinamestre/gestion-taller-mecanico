@@ -19,4 +19,16 @@ public class Producto {
     @Builder.Default
     private boolean activo = true;
 
+    public Producto actualizar(String nombre, String descripcion, TipoProducto tipo) {
+        return this.toBuilder()
+                .nombre(nombre)
+                .descripcion(deberiaMantenerDescripcionAnterior(descripcion) ? this.descripcion : descripcion)
+                .tipo(tipo)
+                .build();
+    }
+
+    private boolean deberiaMantenerDescripcionAnterior(String nuevaDescripcion) {
+        return nuevaDescripcion == null || nuevaDescripcion.isBlank();
+    }
+
 }

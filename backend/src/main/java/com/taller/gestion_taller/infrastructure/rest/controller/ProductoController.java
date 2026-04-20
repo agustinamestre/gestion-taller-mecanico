@@ -1,10 +1,12 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
+import com.taller.gestion_taller.application.command.ModificarProductoCommand;
 import com.taller.gestion_taller.application.command.RegistrarProductoCommand;
 import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipo;
-import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipoUseCase;
+import com.taller.gestion_taller.application.usecases.producto.ModificarProducto;
 import com.taller.gestion_taller.application.usecases.producto.RegistrarProducto;
 import com.taller.gestion_taller.domain.model.Producto;
+import com.taller.gestion_taller.infrastructure.rest.dto.ModificarProductoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.ProductoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.ProductoResponse;
 import com.taller.gestion_taller.infrastructure.rest.mapper.ProductoRestMapper;
@@ -24,6 +26,7 @@ public class ProductoController {
 
     private final RegistrarProducto registrarProducto;
     private final BuscarProductoPorTipo buscarProductoPorTipo;
+    private final ModificarProducto modificarProducto;
     private final ProductoRestMapper productoRestMapper;
 
     @PostMapping
@@ -41,6 +44,14 @@ public class ProductoController {
                 .map(productoRestMapper::domainToResponse)
                 .collect(Collectors.toList());
 
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductoResponse> modificar(@PathVariable Long id, @Valid @RequestBody ModificarProductoRequest request) {
+        ModificarProductoCommand command = productoRestMapper.requestToModificarCommand(id, request);
+        Producto producto = modificarProducto.modificar(id, command);
+        ProductoResponse response = productoRestMapper.domainToResponse(producto);
         return ResponseEntity.ok(response);
     }
 }
