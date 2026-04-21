@@ -1,13 +1,11 @@
 package com.taller.gestion_taller.infrastructure.rest.mapper;
 
 import com.taller.gestion_taller.application.command.ActualizarPrecioProductoCommand;
+import com.taller.gestion_taller.application.command.ActualizarStockProductoCommand;
 import com.taller.gestion_taller.application.command.ModificarProductoCommand;
 import com.taller.gestion_taller.application.command.RegistrarProductoCommand;
 import com.taller.gestion_taller.domain.model.Producto;
-import com.taller.gestion_taller.infrastructure.rest.dto.ActualizarPrecioRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.ModificarProductoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.ProductoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.ProductoResponse;
+import com.taller.gestion_taller.infrastructure.rest.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -19,6 +17,9 @@ public interface ProductoRestMapper {
 
     @Mapping(target = "nuevoPrecio", source = "request.nuevoPrecio")
     ActualizarPrecioProductoCommand requestToActualizarPrecioCommand(ActualizarPrecioRequest request);
+
+    @Mapping(target = "nuevoStock", source = "request.nuevoStock")
+    ActualizarStockProductoCommand requestToActualizarStockCommand(ActualizarStockRequest request);
 
     ProductoResponse domainToResponse(Producto producto);
 }
