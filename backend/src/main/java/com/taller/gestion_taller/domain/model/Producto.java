@@ -44,6 +44,12 @@ public class Producto {
                 .build();
     }
 
+    public Producto actualizarStock(Integer nuevoStock) {
+        return this.toBuilder()
+                .stockActual(nuevoStock)
+                .build();
+    }
+
     private boolean deberiaMantenerDescripcionAnterior(String nuevaDescripcion) {
         return nuevaDescripcion == null || nuevaDescripcion.isBlank();
     }
