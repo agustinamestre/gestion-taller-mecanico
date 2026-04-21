@@ -38,6 +38,12 @@ public class Producto {
                 .build();
     }
 
+    public Producto actualizarPrecio(BigDecimal nuevoPrecio) {
+        return this.toBuilder()
+                .precioActual(nuevoPrecio)
+                .build();
+    }
+
     private boolean deberiaMantenerDescripcionAnterior(String nuevaDescripcion) {
         return nuevaDescripcion == null || nuevaDescripcion.isBlank();
     }
