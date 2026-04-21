@@ -187,6 +187,11 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public ActualizarPrecioProducto actualizarPrecioProductoUseCase(ProductoRepository productoRepository) {
+        return new ActualizarPrecioProductoUseCase(productoRepository);
+    }
+
+    @Bean
     public ProductoValidator productoValidator(ProductoRepository productoRepository) {
         return new ProductoValidator(productoRepository);
     }

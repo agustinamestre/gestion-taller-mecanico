@@ -1,9 +1,11 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
+import com.taller.gestion_taller.application.command.ActualizarPrecioProductoCommand;
 import com.taller.gestion_taller.application.command.ModificarProductoCommand;
 import com.taller.gestion_taller.application.command.RegistrarProductoCommand;
 import com.taller.gestion_taller.application.usecases.producto.*;
 import com.taller.gestion_taller.domain.model.Producto;
+import com.taller.gestion_taller.infrastructure.rest.dto.ActualizarPrecioRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.ModificarProductoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.ProductoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.ProductoResponse;
@@ -27,6 +29,7 @@ public class ProductoController {
     private final ModificarProducto modificarProducto;
     private final DesactivarProducto desactivarProducto;
     private final ObtenerTiposProducto obtenerTiposProducto;
+    private final ActualizarPrecioProducto actualizarPrecioProducto;
     private final ProductoRestMapper productoRestMapper;
 
     @PostMapping
@@ -56,6 +59,14 @@ public class ProductoController {
     public ResponseEntity<ProductoResponse> modificar(@PathVariable Long id, @Valid @RequestBody ModificarProductoRequest request) {
         ModificarProductoCommand command = productoRestMapper.requestToModificarCommand(id, request);
         Producto producto = modificarProducto.modificar(id, command);
+        ProductoResponse response = productoRestMapper.domainToResponse(producto);
+        return ResponseEntity.ok(response);
+    }
+
+    @PatchMapping("/{id}/precio")
+    public ResponseEntity<ProductoResponse> actualizarPrecio(@PathVariable Long id, @Valid @RequestBody ActualizarPrecioRequest request) {
+        ActualizarPrecioProductoCommand command = productoRestMapper.requestToActualizarPrecioCommand(request);
+        Producto producto = actualizarPrecioProducto.actualizar(id, command);
         ProductoResponse response = productoRestMapper.domainToResponse(producto);
         return ResponseEntity.ok(response);
     }
