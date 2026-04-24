@@ -39,6 +39,12 @@ public class ClienteRepositoryAdapter implements ClienteRepository {
     }
 
     @Override
+    public Optional<Cliente> findById(Long id) {
+        return jpaClienteRepository.findById(id)
+                .map(persistenceMapper::toDomain);
+    }
+
+    @Override
     public List<Cliente> findAll() {
         return jpaClienteRepository.findAll()
                 .stream()

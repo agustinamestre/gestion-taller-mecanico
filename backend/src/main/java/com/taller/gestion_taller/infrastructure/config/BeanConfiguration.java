@@ -1,27 +1,21 @@
 package com.taller.gestion_taller.infrastructure.config;
 
-import com.taller.gestion_taller.application.mapper.ClienteApplicationMapper;
-import com.taller.gestion_taller.application.mapper.MarcaApplicationMapper;
-import com.taller.gestion_taller.application.mapper.ModeloApplicationMapper;
-import com.taller.gestion_taller.application.mapper.ProductoApplicationMapper;
+import com.taller.gestion_taller.application.mapper.*;
 import com.taller.gestion_taller.application.usecases.cliente.*;
 import com.taller.gestion_taller.application.usecases.marca.*;
 import com.taller.gestion_taller.application.usecases.modelo.*;
 import com.taller.gestion_taller.application.usecases.producto.*;
-import com.taller.gestion_taller.domain.repositories.ClienteRepository;
-import com.taller.gestion_taller.domain.repositories.MarcaRepository;
-import com.taller.gestion_taller.domain.repositories.ModeloRepository;
-import com.taller.gestion_taller.domain.repositories.ProductoRepository;
+import com.taller.gestion_taller.application.usecases.vehiculo.*;
+import com.taller.gestion_taller.domain.repositories.*;
 import com.taller.gestion_taller.domain.service.MarcaValidator;
 import com.taller.gestion_taller.domain.service.ModeloValidator;
 import com.taller.gestion_taller.domain.service.ProductoValidator;
+import com.taller.gestion_taller.domain.service.VehiculoValidator;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ClientePersistenceMapper;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ModeloPersistenceMapper;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ProductoPersistenceMapper;
-import com.taller.gestion_taller.infrastructure.rest.mapper.ClienteRestMapper;
-import com.taller.gestion_taller.infrastructure.rest.mapper.MarcaRestMapper;
-import com.taller.gestion_taller.infrastructure.rest.mapper.ModeloRestMapper;
-import com.taller.gestion_taller.infrastructure.rest.mapper.ProductoRestMapper;
+import com.taller.gestion_taller.infrastructure.persistence.mapper.VehiculoPersistenceMapper;
+import com.taller.gestion_taller.infrastructure.rest.mapper.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -50,6 +44,11 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public VehiculoApplicationMapper vehiculoApplicationMapper() {
+        return Mappers.getMapper(VehiculoApplicationMapper.class);
+    }
+
+    @Bean
     public MarcaRestMapper marcaRestMapper() {
         return Mappers.getMapper(MarcaRestMapper.class);
     }
@@ -70,6 +69,11 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public VehiculoRestMapper vehiculoRestMapper() {
+        return Mappers.getMapper(VehiculoRestMapper.class);
+    }
+
+    @Bean
     public ClientePersistenceMapper clientePersistenceMapper() {
         return Mappers.getMapper(ClientePersistenceMapper.class);
     }
@@ -82,6 +86,11 @@ public class BeanConfiguration {
     @Bean
     public ProductoPersistenceMapper productoPersistenceMapper() {
         return Mappers.getMapper(ProductoPersistenceMapper.class);
+    }
+
+    @Bean
+    public VehiculoPersistenceMapper vehiculoPersistenceMapper() {
+        return Mappers.getMapper(VehiculoPersistenceMapper.class);
     }
 
     @Bean
@@ -199,6 +208,17 @@ public class BeanConfiguration {
     @Bean
     public ProductoValidator productoValidator(ProductoRepository productoRepository) {
         return new ProductoValidator(productoRepository);
+    }
+
+    // VEHICULO BEANS
+    @Bean
+    public RegistrarVehiculo registrarVehiculoUseCase(VehiculoRepository vehiculoRepository, ModeloRepository modeloRepository, ClienteRepository clienteRepository, VehiculoValidator vehiculoValidator, VehiculoApplicationMapper vehiculoApplicationMapper) {
+        return new RegistrarVehiculoUseCase(vehiculoRepository, modeloRepository, clienteRepository, vehiculoValidator, vehiculoApplicationMapper);
+    }
+
+    @Bean
+    public VehiculoValidator vehiculoValidator(VehiculoRepository vehiculoRepository) {
+        return new VehiculoValidator(vehiculoRepository);
     }
 
 }
