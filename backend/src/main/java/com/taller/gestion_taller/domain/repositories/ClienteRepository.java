@@ -8,5 +8,6 @@ import java.util.Optional;
 public interface ClienteRepository {
     Cliente save(Cliente cliente);
     Optional<Cliente> findByDni(String dni);
+    Optional<Cliente> findById(Long id);
     List<Cliente> findAll();
 }

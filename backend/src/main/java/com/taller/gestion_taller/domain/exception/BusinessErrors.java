@@ -21,8 +21,16 @@ public final class BusinessErrors {
         return new BusinessError("CLIENTE_NO_ENCONTRADO", "No se encontro un cliente con DNI: " + dni, "Busqueda fallida para DNI: " + dni);
     }
 
+    public static BusinessError clienteNoEncontrado(Long id) {
+        return new BusinessError("CLIENTE_NO_ENCONTRADO", "No se encontro un cliente con ID: " + id);
+    }
+
     public static BusinessError clienteYaDadoDeBaja() {
         return new BusinessError("CLIENTE_YA_DESACTIVADO", "El cliente ya se encuentra inactivo.");
+    }
+
+    public static BusinessError operacionConClienteInactivo() {
+        return new BusinessError("CLIENTE_INACTIVO", "No se puede realizar la operación ya que el cliente se encuentra inactivo.");
     }
 
     public static BusinessError marcaDuplicada(String nombre) {
@@ -42,11 +50,11 @@ public final class BusinessErrors {
     }
 
     public static BusinessError modeloNoEncontrado() {
-        return new BusinessError("MODELO_NO_ENCONTRADA", "No se encontro el modelo ingresado.");
+        return new BusinessError("MODELO_NO_ENCONTRADO", "No se encontro el modelo ingresado.");
     }
 
     public static BusinessError modeloYaDesactivado() {
-        return new BusinessError("MODELO_YA_DESACTIVADO", "El modelo ya se encuentra desactivado.");
+        return new BusinessError("MODELO_YA_DESACTIVADO", "El modelo que ingreso se encuentra desactivado.");
     }
 
     public static BusinessError productoDuplicado(String nombre, TipoProducto tipo) {
@@ -63,6 +71,14 @@ public final class BusinessErrors {
 
     public static BusinessError productoYaDesactivado() {
         return new BusinessError("PRODUCTO_YA_DESACTIVADO", "El producto ya se encuentra desactivado.");
+    }
+
+    public static BusinessError vehiculoPatenteDuplicada() {
+        return new BusinessError("VEHICULO_PATENTE_DUPLICADA", "Ya existe un vehiculo con la patente indicada");
+    }
+
+    public static BusinessError vehiculoNoEncontrado(Long id) {
+        return new BusinessError("VEHICULO_NO_ENCONTRADO", "No se encontro el vehiculo con ID: " + id);
     }
 
 }
