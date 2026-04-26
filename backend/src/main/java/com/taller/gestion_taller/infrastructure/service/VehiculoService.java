@@ -1,6 +1,7 @@
 package com.taller.gestion_taller.infrastructure.service;
 
 import com.taller.gestion_taller.application.command.RegistrarVehiculoCommand;
+import com.taller.gestion_taller.application.usecases.vehiculo.GetVehiculoByPatente;
 import com.taller.gestion_taller.application.usecases.vehiculo.RegistrarVehiculo;
 import com.taller.gestion_taller.domain.model.Vehiculo;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +13,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class VehiculoService {
 
     private final RegistrarVehiculo registrarVehiculoUseCase;
+    private final GetVehiculoByPatente getVehiculoByPatenteUseCase;
 
     @Transactional
     public Vehiculo registrarVehiculo(RegistrarVehiculoCommand command) {
         return registrarVehiculoUseCase.registrar(command);
+    }
+
+    @Transactional(readOnly = true)
+    public Vehiculo getVehiculoByPatente(String patente) {
+        return getVehiculoByPatenteUseCase.getByPatente(patente);
     }
 }
