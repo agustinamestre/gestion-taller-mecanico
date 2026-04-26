@@ -37,4 +37,8 @@ public class VehiculoEntity {
 
     @Column(name = "kilometraje_actual", nullable = false)
     private Integer kilometrajeActual;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean activo = true;
 }

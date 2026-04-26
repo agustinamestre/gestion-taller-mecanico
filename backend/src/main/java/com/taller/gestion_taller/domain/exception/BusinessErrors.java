@@ -85,4 +85,11 @@ public final class BusinessErrors {
         return new BusinessError("VEHICULO_NO_ENCONTRADO", "No se encontro un vehiculo con patente: " + patente);
     }
 
+    public static BusinessError vehiculoNoEncontrado() {
+        return new BusinessError("VEHICULO_NO_ENCONTRADO", "No se encontro el vehiculo ingresado.");
+    }
+
+    public static BusinessError vehiculoYaDesactivado() {
+        return new BusinessError("VEHICULO_YA_DESACTIVADO", "El vehiculo ya se encuentra desactivado.");
+    }
 }

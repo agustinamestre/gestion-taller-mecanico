@@ -15,4 +15,5 @@ public class VehiculoResponse {
     private Integer anio;
     private Integer kilometrajeActual;
     private ClienteSummaryResponse cliente;
+    private boolean activo;
 }

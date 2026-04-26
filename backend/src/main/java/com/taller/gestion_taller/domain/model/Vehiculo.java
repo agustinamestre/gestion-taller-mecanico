@@ -19,6 +19,9 @@ public class Vehiculo {
     private Cliente cliente;
     private LocalDate fechaUltimoService;
     private Integer kilometrajeActual;
+    @Builder.Default
+    private boolean activo = true;
+
 
     public Vehiculo actualizarKilometraje(Integer nuevoKilometraje) {
         if (nuevoKilometraje == null || nuevoKilometraje < this.kilometrajeActual) {
@@ -35,6 +38,15 @@ public class Vehiculo {
         }
         return this.toBuilder()
                 .fechaUltimoService(nuevaFecha)
+                .build();
+    }
+
+    public Vehiculo desactivar() {
+        if (!this.activo) {
+            throw new BusinessRunTimeException(BusinessErrors.vehiculoYaDesactivado());
+        }
+        return this.toBuilder()
+                .activo(false)
                 .build();
     }
 }

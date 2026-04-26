@@ -8,9 +8,8 @@ import com.taller.gestion_taller.infrastructure.rest.dto.VehiculoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.VehiculoResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.MappingConstants;
 
-@Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper
 public interface VehiculoRestMapper {
 
     RegistrarVehiculoCommand requestToCommand(VehiculoRequest request);
