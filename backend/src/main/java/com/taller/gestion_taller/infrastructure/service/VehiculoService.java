@@ -1,6 +1,7 @@
 package com.taller.gestion_taller.infrastructure.service;
 
 import com.taller.gestion_taller.application.command.RegistrarVehiculoCommand;
+import com.taller.gestion_taller.application.usecases.vehiculo.DesactivarVehiculo;
 import com.taller.gestion_taller.application.usecases.vehiculo.GetVehiculoByPatente;
 import com.taller.gestion_taller.application.usecases.vehiculo.RegistrarVehiculo;
 import com.taller.gestion_taller.domain.model.Vehiculo;
@@ -14,6 +15,7 @@ public class VehiculoService {
 
     private final RegistrarVehiculo registrarVehiculoUseCase;
     private final GetVehiculoByPatente getVehiculoByPatenteUseCase;
+    private final DesactivarVehiculo desactivarVehiculoUseCase;
 
     @Transactional
     public Vehiculo registrarVehiculo(RegistrarVehiculoCommand command) {
@@ -23,5 +25,10 @@ public class VehiculoService {
     @Transactional(readOnly = true)
     public Vehiculo getVehiculoByPatente(String patente) {
         return getVehiculoByPatenteUseCase.getByPatente(patente);
+    }
+
+    @Transactional
+    public void desactivarVehiculo(Long id) {
+        desactivarVehiculoUseCase.desactivarVehiculo(id);
     }
 }

@@ -10,9 +10,11 @@ public interface VehiculoPersistenceMapper {
 
     @Mapping(source = "modelo", target = "modelo")
     @Mapping(source = "cliente", target = "cliente")
+    @Mapping(source = "activo", target = "activo")
     Vehiculo toDomain(VehiculoEntity vehiculoEntity);
-
+    
     @Mapping(source = "modelo", target = "modelo")
     @Mapping(source = "cliente", target = "cliente")
+    @Mapping(source = "activo", target = "activo")
     VehiculoEntity toEntity(Vehiculo vehiculo);
 }

@@ -13,5 +13,6 @@ public interface VehiculoApplicationMapper {
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "modelo", source = "modelo")
     @Mapping(target = "cliente", source = "cliente")
+    @Mapping(target = "activo", constant = "true")
     Vehiculo commandToDomain(RegistrarVehiculoCommand command, Modelo modelo, Cliente cliente);
 }

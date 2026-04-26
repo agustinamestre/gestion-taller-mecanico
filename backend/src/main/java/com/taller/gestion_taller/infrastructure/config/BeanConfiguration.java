@@ -225,4 +225,9 @@ public class BeanConfiguration {
     public GetVehiculoByPatente getVehiculoByPatenteUseCase(VehiculoRepository vehiculoRepository) {
         return new GetVehiculoByPatenteUseCase(vehiculoRepository);
     }
+
+    @Bean
+    public DesactivarVehiculo desactivarVehiculoUseCase(VehiculoRepository vehiculoRepository) {
+        return new DesactivarVehiculoUseCase(vehiculoRepository);
+    }
 }

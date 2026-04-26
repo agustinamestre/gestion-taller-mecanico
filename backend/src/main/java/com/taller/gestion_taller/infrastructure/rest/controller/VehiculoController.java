@@ -34,4 +34,10 @@ public class VehiculoController {
         VehiculoResponse response = vehiculoRestMapper.domainToResponse(vehiculo);
         return ResponseEntity.ok(response);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> desactivar(@PathVariable Long id) {
+        vehiculoService.desactivarVehiculo(id);
+        return ResponseEntity.noContent().build();
+    }
 }
