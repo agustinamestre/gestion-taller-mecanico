@@ -27,4 +27,11 @@ public class VehiculoController {
         VehiculoResponse response = vehiculoRestMapper.domainToResponse(vehiculo);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @GetMapping("/patente/{patente}")
+    public ResponseEntity<VehiculoResponse> getVehiculoByPatente(@PathVariable String patente) {
+        Vehiculo vehiculo = vehiculoService.getVehiculoByPatente(patente);
+        VehiculoResponse response = vehiculoRestMapper.domainToResponse(vehiculo);
+        return ResponseEntity.ok(response);
+    }
 }

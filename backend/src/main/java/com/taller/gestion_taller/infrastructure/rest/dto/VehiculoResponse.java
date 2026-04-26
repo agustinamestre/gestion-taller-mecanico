@@ -1,14 +1,18 @@
 package com.taller.gestion_taller.infrastructure.rest.dto;
 
-public record VehiculoResponse(
-        Long id,
-        String patente,
-        Integer anio,
-        Integer kilometrajeActual,
-        VehiculoModeloResponse modelo,
-        VehiculoClienteResponse cliente
-) {
-    public record VehiculoModeloResponse(String nombre, VehiculoMarcaResponse marca) {}
-    public record VehiculoMarcaResponse(String nombre) {}
-    public record VehiculoClienteResponse(String dni, String nombre, String apellido) {}
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class VehiculoResponse {
+    private Long id;
+    private String patente;
+    private String marca;
+    private String modelo;
+    private Integer anio;
+    private Integer kilometrajeActual;
+    private ClienteSummaryResponse cliente;
 }

@@ -81,4 +81,8 @@ public final class BusinessErrors {
         return new BusinessError("VEHICULO_NO_ENCONTRADO", "No se encontro el vehiculo con ID: " + id);
     }
 
+    public static BusinessError vehiculoNoEncontrado(String patente) {
+        return new BusinessError("VEHICULO_NO_ENCONTRADO", "No se encontro un vehiculo con patente: " + patente);
+    }
+
 }

@@ -221,4 +221,8 @@ public class BeanConfiguration {
         return new VehiculoValidator(vehiculoRepository);
     }
 
+    @Bean
+    public GetVehiculoByPatente getVehiculoByPatenteUseCase(VehiculoRepository vehiculoRepository) {
+        return new GetVehiculoByPatenteUseCase(vehiculoRepository);
+    }
 }
