@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Builder(toBuilder = true)
@@ -27,6 +28,7 @@ public class Cliente {
     private LocalDate fechaCreacion = LocalDate.now();
     @Builder.Default
     private LocalDate fechaModificacion = LocalDate.now();
+    private List<Vehiculo> vehiculos;
 
     public Cliente actualizarDatos(ModificarClienteCommand command) {
         return this.toBuilder()

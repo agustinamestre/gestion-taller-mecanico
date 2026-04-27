@@ -104,8 +104,8 @@ public class BeanConfiguration {
     }
 
     @Bean
-    public ListarCliente listarClienteUseCase(ClienteRepository clienteRepository) {
-        return new ListarClienteUseCase(clienteRepository);
+    public ListarCliente listarClienteUseCase(ClienteRepository clienteRepository, VehiculoRepository vehiculoRepository) {
+        return new ListarClienteUseCase(clienteRepository, vehiculoRepository);
     }
 
     @Bean

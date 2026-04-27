@@ -6,6 +6,7 @@ import com.taller.gestion_taller.domain.model.Vehiculo;
 import com.taller.gestion_taller.infrastructure.rest.dto.ClienteSummaryResponse;
 import com.taller.gestion_taller.infrastructure.rest.dto.VehiculoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.VehiculoResponse;
+import com.taller.gestion_taller.infrastructure.rest.dto.VehiculoSummaryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -18,6 +19,10 @@ public interface VehiculoRestMapper {
     @Mapping(source = "modelo.nombre", target = "modelo")
     @Mapping(source = "cliente", target = "cliente")
     VehiculoResponse domainToResponse(Vehiculo vehiculo);
+
+    @Mapping(source = "modelo.marca.nombre", target = "marca")
+    @Mapping(source = "modelo.nombre", target = "modelo")
+    VehiculoSummaryResponse domainToSummaryResponse(Vehiculo vehiculo);
 
     ClienteSummaryResponse clienteToClienteSummaryResponse(Cliente cliente);
 }

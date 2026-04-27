@@ -10,7 +10,7 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 
-@Mapper
+@Mapper(uses = VehiculoRestMapper.class)
 public interface ClienteRestMapper {
 
     RegistrarClienteCommand requestToCommand(ClienteRequest request);
