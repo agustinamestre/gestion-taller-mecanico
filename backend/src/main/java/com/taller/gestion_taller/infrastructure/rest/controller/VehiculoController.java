@@ -1,7 +1,11 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
+import com.taller.gestion_taller.application.command.ActualizarKilometrajeCommand;
+import com.taller.gestion_taller.application.command.ModificarVehiculoCommand;
 import com.taller.gestion_taller.application.command.RegistrarVehiculoCommand;
 import com.taller.gestion_taller.domain.model.Vehiculo;
+import com.taller.gestion_taller.infrastructure.rest.dto.ActualizarKilometrajeRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.ModificarVehiculoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.VehiculoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.VehiculoResponse;
 import com.taller.gestion_taller.infrastructure.rest.mapper.VehiculoRestMapper;
@@ -31,6 +35,22 @@ public class VehiculoController {
     @GetMapping("/patente/{patente}")
     public ResponseEntity<VehiculoResponse> getVehiculoByPatente(@PathVariable String patente) {
         Vehiculo vehiculo = vehiculoService.getVehiculoByPatente(patente);
+        VehiculoResponse response = vehiculoRestMapper.domainToResponse(vehiculo);
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<VehiculoResponse> modificar(@PathVariable Long id, @Valid @RequestBody ModificarVehiculoRequest request) {
+        ModificarVehiculoCommand command = vehiculoRestMapper.requestToModificarCommand(request);
+        Vehiculo vehiculo = vehiculoService.modificarVehiculo(id, command);
+        VehiculoResponse response = vehiculoRestMapper.domainToResponse(vehiculo);
+        return ResponseEntity.ok(response);
+    }
+    
+    @PatchMapping("/{id}/kilometraje")
+    public ResponseEntity<VehiculoResponse> actualizarKilometraje(@PathVariable Long id, @Valid @RequestBody ActualizarKilometrajeRequest request) {
+        ActualizarKilometrajeCommand command = vehiculoRestMapper.requestToActualizarKilometrajeCommand(request);
+        Vehiculo vehiculo = vehiculoService.actualizarKilometraje(id, command);
         VehiculoResponse response = vehiculoRestMapper.domainToResponse(vehiculo);
         return ResponseEntity.ok(response);
     }

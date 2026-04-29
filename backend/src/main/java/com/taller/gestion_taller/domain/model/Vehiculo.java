@@ -24,11 +24,19 @@ public class Vehiculo {
 
 
     public Vehiculo actualizarKilometraje(Integer nuevoKilometraje) {
-        if (nuevoKilometraje == null || nuevoKilometraje < this.kilometrajeActual) {
+        if (nuevoKilometraje < this.kilometrajeActual) {
             throw new BusinessRunTimeException(BusinessErrors.campoInvalido("kilometrajeActual", "El nuevo kilometraje no puede ser menor al actual"));
         }
         return this.toBuilder()
                 .kilometrajeActual(nuevoKilometraje)
+                .build();
+    }
+    
+    public Vehiculo actualizarDatos(Modelo nuevoModelo, Integer nuevoAnio, Cliente nuevoCliente) {
+        return this.toBuilder()
+                .modelo(nuevoModelo)
+                .anio(nuevoAnio)
+                .cliente(nuevoCliente)
                 .build();
     }
 

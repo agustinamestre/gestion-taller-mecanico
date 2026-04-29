@@ -51,4 +51,10 @@ public class Cliente {
                 .build();
     }
 
+    public void requerirActivo() {
+        if (!this.activo) {
+            throw new BusinessRunTimeException(BusinessErrors.operacionConClienteInactivo());
+        }
+    }
+
 }
