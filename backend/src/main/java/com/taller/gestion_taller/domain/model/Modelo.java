@@ -31,4 +31,10 @@ public class Modelo {
                 .activo(false)
                 .build();
     }
+
+    public void requerirActivo() {
+        if (!this.activo) {
+            throw new BusinessRunTimeException(BusinessErrors.modeloYaDesactivado());
+        }
+    }
 }

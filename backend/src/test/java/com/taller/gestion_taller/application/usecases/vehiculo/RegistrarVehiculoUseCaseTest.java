@@ -4,6 +4,7 @@ import com.taller.gestion_taller.application.command.RegistrarVehiculoCommand;
 import com.taller.gestion_taller.application.mapper.VehiculoApplicationMapper;
 import com.taller.gestion_taller.domain.exception.BusinessError;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
+import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Cliente;
 import com.taller.gestion_taller.domain.model.Marca;
 import com.taller.gestion_taller.domain.model.Modelo;
@@ -98,9 +99,9 @@ public class RegistrarVehiculoUseCaseTest {
     void registrar_DebeLanzarExcepcion_CuandoElClienteNoExiste() {
         // Arrange
         when(clienteRepository.findById(command.clienteId())).thenReturn(Optional.empty());
-
+    
         // Act & Assert
-        BusinessRunTimeException exception = assertThrows(BusinessRunTimeException.class, () -> registrarVehiculoUseCase.registrar(command));
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> registrarVehiculoUseCase.registrar(command));
         assertEquals("CLIENTE_NO_ENCONTRADO", exception.getBusinessError().code());
     }
 
@@ -120,9 +121,9 @@ public class RegistrarVehiculoUseCaseTest {
         // Arrange
         when(clienteRepository.findById(command.clienteId())).thenReturn(Optional.of(cliente));
         when(modeloRepository.findById(command.modeloId())).thenReturn(Optional.empty());
-
+    
         // Act & Assert
-        BusinessRunTimeException exception = assertThrows(BusinessRunTimeException.class, () -> registrarVehiculoUseCase.registrar(command));
+        NotFoundException exception = assertThrows(NotFoundException.class, () -> registrarVehiculoUseCase.registrar(command));
         assertEquals("MODELO_NO_ENCONTRADO", exception.getBusinessError().code());
     }
 

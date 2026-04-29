@@ -227,6 +227,16 @@ public class BeanConfiguration {
     }
 
     @Bean
+    public ModificarVehiculo modificarVehiculoUseCase(VehiculoRepository vehiculoRepository, ModeloRepository modeloRepository, ClienteRepository clienteRepository) {
+        return new ModificarVehiculoUseCase(vehiculoRepository, modeloRepository, clienteRepository);
+    }
+    
+    @Bean
+    public ActualizarKilometraje actualizarKilometrajeUseCase(VehiculoRepository vehiculoRepository) {
+        return new ActualizarKilometrajeUseCase(vehiculoRepository);
+    }
+
+    @Bean
     public DesactivarVehiculo desactivarVehiculoUseCase(VehiculoRepository vehiculoRepository) {
         return new DesactivarVehiculoUseCase(vehiculoRepository);
     }
