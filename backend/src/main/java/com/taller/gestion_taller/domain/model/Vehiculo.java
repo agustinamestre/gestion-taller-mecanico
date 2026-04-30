@@ -40,15 +40,6 @@ public class Vehiculo {
                 .build();
     }
 
-    public Vehiculo actualizarFechaUltimoService(LocalDate nuevaFecha) {
-        if (nuevaFecha == null || nuevaFecha.isAfter(LocalDate.now())) {
-            throw new BusinessRunTimeException(BusinessErrors.campoInvalido("fechaUltimoService", "La fecha del último servicio no puede ser nula o futura"));
-        }
-        return this.toBuilder()
-                .fechaUltimoService(nuevaFecha)
-                .build();
-    }
-
     public Vehiculo desactivar() {
         if (!this.activo) {
             throw new BusinessRunTimeException(BusinessErrors.vehiculoYaDesactivado());
