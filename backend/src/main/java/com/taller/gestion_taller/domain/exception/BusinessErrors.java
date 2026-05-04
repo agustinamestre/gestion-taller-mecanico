@@ -92,4 +92,5 @@ public final class BusinessErrors {
     public static BusinessError vehiculoYaDesactivado() {
         return new BusinessError("VEHICULO_YA_DESACTIVADO", "El vehiculo ya se encuentra desactivado.");
     }
+
 }
