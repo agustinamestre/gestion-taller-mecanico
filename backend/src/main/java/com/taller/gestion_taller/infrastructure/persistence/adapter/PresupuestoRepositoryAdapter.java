@@ -1,5 +1,7 @@
 package com.taller.gestion_taller.infrastructure.persistence.adapter;
 
+import com.taller.gestion_taller.domain.exception.BusinessErrors;
+import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Presupuesto;
 import com.taller.gestion_taller.domain.repositories.PresupuestoRepository;
 import com.taller.gestion_taller.infrastructure.persistence.entity.PresupuestoEntity;
@@ -19,9 +21,17 @@ public class PresupuestoRepositoryAdapter implements PresupuestoRepository {
 
     @Override
     public Presupuesto save(Presupuesto presupuesto) {
-        PresupuestoEntity entity = mapper.toEntity(presupuesto);
-        PresupuestoEntity saved = jpaPresupuestoRepository.save(entity);
-        return mapper.toDomain(saved);
+        if (presupuesto.getId() == null) {
+            PresupuestoEntity entity = mapper.toEntity(presupuesto);
+            return mapper.toDomain(jpaPresupuestoRepository.save(entity));
+        }
+
+        PresupuestoEntity entity = jpaPresupuestoRepository.findById(presupuesto.getId())
+                .orElseThrow(() -> new NotFoundException(
+                        BusinessErrors.presupuestoNoEncontrado(presupuesto.getId())));
+
+        mapper.updateEntity(presupuesto, entity);
+        return mapper.toDomain(jpaPresupuestoRepository.save(entity));
     }
 
     @Override

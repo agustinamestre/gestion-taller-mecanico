@@ -6,6 +6,7 @@ import com.taller.gestion_taller.application.mapper.ModeloApplicationMapper;
 import com.taller.gestion_taller.application.mapper.ProductoApplicationMapper;
 import com.taller.gestion_taller.application.mapper.VehiculoApplicationMapper;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ClientePersistenceMapper;
+import com.taller.gestion_taller.infrastructure.persistence.mapper.ItemPresupuestoPersistenceMapper;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ModeloPersistenceMapper;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.PresupuestoPersistenceMapper;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.ProductoPersistenceMapper;
@@ -107,5 +108,10 @@ public class MappersBeanConfiguration {
     @Bean
     public PresupuestoPersistenceMapper presupuestoPersistenceMapper() {
         return Mappers.getMapper(PresupuestoPersistenceMapper.class);
+    }
+
+    @Bean
+    public ItemPresupuestoPersistenceMapper itemPresupuestoPersistenceMapper() {
+        return Mappers.getMapper(ItemPresupuestoPersistenceMapper.class);
     }
 }

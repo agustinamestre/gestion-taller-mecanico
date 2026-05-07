@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "presupuestos")
@@ -35,4 +37,8 @@ public class PresupuestoEntity {
 
     @Column(length = 500)
     private String observaciones;
+
+    @OneToMany(mappedBy = "presupuesto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<ItemPresupuestoEntity> items = new ArrayList<>();
 }
