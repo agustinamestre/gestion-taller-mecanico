@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.domain.repositories;
 
+import com.taller.gestion_taller.domain.model.ItemPresupuesto;
 import com.taller.gestion_taller.domain.model.Presupuesto;
 
 import java.util.Optional;

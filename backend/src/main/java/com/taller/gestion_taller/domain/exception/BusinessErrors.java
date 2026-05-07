@@ -93,4 +93,12 @@ public final class BusinessErrors {
         return new BusinessError("VEHICULO_YA_DESACTIVADO", "El vehiculo ya se encuentra desactivado.");
     }
 
+    public static BusinessError presupuestoNoEncontrado(Long id) {
+        return new BusinessError("PRESUPUESTO_NO_ENCONTRADO", "No se encontro el presupuesto con ID: " + id);
+    }
+
+    public static BusinessError presupuestoNoPendiente() {
+        return new BusinessError("PRESUPUESTO_NO_PENDIENTE", "Solo se pueden agregar items a presupuestos en estado PENDIENTE.");
+    }
+
 }
