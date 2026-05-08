@@ -6,7 +6,6 @@ import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.EstadoPresupuesto;
 import com.taller.gestion_taller.domain.model.Presupuesto;
 import com.taller.gestion_taller.domain.model.Producto;
-import com.taller.gestion_taller.domain.model.TipoProducto;
 import com.taller.gestion_taller.domain.repositories.PresupuestoRepository;
 import com.taller.gestion_taller.domain.repositories.ProductoRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -70,39 +69,15 @@ class AgregarItemPresupuestoUseCaseTest {
     }
 
     @Test
-    @DisplayName("Debe agregar un ítem de tipo REPUESTO a un presupuesto pendiente")
-    void agregarRepuestoExitosamente() {
-        // Arrange
-        AgregarItemPresupuestoCommand command = new AgregarItemPresupuestoCommand(
-                presupuestoExistente.getId(), "REPUESTO", productoRepuesto.getId(),
-                "Filtro de aceite para motor", 1, new BigDecimal("15.00"));
-
-        when(presupuestoRepository.findById(presupuestoExistente.getId())).thenReturn(Optional.of(presupuestoExistente));
-        when(productoRepository.findById(productoRepuesto.getId())).thenReturn(Optional.of(productoRepuesto));
-        when(presupuestoRepository.save(any(Presupuesto.class))).thenAnswer(invocation -> invocation.getArgument(0));
-
-        // Act
-        Presupuesto presupuestoActualizado = agregarItemPresupuestoUseCase.agregar(command);
-
-        // Assert
-        assertThat(presupuestoActualizado.getItems()).hasSize(1);
-        assertThat(presupuestoActualizado.getItems().get(0).getProducto()).isEqualTo(productoRepuesto);
-        assertThat(presupuestoActualizado.getItems().get(0).getTipo()).isEqualTo(TipoProducto.REPUESTO);
-        assertThat(presupuestoActualizado.calcularTotal()).isEqualByComparingTo("15.00");
-
-        verify(presupuestoRepository).save(presupuestoActualizado);
-    }
-
-    @Test
     @DisplayName("Debe agregar múltiples ítems y calcular el total correctamente")
     void agregarMultiplesItems() {
         // Arrange
         AgregarItemPresupuestoCommand comandoRepuesto = new AgregarItemPresupuestoCommand(
-                presupuestoExistente.getId(), "REPUESTO", productoRepuesto.getId(),
+                presupuestoExistente.getId(), productoRepuesto.getId(),
                 "Filtro", 2, new BigDecimal("15.00")); // 2 * 15 = 30
 
         AgregarItemPresupuestoCommand comandoServicio = new AgregarItemPresupuestoCommand(
-                presupuestoExistente.getId(), "SERVICIO", productoServicio.getId(),
+                presupuestoExistente.getId(), productoServicio.getId(),
                 "Mano de obra", 1, new BigDecimal("50.00")); // 1 * 50 = 50
 
         when(presupuestoRepository.findById(presupuestoExistente.getId())).thenReturn(Optional.of(presupuestoExistente));
@@ -125,7 +100,7 @@ class AgregarItemPresupuestoUseCaseTest {
     void lanzarErrorSiPresupuestoNoExiste() {
         // Arrange
         AgregarItemPresupuestoCommand command = new AgregarItemPresupuestoCommand(
-                999L, "REPUESTO", productoRepuesto.getId(), "Item", 1, BigDecimal.TEN);
+                999L, productoRepuesto.getId(), "Item", 1, BigDecimal.TEN);
         when(presupuestoRepository.findById(999L)).thenReturn(Optional.empty());
 
         // Act & Assert
@@ -141,7 +116,7 @@ class AgregarItemPresupuestoUseCaseTest {
     void lanzarErrorSiProductoNoExiste() {
         // Arrange
         AgregarItemPresupuestoCommand command = new AgregarItemPresupuestoCommand(
-                presupuestoExistente.getId(), "REPUESTO", 999L, "Item", 1, BigDecimal.TEN);
+                presupuestoExistente.getId(),999L, "Item", 1, BigDecimal.TEN);
         when(presupuestoRepository.findById(presupuestoExistente.getId())).thenReturn(Optional.of(presupuestoExistente));
         when(productoRepository.findById(999L)).thenReturn(Optional.empty());
 
@@ -159,7 +134,7 @@ class AgregarItemPresupuestoUseCaseTest {
         // Arrange
         presupuestoExistente = presupuestoExistente.toBuilder().estado(EstadoPresupuesto.APROBADO).build();
         AgregarItemPresupuestoCommand command = new AgregarItemPresupuestoCommand(
-                presupuestoExistente.getId(), "REPUESTO", productoRepuesto.getId(), "Item", 1, BigDecimal.TEN);
+                presupuestoExistente.getId(), productoRepuesto.getId(), "Item", 1, BigDecimal.TEN);
 
         when(presupuestoRepository.findById(presupuestoExistente.getId())).thenReturn(Optional.of(presupuestoExistente));
         when(productoRepository.findById(productoRepuesto.getId())).thenReturn(Optional.of(productoRepuesto));
@@ -177,12 +152,11 @@ class AgregarItemPresupuestoUseCaseTest {
     void lanzarErrorSiTipoEsInvalido() {
         // Arrange
         AgregarItemPresupuestoCommand command = new AgregarItemPresupuestoCommand(
-                presupuestoExistente.getId(), "TIPO_INEXISTENTE", productoRepuesto.getId(), "Item", 1, BigDecimal.TEN);
+                presupuestoExistente.getId(), productoRepuesto.getId(), "Item", 1, BigDecimal.TEN);
 
         when(presupuestoRepository.findById(presupuestoExistente.getId())).thenReturn(Optional.of(presupuestoExistente));
 
         // Act & Assert
-        // La excepción es lanzada por el enum TipoProducto.from()
         assertThrows(BusinessRunTimeException.class,
                 () -> agregarItemPresupuestoUseCase.agregar(command));
 
