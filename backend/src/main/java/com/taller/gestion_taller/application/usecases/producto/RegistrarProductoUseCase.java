@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.usecases.producto;
 
-import com.taller.gestion_taller.application.command.RegistrarProductoCommand;
+import com.taller.gestion_taller.application.command.producto.RegistrarProductoCommand;
 import com.taller.gestion_taller.application.mapper.ProductoApplicationMapper;
 import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;

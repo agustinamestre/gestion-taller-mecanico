@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.mapper;
 
-import com.taller.gestion_taller.application.command.RegistrarModeloCommand;
+import com.taller.gestion_taller.application.command.modelo.RegistrarModeloCommand;
 import com.taller.gestion_taller.domain.model.Marca;
 import com.taller.gestion_taller.domain.model.Modelo;
 import org.mapstruct.Mapper;

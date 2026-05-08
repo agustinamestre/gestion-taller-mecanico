@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.usecases.cliente;
 
-import com.taller.gestion_taller.application.command.RegistrarClienteCommand;
+import com.taller.gestion_taller.application.command.cliente.RegistrarClienteCommand;
 import com.taller.gestion_taller.application.mapper.ClienteApplicationMapper;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import com.taller.gestion_taller.domain.model.Cliente;

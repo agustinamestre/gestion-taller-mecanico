@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.domain.model;
 
-import com.taller.gestion_taller.application.command.ModificarClienteCommand;
+import com.taller.gestion_taller.application.command.cliente.ModificarClienteCommand;
 import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.mapper;
 
-import com.taller.gestion_taller.application.command.RegistrarVehiculoCommand;
+import com.taller.gestion_taller.application.command.vehiculo.RegistrarVehiculoCommand;
 import com.taller.gestion_taller.domain.model.Vehiculo;
 import com.taller.gestion_taller.domain.model.Modelo;
 import com.taller.gestion_taller.domain.model.Cliente;

@@ -1,11 +1,15 @@
 package com.taller.gestion_taller.infrastructure.rest.mapper;
 
-import com.taller.gestion_taller.application.command.ActualizarPrecioProductoCommand;
-import com.taller.gestion_taller.application.command.ActualizarStockProductoCommand;
-import com.taller.gestion_taller.application.command.ModificarProductoCommand;
-import com.taller.gestion_taller.application.command.RegistrarProductoCommand;
+import com.taller.gestion_taller.application.command.producto.ActualizarPrecioProductoCommand;
+import com.taller.gestion_taller.application.command.producto.ActualizarStockProductoCommand;
+import com.taller.gestion_taller.application.command.producto.ModificarProductoCommand;
+import com.taller.gestion_taller.application.command.producto.RegistrarProductoCommand;
 import com.taller.gestion_taller.domain.model.Producto;
-import com.taller.gestion_taller.infrastructure.rest.dto.*;
+import com.taller.gestion_taller.infrastructure.rest.dto.producto.request.ActualizarPrecioRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.producto.request.ActualizarStockRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.producto.request.ModificarProductoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.producto.response.ProductoResponse;
+import com.taller.gestion_taller.infrastructure.rest.dto.producto.request.ProductoRequest;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

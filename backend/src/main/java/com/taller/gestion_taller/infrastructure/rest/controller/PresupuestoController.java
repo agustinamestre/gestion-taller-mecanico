@@ -1,13 +1,13 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
-import com.taller.gestion_taller.application.command.AgregarItemPresupuestoCommand;
-import com.taller.gestion_taller.application.command.ModificarItemPresupuestoCommand;
-import com.taller.gestion_taller.application.command.RegistrarPresupuestoCommand;
+import com.taller.gestion_taller.application.command.presupuesto.AgregarItemPresupuestoCommand;
+import com.taller.gestion_taller.application.command.presupuesto.ModificarItemPresupuestoCommand;
+import com.taller.gestion_taller.application.command.presupuesto.RegistrarPresupuestoCommand;
 import com.taller.gestion_taller.domain.model.Presupuesto;
-import com.taller.gestion_taller.infrastructure.rest.dto.ItemPresupuestoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.PresupuestoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.PresupuestoResponse;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.ModificarItemPresupuestoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ItemPresupuestoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.PresupuestoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoResponse;
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ModificarItemPresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.mapper.PresupuestoRestMapper;
 import com.taller.gestion_taller.infrastructure.service.PresupuestoService;
 import jakarta.validation.Valid;

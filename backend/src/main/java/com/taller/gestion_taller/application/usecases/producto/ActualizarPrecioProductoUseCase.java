@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.usecases.producto;
 
-import com.taller.gestion_taller.application.command.ActualizarPrecioProductoCommand;
+import com.taller.gestion_taller.application.command.producto.ActualizarPrecioProductoCommand;
 import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Producto;
@@ -15,7 +15,7 @@ public class ActualizarPrecioProductoUseCase implements ActualizarPrecioProducto
     @Override
     public Producto actualizar(Long id, ActualizarPrecioProductoCommand command) {
         return productoRepository.findById(id)
-                .map(producto -> producto.actualizarPrecio(command.getNuevoPrecio()))
+                .map(producto -> producto.actualizarPrecio(command.nuevoPrecio()))
                 .map(productoRepository::save)
                 .orElseThrow(() -> new NotFoundException(BusinessErrors.productoNoEncontrado(id)));
     }

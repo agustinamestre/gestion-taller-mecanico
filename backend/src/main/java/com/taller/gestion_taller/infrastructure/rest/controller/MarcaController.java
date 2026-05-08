@@ -1,10 +1,10 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
-import com.taller.gestion_taller.application.command.ModificarMarcaCommand;
-import com.taller.gestion_taller.application.command.RegistrarMarcaCommand;
+import com.taller.gestion_taller.application.command.marca.ModificarMarcaCommand;
+import com.taller.gestion_taller.application.command.marca.RegistrarMarcaCommand;
 import com.taller.gestion_taller.domain.model.Marca;
-import com.taller.gestion_taller.infrastructure.rest.dto.MarcaRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.MarcaResponse;
+import com.taller.gestion_taller.infrastructure.rest.dto.marca.request.MarcaRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.marca.response.MarcaResponse;
 import com.taller.gestion_taller.infrastructure.rest.mapper.MarcaRestMapper;
 import com.taller.gestion_taller.infrastructure.service.MarcaService;
 import jakarta.validation.Valid;
