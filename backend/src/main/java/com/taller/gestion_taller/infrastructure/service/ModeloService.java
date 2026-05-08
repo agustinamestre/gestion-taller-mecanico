@@ -1,7 +1,7 @@
 package com.taller.gestion_taller.infrastructure.service;
 
-import com.taller.gestion_taller.application.command.ModificarModeloCommand;
-import com.taller.gestion_taller.application.command.RegistrarModeloCommand;
+import com.taller.gestion_taller.application.command.modelo.ModificarModeloCommand;
+import com.taller.gestion_taller.application.command.modelo.RegistrarModeloCommand;
 import com.taller.gestion_taller.application.usecases.modelo.DesactivarModelo;
 import com.taller.gestion_taller.application.usecases.modelo.ListarModelos;
 import com.taller.gestion_taller.application.usecases.modelo.ModificarModelo;

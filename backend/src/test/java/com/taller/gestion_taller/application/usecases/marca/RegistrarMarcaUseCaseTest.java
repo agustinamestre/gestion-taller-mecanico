@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.usecases.marca;
 
-import com.taller.gestion_taller.application.command.RegistrarMarcaCommand;
+import com.taller.gestion_taller.application.command.marca.RegistrarMarcaCommand;
 import com.taller.gestion_taller.application.mapper.MarcaApplicationMapper;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import com.taller.gestion_taller.domain.model.Marca;

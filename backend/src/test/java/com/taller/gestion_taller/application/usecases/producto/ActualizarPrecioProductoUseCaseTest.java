@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.usecases.producto;
 
-import com.taller.gestion_taller.application.command.ActualizarPrecioProductoCommand;
+import com.taller.gestion_taller.application.command.producto.ActualizarPrecioProductoCommand;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Producto;
 import com.taller.gestion_taller.domain.model.TipoProducto;
@@ -44,9 +44,7 @@ class ActualizarPrecioProductoUseCaseTest {
 
     @Test
     void actualizar_debeActualizarElPrecioCorrectamente() {
-        ActualizarPrecioProductoCommand command = ActualizarPrecioProductoCommand.builder()
-                .nuevoPrecio(BigDecimal.valueOf(150))
-                .build();
+        ActualizarPrecioProductoCommand command = new ActualizarPrecioProductoCommand(BigDecimal.valueOf(150));
 
         when(productoRepository.findById(id)).thenReturn(Optional.of(producto));
         when(productoRepository.save(any(Producto.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -60,9 +58,7 @@ class ActualizarPrecioProductoUseCaseTest {
 
     @Test
     void actualizar_debeLanzarExcepcionSiProductoNoExiste() {
-        ActualizarPrecioProductoCommand command = ActualizarPrecioProductoCommand.builder()
-                .nuevoPrecio(BigDecimal.valueOf(150))
-                .build();
+        ActualizarPrecioProductoCommand command = new ActualizarPrecioProductoCommand(BigDecimal.valueOf(150));
 
         when(productoRepository.findById(id)).thenReturn(Optional.empty());
 

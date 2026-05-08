@@ -1,7 +1,7 @@
 package com.taller.gestion_taller.infrastructure.service;
 
-import com.taller.gestion_taller.application.command.ModificarMarcaCommand;
-import com.taller.gestion_taller.application.command.RegistrarMarcaCommand;
+import com.taller.gestion_taller.application.command.marca.ModificarMarcaCommand;
+import com.taller.gestion_taller.application.command.marca.RegistrarMarcaCommand;
 import com.taller.gestion_taller.application.usecases.marca.DesactivarMarca;
 import com.taller.gestion_taller.application.usecases.marca.ListarMarcas;
 import com.taller.gestion_taller.application.usecases.marca.ModificarMarca;

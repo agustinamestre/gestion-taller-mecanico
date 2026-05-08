@@ -1,7 +1,7 @@
 package com.taller.gestion_taller.infrastructure.service;
 
-import com.taller.gestion_taller.application.command.ModificarClienteCommand;
-import com.taller.gestion_taller.application.command.RegistrarClienteCommand;
+import com.taller.gestion_taller.application.command.cliente.ModificarClienteCommand;
+import com.taller.gestion_taller.application.command.cliente.RegistrarClienteCommand;
 import com.taller.gestion_taller.application.usecases.cliente.DarDeBajaCliente;
 import com.taller.gestion_taller.application.usecases.cliente.ListarCliente;
 import com.taller.gestion_taller.application.usecases.cliente.ListarClientes;

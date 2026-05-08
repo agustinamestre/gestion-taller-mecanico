@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.usecases.producto;
 
-import com.taller.gestion_taller.application.command.ActualizarStockProductoCommand;
+import com.taller.gestion_taller.application.command.producto.ActualizarStockProductoCommand;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Producto;
 import com.taller.gestion_taller.domain.model.TipoProducto;
@@ -45,9 +45,7 @@ class ActualizarStockProductoUseCaseTest {
 
     @Test
     void actualizar_debeActualizarElStockCorrectamente() {
-        ActualizarStockProductoCommand command = ActualizarStockProductoCommand.builder()
-                .nuevoStock(20)
-                .build();
+        ActualizarStockProductoCommand command = new ActualizarStockProductoCommand(20);
 
         when(productoRepository.findById(id)).thenReturn(Optional.of(producto));
         when(productoRepository.save(any(Producto.class))).thenAnswer(invocation -> invocation.getArgument(0));
@@ -61,9 +59,7 @@ class ActualizarStockProductoUseCaseTest {
 
     @Test
     void actualizar_debeLanzarExcepcionSiProductoNoExiste() {
-        ActualizarStockProductoCommand command = ActualizarStockProductoCommand.builder()
-                .nuevoStock(20)
-                .build();
+        ActualizarStockProductoCommand command = new ActualizarStockProductoCommand(20);
 
         when(productoRepository.findById(id)).thenReturn(Optional.empty());
 

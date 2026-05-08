@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.usecases.cliente;
 
-import com.taller.gestion_taller.application.command.ModificarClienteCommand;
+import com.taller.gestion_taller.application.command.cliente.ModificarClienteCommand;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Cliente;
 import com.taller.gestion_taller.domain.repositories.ClienteRepository;

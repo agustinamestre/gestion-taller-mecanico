@@ -1,8 +1,8 @@
 package com.taller.gestion_taller.infrastructure.service;
 
-import com.taller.gestion_taller.application.command.ActualizarKilometrajeCommand;
-import com.taller.gestion_taller.application.command.ModificarVehiculoCommand;
-import com.taller.gestion_taller.application.command.RegistrarVehiculoCommand;
+import com.taller.gestion_taller.application.command.vehiculo.ActualizarKilometrajeCommand;
+import com.taller.gestion_taller.application.command.vehiculo.ModificarVehiculoCommand;
+import com.taller.gestion_taller.application.command.vehiculo.RegistrarVehiculoCommand;
 import com.taller.gestion_taller.application.usecases.vehiculo.ActualizarKilometraje;
 import com.taller.gestion_taller.application.usecases.vehiculo.DesactivarVehiculo;
 import com.taller.gestion_taller.application.usecases.vehiculo.GetVehiculoByPatente;

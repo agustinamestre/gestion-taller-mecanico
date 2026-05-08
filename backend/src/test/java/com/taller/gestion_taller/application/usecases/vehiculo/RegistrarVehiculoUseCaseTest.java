@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.usecases.vehiculo;
 
-import com.taller.gestion_taller.application.command.RegistrarVehiculoCommand;
+import com.taller.gestion_taller.application.command.vehiculo.RegistrarVehiculoCommand;
 import com.taller.gestion_taller.application.mapper.VehiculoApplicationMapper;
 import com.taller.gestion_taller.domain.exception.BusinessError;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;

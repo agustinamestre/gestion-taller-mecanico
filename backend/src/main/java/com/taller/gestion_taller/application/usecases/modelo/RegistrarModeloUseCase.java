@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.usecases.modelo;
 
-import com.taller.gestion_taller.application.command.RegistrarModeloCommand;
+import com.taller.gestion_taller.application.command.modelo.RegistrarModeloCommand;
 import com.taller.gestion_taller.application.mapper.ModeloApplicationMapper;
 import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.NotFoundException;

@@ -1,10 +1,10 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
-import com.taller.gestion_taller.application.command.ModificarModeloCommand;
-import com.taller.gestion_taller.application.command.RegistrarModeloCommand;
+import com.taller.gestion_taller.application.command.modelo.ModificarModeloCommand;
+import com.taller.gestion_taller.application.command.modelo.RegistrarModeloCommand;
 import com.taller.gestion_taller.domain.model.Modelo;
-import com.taller.gestion_taller.infrastructure.rest.dto.ModeloRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.ModeloResponse;
+import com.taller.gestion_taller.infrastructure.rest.dto.modelo.request.ModeloRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.modelo.response.ModeloResponse;
 import com.taller.gestion_taller.infrastructure.rest.mapper.ModeloRestMapper;
 import com.taller.gestion_taller.infrastructure.service.ModeloService;
 import jakarta.validation.Valid;

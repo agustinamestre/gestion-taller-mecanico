@@ -1,16 +1,16 @@
 package com.taller.gestion_taller.infrastructure.rest.mapper;
 
-import com.taller.gestion_taller.application.command.ActualizarKilometrajeCommand;
-import com.taller.gestion_taller.application.command.ModificarVehiculoCommand;
-import com.taller.gestion_taller.application.command.RegistrarVehiculoCommand;
+import com.taller.gestion_taller.application.command.vehiculo.ActualizarKilometrajeCommand;
+import com.taller.gestion_taller.application.command.vehiculo.ModificarVehiculoCommand;
+import com.taller.gestion_taller.application.command.vehiculo.RegistrarVehiculoCommand;
 import com.taller.gestion_taller.domain.model.Cliente;
 import com.taller.gestion_taller.domain.model.Vehiculo;
-import com.taller.gestion_taller.infrastructure.rest.dto.ActualizarKilometrajeRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.ClienteSummaryResponse;
-import com.taller.gestion_taller.infrastructure.rest.dto.ModificarVehiculoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.VehiculoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.VehiculoResponse;
-import com.taller.gestion_taller.infrastructure.rest.dto.VehiculoSummaryResponse;
+import com.taller.gestion_taller.infrastructure.rest.dto.vehiculo.request.ActualizarKilometrajeRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.cliente.response.ClienteSummaryResponse;
+import com.taller.gestion_taller.infrastructure.rest.dto.vehiculo.request.ModificarVehiculoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.vehiculo.request.VehiculoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.vehiculo.response.VehiculoResponse;
+import com.taller.gestion_taller.infrastructure.rest.dto.vehiculo.response.VehiculoSummaryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

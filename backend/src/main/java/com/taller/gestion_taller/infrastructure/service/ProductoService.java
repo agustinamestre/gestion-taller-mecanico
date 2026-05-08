@@ -1,9 +1,9 @@
 package com.taller.gestion_taller.infrastructure.service;
 
-import com.taller.gestion_taller.application.command.ActualizarPrecioProductoCommand;
-import com.taller.gestion_taller.application.command.ActualizarStockProductoCommand;
-import com.taller.gestion_taller.application.command.ModificarProductoCommand;
-import com.taller.gestion_taller.application.command.RegistrarProductoCommand;
+import com.taller.gestion_taller.application.command.producto.ActualizarPrecioProductoCommand;
+import com.taller.gestion_taller.application.command.producto.ActualizarStockProductoCommand;
+import com.taller.gestion_taller.application.command.producto.ModificarProductoCommand;
+import com.taller.gestion_taller.application.command.producto.RegistrarProductoCommand;
 import com.taller.gestion_taller.application.usecases.producto.ActualizarPrecioProducto;
 import com.taller.gestion_taller.application.usecases.producto.ActualizarStockProducto;
 import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipo;

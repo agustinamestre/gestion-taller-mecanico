@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.usecases.producto;
 
-import com.taller.gestion_taller.application.command.ActualizarStockProductoCommand;
+import com.taller.gestion_taller.application.command.producto.ActualizarStockProductoCommand;
 import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Producto;
@@ -15,7 +15,7 @@ public class ActualizarStockProductoUseCase implements ActualizarStockProducto {
     @Override
     public Producto actualizar(Long id, ActualizarStockProductoCommand command) {
         return productoRepository.findById(id)
-                .map(producto -> producto.actualizarStock(command.getNuevoStock()))
+                .map(producto -> producto.actualizarStock(command.nuevoStock()))
                 .map(productoRepository::save)
                 .orElseThrow(() -> new NotFoundException(BusinessErrors.productoNoEncontrado(id)));
     }

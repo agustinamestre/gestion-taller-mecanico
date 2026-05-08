@@ -1,11 +1,11 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
-import com.taller.gestion_taller.application.command.ModificarClienteCommand;
-import com.taller.gestion_taller.application.command.RegistrarClienteCommand;
+import com.taller.gestion_taller.application.command.cliente.ModificarClienteCommand;
+import com.taller.gestion_taller.application.command.cliente.RegistrarClienteCommand;
 import com.taller.gestion_taller.domain.model.Cliente;
-import com.taller.gestion_taller.infrastructure.rest.dto.ClienteRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.ClienteResponse;
-import com.taller.gestion_taller.infrastructure.rest.dto.ModificarClienteRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.cliente.request.ClienteRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.cliente.response.ClienteResponse;
+import com.taller.gestion_taller.infrastructure.rest.dto.cliente.request.ModificarClienteRequest;
 import com.taller.gestion_taller.infrastructure.rest.mapper.ClienteRestMapper;
 import com.taller.gestion_taller.infrastructure.service.ClienteService;
 import jakarta.validation.Valid;
