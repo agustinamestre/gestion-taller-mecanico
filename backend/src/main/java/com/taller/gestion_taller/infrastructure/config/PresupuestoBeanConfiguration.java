@@ -1,9 +1,6 @@
 package com.taller.gestion_taller.infrastructure.config;
 
-import com.taller.gestion_taller.application.usecases.presupuesto.AgregarItemPresupuesto;
-import com.taller.gestion_taller.application.usecases.presupuesto.AgregarItemPresupuestoUseCase;
-import com.taller.gestion_taller.application.usecases.presupuesto.RegistrarPresupuesto;
-import com.taller.gestion_taller.application.usecases.presupuesto.RegistrarPresupuestoUseCase;
+import com.taller.gestion_taller.application.usecases.presupuesto.*;
 import com.taller.gestion_taller.domain.repositories.PresupuestoRepository;
 import com.taller.gestion_taller.domain.repositories.ProductoRepository;
 import com.taller.gestion_taller.domain.repositories.VehiculoRepository;
@@ -26,6 +23,15 @@ public class PresupuestoBeanConfiguration {
     public AgregarItemPresupuesto agregarItemPresupuestoUseCase(PresupuestoRepository presupuestoRepository,
                                                                 ProductoRepository productoRepository) {
         return new AgregarItemPresupuestoUseCase(
+                presupuestoRepository,
+                productoRepository
+        );
+    }
+
+    @Bean
+    public ModificarItemPresupuesto modificarItemPresupuesto(PresupuestoRepository presupuestoRepository,
+                                                             ProductoRepository productoRepository) {
+        return new ModificarItemPresupuestoUseCase(
                 presupuestoRepository,
                 productoRepository
         );

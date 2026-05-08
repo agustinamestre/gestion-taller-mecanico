@@ -20,7 +20,6 @@ public class ItemPresupuesto {
     private BigDecimal precioUnitario;
 
     public static ItemPresupuesto crearNuevo(Long presupuestoId,
-                                             TipoProducto tipo,
                                              Producto producto,
                                              String descripcion,
                                              Integer cantidad,
@@ -28,7 +27,7 @@ public class ItemPresupuesto {
 
         return ItemPresupuesto.builder()
                 .presupuestoId(presupuestoId)
-                .tipo(tipo)
+                .tipo(producto.getTipo())
                 .producto(producto)
                 .descripcion(descripcion)
                 .cantidad(cantidad)
@@ -38,5 +37,16 @@ public class ItemPresupuesto {
 
     public BigDecimal calcularSubtotal() {
         return precioUnitario.multiply(BigDecimal.valueOf(cantidad));
+    }
+
+    public void modificar(Producto producto, String descripcion,
+                          Integer cantidad, BigDecimal precioUnitario) {
+        if (producto != null) {
+            this.producto = producto;
+            this.tipo = producto.getTipo();
+        }
+        this.descripcion = descripcion;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
     }
 }

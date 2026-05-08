@@ -17,10 +17,12 @@ public abstract class ItemPresupuestoPersistenceMapper {
     public abstract ItemPresupuesto toDomain(ItemPresupuestoEntity entity);
 
     @Mapping(source = "producto", target = "producto")
+    @Mapping(source = "tipo", target = "tipo")
     @Mapping(target = "presupuesto", ignore = true)
     public abstract ItemPresupuestoEntity toEntity(ItemPresupuesto domain);
 
     @Mapping(source = "producto", target = "producto")
+    @Mapping(source = "tipo", target = "tipo")
     @Mapping(target = "presupuesto", ignore = true)
     public abstract void updateEntity(ItemPresupuesto domain, @MappingTarget ItemPresupuestoEntity entity);
 
