@@ -4,6 +4,7 @@ import com.taller.gestion_taller.application.command.presupuesto.AgregarItemPres
 import com.taller.gestion_taller.application.command.presupuesto.ModificarItemPresupuestoCommand;
 import com.taller.gestion_taller.application.command.presupuesto.RegistrarPresupuestoCommand;
 import com.taller.gestion_taller.domain.model.Presupuesto;
+import com.taller.gestion_taller.infrastructure.rest.controller.swagger.SwaggerPresupuestoController;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ItemPresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.PresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoResponse;
@@ -19,12 +20,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/presupuestos")
 @RequiredArgsConstructor
-public class PresupuestoController {
+public class PresupuestoController implements SwaggerPresupuestoController {
 
     private final PresupuestoService presupuestoService;
     private final PresupuestoRestMapper presupuestoRestMapper;
 
-    @PostMapping
+    @Override
     public ResponseEntity<PresupuestoResponse> registrar(@Valid @RequestBody PresupuestoRequest request) {
         RegistrarPresupuestoCommand command = presupuestoRestMapper.requestToCommand(request);
         Presupuesto presupuesto = presupuestoService.registrarPresupuesto(command);
@@ -32,7 +33,7 @@ public class PresupuestoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PostMapping("/{id}/items")
+    @Override
     public ResponseEntity<PresupuestoResponse> agregarItem(@PathVariable("id") Long presupuestoId,
                                                            @Valid @RequestBody ItemPresupuestoRequest request) {
         AgregarItemPresupuestoCommand command = presupuestoRestMapper.requestToAgregarItemCommand(presupuestoId, request);
@@ -41,20 +42,14 @@ public class PresupuestoController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-    @PutMapping("/{id}/items/{itemId}")
+    @Override
     public ResponseEntity<PresupuestoResponse> modificarItem(@PathVariable("id") Long presupuestoId,
                                                              @PathVariable("itemId") Long itemId,
                                                              @Valid @RequestBody ModificarItemPresupuestoRequest request) {
-
-        ModificarItemPresupuestoCommand command =
-                presupuestoRestMapper.requestToModificarItemCommand(presupuestoId,
-                        itemId,
-                        request
-                );
-
+        ModificarItemPresupuestoCommand command = presupuestoRestMapper.requestToModificarItemCommand(
+                presupuestoId, itemId, request);
         Presupuesto presupuesto = presupuestoService.modificarItem(command);
         PresupuestoResponse response = presupuestoRestMapper.domainToResponse(presupuesto);
-
         return ResponseEntity.ok(response);
     }
 }
