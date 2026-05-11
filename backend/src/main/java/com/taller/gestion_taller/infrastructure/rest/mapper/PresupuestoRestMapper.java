@@ -1,6 +1,7 @@
 package com.taller.gestion_taller.infrastructure.rest.mapper;
 
 import com.taller.gestion_taller.application.command.presupuesto.AgregarItemPresupuestoCommand;
+import com.taller.gestion_taller.application.command.presupuesto.EliminarItemPresupuestoCommand;
 import com.taller.gestion_taller.application.command.presupuesto.ModificarItemPresupuestoCommand;
 import com.taller.gestion_taller.application.command.presupuesto.RegistrarPresupuestoCommand;
 import com.taller.gestion_taller.domain.model.ItemPresupuesto;
@@ -41,4 +42,6 @@ public interface PresupuestoRestMapper {
 
     @Mapping(target = "total", expression = "java(presupuesto.calcularTotal())")
     PresupuestoSummaryResponse domainToResumenResponse(Presupuesto presupuesto);
+
+    EliminarItemPresupuestoCommand toEliminarItemCommand(Long presupuestoId, Long itemId);
 }

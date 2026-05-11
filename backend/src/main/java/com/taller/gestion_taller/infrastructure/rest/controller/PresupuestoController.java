@@ -1,6 +1,7 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
 import com.taller.gestion_taller.application.command.presupuesto.AgregarItemPresupuestoCommand;
+import com.taller.gestion_taller.application.command.presupuesto.EliminarItemPresupuestoCommand;
 import com.taller.gestion_taller.application.command.presupuesto.ModificarItemPresupuestoCommand;
 import com.taller.gestion_taller.application.command.presupuesto.RegistrarPresupuestoCommand;
 import com.taller.gestion_taller.domain.model.Presupuesto;
@@ -71,5 +72,15 @@ public class PresupuestoController implements SwaggerPresupuestoController {
         Presupuesto presupuesto = presupuestoService.modificarItem(command);
         PresupuestoResponse response = presupuestoRestMapper.domainToResponse(presupuesto);
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<Void> eliminarItem(
+            @PathVariable("id") Long presupuestoId,
+            @PathVariable("itemId") Long itemId) {
+
+        EliminarItemPresupuestoCommand command = presupuestoRestMapper.toEliminarItemCommand(presupuestoId, itemId);
+         presupuestoService.eliminarItem(command);
+        return ResponseEntity.noContent().build();
     }
 }

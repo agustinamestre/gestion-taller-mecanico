@@ -82,4 +82,16 @@ public class Presupuesto {
 
         item.modificar(producto, descripcion, cantidad, precioUnitario);
     }
+
+    public void eliminarItem(Long itemId) {
+        if (this.estado != EstadoPresupuesto.PENDIENTE) {
+            throw new BusinessRunTimeException(BusinessErrors.presupuestoNoPendiente());
+        }
+
+        boolean eliminado = this.items.removeIf(i -> i.getId().equals(itemId));
+
+        if (!eliminado) {
+            throw new NotFoundException(BusinessErrors.itemNoEncontrado(itemId));
+        }
+    }
 }
