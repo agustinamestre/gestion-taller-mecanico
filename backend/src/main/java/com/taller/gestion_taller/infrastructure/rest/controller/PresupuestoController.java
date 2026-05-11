@@ -9,6 +9,7 @@ import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.Ite
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.PresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoResponse;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ModificarItemPresupuestoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoSummaryResponse;
 import com.taller.gestion_taller.infrastructure.rest.mapper.PresupuestoRestMapper;
 import com.taller.gestion_taller.infrastructure.service.PresupuestoService;
 import jakarta.validation.Valid;
@@ -16,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/presupuestos")
@@ -31,6 +34,23 @@ public class PresupuestoController implements SwaggerPresupuestoController {
         Presupuesto presupuesto = presupuestoService.registrarPresupuesto(command);
         PresupuestoResponse response = presupuestoRestMapper.domainToResponse(presupuesto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @Override
+    public ResponseEntity<PresupuestoResponse> obtener(@PathVariable Long id) {
+        Presupuesto presupuesto = presupuestoService.obtenerPresupuesto(id);
+        PresupuestoResponse response = presupuestoRestMapper.domainToResponse(presupuesto);
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<List<PresupuestoSummaryResponse>> obtenerPorPatente(@RequestParam String patente) {
+        List<PresupuestoSummaryResponse> response = presupuestoService
+                .obtenerPresupuestosPorPatente(patente)
+                .stream()
+                .map(presupuestoRestMapper::domainToResumenResponse)
+                .toList();
+        return ResponseEntity.ok(response);
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.It
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.PresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoResponse;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ModificarItemPresupuestoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoSummaryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
@@ -37,4 +38,7 @@ public interface PresupuestoRestMapper {
             Long itemId,
             ModificarItemPresupuestoRequest request
     );
+
+    @Mapping(target = "total", expression = "java(presupuesto.calcularTotal())")
+    PresupuestoSummaryResponse domainToResumenResponse(Presupuesto presupuesto);
 }

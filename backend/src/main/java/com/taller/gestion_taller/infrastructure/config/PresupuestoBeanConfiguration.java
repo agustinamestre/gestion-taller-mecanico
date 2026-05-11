@@ -20,6 +20,22 @@ public class PresupuestoBeanConfiguration {
     }
 
     @Bean
+    public ObtenerPresupuesto obtenerPresupuestoUseCase(PresupuestoRepository presupuestoRepository) {
+        return new ObtenerPresupuestoUseCase(
+                presupuestoRepository
+        );
+    }
+
+    @Bean
+    public ObtenerPresupuestosPorPatente obtenerPresupuestosPorPatenteUseCase(PresupuestoRepository presupuestoRepository,
+                                                                              VehiculoRepository vehiculoRepository) {
+        return new ObtenerPresupuestosPorPatenteUseCase(
+                presupuestoRepository,
+                vehiculoRepository
+        );
+    }
+
+    @Bean
     public AgregarItemPresupuesto agregarItemPresupuestoUseCase(PresupuestoRepository presupuestoRepository,
                                                                 ProductoRepository productoRepository) {
         return new AgregarItemPresupuestoUseCase(
