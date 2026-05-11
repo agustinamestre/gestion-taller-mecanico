@@ -104,4 +104,21 @@ public interface SwaggerPresupuestoController {
             @Parameter(description = "ID del ítem", required = true)
             @PathVariable("itemId") Long itemId,
             @Valid @RequestBody ModificarItemPresupuestoRequest request);
+
+    @Operation(summary = "Eliminar item del presupuesto", description = "Elimina un item de un presupuesto en estado pendiente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Item eliminado correctamente"),
+            @ApiResponse(responseCode = "400", description = "El presupuesto no esta en estado pendiente",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Presupuesto o item no encontrado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @DeleteMapping("/{id}/items/{itemId}")
+    ResponseEntity<Void> eliminarItem(
+            @Parameter(description = "ID del presupuesto", required = true)
+            @PathVariable("id") Long presupuestoId,
+            @Parameter(description = "ID del item", required = true)
+            @PathVariable("itemId") Long itemId);
 }

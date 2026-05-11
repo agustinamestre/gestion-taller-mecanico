@@ -52,4 +52,11 @@ public class PresupuestoBeanConfiguration {
                 productoRepository
         );
     }
+
+    @Bean
+    public EliminarItemPresupuesto eliminarItemPresupuesto(PresupuestoRepository presupuestoRepository) {
+        return new EliminarItemPresupuestoUseCase(
+                presupuestoRepository
+        );
+    }
 }
