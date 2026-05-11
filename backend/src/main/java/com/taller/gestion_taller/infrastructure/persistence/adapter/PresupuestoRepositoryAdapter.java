@@ -10,6 +10,7 @@ import com.taller.gestion_taller.infrastructure.persistence.repository.JpaPresup
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -37,6 +38,14 @@ public class PresupuestoRepositoryAdapter implements PresupuestoRepository {
     @Override
     public Optional<Presupuesto> findById(Long id) {
         return jpaPresupuestoRepository.findById(id).map(mapper::toDomain);
+    }
+
+    @Override
+    public List<Presupuesto> findByPatente(String patente) {
+        return jpaPresupuestoRepository.findByVehiculoPatente(patente)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
     }
 
 }

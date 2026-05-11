@@ -4,6 +4,7 @@ import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.Ite
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ModificarItemPresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.PresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoResponse;
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoSummaryResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -14,6 +15,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Presupuestos", description = "Operaciones sobre presupuestos del taller")
 public interface SwaggerPresupuestoController {
@@ -30,6 +33,39 @@ public interface SwaggerPresupuestoController {
     })
     @PostMapping
     ResponseEntity<PresupuestoResponse> registrar(@Valid @RequestBody PresupuestoRequest request);
+
+    @Operation(summary = "Obtener presupuesto", description = "Retorna el detalle completo de un presupuesto por ID")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Presupuesto encontrado",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PresupuestoResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Presupuesto no encontrado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/{id}")
+    ResponseEntity<PresupuestoResponse> obtener(
+            @Parameter(description = "ID del presupuesto", required = true)
+            @PathVariable Long id);
+
+    @Operation(
+            summary = "Buscar presupuestos por patente",
+            description = "Retorna la lista de presupuestos asociados a un vehiculo por su patente"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Presupuestos encontrados",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PresupuestoSummaryResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Vehiculo no encontrado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping
+    ResponseEntity<List<PresupuestoSummaryResponse>> obtenerPorPatente(
+            @Parameter(description = "Patente del vehiculo", required = true)
+            @RequestParam String patente);
 
     @Operation(summary = "Agregar ítem al presupuesto", description = "Agrega un nuevo ítem a un presupuesto existente")
     @ApiResponses({
