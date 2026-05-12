@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.infrastructure.rest.controller.swagger;
 
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.CambiarEstadoPresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ItemPresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ModificarItemPresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.PresupuestoRequest;
@@ -121,4 +122,20 @@ public interface SwaggerPresupuestoController {
             @PathVariable("id") Long presupuestoId,
             @Parameter(description = "ID del item", required = true)
             @PathVariable("itemId") Long itemId);
+
+    @Operation(summary = "Cambiar estado del presupuesto", description = "Actualiza el estado de un presupuesto respetando transiciones validas")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Estado actualizado correctamente"),
+            @ApiResponse(responseCode = "400", description = "Transicion de estado invalida",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Presupuesto no encontrado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @PatchMapping("/{id}/estado")
+    ResponseEntity<Void> cambiarEstado(
+            @Parameter(description = "ID del presupuesto", required = true)
+            @PathVariable("id") Long presupuestoId,
+            @Valid @RequestBody CambiarEstadoPresupuestoRequest request);
 }

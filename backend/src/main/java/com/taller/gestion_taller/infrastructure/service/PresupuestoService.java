@@ -1,9 +1,6 @@
 package com.taller.gestion_taller.infrastructure.service;
 
-import com.taller.gestion_taller.application.command.presupuesto.AgregarItemPresupuestoCommand;
-import com.taller.gestion_taller.application.command.presupuesto.EliminarItemPresupuestoCommand;
-import com.taller.gestion_taller.application.command.presupuesto.ModificarItemPresupuestoCommand;
-import com.taller.gestion_taller.application.command.presupuesto.RegistrarPresupuestoCommand;
+import com.taller.gestion_taller.application.command.presupuesto.*;
 import com.taller.gestion_taller.application.usecases.presupuesto.*;
 import com.taller.gestion_taller.domain.model.Presupuesto;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +19,7 @@ public class PresupuestoService {
     private final ObtenerPresupuesto obtenerPresupuestoUseCase;
     private final ObtenerPresupuestosPorPatente obtenerPresupuestosPorPatenteUseCase;
     private final EliminarItemPresupuesto eliminarItemPresupuestoUseCase;
+    private final CambiarEstadoPresupuesto cambiarEstadoPresupuestoUseCase;
 
     @Transactional
     public Presupuesto registrarPresupuesto(RegistrarPresupuestoCommand command) {
@@ -51,5 +49,10 @@ public class PresupuestoService {
     @Transactional
     public void eliminarItem(EliminarItemPresupuestoCommand command) {
         eliminarItemPresupuestoUseCase.eliminar(command);
+    }
+
+    @Transactional
+    public void cambiarEstado(CambiarEstadoPresupuestoCommand command) {
+        cambiarEstadoPresupuestoUseCase.cambiar(command);
     }
 }

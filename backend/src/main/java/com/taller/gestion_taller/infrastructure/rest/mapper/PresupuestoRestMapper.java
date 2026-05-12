@@ -1,11 +1,9 @@
 package com.taller.gestion_taller.infrastructure.rest.mapper;
 
-import com.taller.gestion_taller.application.command.presupuesto.AgregarItemPresupuestoCommand;
-import com.taller.gestion_taller.application.command.presupuesto.EliminarItemPresupuestoCommand;
-import com.taller.gestion_taller.application.command.presupuesto.ModificarItemPresupuestoCommand;
-import com.taller.gestion_taller.application.command.presupuesto.RegistrarPresupuestoCommand;
+import com.taller.gestion_taller.application.command.presupuesto.*;
 import com.taller.gestion_taller.domain.model.ItemPresupuesto;
 import com.taller.gestion_taller.domain.model.Presupuesto;
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.CambiarEstadoPresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ItemPresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.ItemPresupuestoResponse;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.PresupuestoRequest;
@@ -44,4 +42,6 @@ public interface PresupuestoRestMapper {
     PresupuestoSummaryResponse domainToResumenResponse(Presupuesto presupuesto);
 
     EliminarItemPresupuestoCommand toEliminarItemCommand(Long presupuestoId, Long itemId);
+
+    CambiarEstadoPresupuestoCommand toCambiarEstadoCommand(Long presupuestoId, CambiarEstadoPresupuestoRequest request);
 }

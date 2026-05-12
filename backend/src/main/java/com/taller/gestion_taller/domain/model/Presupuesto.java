@@ -94,4 +94,12 @@ public class Presupuesto {
             throw new NotFoundException(BusinessErrors.itemNoEncontrado(itemId));
         }
     }
+
+    public void cambiarEstado(EstadoPresupuesto nuevoEstado) {
+        if (!this.estado.puedeTransicionarA(nuevoEstado)) {
+            throw new BusinessRunTimeException(
+                    BusinessErrors.transicionEstadoInvalida(this.estado, nuevoEstado));
+        }
+        this.estado = nuevoEstado;
+    }
 }

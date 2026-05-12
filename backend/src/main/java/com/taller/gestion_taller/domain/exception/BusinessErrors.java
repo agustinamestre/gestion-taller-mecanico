@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.domain.exception;
 
+import com.taller.gestion_taller.domain.model.EstadoPresupuesto;
 import com.taller.gestion_taller.domain.model.TipoProducto;
 import java.text.MessageFormat;
 
@@ -103,6 +104,13 @@ public final class BusinessErrors {
 
     public static BusinessError itemNoEncontrado(Long id) {
         return new BusinessError("ITEM_NO_ENCONTRADO", "No se encontro el item con ID: " + id);
+    }
+
+    public static BusinessError transicionEstadoInvalida(EstadoPresupuesto actual, EstadoPresupuesto nuevo) {
+        return new BusinessError(
+                "TRANSICION_ESTADO_INVALIDA",
+                "No se puede cambiar el estado de " + actual + " a " + nuevo
+        );
     }
 
 }
