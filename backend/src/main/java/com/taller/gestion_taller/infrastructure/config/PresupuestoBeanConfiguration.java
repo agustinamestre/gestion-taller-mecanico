@@ -59,4 +59,11 @@ public class PresupuestoBeanConfiguration {
                 presupuestoRepository
         );
     }
+
+    @Bean
+    public CambiarEstadoPresupuesto cambiarEstadoPresupuesto(PresupuestoRepository presupuestoRepository) {
+        return new CambiarEstadoPresupuestoUseCase(
+                presupuestoRepository
+        );
+    }
 }
