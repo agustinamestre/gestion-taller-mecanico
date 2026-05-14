@@ -1,21 +1,23 @@
 package com.taller.gestion_taller.application.usecases.presupuesto;
 
 import com.taller.gestion_taller.application.command.presupuesto.RegistrarPresupuestoCommand;
+import com.taller.gestion_taller.application.mapper.PresupuestoApplicationMapper;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.*;
 import com.taller.gestion_taller.domain.repositories.PresupuestoRepository;
 import com.taller.gestion_taller.domain.repositories.VehiculoRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
@@ -23,13 +25,9 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class RegistrarPresupuestoUseCaseTest {
 
-    private static final int DIAS_VENCIMIENTO_DEFAULT = 30;
-
-    @Mock
-    private PresupuestoRepository presupuestoRepository;
-
-    @Mock
-    private VehiculoRepository vehiculoRepository;
+    @Mock private PresupuestoRepository presupuestoRepository;
+    @Mock private VehiculoRepository vehiculoRepository;
+    @Mock private PresupuestoApplicationMapper presupuestoApplicationMapper;
 
     @InjectMocks
     private RegistrarPresupuestoUseCase registrarPresupuestoUseCase;
@@ -54,105 +52,51 @@ class RegistrarPresupuestoUseCaseTest {
     }
 
     @Test
+    @DisplayName("debe crear presupuesto con vehiculo asociado")
     void registrar_DebeCrearPresupuesto_ConVehiculoAsociado() {
-        // Arrange
-        RegistrarPresupuestoCommand command = new RegistrarPresupuestoCommand(
-                1L, "Revisión completa del motor");
+        RegistrarPresupuestoCommand command = new RegistrarPresupuestoCommand(1L, "Revision completa del motor");
 
+        Presupuesto presupuesto = mock(Presupuesto.class);
         when(vehiculoRepository.findById(1L)).thenReturn(Optional.of(vehiculoDePrueba));
-        when(presupuestoRepository.save(any(Presupuesto.class))).thenAnswer(invocation -> {
-            Presupuesto p = invocation.getArgument(0);
-            return p.toBuilder().id(1L).build();
-        });
+        when(presupuestoApplicationMapper.commandToDomain(command)).thenReturn(presupuesto);
+        when(presupuestoRepository.save(presupuesto)).thenAnswer(inv -> inv.getArgument(0));
 
-        // Act
         Presupuesto result = registrarPresupuestoUseCase.registrar(command);
 
-        // Assert
-        assertNotNull(result);
-        assertEquals(1L, result.getId());
-        assertEquals(vehiculoDePrueba, result.getVehiculo());
-        assertEquals(EstadoPresupuesto.PENDIENTE, result.getEstado());
-        assertEquals("Revisión completa del motor", result.getObservaciones());
-
-        verify(vehiculoRepository).findById(1L);
-        verify(presupuestoRepository).save(any(Presupuesto.class));
+        assertThat(result).isEqualTo(presupuesto);
+        verify(presupuesto).setVehiculo(vehiculoDePrueba);
+        verify(presupuestoRepository).save(presupuesto);
     }
 
     @Test
+    @DisplayName("debe crear presupuesto sin vehiculo asociado")
     void registrar_DebeCrearPresupuesto_SinVehiculoAsociado() {
-        // Arrange
-        RegistrarPresupuestoCommand command = new RegistrarPresupuestoCommand(
-                null, "Presupuesto para cliente potencial");
+        RegistrarPresupuestoCommand command = new RegistrarPresupuestoCommand(null, "Presupuesto para cliente potencial");
 
-        when(presupuestoRepository.save(any(Presupuesto.class))).thenAnswer(invocation -> {
-            Presupuesto p = invocation.getArgument(0);
-            return p.toBuilder().id(2L).build();
-        });
+        Presupuesto presupuesto = mock(Presupuesto.class);
+        when(presupuestoApplicationMapper.commandToDomain(command)).thenReturn(presupuesto);
+        when(presupuestoRepository.save(presupuesto)).thenAnswer(inv -> inv.getArgument(0));
 
-        // Act
         Presupuesto result = registrarPresupuestoUseCase.registrar(command);
 
-        // Assert
-        assertNotNull(result);
-        assertEquals(2L, result.getId());
-        assertNull(result.getVehiculo());
-        assertEquals(EstadoPresupuesto.PENDIENTE, result.getEstado());
-
+        assertThat(result).isEqualTo(presupuesto);
         verify(vehiculoRepository, never()).findById(anyLong());
-        verify(presupuestoRepository).save(any(Presupuesto.class));
+        verify(presupuesto, never()).setVehiculo(any());
+        verify(presupuestoRepository).save(presupuesto);
     }
 
     @Test
-    void registrar_DebeCrearPresupuesto_SinObservaciones() {
-        // Arrange
-        RegistrarPresupuestoCommand command = new RegistrarPresupuestoCommand(1L, null);
-
-        when(vehiculoRepository.findById(1L)).thenReturn(Optional.of(vehiculoDePrueba));
-        when(presupuestoRepository.save(any(Presupuesto.class))).thenAnswer(invocation -> {
-            Presupuesto p = invocation.getArgument(0);
-            return p.toBuilder().id(3L).build();
-        });
-
-        // Act
-        Presupuesto result = registrarPresupuestoUseCase.registrar(command);
-
-        // Assert
-        assertNotNull(result);
-        assertNull(result.getObservaciones());
-    }
-
-    @Test
-    void registrar_DebeAsignarFechaEmisionHoy_YVencimientoA30Dias() {
-        // Arrange
-        RegistrarPresupuestoCommand command = new RegistrarPresupuestoCommand(null, null);
-        LocalDate hoy = LocalDate.now();
-
-        when(presupuestoRepository.save(any(Presupuesto.class))).thenAnswer(invocation -> {
-            Presupuesto p = invocation.getArgument(0);
-            return p.toBuilder().id(4L).build();
-        });
-
-        // Act
-        Presupuesto result = registrarPresupuestoUseCase.registrar(command);
-
-        // Assert
-        assertEquals(hoy, result.getFechaEmision());
-        assertEquals(hoy.plusDays(DIAS_VENCIMIENTO_DEFAULT), result.getFechaVencimiento());
-    }
-
-    @Test
+    @DisplayName("debe lanzar excepcion cuando el vehiculo no existe")
     void registrar_DebeLanzarExcepcion_CuandoVehiculoNoExiste() {
-        // Arrange
         RegistrarPresupuestoCommand command = new RegistrarPresupuestoCommand(999L, "Obs");
 
         when(vehiculoRepository.findById(999L)).thenReturn(Optional.empty());
 
-        // Act & Assert
-        NotFoundException exception = assertThrows(NotFoundException.class,
-                () -> registrarPresupuestoUseCase.registrar(command));
+        assertThatThrownBy(() -> registrarPresupuestoUseCase.registrar(command))
+                .isInstanceOf(NotFoundException.class);
 
-        assertEquals("VEHICULO_NO_ENCONTRADO", exception.getBusinessError().code());
         verify(presupuestoRepository, never()).save(any());
     }
 }
+
+

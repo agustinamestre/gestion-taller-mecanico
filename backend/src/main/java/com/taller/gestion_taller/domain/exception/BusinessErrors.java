@@ -102,6 +102,13 @@ public final class BusinessErrors {
         return new BusinessError("PRESUPUESTO_NO_PENDIENTE", "Solo se pueden agregar items a presupuestos en estado PENDIENTE.");
     }
 
+    public static BusinessError presupuestoDebeEstarAprobado() {
+        return new BusinessError(
+                "PRESUPUESTO_NO_APROBADO",
+                "El presupuesto debe estar en estado APROBADO para asociarlo a una orden de trabajo"
+        );
+    }
+
     public static BusinessError itemNoEncontrado(Long id) {
         return new BusinessError("ITEM_NO_ENCONTRADO", "No se encontro el item con ID: " + id);
     }

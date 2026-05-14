@@ -1,22 +1,8 @@
 package com.taller.gestion_taller.infrastructure.config;
 
-import com.taller.gestion_taller.application.mapper.ClienteApplicationMapper;
-import com.taller.gestion_taller.application.mapper.MarcaApplicationMapper;
-import com.taller.gestion_taller.application.mapper.ModeloApplicationMapper;
-import com.taller.gestion_taller.application.mapper.ProductoApplicationMapper;
-import com.taller.gestion_taller.application.mapper.VehiculoApplicationMapper;
-import com.taller.gestion_taller.infrastructure.persistence.mapper.ClientePersistenceMapper;
-import com.taller.gestion_taller.infrastructure.persistence.mapper.ItemPresupuestoPersistenceMapper;
-import com.taller.gestion_taller.infrastructure.persistence.mapper.ModeloPersistenceMapper;
-import com.taller.gestion_taller.infrastructure.persistence.mapper.PresupuestoPersistenceMapper;
-import com.taller.gestion_taller.infrastructure.persistence.mapper.ProductoPersistenceMapper;
-import com.taller.gestion_taller.infrastructure.persistence.mapper.VehiculoPersistenceMapper;
-import com.taller.gestion_taller.infrastructure.rest.mapper.ClienteRestMapper;
-import com.taller.gestion_taller.infrastructure.rest.mapper.MarcaRestMapper;
-import com.taller.gestion_taller.infrastructure.rest.mapper.ModeloRestMapper;
-import com.taller.gestion_taller.infrastructure.rest.mapper.PresupuestoRestMapper;
-import com.taller.gestion_taller.infrastructure.rest.mapper.ProductoRestMapper;
-import com.taller.gestion_taller.infrastructure.rest.mapper.VehiculoRestMapper;
+import com.taller.gestion_taller.application.mapper.*;
+import com.taller.gestion_taller.infrastructure.persistence.mapper.*;
+import com.taller.gestion_taller.infrastructure.rest.mapper.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,6 +39,16 @@ public class MappersBeanConfiguration {
         return Mappers.getMapper(VehiculoApplicationMapper.class);
     }
 
+    @Bean
+    public PresupuestoApplicationMapper presupuestoApplicationMapper() {
+        return Mappers.getMapper(PresupuestoApplicationMapper.class);
+    }
+
+    @Bean
+    public OrdenTrabajoApplicationMapper ordenTrabajoApplicationMapper() {
+        return Mappers.getMapper(OrdenTrabajoApplicationMapper.class);
+    }
+
     // Rest mappers
     @Bean
     public MarcaRestMapper marcaRestMapper() {
@@ -83,6 +79,12 @@ public class MappersBeanConfiguration {
     public PresupuestoRestMapper presupuestoRestMapper() {
         return Mappers.getMapper(PresupuestoRestMapper.class);
     }
+
+    @Bean
+    public OrdenTrabajoRestMapper ordenTrabajoRestMapper() {
+        return Mappers.getMapper(OrdenTrabajoRestMapper.class);
+    }
+
     
     // Persistence mappers
     @Bean
@@ -113,5 +115,10 @@ public class MappersBeanConfiguration {
     @Bean
     public ItemPresupuestoPersistenceMapper itemPresupuestoPersistenceMapper() {
         return Mappers.getMapper(ItemPresupuestoPersistenceMapper.class);
+    }
+
+    @Bean
+    public OrdenTrabajoPersistenceMapper ordenTrabajoPersistenceMapper() {
+        return Mappers.getMapper(OrdenTrabajoPersistenceMapper.class);
     }
 }

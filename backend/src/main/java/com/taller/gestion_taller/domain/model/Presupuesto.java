@@ -6,6 +6,7 @@ import com.taller.gestion_taller.domain.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Getter
+@Getter @Setter
 @Builder(toBuilder = true)
 @AllArgsConstructor
 public class Presupuesto {
@@ -28,18 +29,6 @@ public class Presupuesto {
     private String observaciones;
     @Builder.Default
     private List<ItemPresupuesto> items = new ArrayList<>();
-
-    public static Presupuesto crearNuevo(Vehiculo vehiculo, String observaciones) {
-        LocalDate hoy = LocalDate.now();
-        return Presupuesto.builder()
-                .vehiculo(vehiculo)
-                .fechaEmision(hoy)
-                .fechaVencimiento(hoy.plusDays(DIAS_VENCIMIENTO_DEFAULT))
-                .estado(EstadoPresupuesto.PENDIENTE)
-                .observaciones(observaciones)
-                .items(new ArrayList<>())
-                .build();
-    }
 
     public List<ItemPresupuesto> getItems() {
         return Collections.unmodifiableList(items);
