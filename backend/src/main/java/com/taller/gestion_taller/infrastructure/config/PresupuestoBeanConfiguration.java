@@ -1,5 +1,7 @@
 package com.taller.gestion_taller.infrastructure.config;
 
+import com.taller.gestion_taller.application.mapper.OrdenTrabajoApplicationMapper;
+import com.taller.gestion_taller.application.mapper.PresupuestoApplicationMapper;
 import com.taller.gestion_taller.application.usecases.presupuesto.*;
 import com.taller.gestion_taller.domain.repositories.PresupuestoRepository;
 import com.taller.gestion_taller.domain.repositories.ProductoRepository;
@@ -12,10 +14,12 @@ public class PresupuestoBeanConfiguration {
 
     @Bean
     public RegistrarPresupuesto registrarPresupuestoUseCase(PresupuestoRepository presupuestoRepository,
-                                                            VehiculoRepository vehiculoRepository) {
+                                                            VehiculoRepository vehiculoRepository,
+                                                            PresupuestoApplicationMapper presupuestoApplicationMapper) {
         return new RegistrarPresupuestoUseCase(
                 presupuestoRepository,
-                vehiculoRepository
+                vehiculoRepository,
+                presupuestoApplicationMapper
         );
     }
 
