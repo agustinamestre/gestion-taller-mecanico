@@ -1,6 +1,9 @@
 package com.taller.gestion_taller.infrastructure.rest.dto.orden.response;
 
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.ItemPresupuestoResponse;
+
 import java.time.LocalDate;
+import java.util.List;
 
 public record OrdenTrabajoResponse(
         Long id,
@@ -10,5 +13,6 @@ public record OrdenTrabajoResponse(
         LocalDate fechaEgreso,
         String descripcionProblema,
         String estado,
-        Long usuarioCreacionId
+        Long usuarioCreacionId,
+        List<ItemPresupuestoResponse> items
 ) {}

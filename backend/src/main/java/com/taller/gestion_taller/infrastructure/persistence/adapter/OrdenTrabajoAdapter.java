@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.infrastructure.persistence.adapter;
 
+import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.OrdenTrabajo;
 import com.taller.gestion_taller.domain.repositories.OrdenTrabajoRepository;
 import com.taller.gestion_taller.infrastructure.persistence.entity.OrdenTrabajoEntity;
@@ -8,6 +9,7 @@ import com.taller.gestion_taller.infrastructure.persistence.repository.JpaOrdenT
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -27,5 +29,13 @@ public class OrdenTrabajoAdapter implements OrdenTrabajoRepository {
     public Optional<OrdenTrabajo> findById(Long id) {
         return ordenTrabajoJpaRepository.findById(id)
                 .map(ordenTrabajoPersistenceMapper::toDomain);
+    }
+
+    @Override
+    public List<OrdenTrabajo> findByFiltros(String patente, EstadoOrdenTrabajo estado) {
+        return ordenTrabajoJpaRepository.findByFiltros(patente, estado)
+                .stream()
+                .map(ordenTrabajoPersistenceMapper::toDomain)
+                .toList();
     }
 }

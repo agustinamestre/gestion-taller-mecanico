@@ -1,8 +1,10 @@
 package com.taller.gestion_taller.infrastructure.rest.controller.swagger;
 
+import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.OrdenTrabajoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.orden.response.OrdenTrabajoResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -10,8 +12,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 @Tag(name = "Ordenes de Trabajo", description = "Operaciones sobre ordenes de trabajo del taller")
 public interface SwaggerOrdenTrabajoController {
@@ -30,4 +36,24 @@ public interface SwaggerOrdenTrabajoController {
     })
     @PostMapping
     ResponseEntity<OrdenTrabajoResponse> registrar(@Valid @RequestBody OrdenTrabajoRequest request);
+
+    @Operation(
+            summary = "Listar ordenes de trabajo",
+            description = "Retorna ordenes de trabajo. Se puede filtrar por patente y/o estado. Si no se envian filtros retorna todas."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Ordenes obtenidas correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrdenTrabajoResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Vehiculo no encontrado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping
+    ResponseEntity<List<OrdenTrabajoResponse>> obtenerOrdenes(
+            @Parameter(description = "Patente del vehiculo (opcional)")
+            @RequestParam(required = false) String patente,
+            @Parameter(description = "Estado de la orden (opcional)")
+            @RequestParam(required = false) EstadoOrdenTrabajo estado);
 }
