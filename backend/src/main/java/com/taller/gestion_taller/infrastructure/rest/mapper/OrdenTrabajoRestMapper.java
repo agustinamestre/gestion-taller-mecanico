@@ -7,12 +7,13 @@ import com.taller.gestion_taller.infrastructure.rest.dto.orden.response.OrdenTra
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
+@Mapper(uses = {PresupuestoRestMapper.class})
 public interface OrdenTrabajoRestMapper {
 
     RegistrarOrdenTrabajoCommand requestToCommand(OrdenTrabajoRequest request);
 
     @Mapping(source = "vehiculo.patente", target = "patenteVehiculo")
     @Mapping(source = "presupuesto.id", target = "presupuestoId")
+    @Mapping(source = "presupuesto.items", target = "items")
     OrdenTrabajoResponse domainToResponse(OrdenTrabajo ordenTrabajo);
 }

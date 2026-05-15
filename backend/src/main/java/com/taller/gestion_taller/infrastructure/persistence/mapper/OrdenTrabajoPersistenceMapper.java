@@ -5,11 +5,14 @@ import com.taller.gestion_taller.infrastructure.persistence.entity.OrdenTrabajoE
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
+@Mapper(uses = {VehiculoPersistenceMapper.class, PresupuestoPersistenceMapper.class})
 public interface OrdenTrabajoPersistenceMapper {
 
-    @Mapping(source = "vehiculo.id", target = "vehiculo.id")
+    @Mapping(source = "vehiculo", target = "vehiculo")
+    @Mapping(source = "presupuesto", target = "presupuesto")
     OrdenTrabajoEntity toEntity(OrdenTrabajo ordenTrabajo);
 
+    @Mapping(source = "vehiculo", target = "vehiculo")
+    @Mapping(source = "presupuesto", target = "presupuesto")
     OrdenTrabajo toDomain(OrdenTrabajoEntity entity);
 }
