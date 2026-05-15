@@ -10,7 +10,7 @@ public enum EstadoOrdenTrabajo {
     EN_REPARACION {
         @Override
         public boolean puedeTransicionarA(EstadoOrdenTrabajo nuevo) {
-            return nuevo == FINALIZADO || nuevo == CANCELADO;
+            return nuevo == FINALIZADO;
         }
     },
     FINALIZADO {

@@ -1,9 +1,13 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
+import com.taller.gestion_taller.application.command.orden.CambiarEstadoOrdenTrabajoCommand;
+import com.taller.gestion_taller.application.command.orden.ModificarOrdenTrabajoCommand;
 import com.taller.gestion_taller.application.command.orden.RegistrarOrdenTrabajoCommand;
 import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.OrdenTrabajo;
 import com.taller.gestion_taller.infrastructure.rest.controller.swagger.SwaggerOrdenTrabajoController;
+import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.CambiarEstadoOrdenTrabajoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.ModificarOrdenTrabajoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.OrdenTrabajoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.orden.response.OrdenTrabajoResponse;
 import com.taller.gestion_taller.infrastructure.rest.mapper.OrdenTrabajoRestMapper;
@@ -12,10 +16,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -45,6 +46,27 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
                 .stream()
                 .map(ordenTrabajoRestMapper::domainToResponse)
                 .toList();
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<Void> cambiarEstado(
+            @PathVariable Long id,
+            @Valid @RequestBody CambiarEstadoOrdenTrabajoRequest request) {
+
+        CambiarEstadoOrdenTrabajoCommand command = ordenTrabajoRestMapper.toCambiarEstadoCommand(id, request);
+        ordenTrabajoService.cambiarEstado(command);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<OrdenTrabajoResponse> modificar(
+            @PathVariable Long id,
+            @Valid @RequestBody ModificarOrdenTrabajoRequest request) {
+
+        ModificarOrdenTrabajoCommand command = ordenTrabajoRestMapper.toModificarCommand(id, request);
+        OrdenTrabajo orden = ordenTrabajoService.modificarOrden(command);
+        OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden);
         return ResponseEntity.ok(response);
     }
 }

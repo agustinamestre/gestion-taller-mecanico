@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.domain.exception;
 
+import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.EstadoPresupuesto;
 import com.taller.gestion_taller.domain.model.TipoProducto;
 import java.text.MessageFormat;
@@ -118,6 +119,17 @@ public final class BusinessErrors {
                 "TRANSICION_ESTADO_INVALIDA",
                 "No se puede cambiar el estado de " + actual + " a " + nuevo
         );
+    }
+
+    public static BusinessError transicionEstadoInvalidaOrden(EstadoOrdenTrabajo actual, EstadoOrdenTrabajo nuevo) {
+        return new BusinessError(
+                "TRANSICION_ESTADO_INVALIDA_ORDEN",
+                "No se puede cambiar el estado de " + actual + " a " + nuevo
+        );
+    }
+
+    public static BusinessError ordenNoEncontrada(Long id) {
+        return new BusinessError("ORDEN_NO_ENCONTRADA", "No se encontro la orden de trabajo con ID: " + id);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.taller.gestion_taller.infrastructure.rest.controller.swagger;
 
 import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
+import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.CambiarEstadoOrdenTrabajoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.ModificarOrdenTrabajoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.OrdenTrabajoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.orden.response.OrdenTrabajoResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -12,10 +14,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -56,4 +55,38 @@ public interface SwaggerOrdenTrabajoController {
             @RequestParam(required = false) String patente,
             @Parameter(description = "Estado de la orden (opcional)")
             @RequestParam(required = false) EstadoOrdenTrabajo estado);
+
+    @Operation(summary = "Cambiar estado de la orden", description = "Actualiza el estado de una orden respetando transiciones validas")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Estado actualizado correctamente"),
+            @ApiResponse(responseCode = "400", description = "Transicion de estado invalida",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Orden no encontrada",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @PatchMapping("/{id}/estado")
+    ResponseEntity<Void> cambiarEstado(
+            @Parameter(description = "ID de la orden de trabajo", required = true)
+            @PathVariable Long id,
+            @Valid @RequestBody CambiarEstadoOrdenTrabajoRequest request);
+
+    @Operation(summary = "Modificar orden de trabajo", description = "Actualiza la descripcion del problema de una orden de trabajo")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Orden modificada correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrdenTrabajoResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Datos invalidos en el request",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Orden no encontrada",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @PutMapping("/{id}")
+    ResponseEntity<OrdenTrabajoResponse> modificar(
+            @Parameter(description = "ID de la orden de trabajo", required = true)
+            @PathVariable Long id,
+            @Valid @RequestBody ModificarOrdenTrabajoRequest request);
 }
