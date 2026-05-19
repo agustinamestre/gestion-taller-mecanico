@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "ordenes_trabajo")
@@ -41,4 +43,8 @@ public class OrdenTrabajoEntity {
 
     @Column(name = "usuario_creacion_id", nullable = false)
     private Long usuarioCreacionId;
+
+    @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<ItemOrdenTrabajoEntity> items = new ArrayList<>();
 }

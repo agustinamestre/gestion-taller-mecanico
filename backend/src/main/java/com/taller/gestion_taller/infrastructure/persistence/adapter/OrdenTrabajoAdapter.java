@@ -22,6 +22,11 @@ public class OrdenTrabajoAdapter implements OrdenTrabajoRepository {
     @Override
     public OrdenTrabajo save(OrdenTrabajo ordenTrabajo) {
         OrdenTrabajoEntity entity = ordenTrabajoPersistenceMapper.toEntity(ordenTrabajo);
+
+        if (entity.getItems() != null) {
+            entity.getItems().forEach(item -> item.setOrden(entity));
+        }
+
         return ordenTrabajoPersistenceMapper.toDomain(ordenTrabajoJpaRepository.save(entity));
     }
 

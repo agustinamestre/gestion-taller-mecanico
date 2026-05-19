@@ -1,14 +1,10 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
-import com.taller.gestion_taller.application.command.orden.CambiarEstadoOrdenTrabajoCommand;
-import com.taller.gestion_taller.application.command.orden.ModificarOrdenTrabajoCommand;
-import com.taller.gestion_taller.application.command.orden.RegistrarOrdenTrabajoCommand;
+import com.taller.gestion_taller.application.command.orden.*;
 import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.OrdenTrabajo;
 import com.taller.gestion_taller.infrastructure.rest.controller.swagger.SwaggerOrdenTrabajoController;
-import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.CambiarEstadoOrdenTrabajoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.ModificarOrdenTrabajoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.OrdenTrabajoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.*;
 import com.taller.gestion_taller.infrastructure.rest.dto.orden.response.OrdenTrabajoResponse;
 import com.taller.gestion_taller.infrastructure.rest.mapper.OrdenTrabajoRestMapper;
 import com.taller.gestion_taller.infrastructure.service.OrdenTrabajoService;
@@ -68,5 +64,33 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
         OrdenTrabajo orden = ordenTrabajoService.modificarOrden(command);
         OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden);
         return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<OrdenTrabajoResponse> agregarItem(
+            @PathVariable Long id,
+            @Valid @RequestBody AgregarItemOrdenTrabajoRequest request) {
+        AgregarItemOrdenTrabajoCommand command = ordenTrabajoRestMapper.toAgregarItemCommand(id, request);
+        OrdenTrabajo orden = ordenTrabajoService.agregarItem(command);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ordenTrabajoRestMapper.domainToResponse(orden));
+    }
+
+    @Override
+    public ResponseEntity<OrdenTrabajoResponse> modificarItem(
+            @PathVariable Long id,
+            @PathVariable Long itemId,
+            @Valid @RequestBody ModificarItemOrdenTrabajoRequest request) {
+        ModificarItemOrdenTrabajoCommand command = ordenTrabajoRestMapper.toModificarItemCommand(id, itemId, request);
+        OrdenTrabajo orden = ordenTrabajoService.modificarItem(command);
+        return ResponseEntity.ok(ordenTrabajoRestMapper.domainToResponse(orden));
+    }
+
+    @Override
+    public ResponseEntity<Void> eliminarItem(
+            @PathVariable Long id,
+            @PathVariable Long itemId) {
+        EliminarItemOrdenTrabajoCommand command = ordenTrabajoRestMapper.toEliminarItemCommand(id, itemId);
+        ordenTrabajoService.eliminarItem(command);
+        return ResponseEntity.noContent().build();
     }
 }
