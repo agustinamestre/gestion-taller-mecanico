@@ -1,12 +1,7 @@
 package com.taller.gestion_taller.infrastructure.service;
 
-import com.taller.gestion_taller.application.command.orden.CambiarEstadoOrdenTrabajoCommand;
-import com.taller.gestion_taller.application.command.orden.ModificarOrdenTrabajoCommand;
-import com.taller.gestion_taller.application.command.orden.RegistrarOrdenTrabajoCommand;
-import com.taller.gestion_taller.application.usecases.orden.CambiarEstadoOrdenTrabajo;
-import com.taller.gestion_taller.application.usecases.orden.ModificarOrdenTrabajo;
-import com.taller.gestion_taller.application.usecases.orden.ObtenerOrdenes;
-import com.taller.gestion_taller.application.usecases.orden.RegistrarOrdenTrabajo;
+import com.taller.gestion_taller.application.command.orden.*;
+import com.taller.gestion_taller.application.usecases.orden.*;
 import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.OrdenTrabajo;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +18,9 @@ public class OrdenTrabajoService {
     private final ObtenerOrdenes obtenerOrdenesUseCase;
     private final CambiarEstadoOrdenTrabajo cambiarEstadoOrdenTrabajoUseCase;
     private final ModificarOrdenTrabajo modificarOrdenTrabajoUseCase;
+    private final AgregarItemOrdenTrabajo agregarItemOrdenTrabajoUseCase;
+    private final ModificarItemOrdenTrabajo modificarItemOrdenTrabajoUseCase;
+    private final EliminarItemOrdenTrabajo eliminarItemOrdenTrabajoUseCase;
 
     @Transactional
     public OrdenTrabajo registrarOrden(RegistrarOrdenTrabajoCommand command) {
@@ -42,5 +40,20 @@ public class OrdenTrabajoService {
     @Transactional
     public OrdenTrabajo modificarOrden(ModificarOrdenTrabajoCommand command) {
         return modificarOrdenTrabajoUseCase.modificar(command);
+    }
+
+    @Transactional
+    public OrdenTrabajo agregarItem(AgregarItemOrdenTrabajoCommand command) {
+        return agregarItemOrdenTrabajoUseCase.agregar(command);
+    }
+
+    @Transactional
+    public OrdenTrabajo modificarItem(ModificarItemOrdenTrabajoCommand command) {
+        return modificarItemOrdenTrabajoUseCase.modificar(command);
+    }
+
+    @Transactional
+    public void eliminarItem(EliminarItemOrdenTrabajoCommand command) {
+        eliminarItemOrdenTrabajoUseCase.eliminar(command);
     }
 }

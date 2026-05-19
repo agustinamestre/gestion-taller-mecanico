@@ -1,9 +1,7 @@
 package com.taller.gestion_taller.infrastructure.rest.controller.swagger;
 
 import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
-import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.CambiarEstadoOrdenTrabajoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.ModificarOrdenTrabajoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.OrdenTrabajoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.*;
 import com.taller.gestion_taller.infrastructure.rest.dto.orden.response.OrdenTrabajoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -89,4 +87,57 @@ public interface SwaggerOrdenTrabajoController {
             @Parameter(description = "ID de la orden de trabajo", required = true)
             @PathVariable Long id,
             @Valid @RequestBody ModificarOrdenTrabajoRequest request);
+
+    @Operation(summary = "Agregar item a orden", description = "Agrega un nuevo item a una orden de trabajo existente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Item agregado correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrdenTrabajoResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Datos invalidos en el request",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Orden o producto no encontrado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @PostMapping("/{id}/items")
+    ResponseEntity<OrdenTrabajoResponse> agregarItem(
+            @Parameter(description = "ID de la orden", required = true)
+            @PathVariable Long id,
+            @Valid @RequestBody AgregarItemOrdenTrabajoRequest request);
+
+    @Operation(summary = "Modificar item de orden", description = "Modifica cantidad, descripcion y precio unitario de un item existente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Item modificado correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrdenTrabajoResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Datos invalidos en el request",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Orden, item o producto no encontrado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @PutMapping("/{id}/items/{itemId}")
+    ResponseEntity<OrdenTrabajoResponse> modificarItem(
+            @Parameter(description = "ID de la orden", required = true)
+            @PathVariable Long id,
+            @Parameter(description = "ID del item", required = true)
+            @PathVariable Long itemId,
+            @Valid @RequestBody ModificarItemOrdenTrabajoRequest request);
+
+    @Operation(summary = "Eliminar item de orden", description = "Elimina un item de una orden y recalcula el total automaticamente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Item eliminado correctamente"),
+            @ApiResponse(responseCode = "404", description = "Orden o item no encontrado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @DeleteMapping("/{id}/items/{itemId}")
+    ResponseEntity<Void> eliminarItem(
+            @Parameter(description = "ID de la orden", required = true)
+            @PathVariable Long id,
+            @Parameter(description = "ID del item", required = true)
+            @PathVariable Long itemId);
 }

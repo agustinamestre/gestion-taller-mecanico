@@ -132,4 +132,8 @@ public final class BusinessErrors {
         return new BusinessError("ORDEN_NO_ENCONTRADA", "No se encontro la orden de trabajo con ID: " + id);
     }
 
+    public static BusinessError itemOrdenNoEncontrado(Long id) {
+        return new BusinessError("ITEM_ORDEN_NO_ENCONTRAD0", "No se encontro el item con ID: " + id);
+    }
+
 }
