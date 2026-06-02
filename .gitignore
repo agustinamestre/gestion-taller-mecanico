@@ -1,41 +1,45 @@
-HELP.md
-target/
-.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
+# IDEs (IntelliJ, VS Code, STS) y OS
+.idea/
 *.iws
 *.iml
 *.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
-
-### VS Code ###
 .vscode/
+.classpath
+.project
+.settings/
+.factorypath
+.DS_Store
+Thumbs.db
 
-# Ignorar configuraciones locales sensibles
-**/application-dev.properties
-
-# Logs y archivos temporales
+# Logs y Temporales generales
 *.log
 logs/
 temp/
+/tmp
+
+# ==========================================
+# Backend (Spring Boot / Maven)
+# ==========================================
+**/target/
+**/build/
+.mvn/wrapper/maven-wrapper.jar
+
+# Ignorar configuraciones Base de datos, tokens, etc.
+**/application-dev.properties
+**/application-local.properties
+
+# ==========================================
+# Frontend (Angular)
+# ==========================================
+**/node_modules/
+**/dist/
+**/.angular/cache/
+**/out-tsc/
+**/bazel-out/
+npm-debug.log
+yarn-error.log
+/connect.lock
+/coverage
+testem.log
+/typings
+__screenshots__/
