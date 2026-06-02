@@ -1,0 +1,39 @@
+<div class="app-layout">
+  
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo-container">
+      <h2>⚙️ TallerApp</h2>
+    </div>
+    <nav class="nav-menu">
+      <ul>
+        <li><a routerLink="/dashboard" routerLinkActive="active"><i class="pi pi-home"></i> Dashboard</a></li>
+        <li><a routerLink="/clientes" routerLinkActive="active"><i class="pi pi-users"></i> Clientes</a></li>
+        <li><a routerLink="/vehiculos" routerLinkActive="active"><i class="pi pi-car"></i> Vehículos</a></li>
+        <li><a routerLink="/ordenes" routerLinkActive="active"><i class="pi pi-file-edit"></i> Órdenes de Trabajo</a></li>
+        <li><a routerLink="/repuestos" routerLinkActive="active"><i class="pi pi-box"></i> Repuestos</a></li>
+        <li><a routerLink="/configuracion" routerLinkActive="active"><i class="pi pi-cog"></i> Configuración</a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div class="main-wrapper">
+    
+    <!-- HEADER -->
+    <header class="topbar">
+      <div class="search-bar">
+        <input type="text" pInputText placeholder="Buscar patente, cliente o DNI..." />
+      </div>
+      <div class="user-profile">
+        <i class="pi pi-bell" pBadge value="2"></i>
+        <p-avatar label="AM" shape="circle" styleClass="user-avatar"></p-avatar>
+      </div>
+    </header>
+
+    <!-- PAGINA DINAMICA -->
+    <main class="content-area">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
