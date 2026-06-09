@@ -12,7 +12,7 @@ import org.mapstruct.Mapping;
 @Mapper(uses = {PresupuestoRestMapper.class})
 public interface OrdenTrabajoRestMapper {
 
-    RegistrarOrdenTrabajoCommand requestToCommand(OrdenTrabajoRequest request);
+    RegistrarOrdenTrabajoCommand requestToCommand(RegistrarOrdenTrabajoRequest request);
     ModificarOrdenTrabajoCommand toModificarCommand(Long ordenId, ModificarOrdenTrabajoRequest request);
     CambiarEstadoOrdenTrabajoCommand toCambiarEstadoCommand(Long ordenId, CambiarEstadoOrdenTrabajoRequest request);
     AgregarItemOrdenTrabajoCommand toAgregarItemCommand(Long ordenId, AgregarItemOrdenTrabajoRequest request);

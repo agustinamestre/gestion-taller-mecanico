@@ -20,6 +20,7 @@ public class PresupuestoService {
     private final ObtenerPresupuestosPorPatente obtenerPresupuestosPorPatenteUseCase;
     private final EliminarItemPresupuesto eliminarItemPresupuestoUseCase;
     private final CambiarEstadoPresupuesto cambiarEstadoPresupuestoUseCase;
+    private final AsociarVehiculoAPresupuesto asociarVehiculoAPresupuestoUseCase;
 
     @Transactional
     public Presupuesto registrarPresupuesto(RegistrarPresupuestoCommand command) {
@@ -54,5 +55,10 @@ public class PresupuestoService {
     @Transactional
     public void cambiarEstado(CambiarEstadoPresupuestoCommand command) {
         cambiarEstadoPresupuestoUseCase.cambiar(command);
+    }
+
+    @Transactional
+    public Presupuesto asociarVehiculo(AsociarVehiculoAPresupuestoCommand command) {
+        return asociarVehiculoAPresupuestoUseCase.asociar(command);
     }
 }

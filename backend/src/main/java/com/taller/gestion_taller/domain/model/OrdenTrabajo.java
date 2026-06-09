@@ -6,14 +6,13 @@ import com.taller.gestion_taller.domain.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
+@Getter
 @Builder(toBuilder = true)
 @AllArgsConstructor
 public class OrdenTrabajo {
@@ -29,6 +28,39 @@ public class OrdenTrabajo {
     @Builder.Default
     private List<ItemOrdenTrabajo> items = new ArrayList<>();
 
+    /**
+     * Punto de entrada oficial para crear una nueva orden de trabajo.
+     * <p>
+     * Garantiza la invariante R3: toda orden debe tener un vehículo asociado.
+     * El estado inicial es {@link EstadoOrdenTrabajo#INGRESADO} y la fecha de ingreso
+     * se setea automáticamente al día actual. El presupuesto es opcional (Flujos 2 y 3 del taller).
+     * <p>
+     * Las invariantes adicionales (presupuesto APROBADO, coherencia con vehículo, etc.)
+     * son responsabilidad del caso de uso que orquesta la creación.
+     */
+    public static OrdenTrabajo crearNueva(Vehiculo vehiculo,
+                                          Presupuesto presupuesto,
+                                          String descripcionProblema,
+                                          Long usuarioCreacionId) {
+        if (vehiculo == null) {
+            throw new BusinessRunTimeException(BusinessErrors.ordenSinVehiculo());
+        }
+        if (descripcionProblema == null || descripcionProblema.isBlank()) {
+            throw new BusinessRunTimeException(BusinessErrors.ordenSinDescripcion());
+        }
+        if (usuarioCreacionId == null) {
+            throw new BusinessRunTimeException(BusinessErrors.ordenSinUsuarioCreacion());
+        }
+        return OrdenTrabajo.builder()
+                .vehiculo(vehiculo)
+                .presupuesto(presupuesto)
+                .descripcionProblema(descripcionProblema)
+                .usuarioCreacionId(usuarioCreacionId)
+                .estado(EstadoOrdenTrabajo.INGRESADO)
+                .fechaIngreso(LocalDate.now())
+                .items(new ArrayList<>())
+                .build();
+    }
 
     public void cambiarEstado(EstadoOrdenTrabajo nuevoEstado) {
         if (!this.estado.puedeTransicionarA(nuevoEstado)) {

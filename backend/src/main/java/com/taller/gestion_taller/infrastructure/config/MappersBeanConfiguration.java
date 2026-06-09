@@ -38,17 +38,7 @@ public class MappersBeanConfiguration {
     public VehiculoApplicationMapper vehiculoApplicationMapper() {
         return Mappers.getMapper(VehiculoApplicationMapper.class);
     }
-
-    @Bean
-    public PresupuestoApplicationMapper presupuestoApplicationMapper() {
-        return Mappers.getMapper(PresupuestoApplicationMapper.class);
-    }
-
-    @Bean
-    public OrdenTrabajoApplicationMapper ordenTrabajoApplicationMapper() {
-        return Mappers.getMapper(OrdenTrabajoApplicationMapper.class);
-    }
-
+    
     // Rest mappers
     @Bean
     public MarcaRestMapper marcaRestMapper() {

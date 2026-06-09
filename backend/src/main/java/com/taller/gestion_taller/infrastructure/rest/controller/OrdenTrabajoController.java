@@ -25,7 +25,7 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
     private final OrdenTrabajoRestMapper ordenTrabajoRestMapper;
 
     @Override
-    public ResponseEntity<OrdenTrabajoResponse> registrar(@Valid @RequestBody OrdenTrabajoRequest request) {
+    public ResponseEntity<OrdenTrabajoResponse> registrar(@Valid @RequestBody RegistrarOrdenTrabajoRequest request) {
         RegistrarOrdenTrabajoCommand command = ordenTrabajoRestMapper.requestToCommand(request);
         OrdenTrabajo orden = ordenTrabajoService.registrarOrden(command);
         OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden);
