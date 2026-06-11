@@ -16,6 +16,7 @@ public class OrdenTrabajoService {
 
     private final RegistrarOrdenTrabajo registrarOrdenTrabajoUseCase;
     private final ObtenerOrdenes obtenerOrdenesUseCase;
+    private final ObtenerOrdenTrabajoPorId obtenerOrdenTrabajoPorIdUseCase;
     private final CambiarEstadoOrdenTrabajo cambiarEstadoOrdenTrabajoUseCase;
     private final ModificarOrdenTrabajo modificarOrdenTrabajoUseCase;
     private final AgregarItemOrdenTrabajo agregarItemOrdenTrabajoUseCase;
@@ -30,6 +31,11 @@ public class OrdenTrabajoService {
     @Transactional(readOnly = true)
     public List<OrdenTrabajo> obtenerOrdenes(String patente, EstadoOrdenTrabajo estado) {
         return obtenerOrdenesUseCase.obtener(patente, estado);
+    }
+
+    @Transactional(readOnly = true)
+    public OrdenTrabajo obtenerOrdenPorId(Long id) {
+        return obtenerOrdenTrabajoPorIdUseCase.obtener(id);
     }
 
     @Transactional

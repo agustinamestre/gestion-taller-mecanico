@@ -46,6 +46,13 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
     }
 
     @Override
+    public ResponseEntity<OrdenTrabajoResponse> obtenerOrdenPorId(@PathVariable Long id) {
+        OrdenTrabajo orden = ordenTrabajoService.obtenerOrdenPorId(id);
+        OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden);
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
     public ResponseEntity<Void> cambiarEstado(
             @PathVariable Long id,
             @Valid @RequestBody CambiarEstadoOrdenTrabajoRequest request) {

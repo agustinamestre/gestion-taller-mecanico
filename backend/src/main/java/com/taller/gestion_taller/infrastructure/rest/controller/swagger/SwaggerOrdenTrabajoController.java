@@ -55,6 +55,21 @@ public interface SwaggerOrdenTrabajoController {
             @Parameter(description = "Estado de la orden (opcional)")
             @RequestParam(required = false) EstadoOrdenTrabajo estado);
 
+    @Operation(summary = "Obtener orden de trabajo por ID", description = "Retorna una orden de trabajo especifica por su ID unico.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Orden obtenida correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrdenTrabajoResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Orden no encontrada",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/{id}")
+    ResponseEntity<OrdenTrabajoResponse> obtenerOrdenPorId(
+            @Parameter(description = "ID de la orden de trabajo", required = true)
+            @PathVariable Long id);
+
     @Operation(summary = "Cambiar estado de la orden", description = "Actualiza el estado de una orden respetando transiciones validas")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "Estado actualizado correctamente"),

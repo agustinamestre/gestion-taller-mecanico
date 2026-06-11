@@ -32,6 +32,13 @@ public class OrdenTrabajoBeanConfiguration {
     }
 
     @Bean
+    public ObtenerOrdenTrabajoPorId obtenerOrdenTrabajoPorId(OrdenTrabajoRepository ordenTrabajoRepository) {
+        return new ObtenerOrdenTrabajoPorIdUseCase(
+                ordenTrabajoRepository
+        );
+    }
+
+    @Bean
     public CambiarEstadoOrdenTrabajo cambiarEstadoOrdenTrabajoUseCase(OrdenTrabajoRepository ordenTrabajoRepository) {
         return new CambiarEstadoOrdenTrabajoUseCase(ordenTrabajoRepository);
     }
