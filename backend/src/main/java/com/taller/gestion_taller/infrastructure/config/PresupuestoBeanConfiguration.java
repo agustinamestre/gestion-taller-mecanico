@@ -1,8 +1,8 @@
 package com.taller.gestion_taller.infrastructure.config;
 
-import com.taller.gestion_taller.application.mapper.OrdenTrabajoApplicationMapper;
-import com.taller.gestion_taller.application.mapper.PresupuestoApplicationMapper;
+import com.taller.gestion_taller.application.usecases.cliente.RegistrarCliente;
 import com.taller.gestion_taller.application.usecases.presupuesto.*;
+import com.taller.gestion_taller.application.usecases.vehiculo.RegistrarVehiculo;
 import com.taller.gestion_taller.domain.repositories.PresupuestoRepository;
 import com.taller.gestion_taller.domain.repositories.ProductoRepository;
 import com.taller.gestion_taller.domain.repositories.VehiculoRepository;
@@ -14,12 +14,10 @@ public class PresupuestoBeanConfiguration {
 
     @Bean
     public RegistrarPresupuesto registrarPresupuestoUseCase(PresupuestoRepository presupuestoRepository,
-                                                            VehiculoRepository vehiculoRepository,
-                                                            PresupuestoApplicationMapper presupuestoApplicationMapper) {
+                                                            VehiculoRepository vehiculoRepository) {
         return new RegistrarPresupuestoUseCase(
                 presupuestoRepository,
-                vehiculoRepository,
-                presupuestoApplicationMapper
+                vehiculoRepository
         );
     }
 
@@ -68,6 +66,20 @@ public class PresupuestoBeanConfiguration {
     public CambiarEstadoPresupuesto cambiarEstadoPresupuesto(PresupuestoRepository presupuestoRepository) {
         return new CambiarEstadoPresupuestoUseCase(
                 presupuestoRepository
+        );
+    }
+
+    @Bean
+    public AsociarVehiculoAPresupuesto asociarVehiculoAPresupuestoUseCase(
+            PresupuestoRepository presupuestoRepository,
+            VehiculoRepository vehiculoRepository,
+            RegistrarVehiculo registrarVehiculoUseCase,
+            RegistrarCliente registrarClienteUseCase) {
+        return new AsociarVehiculoAPresupuestoUseCase(
+                presupuestoRepository,
+                vehiculoRepository,
+                registrarVehiculoUseCase,
+                registrarClienteUseCase
         );
     }
 }

@@ -1,6 +1,5 @@
 package com.taller.gestion_taller.infrastructure.config;
 
-import com.taller.gestion_taller.application.mapper.OrdenTrabajoApplicationMapper;
 import com.taller.gestion_taller.application.usecases.orden.*;
 import com.taller.gestion_taller.domain.repositories.OrdenTrabajoRepository;
 import com.taller.gestion_taller.domain.repositories.PresupuestoRepository;
@@ -15,13 +14,11 @@ public class OrdenTrabajoBeanConfiguration {
     @Bean
     public RegistrarOrdenTrabajo registrarOrdenTrabajoUseCase(OrdenTrabajoRepository ordenTrabajoRepository,
                                                               VehiculoRepository vehiculoRepository,
-                                                              PresupuestoRepository presupuestoRepository,
-                                                              OrdenTrabajoApplicationMapper ordenTrabajoApplicationMapper) {
+                                                              PresupuestoRepository presupuestoRepository) {
         return new RegistrarOrdenTrabajoUseCase(
                 ordenTrabajoRepository,
                 vehiculoRepository,
-                presupuestoRepository,
-                ordenTrabajoApplicationMapper
+                presupuestoRepository
         );
     }
 
@@ -31,6 +28,13 @@ public class OrdenTrabajoBeanConfiguration {
         return new ObtenerOrdenesUseCase(
                 ordenTrabajoRepository,
                 vehiculoRepository
+        );
+    }
+
+    @Bean
+    public ObtenerOrdenTrabajoPorId obtenerOrdenTrabajoPorId(OrdenTrabajoRepository ordenTrabajoRepository) {
+        return new ObtenerOrdenTrabajoPorIdUseCase(
+                ordenTrabajoRepository
         );
     }
 

@@ -19,20 +19,21 @@ import java.util.List;
 @Tag(name = "Ordenes de Trabajo", description = "Operaciones sobre ordenes de trabajo del taller")
 public interface SwaggerOrdenTrabajoController {
 
-    @Operation(summary = "Registrar orden de trabajo", description = "Crea una nueva orden de trabajo para un vehiculo")
+    @Operation(summary = "Registrar orden de trabajo",
+            description = "Crea una nueva orden de trabajo. El vehículo se identifica por 'patente' o por 'presupuestoId' (al menos uno).")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Orden registrada correctamente",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = OrdenTrabajoResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Datos invalidos en el request",
+            @ApiResponse(responseCode = "400", description = "Datos invalidos o regla de negocio violada (presupuesto no aprobado, presupuesto sin vehiculo, patente inconsistente con presupuesto, etc.)",
                     content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "404", description = "Vehiculo no encontrado",
+            @ApiResponse(responseCode = "404", description = "Vehiculo o presupuesto no encontrado",
                     content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "500", description = "Error tecnico",
                     content = @Content(mediaType = "application/json"))
     })
     @PostMapping
-    ResponseEntity<OrdenTrabajoResponse> registrar(@Valid @RequestBody OrdenTrabajoRequest request);
+    ResponseEntity<OrdenTrabajoResponse> registrar(@Valid @RequestBody RegistrarOrdenTrabajoRequest request);
 
     @Operation(
             summary = "Listar ordenes de trabajo",
@@ -53,6 +54,21 @@ public interface SwaggerOrdenTrabajoController {
             @RequestParam(required = false) String patente,
             @Parameter(description = "Estado de la orden (opcional)")
             @RequestParam(required = false) EstadoOrdenTrabajo estado);
+
+    @Operation(summary = "Obtener orden de trabajo por ID", description = "Retorna una orden de trabajo especifica por su ID unico.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Orden obtenida correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = OrdenTrabajoResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Orden no encontrada",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error tecnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/{id}")
+    ResponseEntity<OrdenTrabajoResponse> obtenerOrdenPorId(
+            @Parameter(description = "ID de la orden de trabajo", required = true)
+            @PathVariable Long id);
 
     @Operation(summary = "Cambiar estado de la orden", description = "Actualiza el estado de una orden respetando transiciones validas")
     @ApiResponses({

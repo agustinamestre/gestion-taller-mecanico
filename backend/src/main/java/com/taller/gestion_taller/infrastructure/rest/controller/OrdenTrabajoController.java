@@ -25,7 +25,7 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
     private final OrdenTrabajoRestMapper ordenTrabajoRestMapper;
 
     @Override
-    public ResponseEntity<OrdenTrabajoResponse> registrar(@Valid @RequestBody OrdenTrabajoRequest request) {
+    public ResponseEntity<OrdenTrabajoResponse> registrar(@Valid @RequestBody RegistrarOrdenTrabajoRequest request) {
         RegistrarOrdenTrabajoCommand command = ordenTrabajoRestMapper.requestToCommand(request);
         OrdenTrabajo orden = ordenTrabajoService.registrarOrden(command);
         OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden);
@@ -42,6 +42,13 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
                 .stream()
                 .map(ordenTrabajoRestMapper::domainToResponse)
                 .toList();
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<OrdenTrabajoResponse> obtenerOrdenPorId(@PathVariable Long id) {
+        OrdenTrabajo orden = ordenTrabajoService.obtenerOrdenPorId(id);
+        OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden);
         return ResponseEntity.ok(response);
     }
 

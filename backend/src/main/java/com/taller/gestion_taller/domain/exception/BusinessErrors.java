@@ -94,6 +94,48 @@ public final class BusinessErrors {
     public static BusinessError vehiculoYaDesactivado() {
         return new BusinessError("VEHICULO_YA_DESACTIVADO", "El vehiculo ya se encuentra desactivado.");
     }
+    
+    public static BusinessError vehiculoSinCliente() {
+        return new BusinessError(
+                "VEHICULO_SIN_CLIENTE",
+                "Todo vehículo debe tener un cliente titular asociado."
+        );
+    }
+    
+    public static BusinessError vehiculoSinModelo() {
+        return new BusinessError(
+                "VEHICULO_SIN_MODELO",
+                "Todo vehículo debe tener un modelo asociado."
+        );
+    }
+    
+    public static BusinessError vehiculoSinPatente() {
+        return new BusinessError(
+                "VEHICULO_SIN_PATENTE",
+                "La patente del vehículo es obligatoria."
+        );
+    }
+    
+    public static BusinessError ordenSinVehiculo() {
+        return new BusinessError(
+                "ORDEN_SIN_VEHICULO",
+                "Toda orden de trabajo debe tener un vehículo asociado."
+        );
+    }
+    
+    public static BusinessError ordenSinDescripcion() {
+        return new BusinessError(
+                "ORDEN_SIN_DESCRIPCION",
+                "La descripción del problema es obligatoria."
+        );
+    }
+    
+    public static BusinessError ordenSinUsuarioCreacion() {
+        return new BusinessError(
+                "ORDEN_SIN_USUARIO_CREACION",
+                "El usuario de creación es obligatorio."
+        );
+    }
 
     public static BusinessError presupuestoNoEncontrado(Long id) {
         return new BusinessError("PRESUPUESTO_NO_ENCONTRADO", "No se encontro el presupuesto con ID: " + id);
@@ -107,6 +149,29 @@ public final class BusinessErrors {
         return new BusinessError(
                 "PRESUPUESTO_NO_APROBADO",
                 "El presupuesto debe estar en estado APROBADO para asociarlo a una orden de trabajo"
+        );
+    }
+
+    public static BusinessError patenteInconsistenteConPresupuesto(String patenteRecibida, String patentePresupuesto) {
+        return new BusinessError(
+                "PATENTE_INCONSISTENTE_CON_PRESUPUESTO",
+                MessageFormat.format(
+                        "La patente recibida ''{0}'' no coincide con la del vehículo del presupuesto (''{1}'').",
+                        patenteRecibida, patentePresupuesto)
+        );
+    }
+    
+    public static BusinessError presupuestoSinVehiculoAsociado() {
+        return new BusinessError(
+                "PRESUPUESTO_SIN_VEHICULO",
+                "Para crear una orden de trabajo, el presupuesto debe estar asociado a un vehículo."
+        );
+    }
+    
+    public static BusinessError presupuestoYaTieneVehiculo() {
+        return new BusinessError(
+                "PRESUPUESTO_YA_TIENE_VEHICULO",
+                "El presupuesto ya tiene un vehículo asociado. Para reemplazarlo, utilice la operación de reasociación."
         );
     }
 
@@ -133,7 +198,7 @@ public final class BusinessErrors {
     }
 
     public static BusinessError itemOrdenNoEncontrado(Long id) {
-        return new BusinessError("ITEM_ORDEN_NO_ENCONTRAD0", "No se encontro el item con ID: " + id);
+        return new BusinessError("ITEM_ORDEN_NO_ENCONTRADO", "No se encontro el item con ID: " + id);
     }
 
 }

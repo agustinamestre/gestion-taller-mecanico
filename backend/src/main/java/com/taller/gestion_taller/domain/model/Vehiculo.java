@@ -31,8 +31,14 @@ public class Vehiculo {
                 .kilometrajeActual(nuevoKilometraje)
                 .build();
     }
-    
+
     public Vehiculo actualizarDatos(Modelo nuevoModelo, Integer nuevoAnio, Cliente nuevoCliente) {
+        if (nuevoCliente == null) {
+            throw new BusinessRunTimeException(BusinessErrors.vehiculoSinCliente());
+        }
+        if (nuevoModelo == null) {
+            throw new BusinessRunTimeException(BusinessErrors.vehiculoSinModelo());
+        }
         return this.toBuilder()
                 .modelo(nuevoModelo)
                 .anio(nuevoAnio)
@@ -46,6 +52,37 @@ public class Vehiculo {
         }
         return this.toBuilder()
                 .activo(false)
+                .build();
+    }
+
+    /**
+     * Punto de entrada oficial para crear un nuevo vehículo en el sistema.
+     * <p>
+     * Garantiza la invariante R4: todo vehículo debe tener un cliente titular y un modelo.
+     * Cualquier código nuevo (use cases, jobs, importadores) debe usar este factory
+     * en lugar del builder directo.
+     */
+    public static Vehiculo crearNuevo(String patente,
+                                      Modelo modelo,
+                                      Integer anio,
+                                      Cliente cliente,
+                                      Integer kilometrajeActual) {
+        if (patente == null || patente.isBlank()) {
+            throw new BusinessRunTimeException(BusinessErrors.vehiculoSinPatente());
+        }
+        if (modelo == null) {
+            throw new BusinessRunTimeException(BusinessErrors.vehiculoSinModelo());
+        }
+        if (cliente == null) {
+            throw new BusinessRunTimeException(BusinessErrors.vehiculoSinCliente());
+        }
+        return Vehiculo.builder()
+                .patente(patente)
+                .modelo(modelo)
+                .anio(anio)
+                .cliente(cliente)
+                .kilometrajeActual(kilometrajeActual)
+                .activo(true)
                 .build();
     }
 }
