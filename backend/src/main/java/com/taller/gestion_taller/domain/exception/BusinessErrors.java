@@ -201,4 +201,10 @@ public final class BusinessErrors {
         return new BusinessError("ITEM_ORDEN_NO_ENCONTRADO", "No se encontro el item con ID: " + id);
     }
 
+    public static BusinessError ordenNoModificable(EstadoOrdenTrabajo estado) {
+        return new BusinessError(
+                "ORDEN_NO_MODIFICABLE",
+                "La orden de trabajo no se puede modificar en el estado " + estado
+        );
+    }
 }
