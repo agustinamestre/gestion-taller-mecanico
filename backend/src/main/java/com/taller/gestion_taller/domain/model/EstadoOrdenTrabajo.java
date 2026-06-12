@@ -6,11 +6,21 @@ public enum EstadoOrdenTrabajo {
         public boolean puedeTransicionarA(EstadoOrdenTrabajo nuevo) {
             return nuevo == EN_REPARACION || nuevo == CANCELADO;
         }
+
+        @Override
+        public boolean esModificable() {
+            return true;
+        }
     },
     EN_REPARACION {
         @Override
         public boolean puedeTransicionarA(EstadoOrdenTrabajo nuevo) {
             return nuevo == FINALIZADO;
+        }
+
+        @Override
+        public boolean esModificable() {
+            return true;
         }
     },
     FINALIZADO {
@@ -33,4 +43,8 @@ public enum EstadoOrdenTrabajo {
     };
 
     public abstract boolean puedeTransicionarA(EstadoOrdenTrabajo nuevo);
+
+    public boolean esModificable() {
+        return false;
+    }
 }

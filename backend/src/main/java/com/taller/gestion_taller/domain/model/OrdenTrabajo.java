@@ -28,16 +28,6 @@ public class OrdenTrabajo {
     @Builder.Default
     private List<ItemOrdenTrabajo> items = new ArrayList<>();
 
-    /**
-     * Punto de entrada oficial para crear una nueva orden de trabajo.
-     * <p>
-     * Garantiza la invariante R3: toda orden debe tener un vehículo asociado.
-     * El estado inicial es {@link EstadoOrdenTrabajo#INGRESADO} y la fecha de ingreso
-     * se setea automáticamente al día actual. El presupuesto es opcional (Flujos 2 y 3 del taller).
-     * <p>
-     * Las invariantes adicionales (presupuesto APROBADO, coherencia con vehículo, etc.)
-     * son responsabilidad del caso de uso que orquesta la creación.
-     */
     public static OrdenTrabajo crearNueva(Vehiculo vehiculo,
                                           Presupuesto presupuesto,
                                           String descripcionProblema,
@@ -74,11 +64,13 @@ public class OrdenTrabajo {
     }
 
     public void modificar(String descripcionProblema) {
+        asegurarOrdenEsModificable();
         this.descripcionProblema = descripcionProblema;
     }
 
     public void agregarItem(Producto producto, String descripcion,
                             Integer cantidad, BigDecimal precioUnitario) {
+        asegurarOrdenEsModificable();
         ItemOrdenTrabajo item = ItemOrdenTrabajo.builder()
                 .ordenId(this.id)
                 .producto(producto)
@@ -93,6 +85,7 @@ public class OrdenTrabajo {
 
     public void modificarItem(Long itemId, Producto producto, String descripcion,
                               Integer cantidad, BigDecimal precioUnitario) {
+        asegurarOrdenEsModificable();
         ItemOrdenTrabajo item = this.items.stream()
                 .filter(i -> i.getId().equals(itemId))
                 .findFirst()
@@ -103,6 +96,7 @@ public class OrdenTrabajo {
     }
 
     public void eliminarItem(Long itemId) {
+        asegurarOrdenEsModificable();
         boolean eliminado = this.items.removeIf(i -> i.getId().equals(itemId));
         if (!eliminado) {
             throw new NotFoundException(BusinessErrors.itemOrdenNoEncontrado(itemId));
@@ -114,5 +108,11 @@ public class OrdenTrabajo {
         return items.stream()
                 .map(ItemOrdenTrabajo::calcularSubtotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    private void asegurarOrdenEsModificable() {
+        if (!this.estado.esModificable()) {
+            throw new BusinessRunTimeException(BusinessErrors.ordenNoModificable(this.estado));
+        }
     }
 }
