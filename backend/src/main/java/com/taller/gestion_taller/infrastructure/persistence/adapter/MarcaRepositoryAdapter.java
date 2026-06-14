@@ -54,10 +54,6 @@ public class MarcaRepositoryAdapter implements MarcaRepository {
 
     @Override
     public void eliminar(Long id) {
-        // Para la baja lógica, el caso de uso DesactivarMarca ya actualiza el estado y llama a guardar.
-        // Este método 'eliminar' se mantendría para una eliminación física si fuera necesaria,
-        // pero no es el caso para la "baja lógica" solicitada.
-        // Por ahora, lo implementamos como una eliminación física si se llegara a usar directamente.
         jpaMarcaRepository.deleteById(id);
     }
 }

@@ -207,4 +207,25 @@ public final class BusinessErrors {
                 "La orden de trabajo no se puede modificar en el estado " + estado
         );
     }
+
+    public static BusinessError ordenNoFacturable(EstadoOrdenTrabajo estado) {
+        return new BusinessError(
+                "ORDEN_NO_FACTURABLE",
+                "La orden de trabajo no se puede facturar en el estado " + estado
+        );
+    }
+
+    public static BusinessError ordenYaFacturada(Long id) {
+        return new BusinessError(
+                "ORDEN_YA_FACTURADA",
+                "La orden de trabajo con ID " + id + " ya tiene una factura asociada."
+        );
+    }
+
+    public static BusinessError facturaNoEncontrada(Long id) {
+        return new BusinessError(
+                "FACTURA_NO_ENCONTRADA",
+                "No se encontro la factura con ID: " + id
+        );
+    }
 }

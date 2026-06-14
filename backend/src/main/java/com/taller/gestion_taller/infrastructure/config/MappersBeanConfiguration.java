@@ -75,6 +75,11 @@ public class MappersBeanConfiguration {
         return Mappers.getMapper(OrdenTrabajoRestMapper.class);
     }
 
+    @Bean
+    public FacturaRestMapper facturaRestMapper() {
+        return Mappers.getMapper(FacturaRestMapper.class);
+    }
+
     
     // Persistence mappers
     @Bean
@@ -110,5 +115,10 @@ public class MappersBeanConfiguration {
     @Bean
     public OrdenTrabajoPersistenceMapper ordenTrabajoPersistenceMapper() {
         return Mappers.getMapper(OrdenTrabajoPersistenceMapper.class);
+    }
+
+    @Bean
+    public FacturaPersistenceMapper facturaPersistenceMapper() {
+        return Mappers.getMapper(FacturaPersistenceMapper.class);
     }
 }

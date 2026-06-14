@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface JpaOrdenTrabajoRepository extends JpaRepository<OrdenTrabajoEntity, Long> {
 
@@ -18,4 +19,13 @@ public interface JpaOrdenTrabajoRepository extends JpaRepository<OrdenTrabajoEnt
     List<OrdenTrabajoEntity> findByFiltros(
             @Param("patente") String patente,
             @Param("estado") EstadoOrdenTrabajo estado);
+
+    @Query("""
+        SELECT o FROM OrdenTrabajoEntity o
+        JOIN FETCH o.vehiculo v
+        JOIN FETCH v.cliente c
+        LEFT JOIN FETCH o.items
+        WHERE o.id = :id
+    """)
+    Optional<OrdenTrabajoEntity> findById(@Param("id") Long id);
 }
