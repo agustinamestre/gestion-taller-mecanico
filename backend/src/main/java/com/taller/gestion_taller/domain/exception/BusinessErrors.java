@@ -4,6 +4,7 @@ import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.EstadoPresupuesto;
 import com.taller.gestion_taller.domain.model.TipoProducto;
 import java.text.MessageFormat;
+import java.time.LocalDate;
 
 public final class BusinessErrors {
 
@@ -205,6 +206,34 @@ public final class BusinessErrors {
         return new BusinessError(
                 "ORDEN_NO_MODIFICABLE",
                 "La orden de trabajo no se puede modificar en el estado " + estado
+        );
+    }
+
+    public static BusinessError ordenNoFacturable(EstadoOrdenTrabajo estado) {
+        return new BusinessError(
+                "ORDEN_NO_FACTURABLE",
+                "La orden de trabajo no se puede facturar en el estado " + estado
+        );
+    }
+
+    public static BusinessError ordenYaFacturada(Long id) {
+        return new BusinessError(
+                "ORDEN_YA_FACTURADA",
+                "La orden de trabajo con ID " + id + " ya tiene una factura asociada."
+        );
+    }
+
+    public static BusinessError facturaNoEncontrada(Long id) {
+        return new BusinessError(
+                "FACTURA_NO_ENCONTRADA",
+                "No se encontro la factura con ID: " + id
+        );
+    }
+
+    public static BusinessError rangoFechasInvalido(LocalDate desde, LocalDate hasta) {
+        return new BusinessError(
+                "RANGO_FECHAS_INVALIDO",
+                "La fecha de inicio (" + desde + ") no puede ser posterior a la fecha de fin (" + hasta + ")"
         );
     }
 }

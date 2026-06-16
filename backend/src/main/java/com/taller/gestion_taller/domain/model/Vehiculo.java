@@ -55,13 +55,6 @@ public class Vehiculo {
                 .build();
     }
 
-    /**
-     * Punto de entrada oficial para crear un nuevo vehículo en el sistema.
-     * <p>
-     * Garantiza la invariante R4: todo vehículo debe tener un cliente titular y un modelo.
-     * Cualquier código nuevo (use cases, jobs, importadores) debe usar este factory
-     * en lugar del builder directo.
-     */
     public static Vehiculo crearNuevo(String patente,
                                       Modelo modelo,
                                       Integer anio,
