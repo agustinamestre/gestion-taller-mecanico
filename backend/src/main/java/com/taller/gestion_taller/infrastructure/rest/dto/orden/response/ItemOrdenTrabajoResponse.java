@@ -4,13 +4,10 @@ import java.math.BigDecimal;
 
 public record ItemOrdenTrabajoResponse(
         Long id,
-        Long ordenId,
         Long productoId,
         String tipo,
         String descripcion,
         Integer cantidad,
         BigDecimal precioUnitario,
-        BigDecimal subtotal,
-        Boolean facturado
-
+        BigDecimal subtotal
 ) { }

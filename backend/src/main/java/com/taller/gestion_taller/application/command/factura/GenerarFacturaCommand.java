@@ -1,4 +1,4 @@
-package com.taller.gestion_taller.application.command;
+package com.taller.gestion_taller.application.command.factura;
 
 import com.taller.gestion_taller.domain.model.FormaPago;
 import lombok.AllArgsConstructor;

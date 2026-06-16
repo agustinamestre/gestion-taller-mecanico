@@ -10,6 +10,8 @@ import com.taller.gestion_taller.infrastructure.persistence.repository.FacturaJp
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -46,5 +48,14 @@ public class FacturaRepositoryAdapter implements FacturaRepository {
     @Override
     public Optional<Factura> findByOrdenTrabajoId(Long ordenTrabajoId) {
         return jpaRepository.findByOrdenTrabajoId(ordenTrabajoId).map(mapper::toDomain);
+    }
+
+    @Override
+    public List<Factura> findByFiltros(Long id, String numeroFactura, String clienteDni,
+                                       LocalDate fechaDesde, LocalDate fechaHasta) {
+        return jpaRepository.findByFiltros(id, numeroFactura, clienteDni, fechaDesde, fechaHasta)
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
     }
 }

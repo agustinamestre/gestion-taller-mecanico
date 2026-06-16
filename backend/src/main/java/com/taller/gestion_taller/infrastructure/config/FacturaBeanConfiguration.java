@@ -1,5 +1,7 @@
 package com.taller.gestion_taller.infrastructure.config;
 
+import com.taller.gestion_taller.application.usecases.factura.ConsultarFacturas;
+import com.taller.gestion_taller.application.usecases.factura.ConsultarFacturasUseCase;
 import com.taller.gestion_taller.application.usecases.factura.GenerarFactura;
 import com.taller.gestion_taller.application.usecases.factura.GenerarFacturaUseCase;
 import com.taller.gestion_taller.domain.repositories.FacturaRepository;
@@ -14,8 +16,8 @@ public class FacturaBeanConfiguration {
 
 
     @Bean
-    public FacturaValidator facturaValidator(OrdenTrabajoRepository ordenTrabajoRepository, FacturaRepository facturaRepository) {
-        return new FacturaValidator(ordenTrabajoRepository, facturaRepository);
+    public FacturaValidator facturaValidator(FacturaRepository facturaRepository) {
+        return new FacturaValidator(facturaRepository);
     }
 
     @Bean
@@ -24,7 +26,12 @@ public class FacturaBeanConfiguration {
     }
 
     @Bean
-    public FacturaService facturaService(GenerarFactura generarFacturaUseCase) {
-        return new FacturaService(generarFacturaUseCase);
+    public FacturaService facturaService(GenerarFactura generarFacturaUseCase, ConsultarFacturas consultarFacturas) {
+        return new FacturaService(generarFacturaUseCase, consultarFacturas);
+    }
+
+    @Bean
+    public ConsultarFacturas consultarFacturasUseCase(FacturaRepository facturaRepository) {
+        return new ConsultarFacturasUseCase(facturaRepository);
     }
 }

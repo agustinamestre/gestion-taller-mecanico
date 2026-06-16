@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.application.usecases.factura;
 
-import com.taller.gestion_taller.application.command.GenerarFacturaCommand;
+import com.taller.gestion_taller.application.command.factura.GenerarFacturaCommand;
 import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Factura;

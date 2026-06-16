@@ -15,10 +15,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class FacturaResponse {
     private Long id;
-    private Long ordenTrabajoId;
     private String numeroFactura;
     private LocalDate fechaEmision;
     private FormaPago formaPago;
     private String clienteDni;
     private BigDecimal total;
+    private OrdenTrabajoFacturaResponse ordenTrabajo;
 }

@@ -1,6 +1,6 @@
 package com.taller.gestion_taller.infrastructure.rest.dto.factura.request;
 
-import com.taller.gestion_taller.domain.model.FormaPago;
+import com.taller.gestion_taller.infrastructure.rest.validation.formaPago.FormaPagoValida;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,5 +17,6 @@ public class GenerarFacturaRequest {
     private Long ordenTrabajoId;
 
     @NotNull(message = "La forma de pago no puede ser nula.")
-    private FormaPago formaPago;
+    @FormaPagoValida
+    private String formaPago;
 }

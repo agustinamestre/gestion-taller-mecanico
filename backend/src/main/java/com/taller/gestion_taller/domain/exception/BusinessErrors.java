@@ -4,6 +4,7 @@ import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.EstadoPresupuesto;
 import com.taller.gestion_taller.domain.model.TipoProducto;
 import java.text.MessageFormat;
+import java.time.LocalDate;
 
 public final class BusinessErrors {
 
@@ -226,6 +227,13 @@ public final class BusinessErrors {
         return new BusinessError(
                 "FACTURA_NO_ENCONTRADA",
                 "No se encontro la factura con ID: " + id
+        );
+    }
+
+    public static BusinessError rangoFechasInvalido(LocalDate desde, LocalDate hasta) {
+        return new BusinessError(
+                "RANGO_FECHAS_INVALIDO",
+                "La fecha de inicio (" + desde + ") no puede ser posterior a la fecha de fin (" + hasta + ")"
         );
     }
 }
