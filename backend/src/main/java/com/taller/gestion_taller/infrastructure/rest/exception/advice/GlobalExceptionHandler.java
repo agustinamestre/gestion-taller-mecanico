@@ -9,6 +9,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -115,6 +117,22 @@ public class GlobalExceptionHandler {
                 .map(this::toApiError)
                 .toList();
         return new ApiErrorResponse(request.getRequest().getRequestURI(), apiErrors);
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    @ResponseStatus(UNAUTHORIZED)
+    public ApiErrorResponse badCredentialsExceptionHandler(BadCredentialsException ex,
+                                                           ServletWebRequest request) {
+        var error = new ApiError("CREDENCIALES_INVALIDAS", "Usuario o contraseña incorrectos.");
+        return new ApiErrorResponse(request.getRequest().getRequestURI(), List.of(error));
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    @ResponseStatus(UNAUTHORIZED)
+    public ApiErrorResponse disabledExceptionHandler(DisabledException ex,
+                                                     ServletWebRequest request) {
+        var error = new ApiError("USUARIO_INACTIVO", "El usuario está desactivado.");
+        return new ApiErrorResponse(request.getRequest().getRequestURI(), List.of(error));
     }
 
     // UTILS

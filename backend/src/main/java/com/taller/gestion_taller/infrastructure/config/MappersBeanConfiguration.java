@@ -121,4 +121,9 @@ public class MappersBeanConfiguration {
     public FacturaPersistenceMapper facturaPersistenceMapper() {
         return Mappers.getMapper(FacturaPersistenceMapper.class);
     }
+
+    @Bean
+    public UsuarioPersistenceMapper usuarioPersistenceMapper() {
+        return Mappers.getMapper(UsuarioPersistenceMapper.class);
+    }
 }

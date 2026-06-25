@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface FacturaJpaRepository extends JpaRepository<FacturaEntity, Long> {
+public interface JpaFacturaRepository extends JpaRepository<FacturaEntity, Long> {
 
     @Query("""
         SELECT f FROM FacturaEntity f

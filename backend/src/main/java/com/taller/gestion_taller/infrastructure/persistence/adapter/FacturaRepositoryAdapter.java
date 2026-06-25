@@ -6,7 +6,7 @@ import com.taller.gestion_taller.domain.model.Factura;
 import com.taller.gestion_taller.domain.repositories.FacturaRepository;
 import com.taller.gestion_taller.infrastructure.persistence.entity.FacturaEntity;
 import com.taller.gestion_taller.infrastructure.persistence.mapper.FacturaPersistenceMapper;
-import com.taller.gestion_taller.infrastructure.persistence.repository.FacturaJpaRepository;
+import com.taller.gestion_taller.infrastructure.persistence.repository.JpaFacturaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class FacturaRepositoryAdapter implements FacturaRepository {
 
-    private final FacturaJpaRepository jpaRepository;
+    private final JpaFacturaRepository jpaRepository;
     private final FacturaPersistenceMapper mapper;
 
     @Override
