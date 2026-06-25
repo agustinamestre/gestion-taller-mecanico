@@ -236,4 +236,11 @@ public final class BusinessErrors {
                 "La fecha de inicio (" + desde + ") no puede ser posterior a la fecha de fin (" + hasta + ")"
         );
     }
+
+    public static BusinessError usuarioInactivo(String username) {
+        return new BusinessError(
+                "USUARIO_INACTIVO",
+                "El usuario " + username + " esta inactivo."
+        );
+    }
 }
