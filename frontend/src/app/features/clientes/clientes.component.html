@@ -1,0 +1,30 @@
+<div class="clientes-shell">
+  @switch (vista()) {
+    @case ('tabla') {
+      <app-cliente-table
+        (nuevo)="abrirNuevo()"
+        (editar)="editarCliente($event)"
+        (ver)="verDetalle($event)"
+      />
+    }
+    @case ('form-nuevo') {
+      <app-cliente-form
+        (guardado)="onGuardado()"
+        (cancelar)="volver()"
+      />
+    }
+    @case ('form-editar') {
+      <app-cliente-form
+        [edicion]="true"
+        (guardado)="onGuardado()"
+        (cancelar)="volver()"
+      />
+    }
+    @case ('detalle') {
+      <app-cliente-detail
+        (editar)="editarCliente($event)"
+        (volver)="volver()"
+      />
+    }
+  }
+</div>

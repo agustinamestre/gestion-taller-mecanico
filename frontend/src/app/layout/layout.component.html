@@ -1,18 +1,22 @@
+
+<p-toast position="top-right" />
+
 <div class="app-layout">
   
   <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="logo-container">
-      <h2>⚙️ TallerApp</h2>
+      <h2 class="logo-text">⚙️ TallerApp</h2>
+      <h2 class="logo-icon">⚙️</h2>
     </div>
     <nav class="nav-menu">
       <ul>
-        <li><a routerLink="/dashboard" routerLinkActive="active"><i class="pi pi-home"></i> Dashboard</a></li>
-        <li><a routerLink="/clientes" routerLinkActive="active"><i class="pi pi-users"></i> Clientes</a></li>
-        <li><a routerLink="/vehiculos" routerLinkActive="active"><i class="pi pi-car"></i> Vehículos</a></li>
-        <li><a routerLink="/ordenes" routerLinkActive="active"><i class="pi pi-file-edit"></i> Órdenes de Trabajo</a></li>
-        <li><a routerLink="/repuestos" routerLinkActive="active"><i class="pi pi-box"></i> Repuestos</a></li>
-        <li><a routerLink="/configuracion" routerLinkActive="active"><i class="pi pi-cog"></i> Configuración</a></li>
+        <li><a routerLink="/dashboard" routerLinkActive="active"><i class="pi pi-home"></i> <span>Dashboard</span></a></li>
+        <li><a routerLink="/clientes" routerLinkActive="active"><i class="pi pi-users"></i> <span>Clientes</span></a></li>
+        <li><a routerLink="/vehiculos" routerLinkActive="active"><i class="pi pi-car"></i> <span>Vehículos</span></a></li>
+        <li><a routerLink="/ordenes" routerLinkActive="active"><i class="pi pi-file-edit"></i> <span>Órdenes de Trabajo</span></a></li>
+        <li><a routerLink="/repuestos" routerLinkActive="active"><i class="pi pi-box"></i> <span>Repuestos</span></a></li>
+        <li><a routerLink="/configuracion" routerLinkActive="active"><i class="pi pi-cog"></i> <span>Configuración</span></a></li>
       </ul>
     </nav>
   </aside>
@@ -35,5 +39,10 @@
     <main class="content-area">
       <router-outlet></router-outlet>
     </main>
+
+    <!-- FOOTER -->
+    <footer class="app-footer">
+      <p>© {{ currentYear }} TallerApp. Todos los derechos reservados.</p>
+    </footer>
   </div>
 </div>

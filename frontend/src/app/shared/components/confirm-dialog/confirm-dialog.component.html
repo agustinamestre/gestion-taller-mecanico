@@ -1,0 +1,35 @@
+<p-dialog
+  [visible]="visible()"
+  [modal]="true"
+  [closable]="false"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="confirm-dialog"
+>
+  <ng-template pTemplate="header">
+    <div class="dialog-header">
+      <i class="pi pi-exclamation-triangle icono-warn"></i>
+      <span>{{ titulo() }}</span>
+    </div>
+  </ng-template>
+
+  <p class="dialog-mensaje">{{ mensaje() }}</p>
+
+  <ng-template pTemplate="footer">
+    <div class="dialog-footer">
+      <p-button
+        [label]="labelCancelar()"
+        severity="secondary"
+        [outlined]="true"
+        [disabled]="cargando()"
+        (onClick)="cancelado.emit()"
+      />
+      <p-button
+        [label]="labelConfirmar()"
+        [severity]="severityConfirmar()"
+        [loading]="cargando()"
+        (onClick)="confirmado.emit()"
+      />
+    </div>
+  </ng-template>
+</p-dialog>

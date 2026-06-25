@@ -1,0 +1,83 @@
+<div class="form-container">
+
+  <div class="form-header">
+    <h2>{{ edicion() ? 'Modificar cliente' : 'Nuevo cliente' }}</h2>
+  </div>
+
+  @if (clienteService.error()) {
+    <div class="estado-error">
+      <i class="pi pi-exclamation-triangle"></i>
+      {{ clienteService.error() }}
+    </div>
+  }
+
+  <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+    <div class="form-grid">
+
+      <div class="campo" [class.campo-error]="invalid('dni')">
+        <label for="dni">DNI *</label>
+        <input pInputText id="dni" formControlName="dni" placeholder="12345678" />
+        @if (invalid('dni')) {
+          <span class="error-msg">DNI inválido (7 u 8 dígitos)</span>
+        }
+      </div>
+
+      <div class="campo" [class.campo-error]="invalid('nombre')">
+        <label for="nombre">Nombre *</label>
+        <input pInputText id="nombre" formControlName="nombre" placeholder="Juan" />
+        @if (invalid('nombre')) {
+          <span class="error-msg">Campo requerido (mín. 2 caracteres)</span>
+        }
+      </div>
+
+      <div class="campo" [class.campo-error]="invalid('apellido')">
+        <label for="apellido">Apellido *</label>
+        <input pInputText id="apellido" formControlName="apellido" placeholder="Pérez" />
+        @if (invalid('apellido')) {
+          <span class="error-msg">Campo requerido (mín. 2 caracteres)</span>
+        }
+      </div>
+
+      <div class="campo" [class.campo-error]="invalid('telefono')">
+        <label for="telefono">Teléfono *</label>
+        <input pInputText id="telefono" formControlName="telefono" placeholder="011 1234-5678" />
+        @if (invalid('telefono')) {
+          <span class="error-msg">Campo requerido</span>
+        }
+      </div>
+
+      <div class="campo full" [class.campo-error]="invalid('email')">
+        <label for="email">Email *</label>
+        <input pInputText id="email" formControlName="email" type="email" placeholder="juan@mail.com" />
+        @if (invalid('email')) {
+          <span class="error-msg">Email inválido</span>
+        }
+      </div>
+
+      <div class="campo full" [class.campo-error]="invalid('direccion')">
+        <label for="direccion">Dirección *</label>
+        <input pInputText id="direccion" formControlName="direccion" placeholder="Av. Siempreviva 742" />
+        @if (invalid('direccion')) {
+          <span class="error-msg">Campo requerido</span>
+        }
+      </div>
+
+    </div>
+
+    <div class="form-footer">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="cancelar.emit()"
+        type="button"
+      />
+      <p-button
+        [label]="clienteService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar cliente')"
+        [loading]="clienteService.cargando()"
+        type="submit"
+      />
+    </div>
+  </form>
+
+</div>

@@ -1,0 +1,54 @@
+@if (cliente) {
+  <div class="detalle-container">
+
+    <div class="detalle-header">
+      <p-button
+        icon="pi pi-arrow-left"
+        label="Volver"
+        [text]="true"
+        severity="secondary"
+        (onClick)="volver.emit()"
+      />
+      <h2>{{ cliente.nombre }} {{ cliente.apellido }}</h2>
+      <p-tag
+        [value]="cliente.activo ? 'Activo' : 'Inactivo'"
+        [severity]="cliente.activo ? 'success' : 'danger'"
+      />
+      @if (cliente.activo) {
+        <p-button
+          icon="pi pi-pencil"
+          label="Editar"
+          (onClick)="editar.emit(cliente)"
+        />
+      }
+    </div>
+
+    <div class="detalle-grid">
+      <div class="dato">
+        <span class="label">DNI</span>
+        <span class="valor">{{ cliente.dni }}</span>
+      </div>
+      <div class="dato">
+        <span class="label">Teléfono</span>
+        <span class="valor">{{ cliente.telefono }}</span>
+      </div>
+      <div class="dato full">
+        <span class="label">Email</span>
+        <span class="valor">{{ cliente.email }}</span>
+      </div>
+      <div class="dato full">
+        <span class="label">Dirección</span>
+        <span class="valor">{{ cliente.direccion }}</span>
+      </div>
+      <div class="dato">
+        <span class="label">Alta</span>
+        <span class="valor">{{ cliente.fechaCreacion | date: 'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="dato">
+        <span class="label">Última modificación</span>
+        <span class="valor">{{ cliente.fechaModificacion | date: 'dd/MM/yyyy' }}</span>
+      </div>
+    </div>
+
+  </div>
+}

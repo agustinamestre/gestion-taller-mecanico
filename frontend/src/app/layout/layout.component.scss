@@ -1,26 +1,30 @@
 .app-layout {
   display: flex;
   height: 100vh;
-  background-color: var(--surface-ground, #f8f9fa);
+  background-color: var(--bg-color);
 
   .sidebar {
     width: 260px;
-    background-color: var(--surface-card, #ffffff);
-    border-right: 1px solid var(--surface-border, #dee2e6);
+    background-color: var(--surface-color);
+    border-right: 1px solid var(--border-color);
     display: flex;
     flex-direction: column;
+    transition: width 0.3s ease;
     box-shadow: 2px 0 5px rgba(0,0,0,0.05);
     z-index: 10;
 
     .logo-container {
-      padding: 1.5rem;
-      text-align: center;
-      border-bottom: 1px solid var(--surface-border, #dee2e6);
+      height: 75px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border-color);
       h2 { 
         margin: 0; 
-        color: var(--primary-color, #3B82F6); 
-        font-weight: 700;
+        color: var(--primary-color); 
       }
+      .logo-text { font-weight: 700; }
+      .logo-icon { display: none; font-size: 1.8rem; }
     }
 
     .nav-menu {
@@ -35,16 +39,16 @@
             display: flex;
             align-items: center;
             padding: 1rem 1.5rem;
-            color: var(--text-color, #495057);
+            color: var(--text-muted);
             text-decoration: none;
             transition: all 0.2s ease-in-out;
             gap: 1rem;
             font-weight: 500;
 
             &:hover, &.active {
-              background-color: var(--primary-50, #eff6ff);
-              color: var(--primary-color, #3B82F6);
-              border-right: 4px solid var(--primary-color, #3B82F6);
+              background-color: var(--bg-color);
+              color: var(--secondary-color);
+              border-right: 4px solid var(--secondary-color);
             }
             i { font-size: 1.25rem; }
           }
@@ -61,8 +65,8 @@
 
     .topbar {
       height: 75px;
-      background-color: var(--surface-card, #ffffff);
-      border-bottom: 1px solid var(--surface-border, #dee2e6);
+      background-color: var(--surface-color);
+      border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -74,6 +78,14 @@
         input {
           width: 100%;
           border-radius: 20px;
+          background-color: var(--surface-color);
+          color: var(--text-main);
+          border: 1px solid var(--border-color);
+          padding: 0.5rem 1rem;
+          outline: none;
+          &:focus {
+            border-color: var(--primary-color);
+          }
         }
       }
 
@@ -83,8 +95,10 @@
         gap: 1.5rem;
         i { 
           font-size: 1.5rem; 
-          color: var(--text-color-secondary, #6c757d); 
+          color: var(--text-muted); 
           cursor: pointer; 
+          transition: color 0.2s;
+          &:hover { color: var(--primary-color); }
         }
         .user-avatar { cursor: pointer; }
       }
@@ -94,6 +108,51 @@
       flex: 1;
       padding: 2rem;
       overflow-y: auto;
+    }
+
+    .app-footer {
+      padding: 1rem 2rem;
+      background-color: var(--surface-color);
+      border-top: 1px solid var(--border-color);
+
+      p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        text-align: center;
+      }
+    }
+  }
+}
+
+/* --- RESPONSIVE DESIGN (Móviles y Tablets) --- */
+@media (max-width: 768px) {
+  .app-layout {
+    .sidebar {
+      width: 75px;
+      
+      .logo-container {
+        .logo-text { display: none; }
+        .logo-icon { display: block; }
+      }
+      
+      .nav-menu ul li a {
+        justify-content: center;
+        padding: 1rem 0;
+        span { display: none; }
+        i { font-size: 1.5rem; }
+      }
+    }
+    
+    .main-wrapper {
+      .topbar {
+        padding: 0 1rem;
+        gap: 1rem;
+        
+        .search-bar { width: 100%; flex: 1; }
+      }
+      
+      .content-area { padding: 1rem; }
     }
   }
 }
