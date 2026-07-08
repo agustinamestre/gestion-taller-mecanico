@@ -1,0 +1,51 @@
+<div class="form-container">
+
+  <div class="form-header">
+    <h2>{{ edicion() ? 'Modificar modelo' : 'Nuevo modelo' }}</h2>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+    <div class="form-grid">
+
+      <div class="campo" [class.campo-error]="invalid('marcaId')">
+        <label for="marcaId">Marca *</label>
+        <p-select
+          inputId="marcaId"
+          formControlName="marcaId"
+          [options]="marcaService.marcasActivas()"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Seleccionar marca"
+        />
+        @if (invalid('marcaId')) {
+          <span class="error-msg">Seleccioná una marca</span>
+        }
+      </div>
+
+      <div class="campo" [class.campo-error]="invalid('nombre')">
+        <label for="nombre">Nombre *</label>
+        <input pInputText id="nombre" formControlName="nombre" placeholder="Corolla" />
+        @if (invalid('nombre')) {
+          <span class="error-msg">Campo requerido</span>
+        }
+      </div>
+
+    </div>
+
+    <div class="form-footer">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="cancelar.emit()"
+        type="button"
+      />
+      <p-button
+        [label]="modeloService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar modelo')"
+        [loading]="modeloService.cargando()"
+        type="submit"
+      />
+    </div>
+  </form>
+
+</div>
