@@ -1,0 +1,23 @@
+<div class="marcas-shell">
+  @switch (vista()) {
+    @case ('tabla') {
+      <app-marca-table
+        (nuevo)="abrirNuevo()"
+        (editar)="editarMarca($event)"
+      />
+    }
+    @case ('form-nuevo') {
+      <app-marca-form
+        (guardado)="onGuardado()"
+        (cancelar)="volver()"
+      />
+    }
+    @case ('form-editar') {
+      <app-marca-form
+        [edicion]="true"
+        (guardado)="onGuardado()"
+        (cancelar)="volver()"
+      />
+    }
+  }
+</div>

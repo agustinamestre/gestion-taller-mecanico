@@ -1,0 +1,32 @@
+<div class="form-container">
+
+  <div class="form-header">
+    <h2>{{ edicion() ? 'Modificar marca' : 'Nueva marca' }}</h2>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+    <div class="campo" [class.campo-error]="invalid('nombre')">
+      <label for="nombre">Nombre *</label>
+      <input pInputText id="nombre" formControlName="nombre" placeholder="Toyota" />
+      @if (invalid('nombre')) {
+        <span class="error-msg">Campo requerido (mín. 2 caracteres)</span>
+      }
+    </div>
+
+    <div class="form-footer">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="cancelar.emit()"
+        type="button"
+      />
+      <p-button
+        [label]="marcaService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar marca')"
+        [loading]="marcaService.cargando()"
+        type="submit"
+      />
+    </div>
+  </form>
+
+</div>

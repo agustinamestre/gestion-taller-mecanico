@@ -1,0 +1,95 @@
+<div class="tabla-container">
+
+  <div class="tabla-header">
+    <div class="header-titulo">
+      <h2>Marcas</h2>
+      <span class="badge-count">{{ marcasFiltradas().length }}</span>
+    </div>
+    <div class="header-acciones">
+      <label class="toggle-label">
+        <p-toggleswitch
+          [(ngModel)]="mostrarInactivas"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="mostrarInactivas.set($event)"
+        />
+        <span>Ver inactivas</span>
+      </label>
+      <input
+        pInputText
+        type="text"
+        placeholder="Buscar marca..."
+        [value]="filtro()"
+        (input)="filtro.set($any($event.target).value)"
+        class="buscador-input"
+      />
+      <p-button label="Nueva marca" icon="pi pi-plus" (onClick)="nuevo.emit()" />
+    </div>
+  </div>
+
+  <p-table
+    [value]="marcasFiltradas()"
+    [loading]="marcaService.cargando()"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [rowHover]="true"
+    tableStyleClass="p-datatable-sm"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nombre</th>
+        <th>Estado</th>
+        <th class="col-acciones">Acciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-marca>
+      <tr [class.fila-inactiva]="!marca.activo">
+        <td>{{ marca.nombre }}</td>
+        <td>
+          <p-tag
+            [value]="marca.activo ? 'Activa' : 'Inactiva'"
+            [severity]="getSeverity(marca.activo)"
+          />
+        </td>
+        <td class="col-acciones">
+          <p-button
+            icon="pi pi-pencil"
+            [rounded]="true"
+            [text]="true"
+            severity="secondary"
+            pTooltip="Editar"
+            (onClick)="editar.emit(marca)"
+          />
+          @if (marca.activo) {
+            <p-button
+              icon="pi pi-trash"
+              [rounded]="true"
+              [text]="true"
+              severity="danger"
+              pTooltip="Desactivar"
+              (onClick)="abrirConfirmDesactivar(marca)"
+            />
+          }
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="3" class="empty-msg">No se encontraron marcas</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+</div>
+
+<app-confirm-dialog
+  [visible]="dialogVisible()"
+  titulo="Desactivar marca"
+  [mensaje]="'¿Desactivar la marca ' + marcaADesactivar()?.nombre + '? Los modelos asociados podrían verse afectados.'"
+  labelConfirmar="Desactivar"
+  [cargando]="marcaService.cargando()"
+  (confirmado)="onConfirmado()"
+  (cancelado)="cerrarDialog()"
+/>
