@@ -1,0 +1,23 @@
+<div class="modelos-shell">
+  @switch (vista()) {
+    @case ('tabla') {
+      <app-modelo-table
+        (nuevo)="abrirNuevo()"
+        (editar)="editarModelo($event)"
+      />
+    }
+    @case ('form-nuevo') {
+      <app-modelo-form
+        (guardado)="onGuardado()"
+        (cancelar)="volver()"
+      />
+    }
+    @case ('form-editar') {
+      <app-modelo-form
+        [edicion]="true"
+        (guardado)="onGuardado()"
+        (cancelar)="volver()"
+      />
+    }
+  }
+</div>

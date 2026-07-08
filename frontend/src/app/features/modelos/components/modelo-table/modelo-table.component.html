@@ -1,0 +1,107 @@
+<div class="tabla-container">
+
+  <div class="tabla-header">
+    <div class="header-titulo">
+      <h2>Modelos</h2>
+      <span class="badge-count">{{ modelosFiltrados().length }}</span>
+    </div>
+    <div class="header-acciones">
+      <p-select
+        [options]="marcaService.marcasActivas()"
+        optionLabel="nombre"
+        optionValue="id"
+        [(ngModel)]="marcaFiltro"
+        [ngModelOptions]="{ standalone: true }"
+        placeholder="Filtrar por marca"
+        [showClear]="true"
+        class="select-marca"
+      />
+      <label class="toggle-label">
+        <p-toggleswitch
+          [(ngModel)]="mostrarInactivos"
+          [ngModelOptions]="{ standalone: true }"
+          (ngModelChange)="mostrarInactivos.set($event)"
+        />
+        <span>Ver inactivos</span>
+      </label>
+      <input
+        pInputText
+        type="text"
+        placeholder="Buscar modelo..."
+        [value]="filtroTexto()"
+        (input)="filtroTexto.set($any($event.target).value)"
+        class="buscador-input"
+      />
+      <p-button label="Nuevo modelo" icon="pi pi-plus" (onClick)="nuevo.emit()" />
+    </div>
+  </div>
+
+  <p-table
+    [value]="modelosFiltrados()"
+    [loading]="modeloService.cargando()"
+    [paginator]="true"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [rowHover]="true"
+    tableStyleClass="p-datatable-sm"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nombre</th>
+        <th>Marca</th>
+        <th>Estado</th>
+        <th class="col-acciones">Acciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-modelo>
+      <tr [class.fila-inactiva]="!modelo.activo">
+        <td>{{ modelo.nombre }}</td>
+        <td>{{ modelo.marca.nombre }}</td>
+        <td>
+          <p-tag
+            [value]="modelo.activo ? 'Activo' : 'Inactivo'"
+            [severity]="getSeverity(modelo.activo)"
+          />
+        </td>
+        <td class="col-acciones">
+          <p-button
+            icon="pi pi-pencil"
+            [rounded]="true"
+            [text]="true"
+            severity="secondary"
+            pTooltip="Editar"
+            (onClick)="editar.emit(modelo)"
+          />
+          @if (modelo.activo) {
+            <p-button
+              icon="pi pi-trash"
+              [rounded]="true"
+              [text]="true"
+              severity="danger"
+              pTooltip="Desactivar"
+              (onClick)="abrirConfirmDesactivar(modelo)"
+            />
+          }
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="4" class="empty-msg">No se encontraron modelos</td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+</div>
+
+<app-confirm-dialog
+  [visible]="dialogVisible()"
+  titulo="Desactivar modelo"
+  [mensaje]="'¿Desactivar el modelo ' + modeloADesactivar()?.nombre + '? Los vehículos asociados podrían verse afectados.'"
+  labelConfirmar="Desactivar"
+  [cargando]="modeloService.cargando()"
+  (confirmado)="onConfirmado()"
+  (cancelado)="cerrarDialog()"
+/>
