@@ -8,6 +8,7 @@ import java.util.Optional;
 public interface ProductoRepository {
     Producto save(Producto producto);
     Optional<Producto> findById(Long id);
+    List<Producto> findAll();
     boolean existePorNombreYTipo(String nombre, TipoProducto tipo);
     List<Producto> buscarPorTipo(TipoProducto tipo);
 }

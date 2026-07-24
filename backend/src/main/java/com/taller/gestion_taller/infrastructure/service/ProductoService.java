@@ -4,13 +4,7 @@ import com.taller.gestion_taller.application.command.producto.ActualizarPrecioPr
 import com.taller.gestion_taller.application.command.producto.ActualizarStockProductoCommand;
 import com.taller.gestion_taller.application.command.producto.ModificarProductoCommand;
 import com.taller.gestion_taller.application.command.producto.RegistrarProductoCommand;
-import com.taller.gestion_taller.application.usecases.producto.ActualizarPrecioProducto;
-import com.taller.gestion_taller.application.usecases.producto.ActualizarStockProducto;
-import com.taller.gestion_taller.application.usecases.producto.BuscarProductoPorTipo;
-import com.taller.gestion_taller.application.usecases.producto.DesactivarProducto;
-import com.taller.gestion_taller.application.usecases.producto.ModificarProducto;
-import com.taller.gestion_taller.application.usecases.producto.ObtenerTiposProducto;
-import com.taller.gestion_taller.application.usecases.producto.RegistrarProducto;
+import com.taller.gestion_taller.application.usecases.producto.*;
 import com.taller.gestion_taller.domain.model.Producto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +19,7 @@ public class ProductoService {
     private final RegistrarProducto registrarProductoUseCase;
     private final BuscarProductoPorTipo buscarProductoPorTipoUseCase;
     private final ModificarProducto modificarProductoUseCase;
+    private final ListarProductos listarProductosUseCase;
     private final DesactivarProducto desactivarProductoUseCase;
     private final ObtenerTiposProducto obtenerTiposProductoUseCase;
     private final ActualizarPrecioProducto actualizarPrecioProductoUseCase;
@@ -43,6 +38,12 @@ public class ProductoService {
     @Transactional(readOnly = true)
     public List<String> obtenerTiposProducto() {
         return obtenerTiposProductoUseCase.obtener();
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<Producto> listarProductos() {
+        return listarProductosUseCase.listar();
     }
 
     @Transactional
