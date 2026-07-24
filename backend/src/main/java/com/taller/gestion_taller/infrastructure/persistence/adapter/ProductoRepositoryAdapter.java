@@ -41,6 +41,13 @@ public class ProductoRepositoryAdapter implements ProductoRepository {
     }
 
     @Override
+    public List<Producto> findAll() {
+        return jpaProductoRepository.findAll().stream()
+                .map(persistenceMapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public boolean existePorNombreYTipo(String nombre, TipoProducto tipo) {
         return jpaProductoRepository.existsByNombreAndTipo(nombre, tipo);
     }

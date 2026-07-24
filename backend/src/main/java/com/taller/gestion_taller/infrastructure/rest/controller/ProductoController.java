@@ -44,6 +44,15 @@ public class ProductoController implements SwaggerProductoController {
     }
 
     @Override
+    public ResponseEntity<List<ProductoResponse>> listar() {
+        List<ProductoResponse> response = productoService.listarProductos()
+                .stream()
+                .map(productoRestMapper::domainToResponse)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
     public ResponseEntity<List<ProductoResponse>> buscarPorTipo(@PathVariable String tipo) {
         List<ProductoResponse> response = productoService.buscarProductoPorTipo(tipo)
                 .stream()

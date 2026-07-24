@@ -34,6 +34,17 @@ public interface SwaggerProductoController {
     @PostMapping
     ResponseEntity<ProductoResponse> registrar(@Valid @RequestBody ProductoRequest request);
 
+    @Operation(summary = "Listar productos", description = "Retorna todos los productos")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Productos obtenidos correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ProductoResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Error técnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping
+    ResponseEntity<List<ProductoResponse>> listar();
+
     @Operation(summary = "Obtener tipos de producto", description = "Retorna la lista de tipos de producto disponibles")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Tipos obtenidos correctamente",
