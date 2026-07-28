@@ -18,7 +18,6 @@ class ObtenerTiposProductoUseCaseTest {
 
         assertEquals(TipoProducto.values().length, tipos.size());
         assertTrue(tipos.contains("REPUESTO"));
-        assertTrue(tipos.contains("INSUMO"));
-        assertTrue(tipos.contains("SERVICIO"));
+        assertTrue(tipos.contains("MANO_DE_OBRA"));
     }
 }

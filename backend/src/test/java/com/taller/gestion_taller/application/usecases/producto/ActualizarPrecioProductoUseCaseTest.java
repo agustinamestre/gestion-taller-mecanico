@@ -35,8 +35,8 @@ class ActualizarPrecioProductoUseCaseTest {
     void setUp() {
         producto = Producto.builder()
                 .id(id)
-                .nombre("Aceite")
-                .tipo(TipoProducto.INSUMO)
+                .nombre("pastillas de freno")
+                .tipo(TipoProducto.REPUESTO)
                 .precioActual(BigDecimal.valueOf(100))
                 .activo(true)
                 .build();
