@@ -1,0 +1,24 @@
+:host ::ng-deep .selector-cliente {
+  width: 100%;
+
+  .p-autocomplete-input {
+    width: 100%;
+  }
+}
+
+.opcion-cliente {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.15rem 0;
+
+  .nombre {
+    font-size: 0.9rem;
+    color: var(--text-main);
+  }
+
+  .dni {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+}

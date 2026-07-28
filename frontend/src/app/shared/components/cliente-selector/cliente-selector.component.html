@@ -1,0 +1,22 @@
+<p-autoComplete
+  [ngModel]="seleccion"
+  (ngModelChange)="onModelChange($event)"
+  [ngModelOptions]="{ standalone: true }"
+  [suggestions]="sugerencias()"
+  (completeMethod)="buscar($event)"
+  (onSelect)="onSeleccion($event)"
+  (onClear)="onClear()"
+  [showClear]="true"
+  [forceSelection]="true"
+  [disabled]="disabled()"
+  [placeholder]="placeholder()"
+  optionLabel="nombreCompleto"
+  styleClass="selector-cliente"
+>
+  <ng-template let-cliente pTemplate="item">
+    <div class="opcion-cliente">
+      <span class="nombre">{{ cliente.nombre }} {{ cliente.apellido }}</span>
+      <span class="dni">DNI {{ cliente.dni }}</span>
+    </div>
+  </ng-template>
+</p-autoComplete>
