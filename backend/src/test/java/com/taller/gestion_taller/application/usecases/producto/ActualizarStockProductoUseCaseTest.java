@@ -35,8 +35,8 @@ class ActualizarStockProductoUseCaseTest {
     void setUp() {
         producto = Producto.builder()
                 .id(id)
-                .nombre("Aceite")
-                .tipo(TipoProducto.INSUMO)
+                .nombre("pastillas de freno")
+                .tipo(TipoProducto.REPUESTO)
                 .stockActual(10)
                 .precioActual(BigDecimal.valueOf(100))
                 .activo(true)

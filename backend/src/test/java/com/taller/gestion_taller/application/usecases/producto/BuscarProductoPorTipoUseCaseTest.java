@@ -38,9 +38,9 @@ class BuscarProductoPorTipoUseCaseTest {
     void setUp() {
         producto = Producto.builder()
                 .id(1L)
-                .nombre("Aceite 10W40")
-                .descripcion("Aceite semisintético")
-                .tipo(TipoProducto.INSUMO)
+                .nombre("pastillas de freno")
+                .nombre("pastillas de freno")
+                .tipo(TipoProducto.REPUESTO)
                 .precioActual(new BigDecimal("15000"))
                 .stockActual(10)
                 .build();
@@ -49,22 +49,22 @@ class BuscarProductoPorTipoUseCaseTest {
     @Test
     @DisplayName("debe retornar lista de productos cuando el tipo es válido")
     void debeRetornarListaCuandoTipoEsValido() {
-        String tipoBusqueda = "INSUMO";
-        when(productoRepository.buscarPorTipo(TipoProducto.INSUMO)).thenReturn(List.of(producto));
+        String tipoBusqueda = "REPUESTO";
+        when(productoRepository.buscarPorTipo(TipoProducto.REPUESTO)).thenReturn(List.of(producto));
 
         List<Producto> resultado = buscarProductoPorTipoUseCase.buscarPorTipo(tipoBusqueda);
 
         assertThat(resultado).hasSize(1);
-        assertThat(resultado.get(0).getTipo()).isEqualTo(TipoProducto.INSUMO);
-        assertThat(resultado.get(0).getNombre()).isEqualTo("Aceite 10W40");
-        verify(productoRepository).buscarPorTipo(TipoProducto.INSUMO); //
+        assertThat(resultado.get(0).getTipo()).isEqualTo(TipoProducto.REPUESTO);
+        assertThat(resultado.get(0).getNombre()).isEqualTo("pastillas de freno");
+        verify(productoRepository).buscarPorTipo(TipoProducto.REPUESTO ); //
     }
 
     @Test
     @DisplayName("debe lanzar NotFoundException cuando no hay productos del tipo")
     void debeLanzarNotFoundExceptionCuandoNoHayProductos() {
-        String tipoBusqueda = "SERVICIO";
-        when(productoRepository.buscarPorTipo(TipoProducto.SERVICIO)).thenReturn(Collections.emptyList());
+        String tipoBusqueda = "MANO_DE_OBRA";
+        when(productoRepository.buscarPorTipo(TipoProducto.MANO_DE_OBRA)).thenReturn(Collections.emptyList());
 
         assertThrows(NotFoundException.class, () -> buscarProductoPorTipoUseCase.buscarPorTipo(tipoBusqueda));
     }

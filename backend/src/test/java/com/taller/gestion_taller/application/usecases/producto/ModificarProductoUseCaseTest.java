@@ -39,9 +39,9 @@ class ModificarProductoUseCaseTest {
     void setUp() {
         productoExistente = Producto.builder()
                 .id(1L)
-                .nombre("Aceite")
-                .descripcion("Aceite de motor")
-                .tipo(TipoProducto.INSUMO)
+                .nombre("pastillas de freno")
+                .descripcion("pastillas de freno")
+                .tipo(TipoProducto.REPUESTO)
                 .build();
     }
 
@@ -63,7 +63,7 @@ class ModificarProductoUseCaseTest {
 
         verify(productoValidator).validarUnicidad(
                 "Nuevo Nombre", TipoProducto.REPUESTO,
-                "Aceite", TipoProducto.INSUMO
+                "pastillas de freno", TipoProducto.REPUESTO
         );
         verify(productoRepository).save(any(Producto.class));
     }

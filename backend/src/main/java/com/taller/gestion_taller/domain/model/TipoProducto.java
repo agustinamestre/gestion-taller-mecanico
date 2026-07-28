@@ -7,8 +7,7 @@ import java.util.Arrays;
 
 public enum TipoProducto {
     REPUESTO,
-    INSUMO,
-    SERVICIO;
+    MANO_DE_OBRA;
 
     public static TipoProducto from(String value) {
         return Arrays.stream(TipoProducto.values())
