@@ -7,6 +7,7 @@ public record VehiculoResponse (
         String patente,
         String marca,
         String modelo,
+        Long modeloId,
         Integer anio,
         Integer kilometrajeActual,
         ClienteSummaryResponse cliente,

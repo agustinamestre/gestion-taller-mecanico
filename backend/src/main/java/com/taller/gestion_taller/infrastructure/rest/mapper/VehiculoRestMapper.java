@@ -23,6 +23,7 @@ public interface VehiculoRestMapper {
     
     ActualizarKilometrajeCommand requestToActualizarKilometrajeCommand(ActualizarKilometrajeRequest request);
 
+    @Mapping(target = "modeloId", source = "modelo.id")
     @Mapping(source = "modelo.marca.nombre", target = "marca")
     @Mapping(source = "modelo.nombre", target = "modelo")
     @Mapping(source = "cliente", target = "cliente")
