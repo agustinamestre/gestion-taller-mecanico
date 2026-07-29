@@ -1,0 +1,40 @@
+<div class="search-container">
+
+  <div class="search-card">
+    <div class="search-icon">
+      <i class="pi pi-car"></i>
+    </div>
+    <h2>Buscar vehículo</h2>
+    <p class="search-hint">Ingresá la patente para consultar el historial del vehículo</p>
+
+    <div class="search-input-group">
+      <input
+        pInputText
+        type="text"
+        placeholder="Ej: AE123FP"
+        [value]="patente()"
+        (input)="patente.set($any($event.target).value.toUpperCase())"
+        (keydown)="onKeydown($event)"
+        class="input-patente"
+        [disabled]="vehiculoService.cargando()"
+      />
+      <p-button
+        label="Buscar"
+        icon="pi pi-search"
+        [loading]="vehiculoService.cargando()"
+        (onClick)="buscar()"
+      />
+    </div>
+
+    <div class="search-footer">
+      <span>¿El vehículo no está registrado?</span>
+      <p-button
+        label="Registrar nuevo vehículo"
+        icon="pi pi-plus"
+        [text]="true"
+        (onClick)="nuevo.emit()"
+      />
+    </div>
+  </div>
+
+</div>

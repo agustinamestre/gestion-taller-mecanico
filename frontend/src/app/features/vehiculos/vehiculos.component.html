@@ -1,0 +1,38 @@
+<div class="vehiculos-shell">
+  @switch (vista()) {
+    @case ('busqueda') {
+      <app-vehiculo-search
+        (vehiculoEncontrado)="onVehiculoEncontrado()"
+        (nuevo)="abrirNuevo()"
+      />
+    }
+    @case ('detalle') {
+      <app-vehiculo-detail
+        (editar)="abrirEditar()"
+        (actualizarKm)="abrirKmDialog()"
+        (volver)="volver()"
+        (desactivado)="onDesactivado()"
+      />
+    }
+    @case ('form-nuevo') {
+      <app-vehiculo-form
+        [clienteIdPreseteado]="clienteIdPreseteado()"
+        (guardado)="onGuardado()"
+        (cancelar)="volver()"
+      />
+    }
+    @case ('form-editar') {
+      <app-vehiculo-form
+        [edicion]="true"
+        (guardado)="onGuardado()"
+        (cancelar)="volverAlDetalle()"
+      />
+    }
+  }
+
+  <app-vehiculo-km-dialog
+    [visible]="kmDialogVisible()"
+    (guardado)="onKmActualizado()"
+    (cancelado)="kmDialogVisible.set(false)"
+  />
+</div>

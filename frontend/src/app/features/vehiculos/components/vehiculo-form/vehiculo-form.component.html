@@ -1,0 +1,110 @@
+<div class="form-container">
+
+  <div class="form-header">
+    <h2>{{ edicion() ? 'Modificar vehículo' : 'Registrar vehículo' }}</h2>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+    <div class="form-grid">
+
+      <div class="campo full" [class.campo-error]="invalid('patente')">
+        <label>Patente *</label>
+        <input
+          pInputText
+          formControlName="patente"
+          placeholder="AE123FP"
+          style="text-transform: uppercase"
+        />
+        @if (invalid('patente')) {
+          <span class="error-msg">Formato inválido. Ej: AE123FP o ABC123</span>
+        }
+      </div>
+
+      <div class="campo" [class.campo-error]="invalid('marcaId')">
+        <label>Marca *</label>
+        <p-select
+          formControlName="marcaId"
+          [options]="marcaService.marcasActivas()"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Seleccioná una marca"
+          (ngModelChange)="onMarcaChange($event)"
+        />
+        @if (invalid('marcaId')) {
+          <span class="error-msg">Seleccioná una marca</span>
+        }
+      </div>
+
+      <div class="campo" [class.campo-error]="invalid('modeloId')">
+        <label>Modelo *</label>
+        <p-select
+          formControlName="modeloId"
+          [options]="modelosFiltrados()"
+          optionLabel="nombre"
+          optionValue="id"
+          placeholder="Seleccioná un modelo"
+        />
+        @if (invalid('modeloId')) {
+          <span class="error-msg">Seleccioná un modelo</span>
+        }
+      </div>
+
+      <div class="campo" [class.campo-error]="invalid('anio')">
+        <label>Año *</label>
+        <p-inputnumber
+          formControlName="anio"
+          [useGrouping]="false"
+          [min]="1900"
+          [max]="anioActual"
+          placeholder="2021"
+        />
+        @if (invalid('anio')) {
+          <span class="error-msg">Año inválido</span>
+        }
+      </div>
+
+      @if (!edicion()) {
+        <div class="campo" [class.campo-error]="invalid('kilometrajeActual')">
+          <label>Kilometraje inicial *</label>
+          <p-inputnumber
+            formControlName="kilometrajeActual"
+            [min]="0"
+            [useGrouping]="true"
+            suffix=" km"
+            placeholder="0 km"
+          />
+          @if (invalid('kilometrajeActual')) {
+            <span class="error-msg">Ingresá el kilometraje</span>
+          }
+        </div>
+      }
+
+      <div class="campo full">
+        <label>Cliente propietario *</label>
+        <app-cliente-selector
+          [clienteIdInicial]="clienteIdParaSelector()"
+          (clienteSeleccionado)="onClienteSeleccionado($event)"
+        />
+        <span class="error-msg" [style.visibility]="invalid('clienteId') ? 'visible' : 'hidden'">
+          Seleccioná un cliente
+        </span>
+      </div>
+    </div>
+
+    <div class="form-footer">
+      <p-button
+        label="Cancelar"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="cancelar.emit()"
+        type="button"
+      />
+      <p-button
+        [label]="vehiculoService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar vehículo')"
+        [loading]="vehiculoService.cargando()"
+        type="submit"
+      />
+    </div>
+  </form>
+
+</div>
