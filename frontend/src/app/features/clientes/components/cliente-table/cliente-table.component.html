@@ -1,106 +1,81 @@
-<div class="tabla-container">
-
-  <div class="tabla-header">
-    <div class="header-titulo">
-      <h2>Clientes</h2>
-      <span class="badge-count">{{ clientesFiltrados().length }}</span>
-    </div>
-    <div class="header-acciones">
-      <label class="toggle-label">
-        <p-toggleswitch
-          [(ngModel)]="mostrarInactivos"
-          [ngModelOptions]="{ standalone: true }"
-          (ngModelChange)="mostrarInactivos.set($event)"
-        />
-        <span>Ver inactivos</span>
-      </label>
-      <input
-        pInputText
-        type="text"
-        placeholder="Buscar por DNI, nombre o email..."
-        [value]="filtro()"
-        (input)="filtro.set($any($event.target).value)"
-        class="buscador-input"
-      />
-      <p-button
-        label="Nuevo cliente"
-        icon="pi pi-plus"
-        (onClick)="nuevo.emit()"
-      />
-    </div>
+<div class="cabecera">
+  <div class="header-titulo">
+    <h2>Clientes</h2>
   </div>
+  <p-button label="Nuevo cliente" icon="pi pi-plus" (onClick)="nuevo.emit()" />
+</div>
 
-  @if (clienteService.error()) {
-    <div class="estado-error">
-      <i class="pi pi-exclamation-triangle"></i>
-      {{ clienteService.error() }}
-    </div>
-  }
+<div class="filtros">
+  <input
+    pInputText
+    type="text"
+    placeholder="Buscar por DNI, nombre o email..."
+    [value]="filtro()"
+    (input)="filtro.set($any($event.target).value)"
+    class="buscador-input"
+  />
 
-  <p-table
-    [value]="clientesFiltrados()"
-    [loading]="clienteService.cargando()"
-    [paginator]="true"
-    [rows]="10"
-    [rowsPerPageOptions]="[10, 25, 50]"
-    [rowHover]="true"
-    tableStyleClass="p-datatable-sm"
-  >
-    <ng-template pTemplate="header">
-      <tr>
-        <th>DNI</th>
-        <th>Nombre</th>
-        <th>Teléfono</th>
-        <th>Email</th>
-        <th>Estado</th>
-        <th class="col-acciones">Acciones</th>
-      </tr>
-    </ng-template>
+  <div class="filtro-activos">
+    <p-toggleswitch
+      [(ngModel)]="mostrarInactivos"
+      [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="mostrarInactivos.set($event)"
+    />
+    <span>Ver inactivos</span>
+  </div>
+</div>
 
-    <ng-template pTemplate="body" let-cliente>
-      <tr [class.fila-inactiva]="!cliente.activo" (click)="ver.emit(cliente)">
-        <td>{{ cliente.dni }}</td>
-        <td>{{ cliente.nombre }} {{ cliente.apellido }}</td>
-        <td>{{ cliente.telefono }}</td>
-        <td>{{ cliente.email }}</td>
-        <td>
-          <p-tag
-            [value]="cliente.activo ? 'Activo' : 'Inactivo'"
-            [severity]="getSeverity(cliente.activo)"
-          />
-        </td>
-        <td class="col-acciones" (click)="$event.stopPropagation()">
-          <p-button
-            icon="pi pi-pencil"
-            [rounded]="true"
-            [text]="true"
-            severity="secondary"
-            pTooltip="Editar"
-            (onClick)="editar.emit(cliente)"
-          />
+<p-table
+  [value]="clientesFiltrados()"
+  [loading]="clienteService.cargando()"
+  [paginator]="true"
+  [rows]="10"
+  [rowHover]="true"
+  dataKey="dni"
+  styleClass="tabla-clientes"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>DNI</th>
+      <th>Nombre</th>
+      <th>Teléfono</th>
+      <th>Email</th>
+      <th>Estado</th>
+      <th class="col-acciones">Acciones</th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-cliente>
+    <tr [class.fila-inactiva]="!cliente.activo">
+      <td>{{ cliente.dni }}</td>
+      <td>{{ cliente.nombre }} {{ cliente.apellido }}</td>
+      <td>{{ cliente.telefono }}</td>
+      <td>{{ cliente.email }}</td>
+      <td>
+        <span class="etiqueta-estado" [class.activo]="cliente.activo" [class.inactivo]="!cliente.activo">
+          {{ cliente.activo ? 'Activo' : 'Inactivo' }}
+        </span>
+      </td>
+      <td class="col-acciones">
+        <div class="botones-fila">
+          <button pButton icon="pi pi-eye" class="p-button-text p-button-sm boton-accion color-ver" (click)="ver.emit(cliente)" pTooltip="Ver detalle"></button>
+          <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm boton-accion color-editar" (click)="editar.emit(cliente)" pTooltip="Editar"></button>
           @if (cliente.activo) {
-            <p-button
-              icon="pi pi-trash"
-              [rounded]="true"
-              [text]="true"
-              severity="danger"
-              pTooltip="Desactivar"
-              (onClick)="abrirConfirmDesactivar(cliente)"
-            />
+            <button pButton icon="pi pi-trash" class="p-button-text p-button-sm boton-accion color-eliminar" (click)="abrirConfirmDesactivar(cliente)" pTooltip="Desactivar"></button>
           }
-        </td>
-      </tr>
-    </ng-template>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
 
-    <ng-template pTemplate="emptymessage">
-      <tr>
-        <td colspan="6" class="empty-msg">No se encontraron clientes</td>
-      </tr>
-    </ng-template>
-  </p-table>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="6" class="empty-msg">No se encontraron clientes</td>
+    </tr>
+  </ng-template>
+</p-table>
 
-
-  <app-confirm-dialog
+<app-confirm-dialog
   [visible]="dialogVisible()"
   titulo="Desactivar cliente"
   [mensaje]="'¿Desactivar a ' + clienteADesactivar()?.nombre + ' ' + clienteADesactivar()?.apellido + '? Esta acción no se puede deshacer.'"
@@ -108,6 +83,4 @@
   [cargando]="clienteService.cargando()"
   (confirmado)="onConfirmado()"
   (cancelado)="cerrarDialog()"
-  />
-
-</div>
+/>
