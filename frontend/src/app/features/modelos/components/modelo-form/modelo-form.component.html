@@ -1,12 +1,12 @@
 <div class="form-container">
-
-  <div class="form-header">
+  <div class="form-card">
+    <div class="form-icono">
+      <i class="pi pi-car"></i>
+    </div>
     <h2>{{ edicion() ? 'Modificar modelo' : 'Nuevo modelo' }}</h2>
-  </div>
+    <p class="form-hint">{{ edicion() ? 'Actualizá los datos del modelo' : 'Seleccioná la marca e ingresá el nombre del modelo' }}</p>
 
-  <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
-    <div class="form-grid">
-
+    <form [formGroup]="form" (ngSubmit)="guardar()" novalidate class="form-completo">
       <div class="campo" [class.campo-error]="invalid('marcaId')">
         <label for="marcaId">Marca *</label>
         <p-select
@@ -30,22 +30,20 @@
         }
       </div>
 
-    </div>
-
-    <div class="form-footer">
-      <p-button
-        label="Cancelar"
-        severity="secondary"
-        [outlined]="true"
-        (onClick)="cancelar.emit()"
-        type="button"
-      />
-      <p-button
-        [label]="modeloService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar modelo')"
-        [loading]="modeloService.cargando()"
-        type="submit"
-      />
-    </div>
-  </form>
-
+      <div class="form-footer">
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          [outlined]="true"
+          (onClick)="cancelar.emit()"
+          type="button"
+        />
+        <p-button
+          [label]="modeloService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar modelo')"
+          [loading]="modeloService.cargando()"
+          type="submit"
+        />
+      </div>
+    </form>
+  </div>
 </div>
