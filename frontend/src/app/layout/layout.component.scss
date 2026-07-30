@@ -4,7 +4,6 @@
   height: 100vh;
   background-color: var(--bg-color);
 
-  // --- HEADER: ahora ocupa el 100% del ancho ---
   .topbar {
     height: 75px;
     background-color: var(--surface-color);
@@ -57,7 +56,6 @@
     }
   }
 
-  // --- CUERPO: sidebar + contenido, ocupa el espacio entre header y footer ---
   .cuerpo {
     flex: 1;
     display: flex;
@@ -105,7 +103,6 @@
     }
   }
 
-  // --- FOOTER: ocupa el 100% del ancho ---
   .app-footer {
     padding: 1rem var(--espaciado);
     background-color: var(--surface-color);
