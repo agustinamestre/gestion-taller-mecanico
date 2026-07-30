@@ -1,0 +1,20 @@
+<div class="productos-container">
+  @switch (vista()) {
+    @case ('tabla') {
+      <app-producto-table
+        (nuevoProducto)="irAAlta()"
+        (verDetalle)="irADetalle($event)"
+        (editar)="irAEdicion($event)"
+      />
+    }
+    @case ('alta') {
+      <app-producto-form (guardado)="onGuardado(true)" (cancelar)="irATabla()" />
+    }
+    @case ('edicion') {
+      <app-producto-form [edicion]="true" (guardado)="onGuardado(false)" (cancelar)="irATabla()" />
+    }
+    @case ('detalle') {
+      <app-producto-detail (volver)="irATabla()" (editar)="irAEdicion($event)" />
+    }
+  }
+</div>

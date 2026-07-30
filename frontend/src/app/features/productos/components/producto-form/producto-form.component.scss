@@ -1,0 +1,56 @@
+.ficha-form {
+  max-width: 700px;
+  margin: 0 auto;
+  background: var(--surface-color);
+  border-radius: var(--radius);
+  border: 1px solid var(--border-color);
+  padding: var(--espaciado);
+}
+
+.form-encabezado h2 {
+  margin: 0 0 var(--espaciado) 0;
+  color: var(--text-main);
+}
+
+.grilla-campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem 1.5rem;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  &.ancho-completo { grid-column: 1 / -1; }
+
+  label {
+    font-weight: 500;
+    color: var(--text-main);
+    font-size: 0.9rem;
+  }
+
+  input, textarea, p-select, p-inputnumber {
+    width: 100%;
+  }
+
+  &.campo-invalido input,
+  &.campo-invalido textarea {
+    border-color: var(--error-color);
+  }
+}
+
+.texto-error {
+  color: var(--error-color);
+  font-size: 0.8rem;
+}
+
+.form-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: var(--espaciado);
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}

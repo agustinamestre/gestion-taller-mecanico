@@ -1,0 +1,46 @@
+<div class="ficha-form">
+  <div class="form-encabezado">
+    <h2>{{ edicion() ? 'Modificar producto' : 'Registrar producto' }}</h2>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+    <div class="grilla-campos">
+
+      <div class="campo ancho-completo" [class.campo-invalido]="invalid('nombre')">
+        <label>Nombre *</label>
+        <input pInputText formControlName="nombre" placeholder="Pastillas de freno" />
+        @if (invalid('nombre')) { <span class="texto-error">Ingresá un nombre válido</span> }
+      </div>
+
+      <div class="campo ancho-completo" [class.campo-invalido]="invalid('descripcion')">
+        <label>Descripción *</label>
+        <textarea pTextarea formControlName="descripcion" rows="3" placeholder="Descripción del producto"></textarea>
+        @if (invalid('descripcion')) { <span class="texto-error">Ingresá una descripción</span> }
+      </div>
+
+      <div class="campo" [class.campo-invalido]="invalid('tipo')">
+        <label>Tipo *</label>
+        <p-select formControlName="tipo" [options]="tiposOpciones" optionLabel="label" optionValue="value" placeholder="Seleccioná un tipo" />
+        @if (invalid('tipo')) { <span class="texto-error">Seleccioná un tipo</span> }
+      </div>
+
+      @if (!edicion()) {
+        <div class="campo" [class.campo-invalido]="invalid('precioActual')">
+          <label>Precio inicial *</label>
+          <p-inputnumber formControlName="precioActual" mode="currency" currency="ARS" locale="es-AR" [min]="0" />
+          @if (invalid('precioActual')) { <span class="texto-error">Ingresá un precio válido</span> }
+        </div>
+
+        <div class="campo" [class.campo-invalido]="invalid('stockActual')">
+          <label>Stock inicial *</label>
+          <p-inputnumber formControlName="stockActual" [min]="0" [useGrouping]="true" placeholder="0" />
+          @if (invalid('stockActual')) { <span class="texto-error">Ingresá un stock válido</span> }
+        </div>
+      }
+
+    </div>
+    <div class="form-acciones">
+      <p-button label="Cancelar" severity="secondary" [outlined]="true" (onClick)="cancelar.emit()" type="button" />
+      <p-button [label]="productoService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar producto')" [loading]="productoService.cargando()" type="submit" />
+    </div>
+  </form>
+</div>
