@@ -4,13 +4,6 @@
     <h2>{{ edicion() ? 'Modificar cliente' : 'Nuevo cliente' }}</h2>
   </div>
 
-  @if (clienteService.error()) {
-    <div class="estado-error">
-      <i class="pi pi-exclamation-triangle"></i>
-      {{ clienteService.error() }}
-    </div>
-  }
-
   <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
     <div class="form-grid">
 
@@ -40,7 +33,7 @@
 
       <div class="campo" [class.campo-error]="invalid('telefono')">
         <label for="telefono">Teléfono *</label>
-        <input pInputText id="telefono" formControlName="telefono" placeholder="011 1234-5678" />
+        <input pInputText id="telefono" formControlName="telefono" placeholder="11 1234-5678" />
         @if (invalid('telefono')) {
           <span class="error-msg">Campo requerido</span>
         }

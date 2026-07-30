@@ -1,141 +1,130 @@
 .app-layout {
   display: flex;
+  flex-direction: column;
   height: 100vh;
   background-color: var(--bg-color);
 
-  .sidebar {
-    width: 260px;
+  // --- HEADER: ahora ocupa el 100% del ancho ---
+  .topbar {
+    height: 75px;
     background-color: var(--surface-color);
-    border-right: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
     display: flex;
-    flex-direction: column;
-    transition: width 0.3s ease;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.05);
-    z-index: 10;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--espaciado);
+    gap: var(--espaciado);
 
-    .logo-container {
-      height: 75px;
+    .topbar-logo {
       display: flex;
       align-items: center;
-      justify-content: center;
-      border-bottom: 1px solid var(--border-color);
-      h2 { 
-        margin: 0; 
-        color: var(--primary-color); 
-      }
-      .logo-text { font-weight: 700; }
-      .logo-icon { display: none; font-size: 1.8rem; }
+      gap: 0.5rem;
+      color: var(--primary-color);
+      font-weight: 700;
+      white-space: nowrap;
+
+      .logo-icon { font-size: 1.4rem; }
     }
 
-    .nav-menu {
-      flex: 1;
-      padding: 1rem 0;
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        li {
-          a {
-            display: flex;
-            align-items: center;
-            padding: 1rem 1.5rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: all 0.2s ease-in-out;
-            gap: 1rem;
-            font-weight: 500;
-
-            &:hover, &.active {
-              background-color: var(--bg-color);
-              color: var(--secondary-color);
-              border-right: 4px solid var(--secondary-color);
-            }
-            i { font-size: 1.25rem; }
-          }
+    .search-bar {
+      width: 400px;
+      input {
+        width: 100%;
+        border-radius: var(--radius);
+        background-color: var(--surface-color);
+        color: var(--text-main);
+        border: 1px solid var(--border-color);
+        padding: 0.5rem 1rem;
+        outline: none;
+        &:focus {
+          border-color: var(--primary-color);
         }
       }
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      i {
+        font-size: 1.5rem;
+        color: var(--text-muted);
+        cursor: pointer;
+        transition: color 0.2s;
+        &:hover { color: var(--primary-color); }
+      }
+      .user-avatar { cursor: pointer; }
     }
   }
 
-  .main-wrapper {
+  // --- CUERPO: sidebar + contenido, ocupa el espacio entre header y footer ---
+  .cuerpo {
     flex: 1;
     display: flex;
-    flex-direction: column;
     overflow: hidden;
 
-    .topbar {
-      height: 75px;
+    .sidebar {
+      width: 260px;
       background-color: var(--surface-color);
-      border-bottom: 1px solid var(--border-color);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 2rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+      border-right: 1px solid var(--border-color);
+      transition: width 0.3s ease;
 
-      .search-bar {
-        width: 400px;
-        input {
-          width: 100%;
-          border-radius: 20px;
-          background-color: var(--surface-color);
-          color: var(--text-main);
-          border: 1px solid var(--border-color);
-          padding: 0.5rem 1rem;
-          outline: none;
-          &:focus {
-            border-color: var(--primary-color);
+      .nav-menu {
+        padding: var(--espaciado) 0;
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          li {
+            a {
+              display: flex;
+              align-items: center;
+              padding: 1rem 1.5rem;
+              color: var(--text-muted);
+              text-decoration: none;
+              transition: all 0.2s ease-in-out;
+              gap: 1rem;
+              font-weight: 500;
+
+              &:hover, &.active {
+                background-color: var(--bg-color);
+                color: var(--secondary-color);
+                border-right: 4px solid var(--secondary-color);
+              }
+              i { font-size: 1.25rem; }
+            }
           }
         }
-      }
-
-      .user-profile {
-        display: flex;
-        align-items: center;
-        gap: 1.5rem;
-        i { 
-          font-size: 1.5rem; 
-          color: var(--text-muted); 
-          cursor: pointer; 
-          transition: color 0.2s;
-          &:hover { color: var(--primary-color); }
-        }
-        .user-avatar { cursor: pointer; }
       }
     }
 
     .content-area {
       flex: 1;
-      padding: 2rem;
+      padding: var(--espaciado);
       overflow-y: auto;
     }
+  }
 
-    .app-footer {
-      padding: 1rem 2rem;
-      background-color: var(--surface-color);
-      border-top: 1px solid var(--border-color);
+  // --- FOOTER: ocupa el 100% del ancho ---
+  .app-footer {
+    padding: 1rem var(--espaciado);
+    background-color: var(--surface-color);
+    border-top: 1px solid var(--border-color);
 
-      p {
-        margin: 0;
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        text-align: center;
-      }
+    p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-align: center;
     }
   }
 }
 
-/* --- RESPONSIVE DESIGN (Móviles y Tablets) --- */
 @media (max-width: 768px) {
   .app-layout {
-    .sidebar {
+    .cuerpo .sidebar {
       width: 75px;
-      
-      .logo-container {
-        .logo-text { display: none; }
-        .logo-icon { display: block; }
-      }
-      
+
       .nav-menu ul li a {
         justify-content: center;
         padding: 1rem 0;
@@ -143,16 +132,15 @@
         i { font-size: 1.5rem; }
       }
     }
-    
-    .main-wrapper {
-      .topbar {
-        padding: 0 1rem;
-        gap: 1rem;
-        
-        .search-bar { width: 100%; flex: 1; }
-      }
-      
-      .content-area { padding: 1rem; }
+
+    .topbar {
+      padding: 0 1rem;
+      gap: 0.75rem;
+
+      .topbar-logo .logo-text { display: none; }
+      .search-bar { width: 100%; flex: 1; }
     }
+
+    .cuerpo .content-area { padding: 1rem; }
   }
 }

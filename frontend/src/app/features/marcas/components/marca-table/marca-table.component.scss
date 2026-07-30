@@ -1,59 +1,38 @@
-.tabla-container {
+.cabecera {
   display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--espaciado);
 }
 
-.tabla-header {
+.cabecera h2 {
+  margin: 0;
+  color: var(--text-main);
+}
+
+.filtros {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  flex-wrap: wrap;
+  margin-bottom: var(--espaciado);
   gap: 1rem;
-}
-
-.header-titulo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-
-  h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--text-main);
-  }
-}
-
-.badge-count {
-  background: var(--primary-color);
-  color: #fff;
-  border-radius: 999px;
-  padding: 0.15rem 0.65rem;
-  font-size: 0.75rem;
-  font-weight: 600;
-}
-
-.header-acciones {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
   flex-wrap: wrap;
-}
-
-.toggle-label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  color: var(--text-muted);
-  cursor: pointer;
-  white-space: nowrap;
 }
 
 .buscador-input {
   width: 240px;
-  border-radius: 6px !important;
+  border-radius: var(--radius) !important;
+}
+
+.filtro-activos {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  span {
+    color: var(--text-main);
+    font-size: 0.9rem;
+  }
 }
 
 .col-acciones {
@@ -61,24 +40,54 @@
   text-align: center;
 }
 
+.botones-fila {
+  display: flex;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
 .fila-inactiva td {
   opacity: 0.5;
+}
+
+.etiqueta-estado {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  &.activo { background: #d1fae5; color: var(--success-color); }
+  &.inactivo { background: #e2e8f0; color: var(--text-muted); }
+}
+
+.boton-accion {
+  &.color-editar {
+    color: var(--secondary-color) !important;
+  }
+  &.color-eliminar {
+    color: var(--error-color) !important;
+  }
 }
 
 .empty-msg {
   text-align: center;
   color: var(--text-muted);
-  padding: 2rem;
+  padding: var(--espaciado);
+}
+
+.tabla-marcas {
+  width: 100%;
 }
 
 @media (max-width: 768px) {
-  .tabla-header {
+  .cabecera {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0.75rem;
   }
 
-  .header-acciones {
-    width: 100%;
+  .filtros {
     flex-direction: column;
     align-items: stretch;
   }

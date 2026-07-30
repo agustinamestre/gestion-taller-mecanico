@@ -3,7 +3,6 @@ import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
-import { TagModule } from 'primeng/tag';
 import { TooltipModule } from 'primeng/tooltip';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { ClienteService } from '../../services/cliente.service';
@@ -18,7 +17,6 @@ import { ConfirmDialogComponent } from '../../../../shared/components/confirm-di
     TableModule,
     ButtonModule,
     InputTextModule,
-    TagModule,
     TooltipModule,
     ToggleSwitchModule,
     ConfirmDialogComponent,
@@ -72,7 +70,4 @@ export class ClienteTableComponent {
     this.clienteADesactivar.set(null);
   }
 
-  getSeverity(activo: boolean): 'success' | 'danger' {
-    return activo ? 'success' : 'danger';
-  }
 }
