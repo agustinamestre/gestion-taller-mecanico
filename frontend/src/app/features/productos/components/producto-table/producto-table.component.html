@@ -1,0 +1,74 @@
+<div class="cabecera">
+  <h2>Productos</h2>
+  <p-button label="Nuevo producto" icon="pi pi-plus" (onClick)="nuevoProducto.emit()" />
+</div>
+
+<div class="filtros">
+  <p-selectButton
+    [options]="opcionesFiltro"
+    [ngModel]="productoService.filtroTipo()"
+    (ngModelChange)="onFiltroChange($event)"
+    optionLabel="label"
+    optionValue="value"
+  />
+
+  <div class="filtro-activos">
+    <p-toggleSwitch
+      [ngModel]="productoService.mostrarInactivos()"
+      (ngModelChange)="productoService.mostrarInactivos.set($event)"
+    />
+    <span>Mostrar inactivos</span>
+  </div>
+</div>
+
+<p-table
+  [value]="productoService.productosFiltrados()"
+  [loading]="productoService.cargando()"
+  [paginator]="true"
+  [rows]="10"
+  dataKey="id"
+  styleClass="tabla-productos"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Nombre</th>
+      <th>Tipo</th>
+      <th>Precio</th>
+      <th>Stock</th>
+      <th>Estado</th>
+      <th style="width: 10rem">Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-producto>
+    <tr>
+      <td>{{ producto.nombre }}</td>
+      <td><span class="etiqueta-tipo" [class]="'tipo-' + producto.tipo.toLowerCase()">{{ formatearTipo(producto.tipo) }}</span></td>
+      <td>{{ producto.precioActual | currency:'ARS':'$' }}</td>
+      <td>{{ producto.stockActual }}</td>
+      <td>
+        <span class="etiqueta-estado" [class.activo]="producto.activo" [class.inactivo]="!producto.activo">
+          {{ producto.activo ? 'Activo' : 'Inactivo' }}
+        </span>
+      </td>
+      <td>
+        <div class="botones-fila">
+          <button pButton icon="pi pi-eye" class="p-button-text p-button-sm boton-accion color-ver" (click)="verDetalle.emit(producto)" pTooltip="Ver detalle"></button>
+          <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm boton-accion color-editar" (click)="editar.emit(producto)" pTooltip="Editar" [disabled]="!producto.activo"></button>
+          <button pButton icon="pi pi-trash" class="p-button-text p-button-sm boton-accion color-eliminar" (click)="pedirBaja(producto)" pTooltip="Desactivar" [disabled]="!producto.activo"></button>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr><td colspan="6" class="sin-resultados">No hay productos para mostrar</td></tr>
+  </ng-template>
+</p-table>
+
+<app-confirm-dialog
+  [visible]="mostrarConfirmBaja()"
+  titulo="Desactivar producto"
+  [mensaje]="'¿Seguro que querés desactivar ' + (productoABaja()?.nombre ?? '') + '?'"
+  [cargando]="productoService.cargando()"
+  (confirmado)="confirmarBaja()"
+  (cancelado)="cancelarBaja()"
+/>
