@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.infrastructure.persistence.entity;
 
+import com.taller.gestion_taller.domain.model.SituacionIva;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -25,17 +26,21 @@ public class ClienteEntity {
     @Column(nullable = false, unique = true, length = 8)
     private String dni;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String nombre;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String apellido;
 
-    @Column(nullable = false, length = 20)
+    @Column(nullable = false)
     private String telefono;
 
     @Column(length = 150)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "situacion_iva", nullable = false)
+    private SituacionIva situacionIva;
 
     @Column(length = 255)
     private String direccion;

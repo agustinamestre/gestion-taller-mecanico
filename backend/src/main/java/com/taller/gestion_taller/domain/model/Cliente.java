@@ -22,6 +22,7 @@ public class Cliente {
     private String telefono;
     private String email;
     private String direccion;
+    private SituacionIva situacionIva;
     @Builder.Default
     private boolean activo = true;
     @Builder.Default
@@ -37,6 +38,7 @@ public class Cliente {
                 .telefono(command.telefono())
                 .email(command.email())
                 .direccion(command.direccion())
+                .situacionIva(command.situacionIva())
                 .fechaModificacion(LocalDate.now())
                 .build();
     }

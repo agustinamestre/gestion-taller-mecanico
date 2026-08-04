@@ -32,8 +32,8 @@ public class GlobalExceptionHandler {
     public static final String INVALIDO = "_invalido";
     public static final String REQUERIDO = "_requerido";
     public static final String CODE_ERROR_TECNICO = "ERROR_TECNICO";
-    public static final String CAMPO_REQUERIDO = "El campo {0} es requerido";
-    public static final String CAMPO_CON_VALOR_INVALIDO_CUSTOM = "El campo {0} tiene un valor invalido: {1}";
+    public static final String CAMPO_REQUERIDO = "{0} requerido";
+    public static final String CAMPO_CON_VALOR_INVALIDO_CUSTOM = "{0} invalido: {1}";
 
     // ERRORES GENERICOS (catch-all)
 

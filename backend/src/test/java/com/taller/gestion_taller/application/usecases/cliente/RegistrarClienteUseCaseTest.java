@@ -4,6 +4,7 @@ import com.taller.gestion_taller.application.command.cliente.RegistrarClienteCom
 import com.taller.gestion_taller.application.mapper.ClienteApplicationMapper;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import com.taller.gestion_taller.domain.model.Cliente;
+import com.taller.gestion_taller.domain.model.SituacionIva;
 import com.taller.gestion_taller.domain.repositories.ClienteRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -48,7 +49,8 @@ class RegistrarClienteUseCaseTest {
                 "Perez",
                 "3364249176",
                 "juan.perez@gmail.com",
-                "Calle Falsa 123"
+                "Calle Falsa 123",
+                SituacionIva.CONSUMIDOR_FINAL
         );
 
         // Cliente base sin ID (antes de guardar)
@@ -96,7 +98,7 @@ class RegistrarClienteUseCaseTest {
     void debeRegistrarClienteSinEmail() {
 
         RegistrarClienteCommand commandSinEmail = new RegistrarClienteCommand(
-                "12345678", "Juan", "Perez", "3364249176", "", "Calle Falsa 123"
+                "12345678", "Juan", "Perez", "3364249176", "", "Calle Falsa 123", SituacionIva.CONSUMIDOR_FINAL
         );
 
         Cliente clienteSinEmail = clienteSinId.toBuilder()
@@ -122,7 +124,7 @@ class RegistrarClienteUseCaseTest {
     void debeManejarClienteSinDireccion() {
 
         RegistrarClienteCommand commandSinDireccion = new RegistrarClienteCommand(
-                "12345678", "Juan", "Perez", "3364249176", "juan@gmail.com", ""
+                "12345678", "Juan", "Perez", "3364249176", "juan@gmail.com", "", SituacionIva.CONSUMIDOR_FINAL
         );
 
         Cliente clienteSinDireccion = clienteSinId.toBuilder()
