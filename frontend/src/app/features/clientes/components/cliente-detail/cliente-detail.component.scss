@@ -3,56 +3,115 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: var(--espaciado);
 }
 
-.detalle-header {
+.cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.cabecera-titulo {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
+  gap: 0.75rem;
 
-  h2 {
-    margin: 0;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--text-main);
-    flex: 1;
-  }
+  h2 { margin: 0; color: var(--text-main); }
 }
 
-.detalle-grid {
+.cabecera-acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.ficha {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: var(--espaciado);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ficha-datos {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
-  background: var(--surface-color);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 1.5rem;
 }
 
 .dato {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
-  &.full { grid-column: 1 / -1; }
+
+  .label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .valor {
+    font-size: 0.95rem;
+    color: var(--text-main);
+  }
 }
 
-.label {
-  font-size: 0.75rem;
+.etiqueta-estado {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius);
+  font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+
+  &.activo { background: #d1fae5; color: var(--success-color); }
+  &.inactivo { background: #e2e8f0; color: var(--text-muted); }
 }
 
-.valor {
-  font-size: 0.95rem;
-  color: var(--text-main);
+// ── Vehículos ────────────────────────────────────────────────────────────
+
+.seccion-vehiculos {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.seccion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h3 {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+}
+
+.vehiculos-vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+
+  i {
+    font-size: 2rem;
+    opacity: 0.4;
+  }
 }
 
 @media (max-width: 600px) {
-  .detalle-grid {
+  .ficha-datos {
     grid-template-columns: 1fr;
   }
 
@@ -60,8 +119,12 @@
     grid-column: 1;
   }
 
-  .detalle-header {
+  .cabecera {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .cabecera-acciones {
+    width: 100%;
   }
 }

@@ -52,6 +52,16 @@ export class ClienteTableComponent {
     );
   });
 
+  formatearSituacionIva(situacion: string): string {
+    const mapa: Record<string, string> = {
+      RESPONSABLE_INSCRIPTO: 'Responsable Inscripto',
+      MONOTRIBUTISTA: 'Monotributista',
+      CONSUMIDOR_FINAL: 'Consumidor Final',
+      EXENTO: 'Exento',
+    };
+    return mapa[situacion] ?? situacion;
+  }
+
   abrirConfirmDesactivar(cliente: ClienteResponse) {
     this.clienteADesactivar.set(cliente);
     this.dialogVisible.set(true);

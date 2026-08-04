@@ -1,4 +1,4 @@
-<div class="form-container">
+<div class="ficha-form">
 
   <div class="form-header">
     <h2>{{ edicion() ? 'Modificar cliente' : 'Nuevo cliente' }}</h2>
@@ -36,6 +36,21 @@
         <input pInputText id="telefono" formControlName="telefono" placeholder="11 1234-5678" />
         @if (invalid('telefono')) {
           <span class="error-msg">Campo requerido</span>
+        }
+      </div>
+
+      <div class="campo" [class.campo-error]="invalid('situacionIva')">
+        <label for="situacionIva">Situación IVA *</label>
+        <p-select
+          id="situacionIva"
+          formControlName="situacionIva"
+          [options]="situacionIvaOpciones"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Seleccioná una opción"
+        />
+        @if (invalid('situacionIva')) {
+          <span class="error-msg">Seleccioná una situación IVA</span>
         }
       </div>
 

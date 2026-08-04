@@ -1,13 +1,20 @@
 import { Component, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
+import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { ClienteService } from '../../services/cliente.service';
+import { SituacionIva } from '../../models/cliente.model';
+
+interface SituacionIvaOpcion {
+  label: string;
+  value: SituacionIva;
+}
 
 @Component({
   selector: 'app-cliente-form',
   standalone: true,
-  imports: [ReactiveFormsModule, InputTextModule, ButtonModule],
+  imports: [ReactiveFormsModule, InputTextModule, SelectModule, ButtonModule],
   templateUrl: './cliente-form.component.html',
   styleUrl: './cliente-form.component.scss',
 })
@@ -21,6 +28,13 @@ export class ClienteFormComponent implements OnInit {
 
   readonly enviado = signal(false);
 
+  readonly situacionIvaOpciones: SituacionIvaOpcion[] = [
+    { label: 'Responsable Inscripto', value: 'RESPONSABLE_INSCRIPTO' },
+    { label: 'Monotributista', value: 'MONOTRIBUTISTA' },
+    { label: 'Consumidor Final', value: 'CONSUMIDOR_FINAL' },
+    { label: 'Exento', value: 'EXENTO' },
+  ];
+
   readonly form = this.fb.group({
     dni: ['', [Validators.required, Validators.pattern(/^\d{7,8}$/)]],
     nombre: ['', [Validators.required, Validators.minLength(2)]],
@@ -28,6 +42,7 @@ export class ClienteFormComponent implements OnInit {
     telefono: ['', [Validators.required]],
     email: ['', [Validators.required, Validators.email]],
     direccion: ['', [Validators.required]],
+    situacionIva: [null as SituacionIva | null, Validators.required],
   });
 
   ngOnInit() {
