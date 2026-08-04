@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.infrastructure.rest.dto.cliente.request;
 
+import com.taller.gestion_taller.infrastructure.rest.validation.SituacionIvaValida.SituacionIvaValida;
 import com.taller.gestion_taller.infrastructure.rest.validation.dni.DniValido;
 import com.taller.gestion_taller.infrastructure.rest.validation.email.Email;
 import com.taller.gestion_taller.infrastructure.rest.validation.telefono.TelefonoValido;
@@ -16,5 +17,8 @@ public record ClienteRequest(
         String telefono,
         @Email
         String email,
-        String direccion
+        String direccion,
+        @NotBlank(message = "La situación IVA es obligatoria.")
+        @SituacionIvaValida
+        String situacionIva
 ) { }

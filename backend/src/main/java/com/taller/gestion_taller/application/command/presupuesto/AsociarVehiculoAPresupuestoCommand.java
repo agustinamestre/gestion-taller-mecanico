@@ -1,5 +1,7 @@
 package com.taller.gestion_taller.application.command.presupuesto;
 
+import com.taller.gestion_taller.domain.model.SituacionIva;
+
 public record AsociarVehiculoAPresupuestoCommand(
         Long presupuestoId,
         Long vehiculoId,
@@ -29,6 +31,7 @@ public record AsociarVehiculoAPresupuestoCommand(
             String apellido,
             String telefono,
             String email,
-            String direccion
+            String direccion,
+            SituacionIva situacionIva
     ) {}
 }

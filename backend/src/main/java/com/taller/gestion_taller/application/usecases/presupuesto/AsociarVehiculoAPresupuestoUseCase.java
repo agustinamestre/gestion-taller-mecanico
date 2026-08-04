@@ -84,7 +84,8 @@ public class AsociarVehiculoAPresupuestoUseCase implements AsociarVehiculoAPresu
                 datos.apellido(),
                 datos.telefono(),
                 datos.email(),
-                datos.direccion()
+                datos.direccion(),
+                datos.situacionIva()
         ));
     }
 }

@@ -8,7 +8,7 @@ public record ModificarProductoRequest(
         String nombre,
         String descripcion,
         @NotBlank(message = "El tipo no puede estar vacío")
-        @Pattern(regexp = "REPUESTO|INSUMO|SERVICIO",
-                message = "El tipo debe ser REPUESTO, INSUMO o SERVICIO")
+        @Pattern(regexp = "REPUESTO|MANO_DE_OBRA",
+                message = "El tipo debe ser REPUESTO o MANO DE OBRA")
         String tipo
 ) { }

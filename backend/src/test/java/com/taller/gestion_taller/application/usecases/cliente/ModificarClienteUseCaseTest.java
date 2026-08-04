@@ -3,6 +3,7 @@ package com.taller.gestion_taller.application.usecases.cliente;
 import com.taller.gestion_taller.application.command.cliente.ModificarClienteCommand;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Cliente;
+import com.taller.gestion_taller.domain.model.SituacionIva;
 import com.taller.gestion_taller.domain.repositories.ClienteRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,7 @@ class ModificarClienteUseCaseTest {
     private static final String DNI = "12345678";
 
     private static final ModificarClienteCommand COMMAND = new ModificarClienteCommand(
-            DNI, "Juan", "Perez", "3364249176", "juan@gmail.com", "Calle 123"
+            DNI, "Juan", "Perez", "3364249176", "juan@gmail.com", "Calle 123", SituacionIva.CONSUMIDOR_FINAL
     );
 
     @Mock
