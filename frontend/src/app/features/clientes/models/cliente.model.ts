@@ -1,3 +1,5 @@
+export type SituacionIva = 'RESPONSABLE_INSCRIPTO' | 'MONOTRIBUTISTA' | 'CONSUMIDOR_FINAL' | 'EXENTO';
+
 export interface VehiculoSummaryResponse {
   id: number;
   patente: string;
@@ -16,6 +18,7 @@ export interface ClienteResponse {
   telefono: string;
   email: string;
   direccion: string;
+  situacionIva: SituacionIva;
   activo: boolean;
   fechaCreacion: string;
   fechaModificacion: string;
@@ -29,6 +32,7 @@ export interface ClienteRequest {
   telefono: string;
   email: string;
   direccion: string;
+  situacionIva: SituacionIva;
 }
 
 export interface ModificarClienteRequest {
@@ -37,4 +41,5 @@ export interface ModificarClienteRequest {
   telefono: string;
   email: string;
   direccion: string;
+  situacionIva: SituacionIva;
 }
