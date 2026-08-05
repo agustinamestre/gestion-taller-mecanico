@@ -1,5 +1,6 @@
-package com.taller.gestion_taller.infrastructure.security;
+package com.taller.gestion_taller.infrastructure.security.jwt;
 
+import com.taller.gestion_taller.infrastructure.security.userdetails.UsuarioDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

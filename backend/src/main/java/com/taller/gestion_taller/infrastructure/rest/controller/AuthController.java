@@ -2,9 +2,9 @@ package com.taller.gestion_taller.infrastructure.rest.controller;
 
 import com.taller.gestion_taller.infrastructure.rest.dto.auth.request.LoginRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.auth.response.LoginResponse;
-import com.taller.gestion_taller.infrastructure.security.JwtService;
-import com.taller.gestion_taller.infrastructure.security.UsuarioDetails;
-import com.taller.gestion_taller.infrastructure.security.UsuarioDetailsService;
+import com.taller.gestion_taller.infrastructure.security.jwt.JwtService;
+import com.taller.gestion_taller.infrastructure.security.userdetails.UsuarioDetails;
+import com.taller.gestion_taller.infrastructure.security.userdetails.UsuarioDetailsService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

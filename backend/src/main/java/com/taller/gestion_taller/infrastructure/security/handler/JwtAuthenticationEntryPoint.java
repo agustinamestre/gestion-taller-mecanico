@@ -1,4 +1,4 @@
-package com.taller.gestion_taller.infrastructure.security;
+package com.taller.gestion_taller.infrastructure.security.handler;
 
 import com.taller.gestion_taller.infrastructure.rest.exception.ApiError;
 import com.taller.gestion_taller.infrastructure.rest.exception.ApiErrorResponse;

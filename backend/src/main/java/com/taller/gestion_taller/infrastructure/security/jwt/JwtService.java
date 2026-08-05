@@ -1,5 +1,6 @@
-package com.taller.gestion_taller.infrastructure.security;
+package com.taller.gestion_taller.infrastructure.security.jwt;
 
+import com.taller.gestion_taller.infrastructure.security.userdetails.UsuarioDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

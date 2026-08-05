@@ -1,4 +1,4 @@
-package com.taller.gestion_taller.infrastructure.security;
+package com.taller.gestion_taller.infrastructure.security.userdetails;
 
 import com.taller.gestion_taller.domain.model.Usuario;
 import org.springframework.security.core.GrantedAuthority;
@@ -36,22 +36,24 @@ public class UsuarioDetails implements UserDetails {
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
     public boolean isEnabled() {
         return usuario.isActivo();
     }
+
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return true;
+//    }
+
+
 }
