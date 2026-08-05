@@ -1,4 +1,4 @@
-package com.taller.gestion_taller.infrastructure.security;
+package com.taller.gestion_taller.infrastructure.security.userdetails;
 
 import com.taller.gestion_taller.domain.model.Usuario;
 import com.taller.gestion_taller.domain.repositories.UsuarioRepository;

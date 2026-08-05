@@ -21,7 +21,7 @@ public class Usuario {
 
     public void requerirActivo() {
         if (!this.activo) {
-            throw new BusinessRunTimeException(BusinessErrors.usuarioInactivo(this.username));
+            throw new BusinessRunTimeException(BusinessErrors.usuarioYaDesactivado(this.id));
         }
     }
 }

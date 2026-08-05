@@ -237,10 +237,31 @@ public final class BusinessErrors {
         );
     }
 
-    public static BusinessError usuarioInactivo(String username) {
+    public static BusinessError usernameYaExiste(String username) {
         return new BusinessError(
-                "USUARIO_INACTIVO",
-                "El usuario " + username + " esta inactivo."
+                "USERNAME_YA_EXISTE",
+                "Ya existe un usuario con el username: " + username
+        );
+    }
+
+    public static BusinessError usuarioNoEncontrado(Long id) {
+        return new BusinessError(
+                "USUARIO_NO_ENCONTRADO",
+                "No se encontró el usuario con ID: " + id
+        );
+    }
+
+    public static BusinessError usuarioNoEncontrado(String username) {
+        return new BusinessError(
+                "USUARIO_NO_ENCONTRADO",
+                "No se encontró el usuario con username: " + username
+        );
+    }
+
+    public static BusinessError usuarioYaDesactivado(Long id) {
+        return new BusinessError(
+                "USUARIO_YA_DESACTIVADO",
+                "El usuario con ID " + id + " ya se encuentra desactivado."
         );
     }
 }

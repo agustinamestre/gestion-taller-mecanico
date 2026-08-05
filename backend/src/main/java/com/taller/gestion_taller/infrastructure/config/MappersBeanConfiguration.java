@@ -38,6 +38,11 @@ public class MappersBeanConfiguration {
     public VehiculoApplicationMapper vehiculoApplicationMapper() {
         return Mappers.getMapper(VehiculoApplicationMapper.class);
     }
+
+    @Bean
+    public UsuarioApplicationMapper usuarioApplicationMapper() {
+        return Mappers.getMapper(UsuarioApplicationMapper.class);
+    }
     
     // Rest mappers
     @Bean
@@ -80,6 +85,10 @@ public class MappersBeanConfiguration {
         return Mappers.getMapper(FacturaRestMapper.class);
     }
 
+    @Bean
+    public UsuarioRestMapper usuarioRestMapper() {
+        return Mappers.getMapper(UsuarioRestMapper.class);
+    }
     
     // Persistence mappers
     @Bean
