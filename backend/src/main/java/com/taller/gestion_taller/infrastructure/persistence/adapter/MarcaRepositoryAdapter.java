@@ -52,8 +52,4 @@ public class MarcaRepositoryAdapter implements MarcaRepository {
                 .map(persistenceMapper::toDomain);
     }
 
-    @Override
-    public void eliminar(Long id) {
-        jpaMarcaRepository.deleteById(id);
-    }
 }

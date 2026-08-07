@@ -22,7 +22,7 @@ public class ModificarVehiculoUseCase implements ModificarVehiculo {
     public Vehiculo modificar(Long id, ModificarVehiculoCommand command) {
         Vehiculo vehiculo = buscarVehiculo(id);
         Cliente cliente = buscarClienteActivo(command.clienteId());
-        Modelo modelo = buscarModeloActivo(command.modeloId());
+        Modelo modelo = buscarModelo(command.modeloId());
 
         return vehiculoRepository.save(
                 vehiculo.actualizarDatos(modelo, command.anio(), cliente)
@@ -41,10 +41,8 @@ public class ModificarVehiculoUseCase implements ModificarVehiculo {
         return cliente;
     }
 
-    private Modelo buscarModeloActivo(Long modeloId) {
-        Modelo modelo = modeloRepository.findById(modeloId)
+    private Modelo buscarModelo(Long modeloId) {
+        return modeloRepository.findById(modeloId)
                 .orElseThrow(() -> new NotFoundException(BusinessErrors.modeloNoEncontrado()));
-        modelo.requerirActivo();
-        return modelo;
     }
 }

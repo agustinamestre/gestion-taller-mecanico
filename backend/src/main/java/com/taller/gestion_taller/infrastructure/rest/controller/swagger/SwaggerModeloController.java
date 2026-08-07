@@ -64,17 +64,4 @@ public interface SwaggerModeloController {
             @Parameter(description = "ID del modelo", required = true)
             @PathVariable Long id,
             @Valid @RequestBody ModeloRequest request);
-
-    @Operation(summary = "Desactivar modelo", description = "Desactiva lógicamente un modelo por ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Modelo desactivado correctamente"),
-            @ApiResponse(responseCode = "404", description = "Modelo no encontrado",
-                    content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "500", description = "Error técnico",
-                    content = @Content(mediaType = "application/json"))
-    })
-    @DeleteMapping("/{id}")
-    ResponseEntity<Void> desactivar(
-            @Parameter(description = "ID del modelo", required = true)
-            @PathVariable Long id);
 }

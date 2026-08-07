@@ -27,7 +27,7 @@ public class RegistrarVehiculoUseCase implements RegistrarVehiculo {
         vehiculoValidator.validarPatenteUnica(command.patente());
 
         Cliente cliente = buscarClienteActivo(command.clienteId());
-        Modelo modelo = buscarModeloActivo(command.modeloId());
+        Modelo modelo = buscarModelo(command.modeloId());
 
         Vehiculo nuevoVehiculo = vehiculoApplicationMapper.commandToDomain(command, modelo, cliente);
 
@@ -41,10 +41,8 @@ public class RegistrarVehiculoUseCase implements RegistrarVehiculo {
         return cliente;
     }
 
-    private Modelo buscarModeloActivo(Long modeloId) {
-        Modelo modelo = modeloRepository.findById(modeloId)
+    private Modelo buscarModelo(Long modeloId) {
+        return modeloRepository.findById(modeloId)
                 .orElseThrow(() -> new NotFoundException(BusinessErrors.modeloNoEncontrado()));
-        modelo.requerirActivo();
-        return modelo;
     }
 }

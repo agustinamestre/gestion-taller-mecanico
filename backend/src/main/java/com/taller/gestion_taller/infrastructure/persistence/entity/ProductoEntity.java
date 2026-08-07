@@ -39,6 +39,4 @@ public class ProductoEntity {
     @Column(name = "stock_actual")
     private Integer stockActual;
 
-    @Builder.Default
-    private boolean activo = true;
 }

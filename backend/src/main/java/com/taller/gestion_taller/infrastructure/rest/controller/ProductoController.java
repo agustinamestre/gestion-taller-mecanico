@@ -88,9 +88,4 @@ public class ProductoController implements SwaggerProductoController {
         return ResponseEntity.ok(response);
     }
 
-    @Override
-    public ResponseEntity<Void> desactivar(@PathVariable Long id) {
-        productoService.desactivarProducto(id);
-        return ResponseEntity.noContent().build();
-    }
 }

@@ -123,17 +123,4 @@ public interface SwaggerProductoController {
             @Parameter(description = "ID del producto", required = true)
             @PathVariable Long id,
             @Valid @RequestBody ActualizarStockRequest request);
-
-    @Operation(summary = "Desactivar producto", description = "Desactiva lógicamente un producto por ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Producto desactivado correctamente"),
-            @ApiResponse(responseCode = "404", description = "Producto no encontrado",
-                    content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "500", description = "Error técnico",
-                    content = @Content(mediaType = "application/json"))
-    })
-    @DeleteMapping("/{id}")
-    ResponseEntity<Void> desactivar(
-            @Parameter(description = "ID del producto", required = true)
-            @PathVariable Long id);
 }
