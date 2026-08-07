@@ -7,7 +7,6 @@ export interface ProductoResponse {
   tipo: TipoProducto;
   precioActual: number;
   stockActual: number;
-  activo: boolean;
 }
 
 export interface ProductoRequest {

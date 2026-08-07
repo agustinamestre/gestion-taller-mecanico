@@ -8,7 +8,6 @@ import { TooltipModule } from 'primeng/tooltip';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { MarcaService } from '../../services/marca.service';
 import { MarcaResponse } from '../../models/marca.model';
-import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-marca-table',
@@ -21,7 +20,6 @@ import { ConfirmDialogComponent } from '../../../../shared/components/confirm-di
     TagModule,
     TooltipModule,
     ToggleSwitchModule,
-    ConfirmDialogComponent,
   ],
   templateUrl: './marca-table.component.html',
   styleUrl: './marca-table.component.scss',
@@ -33,40 +31,13 @@ export class MarcaTableComponent {
   readonly editar = output<MarcaResponse>();
 
   readonly filtro = signal('');
-  readonly mostrarInactivas = signal(false);
-
-  readonly dialogVisible = signal(false);
-  readonly marcaADesactivar = signal<MarcaResponse | null>(null);
 
   readonly marcasFiltradas = computed(() => {
     const texto = this.filtro().toLowerCase().trim();
-    const base = this.mostrarInactivas()
-      ? this.marcaService.marcas()
-      : this.marcaService.marcasActivas();
+    const base = this.marcaService.marcas();
 
     if (!texto) return base;
     return base.filter((m) => m.nombre.toLowerCase().includes(texto));
   });
 
-  getSeverity(activo: boolean): 'success' | 'danger' {
-    return activo ? 'success' : 'danger';
-  }
-
-  abrirConfirmDesactivar(marca: MarcaResponse) {
-    this.marcaADesactivar.set(marca);
-    this.dialogVisible.set(true);
-  }
-
-  onConfirmado() {
-    const marca = this.marcaADesactivar();
-    if (!marca) return;
-    this.marcaService.desactivar(marca.id).subscribe({
-      next: () => this.cerrarDialog(),
-    });
-  }
-
-  cerrarDialog() {
-    this.dialogVisible.set(false);
-    this.marcaADesactivar.set(null);
-  }
 }
