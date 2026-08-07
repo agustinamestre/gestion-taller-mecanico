@@ -9,6 +9,5 @@ import org.mapstruct.Mapping;
 public interface MarcaApplicationMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "activo", constant = "true")
     Marca commandToDomain(RegistrarMarcaCommand command);
 }

@@ -1,8 +1,6 @@
 package com.taller.gestion_taller.infrastructure.config;
 
 import com.taller.gestion_taller.application.mapper.MarcaApplicationMapper;
-import com.taller.gestion_taller.application.usecases.marca.DesactivarMarca;
-import com.taller.gestion_taller.application.usecases.marca.DesactivarMarcaUseCase;
 import com.taller.gestion_taller.application.usecases.marca.ListarMarcas;
 import com.taller.gestion_taller.application.usecases.marca.ListarMarcasUseCase;
 import com.taller.gestion_taller.application.usecases.marca.ModificarMarca;
@@ -40,8 +38,4 @@ public class MarcaBeanConfiguration {
         return new ListarMarcasUseCase(marcaRepository);
     }
 
-    @Bean
-    public DesactivarMarca desactivarMarcaUseCase(MarcaRepository marcaRepository) {
-        return new DesactivarMarcaUseCase(marcaRepository);
-    }
 }

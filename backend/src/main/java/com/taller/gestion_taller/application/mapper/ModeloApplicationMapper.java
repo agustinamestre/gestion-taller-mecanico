@@ -10,7 +10,6 @@ import org.mapstruct.Mapping;
 public interface ModeloApplicationMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "activo", constant = "true")
     @Mapping(target = "nombre", source = "command.nombre")
     @Mapping(target = "marca", source = "marca")
     Modelo commandToDomain(RegistrarModeloCommand command, Marca marca);

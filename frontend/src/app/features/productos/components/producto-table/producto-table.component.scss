@@ -12,17 +12,6 @@
   margin-bottom: var(--espaciado);
 }
 
-.filtro-activos {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  span {
-    color: var(--text-main);
-    font-size: 0.9rem;
-  }
-}
-
 .etiqueta-tipo {
   display: inline-block;
   padding: 0.2rem 0.6rem;
@@ -32,17 +21,6 @@
 
   &.tipo-repuesto { background: #dbeafe; color: var(--primary-color); }
   &.tipo-mano_de_obra { background: #fef3c7; color: var(--warning-color); }
-}
-
-.etiqueta-estado {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius);
-  font-size: 0.8rem;
-  font-weight: 600;
-
-  &.activo { background: #d1fae5; color: var(--success-color); }
-  &.inactivo { background: #e2e8f0; color: var(--text-muted); }
 }
 
 .botones-fila {

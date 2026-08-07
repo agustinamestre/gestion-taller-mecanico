@@ -24,17 +24,6 @@
   border-radius: var(--radius) !important;
 }
 
-.filtro-activos {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-
-  span {
-    color: var(--text-main);
-    font-size: 0.9rem;
-  }
-}
-
 .col-acciones {
   width: 100px;
   text-align: center;
@@ -46,27 +35,9 @@
   justify-content: center;
 }
 
-.fila-inactiva td {
-  opacity: 0.5;
-}
-
-.etiqueta-estado {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius);
-  font-size: 0.8rem;
-  font-weight: 600;
-
-  &.activo { background: #d1fae5; color: var(--success-color); }
-  &.inactivo { background: #e2e8f0; color: var(--text-muted); }
-}
-
 .boton-accion {
   &.color-editar {
     color: var(--secondary-color) !important;
-  }
-  &.color-eliminar {
-    color: var(--error-color) !important;
   }
 }
 

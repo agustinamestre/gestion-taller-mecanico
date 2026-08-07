@@ -59,17 +59,4 @@ public interface SwaggerMarcaController {
             @Parameter(description = "ID de la marca", required = true)
             @PathVariable Long id,
             @Valid @RequestBody MarcaRequest request);
-
-    @Operation(summary = "Desactivar marca", description = "Desactiva lógicamente una marca por ID")
-    @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Marca desactivada correctamente"),
-            @ApiResponse(responseCode = "404", description = "Marca no encontrada",
-                    content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "500", description = "Error técnico",
-                    content = @Content(mediaType = "application/json"))
-    })
-    @DeleteMapping("/{id}")
-    ResponseEntity<Void> desactivar(
-            @Parameter(description = "ID de la marca", required = true)
-            @PathVariable Long id);
 }

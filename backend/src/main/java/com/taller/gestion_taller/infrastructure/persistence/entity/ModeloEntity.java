@@ -25,8 +25,4 @@ public class ModeloEntity {
     @JoinColumn(name = "marca_id", nullable = false)
     private MarcaEntity marca;
 
-    @Column(nullable = false)
-    @Builder.Default
-    private boolean activo = true;
-
 }

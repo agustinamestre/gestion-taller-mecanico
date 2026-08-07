@@ -19,7 +19,6 @@ export class MarcaService {
   readonly estadoCarga = signal<EstadoCarga>('idle');
   readonly error = signal<string | null>(null);
 
-  readonly marcasActivas = computed(() => this.marcas().filter((m) => m.activo));
   readonly cargando = computed(() => this.estadoCarga() === 'cargando');
 
   listar() {
@@ -56,21 +55,6 @@ export class MarcaService {
       tap((actualizada) => {
         this.marcas.update((lista) =>
           lista.map((m) => (m.id === id ? actualizada : m))
-        );
-        this.estadoCarga.set('exito');
-      }),
-      catchError((err: HttpErrorResponse) => this.manejarError(err))
-    );
-  }
-
-  desactivar(id: number) {
-    this.estadoCarga.set('cargando');
-    this.error.set(null);
-
-    return this.http.delete<void>(`${API_BASE}/${id}`).pipe(
-      tap(() => {
-        this.marcas.update((lista) =>
-          lista.map((m) => (m.id === id ? { ...m, activo: false } : m))
         );
         this.estadoCarga.set('exito');
       }),

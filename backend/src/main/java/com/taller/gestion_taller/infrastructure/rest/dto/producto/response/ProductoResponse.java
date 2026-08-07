@@ -10,6 +10,5 @@ public record ProductoResponse (
          String descripcion,
          TipoProducto tipo,
          BigDecimal precioActual,
-         Integer stockActual,
-         boolean activo
+         Integer stockActual
 ) { }

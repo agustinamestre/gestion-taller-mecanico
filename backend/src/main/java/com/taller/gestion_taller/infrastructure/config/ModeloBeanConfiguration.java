@@ -1,8 +1,6 @@
 package com.taller.gestion_taller.infrastructure.config;
 
 import com.taller.gestion_taller.application.mapper.ModeloApplicationMapper;
-import com.taller.gestion_taller.application.usecases.modelo.DesactivarModelo;
-import com.taller.gestion_taller.application.usecases.modelo.DesactivarModeloUseCase;
 import com.taller.gestion_taller.application.usecases.modelo.ListarModelos;
 import com.taller.gestion_taller.application.usecases.modelo.ListarModelosUseCase;
 import com.taller.gestion_taller.application.usecases.modelo.ModificarModelo;
@@ -43,8 +41,4 @@ public class ModeloBeanConfiguration {
         return new ModificarModeloUseCase(modeloRepository, marcaRepository, modeloValidator);
     }
 
-    @Bean
-    public DesactivarModelo desactivarModeloUseCase(ModeloRepository modeloRepository) {
-        return new DesactivarModeloUseCase(modeloRepository);
-    }
 }

@@ -10,5 +10,4 @@ public interface MarcaRepository {
     List<Marca> findAll();
     Optional<Marca> findByNombre(String nombre);
     Optional<Marca> findById(Long id);
-    void eliminar(Long id);
 }

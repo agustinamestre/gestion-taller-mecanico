@@ -20,7 +20,6 @@ public class ProductoService {
     private final BuscarProductoPorTipo buscarProductoPorTipoUseCase;
     private final ModificarProducto modificarProductoUseCase;
     private final ListarProductos listarProductosUseCase;
-    private final DesactivarProducto desactivarProductoUseCase;
     private final ObtenerTiposProducto obtenerTiposProductoUseCase;
     private final ActualizarPrecioProducto actualizarPrecioProductoUseCase;
     private final ActualizarStockProducto actualizarStockProductoUseCase;
@@ -61,8 +60,4 @@ public class ProductoService {
         return actualizarStockProductoUseCase.actualizar(id, command);
     }
 
-    @Transactional
-    public void desactivarProducto(Long id) {
-        desactivarProductoUseCase.desactivar(id);
-    }
 }

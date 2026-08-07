@@ -38,11 +38,6 @@ public class ProductoBeanConfiguration {
     }
 
     @Bean
-    public DesactivarProducto desactivarProductoUseCase(ProductoRepository productoRepository) {
-        return new DesactivarProductoUseCase(productoRepository);
-    }
-
-    @Bean
     public ObtenerTiposProducto obtenerTiposProductoUseCase() {
         return new ObtenerTiposProductoUseCase();
     }

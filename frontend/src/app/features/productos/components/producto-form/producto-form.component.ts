@@ -52,7 +52,6 @@ export class ProductoFormComponent implements OnInit {
         precioActual: producto.precioActual,
         stockActual: producto.stockActual,
       });
-      // En edición, precio y stock se manejan con dialogs dedicados desde el detalle
       this.form.get('precioActual')?.disable();
       this.form.get('stockActual')?.disable();
     }

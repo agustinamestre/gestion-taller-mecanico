@@ -10,7 +10,6 @@ import { SelectModule } from 'primeng/select';
 import { ModeloService } from '../../services/modelo.service';
 import { MarcaService } from '../../../marcas/services/marca.service';
 import { ModeloResponse } from '../../models/modelo.model';
-import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-modelo-table',
@@ -24,7 +23,6 @@ import { ConfirmDialogComponent } from '../../../../shared/components/confirm-di
     TooltipModule,
     ToggleSwitchModule,
     SelectModule,
-    ConfirmDialogComponent,
   ],
   templateUrl: './modelo-table.component.html',
   styleUrl: './modelo-table.component.scss',
@@ -40,18 +38,11 @@ export class ModeloTableComponent implements OnInit {
   readonly marcaFiltro = signal<number | null>(null);
   readonly mostrarInactivos = signal(false);
 
-  readonly dialogVisible = signal(false);
-  readonly modeloADesactivar = signal<ModeloResponse | null>(null);
-
   readonly modelosFiltrados = computed(() => {
-    const texto = this.filtroTexto().toLowerCase().trim();
     const marcaId = this.marcaFiltro();
+    const texto = this.filtroTexto().trim().toLowerCase();
 
-    const base = this.mostrarInactivos()
-      ? this.modeloService.modelos()
-      : this.modeloService.modelosActivos();
-
-    return base.filter((m) => {
+    return this.modeloService.modelos().filter((m) => {
       const coincideMarca = marcaId ? m.marca.id === marcaId : true;
       const coincideTexto = texto ? m.nombre.toLowerCase().includes(texto) : true;
       return coincideMarca && coincideTexto;
@@ -67,25 +58,4 @@ export class ModeloTableComponent implements OnInit {
     }
   }
 
-  getSeverity(activo: boolean): 'success' | 'danger' {
-    return activo ? 'success' : 'danger';
-  }
-
-  abrirConfirmDesactivar(modelo: ModeloResponse) {
-    this.modeloADesactivar.set(modelo);
-    this.dialogVisible.set(true);
-  }
-
-  onConfirmado() {
-    const modelo = this.modeloADesactivar();
-    if (!modelo) return;
-    this.modeloService.desactivar(modelo.id).subscribe({
-      next: () => this.cerrarDialog(),
-    });
-  }
-
-  cerrarDialog() {
-    this.dialogVisible.set(false);
-    this.modeloADesactivar.set(null);
-  }
 }

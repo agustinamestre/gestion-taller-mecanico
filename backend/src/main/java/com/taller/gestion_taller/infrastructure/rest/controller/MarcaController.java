@@ -48,9 +48,4 @@ public class MarcaController implements SwaggerMarcaController {
         return ResponseEntity.ok(response);
     }
 
-    @Override
-    public ResponseEntity<Void> desactivar(@PathVariable Long id) {
-        marcaService.desactivarMarca(id);
-        return ResponseEntity.noContent().build();
-    }
 }

@@ -2,7 +2,6 @@ package com.taller.gestion_taller.infrastructure.service;
 
 import com.taller.gestion_taller.application.command.marca.ModificarMarcaCommand;
 import com.taller.gestion_taller.application.command.marca.RegistrarMarcaCommand;
-import com.taller.gestion_taller.application.usecases.marca.DesactivarMarca;
 import com.taller.gestion_taller.application.usecases.marca.ListarMarcas;
 import com.taller.gestion_taller.application.usecases.marca.ModificarMarca;
 import com.taller.gestion_taller.application.usecases.marca.RegistrarMarca;
@@ -20,7 +19,6 @@ public class MarcaService {
     private final RegistrarMarca registrarMarcaUseCase;
     private final ListarMarcas listarMarcasUseCase;
     private final ModificarMarca modificarMarcaUseCase;
-    private final DesactivarMarca desactivarMarcaUseCase;
 
     @Transactional
     public Marca registrarMarca(RegistrarMarcaCommand command) {
@@ -37,8 +35,4 @@ public class MarcaService {
         return modificarMarcaUseCase.modificarMarca(id, command);
     }
 
-    @Transactional
-    public void desactivarMarca(Long id) {
-        desactivarMarcaUseCase.desactivarMarca(id);
-    }
 }

@@ -49,9 +49,4 @@ public class ModeloController implements SwaggerModeloController {
         return ResponseEntity.ok(response);
     }
 
-    @Override
-    public ResponseEntity<Void> desactivar(@PathVariable Long id) {
-        modeloService.desactivarModelo(id);
-        return ResponseEntity.noContent().build();
-    }
 }
