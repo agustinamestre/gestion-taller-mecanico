@@ -13,6 +13,6 @@ public enum TipoProducto {
         return Arrays.stream(TipoProducto.values())
                 .filter(t -> t.name().equalsIgnoreCase(value))
                 .findFirst()
-                .orElseThrow(() -> new BusinessRunTimeException(BusinessErrors.campoInvalido("tipo", "debe ser REPUESTO, INSUMO o SERVICIO")));
+                .orElseThrow(() -> new BusinessRunTimeException(BusinessErrors.campoInvalido("tipo", "debe ser REPUESTO o MANO DE OBRA")));
     }
 }

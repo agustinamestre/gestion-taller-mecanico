@@ -28,6 +28,10 @@ public final class BusinessErrors {
         return new BusinessError("CLIENTE_NO_ENCONTRADO", "No se encontro un cliente con ID: " + id);
     }
 
+    public static BusinessError dniYaRegistrado() {
+        return new BusinessError("DNI_YA_REGISTRADO", " El DNI ingresado ya pertenece a otro cliente registrado.");
+    }
+
     public static BusinessError clienteYaDadoDeBaja() {
         return new BusinessError("CLIENTE_YA_DESACTIVADO", "El cliente ya se encuentra inactivo.");
     }

@@ -36,6 +36,7 @@ export interface ClienteRequest {
 }
 
 export interface ModificarClienteRequest {
+  dni: string;
   nombre: string;
   apellido: string;
   telefono: string;

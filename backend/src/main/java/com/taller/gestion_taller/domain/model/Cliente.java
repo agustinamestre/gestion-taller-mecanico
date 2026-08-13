@@ -33,6 +33,7 @@ public class Cliente {
 
     public Cliente actualizarDatos(ModificarClienteCommand command) {
         return this.toBuilder()
+                .dni(command.dniNuevo())
                 .nombre(command.nombre())
                 .apellido(command.apellido())
                 .telefono(command.telefono())

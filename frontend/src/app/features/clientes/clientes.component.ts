@@ -54,8 +54,9 @@ export class ClientesComponent implements OnInit {
   }
 
   verDetalle(cliente: ClienteResponse) {
-    this.clienteService.clienteSeleccionado.set(cliente);
-    this.vista.set('detalle');
+    this.clienteService.buscar(cliente.dni).subscribe({
+      next: () => this.vista.set('detalle')
+    });
   }
 
   volver() {
