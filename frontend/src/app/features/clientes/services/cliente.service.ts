@@ -7,8 +7,9 @@ import {
   ModificarClienteRequest,
 } from '../models/cliente.model';
 import { NotificationService } from '../../../shared/services/notification.service';
+import { environment } from '../../../../environments/environment';
 
-const API_BASE = 'http://localhost:8090/gestion-taller/clientes';
+const API_BASE = `${environment.apiUrl}/clientes`;
 
 export type EstadoCarga = 'idle' | 'cargando' | 'exito' | 'error';
 
@@ -18,20 +19,17 @@ export class ClienteService {
 
   private readonly notification = inject(NotificationService);
 
-  //State 
   readonly clientes = signal<ClienteResponse[]>([]);
   readonly clienteSeleccionado = signal<ClienteResponse | null>(null);
   readonly estadoCarga = signal<EstadoCarga>('idle');
   readonly error = signal<string | null>(null);
 
-  //Computed 
   readonly clientesActivos = computed(() =>
     this.clientes().filter((c) => c.activo)
   );
   readonly totalClientes = computed(() => this.clientes().length);
   readonly cargando = computed(() => this.estadoCarga() === 'cargando');
 
-  //Métodos 
   listar() {
     this.estadoCarga.set('cargando');
     this.error.set(null);
@@ -107,10 +105,14 @@ export class ClienteService {
   }
 
   private manejarError(err: HttpErrorResponse) {
-    const mensaje = err.error?.mensaje ?? err.message ?? 'Error inesperado del servidor';
+    const errores = err.error?.error;
+    const mensaje = Array.isArray(errores) && errores.length > 0
+      ? errores.map((e: any) => e.errorMessage).join(', ')
+      : 'Error inesperado del servidor';
+
     this.error.set(mensaje);
     this.estadoCarga.set('error');
-    this.notification.error(mensaje);  
+    this.notification.error(mensaje);
     return throwError(() => err);
   }
 }

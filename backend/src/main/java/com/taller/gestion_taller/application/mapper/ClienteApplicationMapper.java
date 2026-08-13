@@ -12,5 +12,6 @@ public interface ClienteApplicationMapper {
     @Mapping(target = "activo", constant = "true")
     @Mapping(target = "fechaCreacion", ignore = true)
     @Mapping(target = "fechaModificacion", ignore = true)
+    @Mapping(target = "vehiculos", ignore = true)
     Cliente commandToDomain(RegistrarClienteCommand command);
 }

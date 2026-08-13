@@ -28,6 +28,8 @@ export class ClienteFormComponent implements OnInit {
 
   readonly enviado = signal(false);
 
+  private dniOriginal: string | null = null;
+
   readonly situacionIvaOpciones: SituacionIvaOpcion[] = [
     { label: 'Responsable Inscripto', value: 'RESPONSABLE_INSCRIPTO' },
     { label: 'Monotributista', value: 'MONOTRIBUTISTA' },
@@ -49,7 +51,7 @@ export class ClienteFormComponent implements OnInit {
     const cliente = this.clienteService.clienteSeleccionado();
     if (this.edicion() && cliente) {
       this.form.patchValue(cliente);
-      this.form.get('dni')?.disable();
+      this.dniOriginal = cliente.dni;
     }
   }
 
@@ -69,8 +71,7 @@ export class ClienteFormComponent implements OnInit {
     const val = this.form.getRawValue() as any;
 
     if (this.edicion()) {
-      const { dni, ...resto } = val;
-      this.clienteService.modificar(dni, resto).subscribe({
+      this.clienteService.modificar(this.dniOriginal!, val).subscribe({
         next: () => this.guardado.emit(),
       });
     } else {

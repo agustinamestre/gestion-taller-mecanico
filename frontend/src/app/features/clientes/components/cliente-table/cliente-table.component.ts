@@ -39,7 +39,7 @@ export class ClienteTableComponent {
   readonly clientesFiltrados = computed(() => {
     const texto = this.filtro().toLowerCase().trim();
     const base = this.mostrarInactivos()
-      ? this.clienteService.clientes()
+      ? this.clienteService.clientes().filter((c) => !c.activo)
       : this.clienteService.clientesActivos();
 
     if (!texto) return base;

@@ -8,6 +8,7 @@ import com.taller.gestion_taller.infrastructure.rest.dto.cliente.request.Cliente
 import com.taller.gestion_taller.infrastructure.rest.dto.cliente.response.ClienteResponse;
 import com.taller.gestion_taller.infrastructure.rest.dto.cliente.request.ModificarClienteRequest;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public interface ClienteRestMapper {
 
     RegistrarClienteCommand requestToCommand(ClienteRequest request);
 
+    @Mapping(target = "dniActual", source = "nroDocumento")
+    @Mapping(target = "dniNuevo", source = "request.dni")
     ModificarClienteCommand requestToModificarCommand(String nroDocumento, ModificarClienteRequest request);
 
     ClienteResponse domainToResponse(Cliente cliente);
