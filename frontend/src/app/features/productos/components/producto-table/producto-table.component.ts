@@ -26,6 +26,8 @@ export class ProductoTableComponent {
   readonly nuevoProducto = output<void>();
   readonly verDetalle = output<ProductoResponse>();
   readonly editar = output<ProductoResponse>();
+  readonly actualizarPrecio = output<ProductoResponse>();
+  readonly actualizarStock = output<ProductoResponse>();
 
   readonly opcionesFiltro: FiltroOpcion[] = [
     { label: 'Todos', value: null },

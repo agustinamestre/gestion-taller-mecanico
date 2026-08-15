@@ -32,14 +32,9 @@ export class ProductoService {
 
   readonly productosFiltrados = computed(() => {
     const tipo = this.filtroTipo();
-    const incluirInactivos = this.mostrarInactivos();
-    return this.productos().filter(p =>
-      (tipo ? p.tipo === tipo : true) &&
-      (incluirInactivos ? true : p.activo)
+    return this.productos().filter(p => (tipo ? p.tipo === tipo : true)
     );
   });
-
-  readonly productosActivos = computed(() => this.productos().filter(p => p.activo));
 
   listar() {
     this.estadoCarga.set('cargando');
@@ -105,19 +100,8 @@ export class ProductoService {
     );
   }
 
-  desactivar(id: number) {
-    this.estadoCarga.set('cargando');
-    this.error.set(null);
-    return this.http.delete<void>(`${API_BASE}/${id}`).pipe(
-      tap(() => {
-        this.productos.update(lista => lista.map(p => p.id === id ? { ...p, activo: false } : p));
-        this.estadoCarga.set('exito');
-      }),
-      catchError((err: HttpErrorResponse) => this.manejarError(err))
-    );
-  }
-
   seleccionar(producto: ProductoResponse) { this.productoSeleccionado.set(producto); }
+
   limpiarSeleccion() { this.productoSeleccionado.set(null); }
 
   private manejarError(err: HttpErrorResponse) {

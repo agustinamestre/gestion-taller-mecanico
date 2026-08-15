@@ -23,6 +23,22 @@
   &.tipo-mano_de_obra { background: #fef3c7; color: var(--warning-color); }
 }
 
+.celda-editable {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.boton-editar-inline {
+  opacity: 0;
+  transition: opacity 0.15s;
+  color: var(--text-muted) !important;
+}
+
+tr:hover .boton-editar-inline {
+  opacity: 1;
+}
+
 .botones-fila {
   display: flex;
   gap: 0.25rem;

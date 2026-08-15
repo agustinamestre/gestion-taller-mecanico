@@ -1,0 +1,41 @@
+<div class="form-container">
+  <div class="form-card">
+    <div class="form-icono">
+      <i class="pi pi-dollar"></i>
+    </div>
+    <h2>Actualizar precio</h2>
+    <p class="form-hint">{{ producto()?.nombre }}</p>
+
+    <form [formGroup]="form" (ngSubmit)="guardar()" novalidate class="form-completo">
+      <div class="campo" [class.campo-error]="invalid('precioActual')">
+        <label for="precioActual">Nuevo precio *</label>
+        <p-inputnumber
+          id="precioActual"
+          formControlName="precioActual"
+          mode="currency"
+          currency="ARS"
+          locale="es-AR"
+          [min]="0"
+        />
+        @if (invalid('precioActual')) {
+          <span class="error-msg">Ingresá un precio válido</span>
+        }
+      </div>
+
+      <div class="form-footer">
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          [outlined]="true"
+          (onClick)="cancelar.emit()"
+          type="button"
+        />
+        <p-button
+          [label]="productoService.cargando() ? 'Guardando...' : 'Confirmar'"
+          [loading]="productoService.cargando()"
+          type="submit"
+        />
+      </div>
+    </form>
+  </div>
+</div>

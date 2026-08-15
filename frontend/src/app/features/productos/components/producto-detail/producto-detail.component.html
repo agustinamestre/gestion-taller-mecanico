@@ -1,0 +1,33 @@
+@if (productoService.productoSeleccionado(); as producto) {
+  <div class="detalle-container">
+
+    <div class="cabecera">
+      <div class="cabecera-titulo">
+        <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver.emit()"></button>
+        <h2>{{ producto.nombre }}</h2>
+        <span class="etiqueta-tipo" [class]="'tipo-' + producto.tipo.toLowerCase()">{{ producto.tipo }}</span>
+      </div>
+      <div class="cabecera-acciones">
+        <p-button label="Editar" icon="pi pi-pencil" (onClick)="editar.emit(producto)" />
+      </div>
+    </div>
+
+    <div class="ficha">
+      <div class="ficha-datos">
+        <div class="dato">
+          <span class="label">Precio actual</span>
+          <span class="valor">{{ producto.precioActual | currency:'ARS':'$' }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Stock actual</span>
+          <span class="valor">{{ producto.stockActual }}</span>
+        </div>
+      </div>
+      <div class="dato full">
+        <span class="label">Descripción</span>
+        <span class="valor">{{ producto.descripcion }}</span>
+      </div>
+    </div>
+
+  </div>
+}
