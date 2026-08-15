@@ -1,0 +1,39 @@
+<div class="form-container">
+  <div class="form-card">
+    <div class="form-icono">
+      <i class="pi pi-box"></i>
+    </div>
+    <h2>Actualizar stock</h2>
+    <p class="form-hint">{{ producto()?.nombre }}</p>
+
+    <form [formGroup]="form" (ngSubmit)="guardar()" novalidate class="form-completo">
+      <div class="campo" [class.campo-error]="invalid('stockActual')">
+        <label for="stockActual">Nuevo stock *</label>
+        <p-inputnumber
+          id="stockActual"
+          formControlName="stockActual"
+          [min]="0"
+          [useGrouping]="true"
+        />
+        @if (invalid('stockActual')) {
+          <span class="error-msg">Ingresá un stock válido</span>
+        }
+      </div>
+
+      <div class="form-footer">
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          [outlined]="true"
+          (onClick)="cancelar.emit()"
+          type="button"
+        />
+        <p-button
+          [label]="productoService.cargando() ? 'Guardando...' : 'Confirmar'"
+          [loading]="productoService.cargando()"
+          type="submit"
+        />
+      </div>
+    </form>
+  </div>
+</div>
