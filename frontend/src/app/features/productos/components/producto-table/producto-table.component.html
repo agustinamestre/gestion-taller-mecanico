@@ -34,8 +34,30 @@
     <tr>
       <td>{{ producto.nombre }}</td>
       <td><span class="etiqueta-tipo" [class]="'tipo-' + producto.tipo.toLowerCase()">{{ formatearTipo(producto.tipo) }}</span></td>
-      <td>{{ producto.precioActual | currency:'ARS':'$' }}</td>
-      <td>{{ producto.stockActual }}</td>
+      <td>
+        <div class="celda-editable">
+          <span>{{ producto.precioActual | currency:'ARS':'$' }}</span>
+          <button
+            pButton
+            icon="pi pi-pencil"
+            class="p-button-text p-button-sm boton-editar-inline"
+            (click)="actualizarPrecio.emit(producto)"
+            pTooltip="Actualizar precio"
+          ></button>
+        </div>
+      </td>
+      <td>
+        <div class="celda-editable">
+          <span>{{ producto.stockActual }}</span>
+          <button
+            pButton
+            icon="pi pi-pencil"
+            class="p-button-text p-button-sm boton-editar-inline"
+            (click)="actualizarStock.emit(producto)"
+            pTooltip="Actualizar stock"
+          ></button>
+        </div>
+      </td>
       <td>
         <div class="botones-fila">
           <button pButton icon="pi pi-eye" class="p-button-text p-button-sm boton-accion color-ver" (click)="verDetalle.emit(producto)" pTooltip="Ver detalle"></button>
