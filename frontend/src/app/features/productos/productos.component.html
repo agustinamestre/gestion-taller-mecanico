@@ -5,6 +5,8 @@
         (nuevoProducto)="irAAlta()"
         (verDetalle)="irADetalle($event)"
         (editar)="irAEdicion($event)"
+        (actualizarPrecio)="irAActualizarPrecio($event)"
+        (actualizarStock)="irAActualizarStock($event)"
       />
     }
     @case ('alta') {
@@ -14,7 +16,16 @@
       <app-producto-form [edicion]="true" (guardado)="onGuardado(false)" (cancelar)="irATabla()" />
     }
     @case ('detalle') {
-      <app-producto-detail (volver)="irATabla()" (editar)="irAEdicion($event)" />
+      <app-producto-detail
+        (volver)="irATabla()"
+        (editar)="irAEdicion($event)"
+      />
+    }
+    @case ('actualizar-precio') {
+      <app-producto-actualizar-precio (guardado)="onActualizado()" (cancelar)="onActualizado()" />
+    }
+    @case ('actualizar-stock') {
+      <app-producto-actualizar-stock (guardado)="onActualizado()" (cancelar)="onActualizado()" />
     }
   }
 </div>

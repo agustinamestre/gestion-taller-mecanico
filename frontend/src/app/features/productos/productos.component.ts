@@ -4,19 +4,26 @@ import { ProductoResponse } from './models/producto.model';
 import { ProductoTableComponent } from './components/producto-table/producto-table.component';
 import { ProductoFormComponent } from './components/producto-form/producto-form.component';
 import { ProductoDetailComponent } from './components/producto-detail/producto-detail.component';
+import { ProductoActualizarPrecioComponent } from './components/producto-actualizar-precio/producto-actualizar-precio.component';
+import { ProductoActualizarStockComponent } from './components/producto-actualizar-stock/producto-actualizar-stock.component';
 
-type Vista = 'tabla' | 'alta' | 'edicion' | 'detalle';
+type Vista = 'tabla' | 'alta' | 'edicion' | 'detalle' | 'actualizar-precio' | 'actualizar-stock';
 
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [ProductoTableComponent, ProductoFormComponent, ProductoDetailComponent],
+  imports: [
+    ProductoTableComponent,
+    ProductoFormComponent,
+    ProductoDetailComponent,
+    ProductoActualizarPrecioComponent,
+    ProductoActualizarStockComponent,
+  ],
   templateUrl: './productos.component.html',
   styleUrl: './productos.component.scss',
 })
 export class ProductosComponent {
   readonly productoService = inject(ProductoService);
-
   readonly vista = signal<Vista>('tabla');
 
   irATabla() {
@@ -36,10 +43,24 @@ export class ProductosComponent {
     this.vista.set('detalle');
   }
 
+  irAActualizarPrecio(producto: ProductoResponse) {
+    this.productoService.seleccionar(producto);
+    this.vista.set('actualizar-precio');
+  }
+
+  irAActualizarStock(producto: ProductoResponse) {
+    this.productoService.seleccionar(producto);
+    this.vista.set('actualizar-stock');
+  }
+
   onGuardado(esAlta: boolean) {
     if (esAlta) {
       this.productoService.filtroTipo.set(null);
     }
     this.irATabla();
+  }
+
+  onActualizado() {
+    this.vista.set('tabla');
   }
 }
