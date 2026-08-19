@@ -28,11 +28,11 @@
         (cancelar)="volverAlDetalle()"
       />
     }
+    @case ('actualizar-km') {
+      <app-vehiculo-actualizar-km
+        (guardado)="onKmActualizado()"
+        (cancelar)="volverAlDetalle()"
+      />
+    }
   }
-
-  <app-vehiculo-km-dialog
-    [visible]="kmDialogVisible()"
-    (guardado)="onKmActualizado()"
-    (cancelado)="kmDialogVisible.set(false)"
-  />
 </div>

@@ -3,12 +3,11 @@ import { VehiculoService } from './services/vehiculo.service';
 import { NotificationService } from '../../shared/services/notification.service';
 import { VehiculoDetailComponent } from './components/vehiculo-detail/vehiculo-detail.component';
 import { VehiculoFormComponent } from './components/vehiculo-form/vehiculo-form.component';
-import { VehiculoKmDialogComponent } from './components/vehiculo-km-dialog/vehiculo-km-dialog.component';
-import { VehiculoResponse } from './models/vehiculo.model';
+import { VehiculoActualizarKmComponent } from './components/vehiculo-actualizar-km/vehiculo-actualizar-km.component';
 import { VehiculoSearchComponent } from './components/vehiculo-search/vehiculo-search.component';
 import { Router } from '@angular/router';
 
-export type VistaVehiculo = 'busqueda' | 'detalle' | 'form-nuevo' | 'form-editar';
+export type VistaVehiculo = 'busqueda' | 'detalle' | 'form-nuevo' | 'form-editar' | 'actualizar-km';
 
 @Component({
   selector: 'app-vehiculos',
@@ -17,7 +16,7 @@ export type VistaVehiculo = 'busqueda' | 'detalle' | 'form-nuevo' | 'form-editar
     VehiculoSearchComponent,
     VehiculoDetailComponent,
     VehiculoFormComponent,
-    VehiculoKmDialogComponent,
+    VehiculoActualizarKmComponent,
   ],
   templateUrl: './vehiculos.component.html',
   styleUrl: './vehiculos.component.scss',
@@ -28,7 +27,6 @@ export class VehiculosComponent {
   private readonly router = inject(Router);
 
   readonly vista = signal<VistaVehiculo>('busqueda');
-  readonly kmDialogVisible = signal(false);
   readonly clienteIdPreseteado = signal<number | null>(null);
 
   private modoActual: VistaVehiculo = 'busqueda';
@@ -65,7 +63,7 @@ export class VehiculosComponent {
   }
 
   abrirKmDialog() {
-    this.kmDialogVisible.set(true);
+    this.vista.set('actualizar-km');
   }
 
   volver() {
@@ -87,8 +85,8 @@ export class VehiculosComponent {
   }
 
   onKmActualizado() {
-    this.kmDialogVisible.set(false);
     this.notification.exito('Kilometraje actualizado correctamente.');
+    this.vista.set('detalle');
   }
 
   onDesactivado() {
