@@ -19,20 +19,17 @@ export class VehiculoService {
   private readonly http = inject(HttpClient);
   private readonly notification = inject(NotificationService);
 
-  //State
   readonly vehiculoActual = signal<VehiculoResponse | null>(null);
   readonly estadoCarga = signal<EstadoCarga>('idle');
   readonly error = signal<string | null>(null);
 
-  //Computed 
   readonly cargando = computed(() => this.estadoCarga() === 'cargando');
 
-  //Metodos 
   buscarPorPatente(patente: string) {
     this.estadoCarga.set('cargando');
     this.error.set(null);
 
-    return this.http.get<VehiculoResponse>(`${API_BASE}/${patente}`).pipe(
+    return this.http.get<VehiculoResponse>(`${API_BASE}/patente/${patente}`).pipe(
       tap((vehiculo) => {
         this.vehiculoActual.set(vehiculo);
         this.estadoCarga.set('exito');
@@ -71,7 +68,7 @@ export class VehiculoService {
     this.estadoCarga.set('cargando');
     this.error.set(null);
 
-    return this.http.put<VehiculoResponse>(`${API_BASE}/${id}/kilometraje`, request).pipe(
+    return this.http.patch<VehiculoResponse>(`${API_BASE}/${id}/kilometraje`, request).pipe(
       tap((actualizado) => {
         this.vehiculoActual.set(actualizado);
         this.estadoCarga.set('exito');

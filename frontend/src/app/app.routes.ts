@@ -15,20 +15,31 @@ export const routes: Routes = [
             (c) => c.ClientesComponent
           ),
       },
-      // {
-      //   path: 'vehiculos',
-      //   loadComponent: () =>
-      //     import('./features/vehiculos/vehiculos.component').then(
-      //       (c) => c.VehiculosComponent
-      //     ),
-      // },
-      // {
-      //   path: 'ordenes',
-      //   loadComponent: () =>
-      //     import('./features/ordenes-trabajo/ordenes-trabajo.component').then(
-      //       (c) => c.OrdenesTrabajoComponent
-      //     ),
-      // },
+      {
+        path: 'marcas',
+        loadComponent: () =>
+          import('./features/marcas/marcas.component').then(
+            (c) => c.MarcasComponent),
+      },
+      {
+        path: 'modelos',
+        loadComponent: () =>
+        import('./features/modelos/modelos.component').then(
+          (c) => c.ModelosComponent),
+      },
+      {
+        path: 'vehiculos',
+        loadComponent: () =>
+          import('./features/vehiculos/vehiculos.component').then((c) => c.VehiculosComponent),
+      },
+      {
+        path: 'productos',
+        loadComponent: () => import('./features/productos/productos.component').then(c => c.ProductosComponent)
+      },
+      {
+        path: 'presupuestos',
+        loadComponent: () => import('./features/presupuestos/presupuestos.component').then(c => c.PresupuestosComponent)
+      },
     ],
   },
   { path: '**', redirectTo: '' },

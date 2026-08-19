@@ -1,0 +1,51 @@
+<div class="form-container">
+  <div class="form-card">
+    <div class="form-icono">
+      <i class="pi pi-gauge"></i>
+    </div>
+    <h2>Actualizar kilometraje</h2>
+    <p class="form-hint">{{ vehiculo()?.patente }}</p>
+
+    <div class="km-actual-box">
+      <span class="km-actual-label">Kilometraje actual</span>
+      <span class="km-actual-valor">{{ kmActual() | number }} km</span>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="guardar()" novalidate class="form-completo">
+      <div class="campo" [class.campo-error]="invalid('kilometrajeActual')">
+        <label for="kilometrajeActual">Nuevo kilometraje *</label>
+        <p-inputnumber
+          id="kilometrajeActual"
+          formControlName="kilometrajeActual"
+          [min]="kmActual()"
+          [useGrouping]="true"
+          suffix=" km"
+        />
+        @if (invalid('kilometrajeActual')) {
+          <span class="error-msg">
+            @if (campo('kilometrajeActual').hasError('min')) {
+              El nuevo kilometraje no puede ser menor al actual
+            } @else {
+              Ingresá un valor válido
+            }
+          </span>
+        }
+      </div>
+
+      <div class="form-footer">
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          [outlined]="true"
+          (onClick)="cancelar.emit()"
+          type="button"
+        />
+        <p-button
+          [label]="vehiculoService.cargando() ? 'Guardando...' : 'Confirmar'"
+          [loading]="vehiculoService.cargando()"
+          type="submit"
+        />
+      </div>
+    </form>
+  </div>
+</div>
