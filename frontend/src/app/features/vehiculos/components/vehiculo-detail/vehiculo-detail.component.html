@@ -1,79 +1,69 @@
 @if (vehiculo) {
   <div class="detalle-container">
 
-    <div class="detalle-header">
-      <p-button
-        icon="pi pi-arrow-left"
-        label="Volver"
-        [text]="true"
-        severity="secondary"
-        (onClick)="volver.emit()"
-      />
-      <div class="header-titulo">
+    <div class="cabecera">
+      <div class="cabecera-titulo">
+        <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver.emit()"></button>
         <h2>{{ vehiculo.patente }}</h2>
-        <p-tag
-          [value]="vehiculo.activo ? 'Activo' : 'Inactivo'"
-          [severity]="vehiculo.activo ? 'success' : 'danger'"
-        />
+        <span class="etiqueta-estado" [class.activo]="vehiculo.activo" [class.inactivo]="!vehiculo.activo">
+          {{ vehiculo.activo ? 'Activo' : 'Inactivo' }}
+        </span>
       </div>
       @if (vehiculo.activo) {
-        <div class="header-acciones">
+        <div class="cabecera-acciones">
           <p-button
-            icon="pi pi-gauge"
-            label="Actualizar km"
-            severity="secondary"
-            [outlined]="true"
-            (onClick)="actualizarKm.emit()"
-          />
-          <p-button
-            icon="pi pi-pencil"
-            label="Editar"
-            (onClick)="editar.emit()"
-          />
-          <p-button
+            label="Desactivar"
             icon="pi pi-trash"
             severity="danger"
             [outlined]="true"
             (onClick)="dialogVisible.set(true)"
           />
+          <p-button
+            label="Editar datos"
+            icon="pi pi-pencil"
+            (onClick)="editar.emit()"
+          />
         </div>
       }
     </div>
 
-    <div class="detalle-grid">
-      <div class="seccion">
-        <h3 class="seccion-titulo">Datos del vehículo</h3>
-        <div class="datos-grid">
-          <div class="dato">
-            <span class="label">Marca</span>
-            <span class="valor">{{ vehiculo.marca }}</span>
-          </div>
-          <div class="dato">
-            <span class="label">Modelo</span>
-            <span class="valor">{{ vehiculo.modelo }}</span>
-          </div>
-          <div class="dato">
-            <span class="label">Año</span>
-            <span class="valor">{{ vehiculo.anio }}</span>
-          </div>
-          <div class="dato">
-            <span class="label">Kilometraje</span>
-            <span class="valor km">{{ vehiculo.kilometrajeActual | number }} km</span>
-          </div>
-        </div>
+    @if (vehiculo.activo) {
+      <div class="subacciones">
+        <p-button
+          label="Actualizar km"
+          icon="pi pi-gauge"
+          severity="secondary"
+          [outlined]="true"
+          (onClick)="actualizarKm.emit()"
+        />
       </div>
+    }
 
-      <div class="seccion">
-        <h3 class="seccion-titulo">Propietario</h3>
-        <div class="datos-grid">
-          <div class="dato">
-            <span class="label">Nombre</span>
-            <span class="valor">{{ vehiculo.cliente.nombre }} {{ vehiculo.cliente.apellido }}</span>
-          </div>
-          <div class="dato">
-            <span class="label">DNI</span>
-            <span class="valor">{{ vehiculo.cliente.dni }}</span>
-          </div>
+    <div class="ficha">
+      <div class="ficha-datos">
+        <div class="dato">
+          <span class="label">Marca</span>
+          <span class="valor">{{ vehiculo.marca }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Modelo</span>
+          <span class="valor">{{ vehiculo.modelo }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Año</span>
+          <span class="valor">{{ vehiculo.anio }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Kilometraje</span>
+          <span class="valor">{{ vehiculo.kilometrajeActual | number }} km</span>
+        </div>
+        <div class="dato">
+          <span class="label">Propietario</span>
+          <span class="valor">{{ vehiculo.cliente.nombre }} {{ vehiculo.cliente.apellido }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">DNI</span>
+          <span class="valor">{{ vehiculo.cliente.dni }}</span>
         </div>
       </div>
     </div>

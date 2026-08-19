@@ -1,4 +1,4 @@
-<div class="form-container">
+<div class="ficha-form">
 
   <div class="form-header">
     <h2>{{ edicion() ? 'Modificar vehículo' : 'Registrar vehículo' }}</h2>
@@ -24,7 +24,7 @@
         <label>Marca *</label>
         <p-select
           formControlName="marcaId"
-          [options]="marcaService.marcasActivas()"
+          [options]="marcaService.marcas()"
           optionLabel="nombre"
           optionValue="id"
           placeholder="Seleccioná una marca"
@@ -43,6 +43,7 @@
           optionLabel="nombre"
           optionValue="id"
           placeholder="Seleccioná un modelo"
+          emptyMessage="Esta marca no tiene modelos cargados"
         />
         @if (invalid('modeloId')) {
           <span class="error-msg">Seleccioná un modelo</span>

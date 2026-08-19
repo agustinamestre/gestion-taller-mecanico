@@ -3,48 +3,45 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: var(--espaciado);
 }
 
 .search-card {
   background: var(--surface-color);
   border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 2.5rem;
+  border-radius: var(--radius);
+  padding: 2rem;
   width: 100%;
   max-width: 480px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  gap: 0.75rem;
 }
 
 .search-icon {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: #eff6ff;
+  background: #dbeafe;
   display: flex;
   align-items: center;
   justify-content: center;
 
   i {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     color: var(--primary-color);
   }
 }
 
 h2 {
   margin: 0;
-  font-size: 1.4rem;
-  font-weight: 600;
   color: var(--text-main);
 }
 
 .search-hint {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: 0.85rem;
   color: var(--text-muted);
   text-align: center;
 }
@@ -53,6 +50,7 @@ h2 {
   display: flex;
   gap: 0.75rem;
   width: 100%;
+  margin-top: 0.5rem;
 
   .input-patente {
     flex: 1;
@@ -75,7 +73,7 @@ h2 {
 
 @media (max-width: 480px) {
   .search-card {
-    padding: 1.5rem;
+    padding: 1.25rem;
   }
 
   .search-input-group {

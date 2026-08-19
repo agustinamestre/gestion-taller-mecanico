@@ -51,8 +51,8 @@ export class VehiculoFormComponent implements OnInit {
   readonly modelosFiltrados = computed(() => {
     const marcaId = this.marcaSeleccionadaId();
     return marcaId
-      ? this.modeloService.modelosActivos().filter((m) => m.marca.id === marcaId)
-      : this.modeloService.modelosActivos();
+      ? this.modeloService.modelos().filter((m) => m.marca.id === marcaId)
+      : this.modeloService.modelos();
   });
 
   readonly anioActual = new Date().getFullYear();
