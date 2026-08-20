@@ -48,4 +48,12 @@ public class PresupuestoRepositoryAdapter implements PresupuestoRepository {
                 .toList();
     }
 
+    @Override
+    public List<Presupuesto> findAll() {
+        return jpaPresupuestoRepository.findAll()
+                .stream()
+                .map(mapper::toDomain)
+                .toList();
+    }
+
 }

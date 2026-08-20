@@ -38,6 +38,7 @@ public interface PresupuestoRestMapper {
             ModificarItemPresupuestoRequest request
     );
 
+    @Mapping(source = "vehiculo.patente", target = "patenteVehiculo")
     @Mapping(target = "total", expression = "java(presupuesto.calcularTotal())")
     PresupuestoSummaryResponse domainToResumenResponse(Presupuesto presupuesto);
 

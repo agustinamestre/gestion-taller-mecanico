@@ -9,4 +9,5 @@ public interface PresupuestoRepository {
     Presupuesto save(Presupuesto presupuesto);
     Optional<Presupuesto> findById(Long id);
     List<Presupuesto> findByPatente(String patente);
+    List<Presupuesto> findAll();
 }
