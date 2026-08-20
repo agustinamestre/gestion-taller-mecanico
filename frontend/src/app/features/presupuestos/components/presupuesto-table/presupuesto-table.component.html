@@ -1,0 +1,65 @@
+<div class="cabecera">
+  <h2>Presupuestos</h2>
+  <p-button label="Nuevo presupuesto" icon="pi pi-plus" (onClick)="nuevoPresupuesto.emit(patente().trim() ? patente().trim().toUpperCase() : null)" />
+</div>
+
+<div class="filtros">
+  <input
+    pInputText
+    type="text"
+    placeholder="Filtrar por patente..."
+    [(ngModel)]="patente"
+    style="text-transform: uppercase"
+    class="buscador-input"
+    (keyup.enter)="buscar()"
+  />
+  <p-button label="Buscar" icon="pi pi-search" [loading]="presupuestoService.cargando()" (onClick)="buscar()" />
+  @if (patente().trim()) {
+    <p-button label="Limpiar" [text]="true" (onClick)="limpiarFiltro()" />
+  }
+</div>
+
+<p-table
+  [value]="presupuestoService.listado()"
+  [loading]="presupuestoService.cargando()"
+  [paginator]="true"
+  [rows]="10"
+  dataKey="id"
+  styleClass="tabla-presupuestos"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Vehículo</th>
+      <th>Fecha emisión</th>
+      <th>Fecha vencimiento</th>
+      <th>Estado</th>
+      <th>Total</th>
+      <th style="width: 6rem">Acciones</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-presupuesto>
+    <tr>
+      <td>
+        @if (presupuesto.patenteVehiculo) {
+          {{ presupuesto.patenteVehiculo }}
+        } @else {
+          <span class="sin-vehiculo">Sin vehículo asociado</span>
+        }
+      </td>
+      <td>{{ presupuesto.fechaEmision | date:'dd/MM/yyyy' }}</td>
+      <td>{{ presupuesto.fechaVencimiento | date:'dd/MM/yyyy' }}</td>
+      <td>
+        <span class="etiqueta-estado" [class]="'estado-' + presupuesto.estado.toLowerCase()">
+          {{ presupuesto.estado }}
+        </span>
+      </td>
+      <td>{{ presupuesto.total | currency:'ARS':'$' }}</td>
+      <td>
+        <button pButton icon="pi pi-eye" class="p-button-text p-button-sm boton-accion color-ver" (click)="verDetalle.emit(presupuesto.id)" pTooltip="Ver detalle"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr><td colspan="6" class="sin-resultados">No hay presupuestos para mostrar</td></tr>
+  </ng-template>
+</p-table>
