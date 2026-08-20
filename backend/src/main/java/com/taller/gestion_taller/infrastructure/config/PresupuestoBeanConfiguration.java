@@ -29,11 +29,9 @@ public class PresupuestoBeanConfiguration {
     }
 
     @Bean
-    public ObtenerPresupuestosPorPatente obtenerPresupuestosPorPatenteUseCase(PresupuestoRepository presupuestoRepository,
-                                                                              VehiculoRepository vehiculoRepository) {
-        return new ObtenerPresupuestosPorPatenteUseCase(
-                presupuestoRepository,
-                vehiculoRepository
+    public ListarPresupuestos obtenerPresupuestosPorPatenteUseCase(PresupuestoRepository presupuestoRepository) {
+        return new ListarPresupuestosUseCase(
+                presupuestoRepository
         );
     }
 

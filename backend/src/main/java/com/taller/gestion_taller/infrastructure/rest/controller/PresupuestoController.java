@@ -43,9 +43,10 @@ public class PresupuestoController implements SwaggerPresupuestoController {
     }
 
     @Override
-    public ResponseEntity<List<PresupuestoSummaryResponse>> obtenerPorPatente(@RequestParam String patente) {
+    public ResponseEntity<List<PresupuestoSummaryResponse>> listar(
+            @RequestParam(required = false) String patente) {
         List<PresupuestoSummaryResponse> response = presupuestoService
-                .obtenerPresupuestosPorPatente(patente)
+                .listarPresupuestos(patente)
                 .stream()
                 .map(presupuestoRestMapper::domainToResumenResponse)
                 .toList();

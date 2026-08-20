@@ -17,7 +17,7 @@ public class PresupuestoService {
     private final AgregarItemPresupuesto agregarItemPresupuestoUseCase;
     private final ModificarItemPresupuesto modificarItemPresupuestoUseCase;
     private final ObtenerPresupuesto obtenerPresupuestoUseCase;
-    private final ObtenerPresupuestosPorPatente obtenerPresupuestosPorPatenteUseCase;
+    private final ListarPresupuestos listarPresupuestosUseCase;
     private final EliminarItemPresupuesto eliminarItemPresupuestoUseCase;
     private final CambiarEstadoPresupuesto cambiarEstadoPresupuestoUseCase;
     private final AsociarVehiculoAPresupuesto asociarVehiculoAPresupuestoUseCase;
@@ -33,8 +33,8 @@ public class PresupuestoService {
     }
 
     @Transactional(readOnly = true)
-    public List<Presupuesto> obtenerPresupuestosPorPatente(String patente) {
-        return obtenerPresupuestosPorPatenteUseCase.obtener(patente);
+    public List<Presupuesto> listarPresupuestos(String patente) {
+        return listarPresupuestosUseCase.listar(patente);
     }
 
     @Transactional
