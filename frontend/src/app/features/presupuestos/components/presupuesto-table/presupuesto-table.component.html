@@ -31,7 +31,6 @@
     <tr>
       <th>Vehículo</th>
       <th>Fecha emisión</th>
-      <th>Fecha vencimiento</th>
       <th>Estado</th>
       <th>Total</th>
       <th style="width: 6rem">Acciones</th>
@@ -47,7 +46,6 @@
         }
       </td>
       <td>{{ presupuesto.fechaEmision | date:'dd/MM/yyyy' }}</td>
-      <td>{{ presupuesto.fechaVencimiento | date:'dd/MM/yyyy' }}</td>
       <td>
         <span class="etiqueta-estado" [class]="'estado-' + presupuesto.estado.toLowerCase()">
           {{ presupuesto.estado }}
