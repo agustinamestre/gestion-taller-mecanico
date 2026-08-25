@@ -15,6 +15,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Tag(name = "Vehículos", description = "Operaciones sobre vehículos del taller")
 public interface SwaggerVehiculoController {
 
@@ -30,6 +32,19 @@ public interface SwaggerVehiculoController {
     })
     @PostMapping
     ResponseEntity<VehiculoResponse> registrar(@Valid @RequestBody VehiculoRequest request);
+
+    @Operation(summary = "Listar vehículos", description = "Retorna vehículos activos, opcionalmente filtrados por coincidencia parcial de patente")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Listado de vehículos",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = VehiculoResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Error técnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping
+    ResponseEntity<List<VehiculoResponse>> listar(
+            @Parameter(description = "Filtro parcial por patente (opcional)")
+            @RequestParam(required = false) String patente);
 
     @Operation(summary = "Buscar vehículo por patente", description = "Retorna un vehículo según su patente")
     @ApiResponses({

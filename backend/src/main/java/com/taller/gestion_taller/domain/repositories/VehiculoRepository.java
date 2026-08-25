@@ -9,4 +9,7 @@ public interface VehiculoRepository {
     Optional<Vehiculo> findById(Long id);
     Optional<Vehiculo> findByPatente(String patente);
     List<Vehiculo> findByClienteId(Long clienteId);
+    List<Vehiculo> findAll();
+    List<Vehiculo> findByActivoTrue();
+    List<Vehiculo> findByPatenteContainingAndActivoTrue(String patente);
 }

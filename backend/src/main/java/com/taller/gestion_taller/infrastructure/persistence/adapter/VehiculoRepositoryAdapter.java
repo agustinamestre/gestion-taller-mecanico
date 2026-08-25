@@ -42,4 +42,25 @@ public class VehiculoRepositoryAdapter implements VehiculoRepository {
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Vehiculo> findAll() {
+        return jpaVehiculoRepository.findAll().stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Vehiculo> findByActivoTrue() {
+        return jpaVehiculoRepository.findByActivoTrue().stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Vehiculo> findByPatenteContainingAndActivoTrue(String patente) {
+        return jpaVehiculoRepository.findByPatenteContainingIgnoreCaseAndActivoTrue(patente).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
 }
