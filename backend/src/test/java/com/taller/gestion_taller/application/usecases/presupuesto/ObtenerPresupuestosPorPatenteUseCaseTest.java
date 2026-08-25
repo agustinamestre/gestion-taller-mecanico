@@ -28,7 +28,7 @@ public class ObtenerPresupuestosPorPatenteUseCaseTest {
     private VehiculoRepository vehiculoRepository;
 
     @InjectMocks
-    private ObtenerPresupuestosPorPatenteUseCase obtenerPresupuestosPorPatenteUseCase;
+    private ListarPresupuestosUseCase obtenerPresupuestosPorPatenteUseCase;
 
     @Test
     @DisplayName("debe retornar los presupuestos si la patente existe")
@@ -43,7 +43,7 @@ public class ObtenerPresupuestosPorPatenteUseCaseTest {
         when(vehiculoRepository.findByPatente(patente)).thenReturn(Optional.of(vehiculo));
         when(presupuestoRepository.findByPatente(patente)).thenReturn(presupuestos);
 
-        List<Presupuesto> result = obtenerPresupuestosPorPatenteUseCase.obtener(patente);
+        List<Presupuesto> result = obtenerPresupuestosPorPatenteUseCase.listar(patente);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -59,7 +59,7 @@ public class ObtenerPresupuestosPorPatenteUseCaseTest {
         when(vehiculoRepository.findByPatente(patente)).thenReturn(Optional.of(vehiculo));
         when(presupuestoRepository.findByPatente(patente)).thenReturn(List.of());
 
-        List<Presupuesto> result = obtenerPresupuestosPorPatenteUseCase.obtener(patente);
+        List<Presupuesto> result = obtenerPresupuestosPorPatenteUseCase.listar(patente);
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -73,7 +73,7 @@ public class ObtenerPresupuestosPorPatenteUseCaseTest {
         when(vehiculoRepository.findByPatente(patente)).thenReturn(Optional.empty());
 
         NotFoundException exception = assertThrows(NotFoundException.class, () ->
-                obtenerPresupuestosPorPatenteUseCase.obtener(patente)
+                obtenerPresupuestosPorPatenteUseCase.listar(patente)
         );
 
         assertEquals("VEHICULO_NO_ENCONTRADO", exception.getBusinessError().code());

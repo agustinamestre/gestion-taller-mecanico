@@ -59,7 +59,6 @@ class ModificarProductoUseCaseTest {
         assertThat(resultado.getNombre()).isEqualTo("Nuevo Nombre");
         assertThat(resultado.getDescripcion()).isEqualTo("Nueva descripción");
         assertThat(resultado.getTipo()).isEqualTo(TipoProducto.REPUESTO);
-        assertThat(resultado.isActivo()).isTrue();
 
         verify(productoValidator).validarUnicidad(
                 "Nuevo Nombre", TipoProducto.REPUESTO,

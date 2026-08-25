@@ -26,7 +26,7 @@ class ModificarClienteUseCaseTest {
     private static final String DNI = "12345678";
 
     private static final ModificarClienteCommand COMMAND = new ModificarClienteCommand(
-            DNI, "Juan", "Perez", "3364249176", "juan@gmail.com", "Calle 123", SituacionIva.CONSUMIDOR_FINAL
+            DNI, DNI, "Juan", "Perez", "3364249176", "juan@gmail.com", "Calle 123", SituacionIva.CONSUMIDOR_FINAL
     );
 
     @Mock

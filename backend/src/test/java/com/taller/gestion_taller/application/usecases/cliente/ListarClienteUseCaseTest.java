@@ -83,8 +83,8 @@ class ListarClienteUseCaseTest {
         String dni = "12345678";
         Cliente clienteEsperado = clienteBase(dni);
 
-        Marca toyota = Marca.builder().id(1L).nombre("Toyota").activo(true).build();
-        Modelo corolla = Modelo.builder().id(1L).nombre("Corolla").marca(toyota).activo(true).build();
+        Marca toyota = Marca.builder().id(1L).nombre("Toyota").build();
+        Modelo corolla = Modelo.builder().id(1L).nombre("Corolla").marca(toyota).build();
 
         Vehiculo vehiculo1 = Vehiculo.builder()
                 .id(10L)

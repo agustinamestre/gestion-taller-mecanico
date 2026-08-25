@@ -49,11 +49,11 @@ class ModificarVehiculoUseCaseTest {
         command = new ModificarVehiculoCommand(2L, 2022, 2L);
 
         cliente = Cliente.builder().id(2L).activo(true).build();
-        Marca marca = Marca.builder().id(1L).activo(true).build();
-        modelo = Modelo.builder().id(2L).marca(marca).activo(true).build();
+        Marca marca = Marca.builder().id(1L).build();
+        modelo = Modelo.builder().id(2L).marca(marca).build();
 
         Cliente clienteOriginal = Cliente.builder().id(1L).activo(true).build();
-        Modelo modeloOriginal = Modelo.builder().id(1L).marca(marca).activo(true).build();
+        Modelo modeloOriginal = Modelo.builder().id(1L).marca(marca).build();
 
         vehiculoExistente = Vehiculo.builder()
                 .id(VEHICULO_ID)
@@ -134,17 +134,4 @@ class ModificarVehiculoUseCaseTest {
         verify(vehiculoRepository, never()).save(any(Vehiculo.class));
     }
 
-    @Test
-    @DisplayName("debe lanzar excepcion cuando el modelo esta inactivo")
-    void debeLanzarExcepcionCuandoElModeloEstaInactivo() {
-        modelo = modelo.toBuilder().activo(false).build();
-        when(vehiculoRepository.findById(VEHICULO_ID)).thenReturn(Optional.of(vehiculoExistente));
-        when(clienteRepository.findById(command.clienteId())).thenReturn(Optional.of(cliente));
-        when(modeloRepository.findById(command.modeloId())).thenReturn(Optional.of(modelo));
-
-        BusinessRunTimeException exception = assertThrows(BusinessRunTimeException.class,
-                () -> modificarVehiculoUseCase.modificar(VEHICULO_ID, command));
-        assertEquals("MODELO_YA_DESACTIVADO", exception.getBusinessError().code());
-        verify(vehiculoRepository, never()).save(any(Vehiculo.class));
-    }
 }
