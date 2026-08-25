@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface JpaVehiculoRepository extends JpaRepository<VehiculoEntity, Long> {
     Optional<VehiculoEntity> findByPatente(String patente);
     List<VehiculoEntity> findByClienteId(Long clienteId);
+    List<VehiculoEntity> findByActivoTrue();
+    List<VehiculoEntity> findByPatenteContainingIgnoreCaseAndActivoTrue(String patente);
 }

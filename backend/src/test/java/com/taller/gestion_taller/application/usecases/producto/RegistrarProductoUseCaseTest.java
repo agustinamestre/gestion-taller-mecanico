@@ -46,7 +46,6 @@ class RegistrarProductoUseCaseTest {
         Producto producto = Producto.builder()
                 .nombre("Filtro de Aceite")
                 .tipo(TipoProducto.REPUESTO)
-                .activo(true)
                 .build();
 
         when(productoRepository.existePorNombreYTipo("Filtro de Aceite", TipoProducto.REPUESTO)).thenReturn(false);
@@ -58,7 +57,6 @@ class RegistrarProductoUseCaseTest {
         assertThat(resultado).isNotNull();
         assertThat(resultado.getNombre()).isEqualTo("Filtro de Aceite");
         assertThat(resultado.getTipo()).isEqualTo(TipoProducto.REPUESTO);
-        assertThat(resultado.isActivo()).isTrue();
         verify(productoRepository).save(any(Producto.class));
     }
 

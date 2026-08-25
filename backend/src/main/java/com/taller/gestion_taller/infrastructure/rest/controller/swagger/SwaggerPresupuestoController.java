@@ -51,22 +51,20 @@ public interface SwaggerPresupuestoController {
             @PathVariable Long id);
 
     @Operation(
-            summary = "Buscar presupuestos por patente",
-            description = "Retorna la lista de presupuestos asociados a un vehiculo por su patente"
+            summary = "Listar presupuestos",
+            description = "Retorna todos los presupuestos, o los asociados a un vehículo si se indica la patente"
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Presupuestos encontrados",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = PresupuestoSummaryResponse.class))),
-            @ApiResponse(responseCode = "404", description = "Vehiculo no encontrado",
-                    content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "500", description = "Error tecnico",
                     content = @Content(mediaType = "application/json"))
     })
     @GetMapping
-    ResponseEntity<List<PresupuestoSummaryResponse>> obtenerPorPatente(
-            @Parameter(description = "Patente del vehiculo", required = true)
-            @RequestParam String patente);
+    ResponseEntity<List<PresupuestoSummaryResponse>> listar(
+            @Parameter(description = "Patente del vehículo (opcional)")
+            @RequestParam(required = false) String patente);
 
     @Operation(summary = "Agregar ítem al presupuesto", description = "Agrega un nuevo ítem a un presupuesto existente")
     @ApiResponses({

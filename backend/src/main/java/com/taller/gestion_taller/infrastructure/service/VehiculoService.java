@@ -3,21 +3,20 @@ package com.taller.gestion_taller.infrastructure.service;
 import com.taller.gestion_taller.application.command.vehiculo.ActualizarKilometrajeCommand;
 import com.taller.gestion_taller.application.command.vehiculo.ModificarVehiculoCommand;
 import com.taller.gestion_taller.application.command.vehiculo.RegistrarVehiculoCommand;
-import com.taller.gestion_taller.application.usecases.vehiculo.ActualizarKilometraje;
-import com.taller.gestion_taller.application.usecases.vehiculo.DesactivarVehiculo;
-import com.taller.gestion_taller.application.usecases.vehiculo.GetVehiculoByPatente;
-import com.taller.gestion_taller.application.usecases.vehiculo.ModificarVehiculo;
-import com.taller.gestion_taller.application.usecases.vehiculo.RegistrarVehiculo;
+import com.taller.gestion_taller.application.usecases.vehiculo.*;
 import com.taller.gestion_taller.domain.model.Vehiculo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class VehiculoService {
 
     private final RegistrarVehiculo registrarVehiculoUseCase;
+    private final ListarVehiculos listarVehiculosUseCase;
     private final GetVehiculoByPatente getVehiculoByPatenteUseCase;
     private final ModificarVehiculo modificarVehiculoUseCase;
     private final ActualizarKilometraje actualizarKilometrajeUseCase;
@@ -26,6 +25,11 @@ public class VehiculoService {
     @Transactional
     public Vehiculo registrarVehiculo(RegistrarVehiculoCommand command) {
         return registrarVehiculoUseCase.registrar(command);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Vehiculo> listar(String patente) {
+        return listarVehiculosUseCase.listar(patente);
     }
 
     @Transactional(readOnly = true)

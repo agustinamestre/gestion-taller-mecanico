@@ -39,7 +39,6 @@ class ActualizarStockProductoUseCaseTest {
                 .tipo(TipoProducto.REPUESTO)
                 .stockActual(10)
                 .precioActual(BigDecimal.valueOf(100))
-                .activo(true)
                 .build();
     }
 

@@ -1,16 +1,7 @@
 package com.taller.gestion_taller.infrastructure.config;
 
 import com.taller.gestion_taller.application.mapper.VehiculoApplicationMapper;
-import com.taller.gestion_taller.application.usecases.vehiculo.ActualizarKilometraje;
-import com.taller.gestion_taller.application.usecases.vehiculo.ActualizarKilometrajeUseCase;
-import com.taller.gestion_taller.application.usecases.vehiculo.DesactivarVehiculo;
-import com.taller.gestion_taller.application.usecases.vehiculo.DesactivarVehiculoUseCase;
-import com.taller.gestion_taller.application.usecases.vehiculo.GetVehiculoByPatente;
-import com.taller.gestion_taller.application.usecases.vehiculo.GetVehiculoByPatenteUseCase;
-import com.taller.gestion_taller.application.usecases.vehiculo.ModificarVehiculo;
-import com.taller.gestion_taller.application.usecases.vehiculo.ModificarVehiculoUseCase;
-import com.taller.gestion_taller.application.usecases.vehiculo.RegistrarVehiculo;
-import com.taller.gestion_taller.application.usecases.vehiculo.RegistrarVehiculoUseCase;
+import com.taller.gestion_taller.application.usecases.vehiculo.*;
 import com.taller.gestion_taller.domain.repositories.ClienteRepository;
 import com.taller.gestion_taller.domain.repositories.ModeloRepository;
 import com.taller.gestion_taller.domain.repositories.VehiculoRepository;
@@ -34,6 +25,11 @@ public class VehiculoBeanConfiguration {
                                                       VehiculoApplicationMapper vehiculoApplicationMapper) {
         return new RegistrarVehiculoUseCase(vehiculoRepository, modeloRepository, clienteRepository,
                 vehiculoValidator, vehiculoApplicationMapper);
+    }
+
+    @Bean
+    public ListarVehiculos listarVehiculos(VehiculoRepository vehiculoRepository) {
+        return new ListarVehiculosUseCase(vehiculoRepository);
     }
 
     @Bean

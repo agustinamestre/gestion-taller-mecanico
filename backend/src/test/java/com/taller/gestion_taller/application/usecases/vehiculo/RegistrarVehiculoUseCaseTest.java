@@ -51,8 +51,8 @@ public class RegistrarVehiculoUseCaseTest {
     void setUp() {
         command = new RegistrarVehiculoCommand("ABC-123", 1L, 2020, 1L, 15000);
         cliente = Cliente.builder().id(1L).activo(true).build();
-        Marca marca = Marca.builder().id(1L).activo(true).build();
-        modelo = Modelo.builder().id(1L).marca(marca).activo(true).build();
+        Marca marca = Marca.builder().id(1L).build();
+        modelo = Modelo.builder().id(1L).marca(marca).build();
 
         vehiculoDePrueba = Vehiculo.builder()
                 .patente(command.patente())
@@ -127,15 +127,4 @@ public class RegistrarVehiculoUseCaseTest {
         assertEquals("MODELO_NO_ENCONTRADO", exception.getBusinessError().code());
     }
 
-    @Test
-    void registrar_DebeLanzarExcepcion_CuandoElModeloEstaInactivo() {
-        // Arrange
-        modelo = modelo.toBuilder().activo(false).build();
-        when(clienteRepository.findById(command.clienteId())).thenReturn(Optional.of(cliente));
-        when(modeloRepository.findById(command.modeloId())).thenReturn(Optional.of(modelo));
-
-        // Act & Assert
-        BusinessRunTimeException exception = assertThrows(BusinessRunTimeException.class, () -> registrarVehiculoUseCase.registrar(command));
-        assertEquals("MODELO_YA_DESACTIVADO", exception.getBusinessError().code());
-    }
 }

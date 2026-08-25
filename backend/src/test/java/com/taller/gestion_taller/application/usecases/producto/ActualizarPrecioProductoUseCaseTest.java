@@ -38,7 +38,6 @@ class ActualizarPrecioProductoUseCaseTest {
                 .nombre("pastillas de freno")
                 .tipo(TipoProducto.REPUESTO)
                 .precioActual(BigDecimal.valueOf(100))
-                .activo(true)
                 .build();
     }
 

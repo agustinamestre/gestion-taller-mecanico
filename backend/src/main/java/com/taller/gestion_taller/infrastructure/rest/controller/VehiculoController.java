@@ -17,6 +17,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/vehiculos")
 @RequiredArgsConstructor
@@ -31,6 +33,15 @@ public class VehiculoController implements SwaggerVehiculoController {
         Vehiculo vehiculo = vehiculoService.registrarVehiculo(command);
         VehiculoResponse response = vehiculoRestMapper.domainToResponse(vehiculo);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @Override
+    public ResponseEntity<List<VehiculoResponse>> listar(@RequestParam(required = false) String patente) {
+        List<Vehiculo> vehiculos = vehiculoService.listar(patente);
+        List<VehiculoResponse> response = vehiculos.stream()
+                .map(vehiculoRestMapper::domainToResponse)
+                .toList();
+        return ResponseEntity.ok(response);
     }
 
     @Override
