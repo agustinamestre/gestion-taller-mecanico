@@ -169,7 +169,7 @@ public final class BusinessErrors {
     public static BusinessError presupuestoSinVehiculoAsociado() {
         return new BusinessError(
                 "PRESUPUESTO_SIN_VEHICULO",
-                "Para crear una orden de trabajo, el presupuesto debe estar asociado a un vehículo."
+                "Para aprobar el presupuesto, primero debes asociarlo a un vehículo."
         );
     }
     

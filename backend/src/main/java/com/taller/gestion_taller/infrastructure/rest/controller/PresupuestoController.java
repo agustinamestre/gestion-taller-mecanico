@@ -3,11 +3,8 @@ package com.taller.gestion_taller.infrastructure.rest.controller;
 import com.taller.gestion_taller.application.command.presupuesto.*;
 import com.taller.gestion_taller.domain.model.Presupuesto;
 import com.taller.gestion_taller.infrastructure.rest.controller.swagger.SwaggerPresupuestoController;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.CambiarEstadoPresupuestoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ItemPresupuestoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.PresupuestoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.*;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoResponse;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ModificarItemPresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoSummaryResponse;
 import com.taller.gestion_taller.infrastructure.rest.mapper.PresupuestoRestMapper;
 import com.taller.gestion_taller.infrastructure.service.PresupuestoService;
@@ -91,5 +88,16 @@ public class PresupuestoController implements SwaggerPresupuestoController {
         CambiarEstadoPresupuestoCommand command = presupuestoRestMapper.toCambiarEstadoCommand(presupuestoId, request);
         presupuestoService.cambiarEstado(command);
         return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public ResponseEntity<PresupuestoResponse> asociarVehiculo(
+            @PathVariable("id") Long presupuestoId,
+            @Valid @RequestBody AsociarVehiculoAPresupuestoRequest request) {
+
+        AsociarVehiculoAPresupuestoCommand command = presupuestoRestMapper.toAsociarVehiculoCommand(presupuestoId, request);
+        Presupuesto presupuesto = presupuestoService.asociarVehiculo(command);
+        PresupuestoResponse response = presupuestoRestMapper.domainToResponse(presupuesto);
+        return ResponseEntity.ok(response);
     }
 }

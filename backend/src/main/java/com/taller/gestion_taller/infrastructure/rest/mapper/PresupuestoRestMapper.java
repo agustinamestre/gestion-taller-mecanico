@@ -3,12 +3,9 @@ package com.taller.gestion_taller.infrastructure.rest.mapper;
 import com.taller.gestion_taller.application.command.presupuesto.*;
 import com.taller.gestion_taller.domain.model.ItemPresupuesto;
 import com.taller.gestion_taller.domain.model.Presupuesto;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.CambiarEstadoPresupuestoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ItemPresupuestoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.*;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.ItemPresupuestoResponse;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.PresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoResponse;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ModificarItemPresupuestoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoSummaryResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -45,4 +42,7 @@ public interface PresupuestoRestMapper {
     EliminarItemPresupuestoCommand toEliminarItemCommand(Long presupuestoId, Long itemId);
 
     CambiarEstadoPresupuestoCommand toCambiarEstadoCommand(Long presupuestoId, CambiarEstadoPresupuestoRequest request);
+
+    @Mapping(target = "presupuestoId", source = "presupuestoId")
+    AsociarVehiculoAPresupuestoCommand toAsociarVehiculoCommand(Long presupuestoId, AsociarVehiculoAPresupuestoRequest request);
 }
