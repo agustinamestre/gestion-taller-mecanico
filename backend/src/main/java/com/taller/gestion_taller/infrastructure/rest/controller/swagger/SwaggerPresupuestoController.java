@@ -1,9 +1,6 @@
 package com.taller.gestion_taller.infrastructure.rest.controller.swagger;
 
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.CambiarEstadoPresupuestoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ItemPresupuestoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.ModificarItemPresupuestoRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.PresupuestoRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.request.*;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoResponse;
 import com.taller.gestion_taller.infrastructure.rest.dto.presupuesto.response.PresupuestoSummaryResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -136,4 +133,25 @@ public interface SwaggerPresupuestoController {
             @Parameter(description = "ID del presupuesto", required = true)
             @PathVariable("id") Long presupuestoId,
             @Valid @RequestBody CambiarEstadoPresupuestoRequest request);
+
+    @Operation(
+            summary = "Asociar vehículo al presupuesto",
+            description = "Asocia un vehículo existente, o registra un vehículo (y opcionalmente un cliente) nuevo, y lo asocia al presupuesto"
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Vehículo asociado correctamente",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PresupuestoResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Datos inválidos, presupuesto no pendiente o ya tiene vehículo asociado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Presupuesto, vehículo o cliente no encontrado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error técnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @PatchMapping("/{id}/vehiculo")
+    ResponseEntity<PresupuestoResponse> asociarVehiculo(
+            @Parameter(description = "ID del presupuesto", required = true)
+            @PathVariable("id") Long presupuestoId,
+            @Valid @RequestBody AsociarVehiculoAPresupuestoRequest request);
 }
