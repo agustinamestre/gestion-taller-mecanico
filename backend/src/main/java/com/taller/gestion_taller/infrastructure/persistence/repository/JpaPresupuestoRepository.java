@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -13,4 +14,8 @@ public interface JpaPresupuestoRepository extends JpaRepository<PresupuestoEntit
 
     @Query("SELECT p FROM PresupuestoEntity p JOIN p.vehiculo v WHERE v.patente = :patente")
     List<PresupuestoEntity> findByVehiculoPatente(@Param("patente") String patente);
+
+    List<PresupuestoEntity> findByFechaEmisionBetween(LocalDate desde, LocalDate hasta);
+
+    List<PresupuestoEntity> findByVehiculo_PatenteAndFechaEmisionBetween(String patente, LocalDate desde, LocalDate hasta);
 }

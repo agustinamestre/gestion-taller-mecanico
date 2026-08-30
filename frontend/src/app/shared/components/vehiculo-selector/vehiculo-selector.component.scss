@@ -1,0 +1,25 @@
+:host ::ng-deep .selector-vehiculo {
+  width: 100%;
+
+  .p-autocomplete-input {
+    width: 100%;
+  }
+}
+
+.opcion-vehiculo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.15rem 0;
+
+  .patente {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-main);
+  }
+
+  .detalle {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+}

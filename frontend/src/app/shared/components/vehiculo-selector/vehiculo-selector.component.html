@@ -1,0 +1,22 @@
+<p-autoComplete
+  [ngModel]="seleccion"
+  (ngModelChange)="onModelChange($event)"
+  [ngModelOptions]="{ standalone: true }"
+  [suggestions]="sugerencias()"
+  (completeMethod)="buscar($event)"
+  (onSelect)="onSeleccion($event)"
+  (onClear)="onClear()"
+  [showClear]="true"
+  [forceSelection]="true"
+  [disabled]="disabled()"
+  [placeholder]="placeholder()"
+  optionLabel="etiquetaCompleta"
+  styleClass="selector-vehiculo"
+>
+  <ng-template let-vehiculo pTemplate="item">
+    <div class="opcion-vehiculo">
+      <span class="patente">{{ vehiculo.patente }}</span>
+      <span class="detalle">{{ vehiculo.marca }} {{ vehiculo.modelo }} · {{ vehiculo.cliente.nombre }} {{ vehiculo.cliente.apellido }}</span>
+    </div>
+  </ng-template>
+</p-autoComplete>

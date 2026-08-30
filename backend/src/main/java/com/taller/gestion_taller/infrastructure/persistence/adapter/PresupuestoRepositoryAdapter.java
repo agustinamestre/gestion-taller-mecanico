@@ -10,8 +10,10 @@ import com.taller.gestion_taller.infrastructure.persistence.repository.JpaPresup
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -54,6 +56,20 @@ public class PresupuestoRepositoryAdapter implements PresupuestoRepository {
                 .stream()
                 .map(mapper::toDomain)
                 .toList();
+    }
+
+    @Override
+    public List<Presupuesto> findByFechaEmisionBetween(LocalDate desde, LocalDate hasta) {
+        return jpaPresupuestoRepository.findByFechaEmisionBetween(desde, hasta).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Presupuesto> findByPatenteAndFechaEmisionBetween(String patente, LocalDate desde, LocalDate hasta) {
+        return jpaPresupuestoRepository.findByVehiculo_PatenteAndFechaEmisionBetween(patente, desde, hasta).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
     }
 
 }
