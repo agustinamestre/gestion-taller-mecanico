@@ -1,0 +1,20 @@
+<div class="presupuestos-container">
+  @switch (vista()) {
+    @case ('busqueda') {
+      <app-presupuesto-busqueda
+        (nuevoPresupuesto)="irAAlta($event)"
+        (verDetalle)="irADetalle($event)"
+      />
+    }
+    @case ('alta') {
+      <app-presupuesto-form
+        [patente]="patenteActual()"
+        (creado)="onCreado($event)"
+        (cancelar)="irABusqueda()"
+      />
+    }
+    @case ('detalle') {
+      <app-presupuesto-detail (volver)="irABusqueda()" />
+    }
+  }
+</div>
