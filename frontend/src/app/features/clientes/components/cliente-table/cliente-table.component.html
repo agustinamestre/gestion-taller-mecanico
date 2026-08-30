@@ -40,7 +40,6 @@
       <th>Nombre</th>
       <th>Teléfono</th>
       <th>Email</th>
-      <th>Situación IVA</th>
       <th>Estado</th>
       <th class="col-acciones">Acciones</th>
     </tr>
@@ -52,7 +51,6 @@
       <td>{{ cliente.nombre }} {{ cliente.apellido }}</td>
       <td>{{ cliente.telefono }}</td>
       <td>{{ cliente.email }}</td>
-      <td>{{ formatearSituacionIva(cliente.situacionIva) }}</td>
       <td>
         <span class="etiqueta-estado" [class.activo]="cliente.activo" [class.inactivo]="!cliente.activo">
           {{ cliente.activo ? 'Activo' : 'Inactivo' }}
