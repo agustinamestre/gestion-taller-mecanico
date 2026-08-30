@@ -1,5 +1,5 @@
 import { inject, Injectable, signal, computed } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, tap, throwError } from 'rxjs';
 import { environment } from '../../../../environments/environment';
 import { NotificationService } from '../../../shared/services/notification.service';
@@ -50,6 +50,13 @@ export class VehiculoService {
       catchError((err: HttpErrorResponse) => this.manejarError(err))
     );
   }
+
+  buscar(patente: string) {
+    const params = new HttpParams().set('patente', patente);
+    return this.http.get<VehiculoResponse[]>(API_BASE, { params }).pipe(
+      catchError((err: HttpErrorResponse) => this.manejarError(err))
+    );
+  } 
 
   modificar(id: number, request: ModificarVehiculoRequest) {
     this.estadoCarga.set('cargando');
