@@ -1,0 +1,51 @@
+<div class="detalle-container">
+  <div class="ficha-form">
+
+    <div class="form-header">
+      <h2>Nuevo presupuesto</h2>
+    </div>
+
+    @if (buscandoVehiculo()) {
+      <p class="mensaje-carga">Buscando vehículo con patente {{ patente() }}...</p>
+    } @else if (vehiculoNoEncontrado()) {
+      <div class="vehiculo-no-encontrado">
+        <p>No se encontró ningún vehículo con la patente <strong>{{ patente() }}</strong>.</p>
+        <p-button label="Volver" severity="secondary" [outlined]="true" (onClick)="cancelar.emit()" />
+      </div>
+    } @else {
+
+      <div class="seccion">
+        <label class="seccion-label">Vehículo <span class="opcional">(opcional)</span></label>
+        @if (vehiculoElegido(); as vehiculo) {
+          <div class="vehiculo-info">
+            <div class="vehiculo-info-datos">
+              <span class="patente">{{ vehiculo.patente }}</span>
+              <span class="detalle">{{ vehiculo.marca }} {{ vehiculo.modelo }} · {{ vehiculo.anio }}</span>
+              <span class="cliente">{{ vehiculo.cliente.nombre }} {{ vehiculo.cliente.apellido }}</span>
+            </div>
+            <button pButton icon="pi pi-times" class="p-button-text p-button-sm" (click)="quitarVehiculo()" pTooltip="Quitar vehículo"></button>
+          </div>
+        } @else {
+          <app-vehiculo-selector (vehiculoSeleccionado)="onVehiculoSeleccionado($event)" />
+        }
+      </div>
+
+      <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+        <div class="campo">
+          <label>Observaciones</label>
+          <textarea pTextarea formControlName="observaciones" rows="3" placeholder="Observaciones opcionales"></textarea>
+        </div>
+        <p class="ayuda">Los ítems del presupuesto se agregan después de crearlo.</p>
+        <div class="form-footer">
+          <p-button label="Cancelar" severity="secondary" [outlined]="true" (onClick)="cancelar.emit()" type="button" />
+          <p-button
+            [label]="presupuestoService.cargando() ? 'Creando...' : 'Crear presupuesto'"
+            [loading]="presupuestoService.cargando()"
+            type="submit"
+          />
+        </div>
+      </form>
+
+    }
+  </div>
+</div>
