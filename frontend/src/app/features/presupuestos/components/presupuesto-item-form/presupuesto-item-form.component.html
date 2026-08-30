@@ -1,0 +1,61 @@
+<div class="form-container">
+  <div class="form-card">
+    <div class="form-icono">
+      <i class="pi pi-box"></i>
+    </div>
+    <h2>{{ itemEnEdicion() ? 'Editar ítem' : 'Agregar ítem' }}</h2>
+
+    <div class="form-completo">
+      <div class="campo">
+        <label>Filtrar por tipo</label>
+        <p-selectButton
+          [options]="opcionesFiltro"
+          [ngModel]="filtroTipo()"
+          (ngModelChange)="filtroTipo.set($event)"
+          optionLabel="label"
+          optionValue="value"
+        />
+      </div>
+
+      <div class="campo">
+        <label for="producto">Producto *</label>
+        <p-select
+          id="producto"
+          [options]="productosFiltrados()"
+          [ngModel]="productoIdSeleccionado()"
+          (ngModelChange)="onProductoChange($event)"
+          optionLabel="nombre"
+          optionValue="id"
+          [filter]="true"
+          filterBy="nombre"
+          placeholder="Seleccioná un producto"
+        />
+      </div>
+
+      <div class="campo">
+        <label for="descripcion">Descripción *</label>
+        <input pInputText id="descripcion" [ngModel]="descripcion()" (ngModelChange)="descripcion.set($event)" />
+      </div>
+
+      <div class="campo">
+        <label for="cantidad">Cantidad *</label>
+        <p-inputnumber id="cantidad" [ngModel]="cantidad()" (ngModelChange)="cantidad.set($event)" [min]="1" [useGrouping]="false" />
+      </div>
+
+      <div class="campo">
+        <label for="precio">Precio unitario *</label>
+        <p-inputnumber id="precio" [ngModel]="precio()" (ngModelChange)="precio.set($event)" mode="currency" currency="ARS" locale="es-AR" [min]="0" />
+      </div>
+
+      <div class="form-footer">
+        <p-button label="Cancelar" severity="secondary" [outlined]="true" (onClick)="cancelar.emit()" type="button" />
+        <p-button
+          [label]="presupuestoService.cargando() ? 'Guardando...' : 'Confirmar'"
+          [loading]="presupuestoService.cargando()"
+          [disabled]="invalido()"
+          (onClick)="guardar()"
+        />
+      </div>
+    </div>
+  </div>
+</div>
