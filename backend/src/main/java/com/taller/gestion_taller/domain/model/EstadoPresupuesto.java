@@ -4,7 +4,7 @@ public enum EstadoPresupuesto {
     PENDIENTE {
         @Override
         public boolean puedeTransicionarA(EstadoPresupuesto nuevo) {
-            return nuevo == APROBADO || nuevo == RECHAZADO || nuevo == VENCIDO;
+            return nuevo == APROBADO || nuevo == RECHAZADO;
         }
     },
     APROBADO {
