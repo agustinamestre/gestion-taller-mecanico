@@ -18,6 +18,15 @@
   border-radius: var(--radius) !important;
 }
 
+.input-fecha {
+  width: 150px;
+
+  ::ng-deep input {
+    border-radius: var(--radius) !important;
+    width: 100%;
+  }
+}
+
 .etiqueta-estado {
   display: inline-block;
   padding: 0.2rem 0.6rem;
@@ -59,6 +68,10 @@
   }
 
   .buscador-input {
+    width: 100% !important;
+  }
+
+  .input-fecha {
     width: 100% !important;
   }
 }
