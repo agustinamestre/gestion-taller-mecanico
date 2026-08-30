@@ -1,0 +1,93 @@
+.detail-container {
+  max-width: 850px;
+  margin: 0 auto;
+  background: var(--surface-color);
+  border-radius: var(--radius);
+  padding: var(--espaciado);
+  border: 1px solid var(--border-color);
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+
+  h2 { margin: 0; flex: 1; color: var(--text-main); }
+}
+
+.etiqueta-estado {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  &.estado-pendiente { background: #fef3c7; color: var(--warning-color); }
+  &.estado-aprobado { background: #d1fae5; color: var(--success-color); }
+  &.estado-rechazado { background: #fee2e2; color: var(--error-color); }
+  &.estado-vencido { background: #e2e8f0; color: var(--text-muted); }
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  background: var(--bg-color);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 1rem;
+
+  .label { display: block; font-size: 0.8rem; color: var(--text-muted); }
+  .value { font-weight: 600; color: var(--text-main); }
+  .total { color: var(--primary-color); font-size: 1.1rem; }
+}
+
+.observaciones {
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 1.5rem;
+}
+
+.items-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 0 0.75rem 0;
+
+  h3 { margin: 0; color: var(--text-main); }
+}
+
+.etiqueta-tipo {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius);
+  font-size: 0.8rem;
+  font-weight: 600;
+
+  &.tipo-repuesto { background: #dbeafe; color: var(--primary-color); }
+  &.tipo-mano_de_obra { background: #fef3c7; color: var(--warning-color); }
+}
+
+.botones-fila {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.color-eliminar {
+  color: var(--error-color) !important;
+}
+
+.detail-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.empty-msg {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 1.5rem;
+}
