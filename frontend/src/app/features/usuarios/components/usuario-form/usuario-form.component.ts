@@ -32,6 +32,9 @@ export class UsuarioFormComponent implements OnInit {
     password: ['', [Validators.required, Validators.minLength(6)]],
     nombre: ['', [Validators.required]],
     apellido: ['', [Validators.required]],
+    telefono: ['', [Validators.required]],
+    email: ['', [Validators.email]],
+    direccion: ['', [Validators.required]],
     rol: [null as string | null, [Validators.required]],
   });
 
@@ -43,6 +46,9 @@ export class UsuarioFormComponent implements OnInit {
       this.form.patchValue({
         nombre: usuario.nombre,
         apellido: usuario.apellido,
+        telefono: usuario.telefono,
+        email: usuario.email,
+        direccion: usuario.direccion,
         rol: usuario.rol,
       });
       this.form.get('username')?.clearValidators();
@@ -72,6 +78,9 @@ export class UsuarioFormComponent implements OnInit {
         .modificar(this.usuarioId, {
           nombre: val.nombre!,
           apellido: val.apellido!,
+          telefono: val.telefono!,
+          email: val.email || null,
+          direccion: val.direccion!,
           rol: val.rol as any,
         })
         .subscribe({
@@ -84,6 +93,9 @@ export class UsuarioFormComponent implements OnInit {
           password: val.password!,
           nombre: val.nombre!,
           apellido: val.apellido!,
+          telefono: val.telefono!,
+          email: val.email || null,
+          direccion: val.direccion!,
           rol: val.rol as any,
         })
         .subscribe({

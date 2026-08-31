@@ -21,6 +21,9 @@ public class ModificarPerfilPropioUseCase implements ModificarPerfilPropio {
         Usuario modificado = usuario.toBuilder()
                 .nombre(command.nombre())
                 .apellido(command.apellido())
+                .telefono(command.telefono())
+                .email(command.email())
+                .direccion(command.direccion())
                 .build();
 
         return usuarioRepository.save(modificado);

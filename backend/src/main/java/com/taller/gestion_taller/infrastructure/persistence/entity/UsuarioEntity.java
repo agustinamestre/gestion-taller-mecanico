@@ -28,6 +28,15 @@ public class UsuarioEntity {
     @Column(nullable = false, length = 100)
     private String apellido;
 
+    @Column(nullable = false)
+    private String telefono;
+
+    @Column(length = 150)
+    private String email;
+
+    @Column(length = 255, nullable = false)
+    private String direccion;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private Rol rol;

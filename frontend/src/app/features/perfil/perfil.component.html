@@ -35,6 +35,18 @@
             <span class="label">Apellido</span>
             <span class="valor">{{ perfil.apellido }}</span>
           </div>
+          <div class="dato">
+            <span class="label">Teléfono</span>
+            <span class="valor">{{ perfil.telefono }}</span>
+          </div>
+          <div class="dato">
+            <span class="label">Email</span>
+            <span class="valor">{{ perfil.email || '-' }}</span>
+          </div>
+          <div class="dato">
+            <span class="label">Dirección</span>
+            <span class="valor">{{ perfil.direccion }}</span>
+          </div>
         </div>
       </div>
     } @else {
@@ -51,6 +63,30 @@
           <label for="apellido">Apellido *</label>
           <input pInputText id="apellido" formControlName="apellido" placeholder="Apellido" />
           @if (invalid('apellido')) {
+            <span class="error-msg">Campo requerido</span>
+          }
+        </div>
+
+        <div class="campo" [class.campo-error]="invalid('telefono')">
+          <label for="telefono">Teléfono *</label>
+          <input pInputText id="telefono" formControlName="telefono" placeholder="11 1234-5678" />
+          @if (invalid('telefono')) {
+            <span class="error-msg">Campo requerido</span>
+          }
+        </div>
+
+        <div class="campo" [class.campo-error]="invalid('email')">
+          <label for="email">Email</label>
+          <input pInputText id="email" formControlName="email" type="email" placeholder="juan@mail.com" />
+          @if (invalid('email')) {
+            <span class="error-msg">Email inválido</span>
+          }
+        </div>
+
+        <div class="campo full" [class.campo-error]="invalid('direccion')">
+          <label for="direccion">Dirección *</label>
+          <input pInputText id="direccion" formControlName="direccion" placeholder="Av. Siempreviva 742" />
+          @if (invalid('direccion')) {
             <span class="error-msg">Campo requerido</span>
           }
         </div>

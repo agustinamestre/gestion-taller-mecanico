@@ -7,6 +7,9 @@ export interface UsuarioResponse {
   username: string;
   nombre: string;
   apellido: string;
+  telefono: string;
+  email: string | null;
+  direccion: string;
   rol: Rol;
   activo: boolean;
 }
@@ -16,11 +19,17 @@ export interface UsuarioRequest {
   password: string;
   nombre: string;
   apellido: string;
+  telefono: string;
+  email: string | null;
+  direccion: string;
   rol: Rol;
 }
 
 export interface ModificarUsuarioRequest {
   nombre: string;
   apellido: string;
+  telefono: string;
+  email: string | null;
+  direccion: string;
   rol: Rol;
 }

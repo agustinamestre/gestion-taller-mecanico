@@ -30,7 +30,7 @@ class RegistrarUsuarioUseCaseTest {
     private static final String CLAVE_HASH_FIXTURE = "fixture-hash-registro";
 
     private static final RegistrarUsuarioCommand COMMAND = new RegistrarUsuarioCommand(
-            "jperez", CLAVE_FIXTURE, "Juan", "Perez", Rol.EMPLEADO
+            "jperez", CLAVE_FIXTURE, "Juan", "Perez", "1122334455", "jperez@taller.com", "Calle Falsa 123", Rol.EMPLEADO
     );
 
     @Mock
@@ -52,6 +52,9 @@ class RegistrarUsuarioUseCaseTest {
                 .username("jperez")
                 .nombre("Juan")
                 .apellido("Perez")
+                .telefono("1122334455")
+                .email("jperez@taller.com")
+                .direccion("Calle Falsa 123")
                 .rol(Rol.EMPLEADO)
                 .activo(true)
                 .build();
