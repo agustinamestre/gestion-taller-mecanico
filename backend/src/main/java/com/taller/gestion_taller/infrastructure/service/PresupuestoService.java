@@ -22,6 +22,7 @@ public class PresupuestoService {
     private final EliminarItemPresupuesto eliminarItemPresupuestoUseCase;
     private final CambiarEstadoPresupuesto cambiarEstadoPresupuestoUseCase;
     private final AsociarVehiculoAPresupuesto asociarVehiculoAPresupuestoUseCase;
+    private final MarcarPresupuestosVencidos marcarPresupuestosVencidosUseCase;
 
     @Transactional
     public Presupuesto registrarPresupuesto(RegistrarPresupuestoCommand command) {
@@ -61,5 +62,10 @@ public class PresupuestoService {
     @Transactional
     public Presupuesto asociarVehiculo(AsociarVehiculoAPresupuestoCommand command) {
         return asociarVehiculoAPresupuestoUseCase.asociar(command);
+    }
+
+    @Transactional
+    public int marcarPresupuestosVencidos() {
+        return marcarPresupuestosVencidosUseCase.marcar();
     }
 }

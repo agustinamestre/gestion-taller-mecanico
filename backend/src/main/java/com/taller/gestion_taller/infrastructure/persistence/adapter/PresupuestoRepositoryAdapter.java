@@ -2,6 +2,7 @@ package com.taller.gestion_taller.infrastructure.persistence.adapter;
 
 import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
+import com.taller.gestion_taller.domain.model.EstadoPresupuesto;
 import com.taller.gestion_taller.domain.model.Presupuesto;
 import com.taller.gestion_taller.domain.repositories.PresupuestoRepository;
 import com.taller.gestion_taller.infrastructure.persistence.entity.PresupuestoEntity;
@@ -68,6 +69,13 @@ public class PresupuestoRepositoryAdapter implements PresupuestoRepository {
     @Override
     public List<Presupuesto> findByPatenteAndFechaEmisionBetween(String patente, LocalDate desde, LocalDate hasta) {
         return jpaPresupuestoRepository.findByVehiculo_PatenteAndFechaEmisionBetween(patente, desde, hasta).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Presupuesto> findByEstadoAndFechaVencimientoBefore(EstadoPresupuesto estado, LocalDate fecha) {
+        return jpaPresupuestoRepository.findByEstadoAndFechaVencimientoBefore(estado, fecha).stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }

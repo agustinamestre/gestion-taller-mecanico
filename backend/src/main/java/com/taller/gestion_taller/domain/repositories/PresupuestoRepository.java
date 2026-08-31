@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.domain.repositories;
 
+import com.taller.gestion_taller.domain.model.EstadoPresupuesto;
 import com.taller.gestion_taller.domain.model.Presupuesto;
 
 import java.time.LocalDate;
@@ -13,4 +14,5 @@ public interface PresupuestoRepository {
     List<Presupuesto> findAll();
     List<Presupuesto> findByFechaEmisionBetween(LocalDate desde, LocalDate hasta);
     List<Presupuesto> findByPatenteAndFechaEmisionBetween(String patente, LocalDate desde, LocalDate hasta);
+    List<Presupuesto> findByEstadoAndFechaVencimientoBefore(EstadoPresupuesto estado, LocalDate fecha);
 }
