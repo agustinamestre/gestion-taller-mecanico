@@ -1,0 +1,78 @@
+@if (perfilService.perfil(); as perfil) {
+  <div class="detalle-container">
+
+    <div class="cabecera">
+      <div class="cabecera-titulo">
+        <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver()"></button>
+        <h2>Mi perfil</h2>
+        <span class="etiqueta-rol" [class]="'rol-' + perfil.rol.toLowerCase()">
+          {{ perfil.rol === 'ADMIN' ? 'Admin' : 'Empleado' }}
+        </span>
+      </div>
+      @if (!editando()) {
+        <div class="cabecera-acciones">
+          <p-button
+            label="Editar"
+            icon="pi pi-pencil"
+            (onClick)="editar()"
+          />
+        </div>
+      }
+    </div>
+
+    @if (!editando()) {
+      <div class="ficha">
+        <div class="ficha-datos">
+          <div class="dato">
+            <span class="label">Usuario</span>
+            <span class="valor">{{ perfil.username }}</span>
+          </div>
+          <div class="dato">
+            <span class="label">Nombre</span>
+            <span class="valor">{{ perfil.nombre }}</span>
+          </div>
+          <div class="dato">
+            <span class="label">Apellido</span>
+            <span class="valor">{{ perfil.apellido }}</span>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <form [formGroup]="form" (ngSubmit)="guardar()" novalidate class="ficha ficha-form">
+        <div class="campo" [class.campo-error]="invalid('nombre')">
+          <label for="nombre">Nombre *</label>
+          <input pInputText id="nombre" formControlName="nombre" placeholder="Nombre" />
+          @if (invalid('nombre')) {
+            <span class="error-msg">Campo requerido</span>
+          }
+        </div>
+
+        <div class="campo" [class.campo-error]="invalid('apellido')">
+          <label for="apellido">Apellido *</label>
+          <input pInputText id="apellido" formControlName="apellido" placeholder="Apellido" />
+          @if (invalid('apellido')) {
+            <span class="error-msg">Campo requerido</span>
+          }
+        </div>
+
+        <div class="form-footer">
+          <p-button
+            label="Cancelar"
+            severity="secondary"
+            [outlined]="true"
+            (onClick)="cancelar()"
+            type="button"
+          />
+          <p-button
+            [label]="perfilService.cargando() ? 'Guardando...' : 'Guardar cambios'"
+            [loading]="perfilService.cargando()"
+            type="submit"
+          />
+        </div>
+      </form>
+    }
+
+    <app-cambiar-password />
+
+  </div>
+}
