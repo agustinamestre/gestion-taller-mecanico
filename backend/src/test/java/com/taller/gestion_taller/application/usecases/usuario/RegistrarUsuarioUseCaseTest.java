@@ -26,8 +26,11 @@ import static org.mockito.Mockito.*;
 @DisplayName("RegistrarUsuarioUseCase")
 class RegistrarUsuarioUseCaseTest {
 
+    private static final String CLAVE_FIXTURE = "fixture-clave-registro";
+    private static final String CLAVE_HASH_FIXTURE = "fixture-hash-registro";
+
     private static final RegistrarUsuarioCommand COMMAND = new RegistrarUsuarioCommand(
-            "jperez", "clave123", "Juan", "Perez", Rol.EMPLEADO
+            "jperez", CLAVE_FIXTURE, "Juan", "Perez", Rol.EMPLEADO
     );
 
     @Mock
@@ -55,12 +58,12 @@ class RegistrarUsuarioUseCaseTest {
 
         Usuario usuarioGuardado = usuarioSinHash.toBuilder()
                 .id(1L)
-                .password("hash-clave123")
+                .password(CLAVE_HASH_FIXTURE)
                 .build();
 
         when(usuarioRepository.findByUsername("jperez")).thenReturn(Optional.empty());
         when(mapper.commandToDomain(COMMAND)).thenReturn(usuarioSinHash);
-        when(passwordEncoder.encode("clave123")).thenReturn("hash-clave123");
+        when(passwordEncoder.encode(CLAVE_FIXTURE)).thenReturn(CLAVE_HASH_FIXTURE);
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuarioGuardado);
 
         Usuario resultado = useCase.registrar(COMMAND);
@@ -69,7 +72,7 @@ class RegistrarUsuarioUseCaseTest {
 
         ArgumentCaptor<Usuario> captor = ArgumentCaptor.forClass(Usuario.class);
         verify(usuarioRepository).save(captor.capture());
-        assertThat(captor.getValue().getPassword()).isEqualTo("hash-clave123");
+        assertThat(captor.getValue().getPassword()).isEqualTo(CLAVE_HASH_FIXTURE);
         assertThat(captor.getValue().getUsername()).isEqualTo("jperez");
     }
 

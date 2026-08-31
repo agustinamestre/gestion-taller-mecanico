@@ -25,8 +25,11 @@ import static org.mockito.Mockito.*;
 @DisplayName("CambiarPasswordUseCase")
 class CambiarPasswordUseCaseTest {
 
+    private static final String CLAVE_ANTERIOR_FIXTURE = "fixture-clave-anterior";
+    private static final String CLAVE_NUEVA_FIXTURE = "fixture-clave-nueva";
+
     private static final CambiarPasswordCommand COMMAND = new CambiarPasswordCommand(
-            "jperez", "actual123", "nueva123"
+            "jperez", CLAVE_ANTERIOR_FIXTURE, CLAVE_NUEVA_FIXTURE
     );
 
     @Mock
@@ -56,8 +59,8 @@ class CambiarPasswordUseCaseTest {
         Usuario usuario = usuarioExistente();
 
         when(usuarioRepository.findByUsername("jperez")).thenReturn(Optional.of(usuario));
-        when(passwordEncoder.matches("actual123", "hashActual")).thenReturn(true);
-        when(passwordEncoder.encode("nueva123")).thenReturn("hashNueva");
+        when(passwordEncoder.matches(CLAVE_ANTERIOR_FIXTURE, "hashActual")).thenReturn(true);
+        when(passwordEncoder.encode(CLAVE_NUEVA_FIXTURE)).thenReturn("hashNueva");
 
         useCase.cambiar(COMMAND);
 
@@ -83,7 +86,7 @@ class CambiarPasswordUseCaseTest {
         Usuario usuario = usuarioExistente();
 
         when(usuarioRepository.findByUsername("jperez")).thenReturn(Optional.of(usuario));
-        when(passwordEncoder.matches("actual123", "hashActual")).thenReturn(false);
+        when(passwordEncoder.matches(CLAVE_ANTERIOR_FIXTURE, "hashActual")).thenReturn(false);
 
         Exception exception = assertThrows(BusinessRunTimeException.class, () -> {
             useCase.cambiar(COMMAND);
