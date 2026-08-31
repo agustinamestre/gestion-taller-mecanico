@@ -34,10 +34,10 @@
   font-size: 0.8rem;
   font-weight: 600;
 
-  &.estado-pendiente { background: #fef3c7; color: var(--warning-color); }
-  &.estado-aprobado { background: #d1fae5; color: var(--success-color); }
-  &.estado-rechazado { background: #fee2e2; color: var(--error-color); }
-  &.estado-vencido { background: #e2e8f0; color: var(--text-muted); }
+  &.estado-pendiente { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
+  &.estado-aprobado { background: var(--fondo-tenue-exito); color: var(--success-color); }
+  &.estado-rechazado { background: var(--fondo-tenue-error); color: var(--error-color); }
+  &.estado-vencido { background: var(--fondo-tenue-neutro); color: var(--text-muted); }
 }
 
 .sin-vehiculo {
