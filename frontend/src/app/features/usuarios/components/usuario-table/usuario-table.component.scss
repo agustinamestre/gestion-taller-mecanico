@@ -1,0 +1,97 @@
+@use 'tablas' as *;
+@use 'etiquetas' as *;
+
+.usuarios-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.cabecera {
+  @include cabecera-listado;
+}
+
+.cabecera h2 {
+  margin: 0;
+  color: var(--text-main);
+}
+
+.header-titulo {
+  @include header-titulo-listado;
+}
+
+.filtros {
+  @include filtros-listado;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.buscador-input {
+  @include input-buscador(280px);
+}
+
+.filtro-activos {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  span {
+    color: var(--text-main);
+    font-size: 0.9rem;
+  }
+}
+
+.tabla-scroll {
+  @include tabla-scroll-horizontal;
+}
+
+.col-acciones {
+  width: 100px;
+  text-align: center;
+}
+
+.botones-fila {
+  @include botones-fila;
+  justify-content: center;
+}
+
+.fila-inactiva td {
+  opacity: 0.5;
+}
+
+.etiqueta-estado {
+  @include etiqueta-base;
+
+  &.activo { background: var(--fondo-tenue-exito); color: var(--success-color); }
+  &.inactivo { background: var(--fondo-tenue-neutro); color: var(--text-muted); }
+}
+
+.etiqueta-rol {
+  @include etiqueta-base;
+
+  &.rol-admin { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
+  &.rol-empleado { background: var(--fondo-tenue-primario); color: var(--primary-color); }
+}
+
+.boton-accion {
+  &.color-editar {
+    @include boton-color-editar;
+  }
+  &.color-eliminar {
+    @include boton-color-eliminar;
+  }
+}
+
+.empty-msg {
+  text-align: center;
+  color: var(--text-muted);
+  padding: var(--espaciado);
+}
+
+.tabla-usuarios {
+  width: 100%;
+}
+
+@include en-mobile {
+  @include listado-responsive;
+}
