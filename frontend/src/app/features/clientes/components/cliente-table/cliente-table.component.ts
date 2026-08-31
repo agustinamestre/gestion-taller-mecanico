@@ -1,4 +1,5 @@
 import { Component, inject, output, signal, computed } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -26,6 +27,7 @@ import { ConfirmDialogComponent } from '../../../../shared/components/confirm-di
 })
 export class ClienteTableComponent {
   readonly clienteService = inject(ClienteService);
+  private readonly location = inject(Location);
 
   readonly nuevo = output<void>();
   readonly editar = output<ClienteResponse>();
@@ -51,6 +53,10 @@ export class ClienteTableComponent {
         c.email.toLowerCase().includes(texto)
     );
   });
+
+  volver() {
+    this.location.back();
+  }
 
   abrirConfirmDesactivar(cliente: ClienteResponse) {
     this.clienteADesactivar.set(cliente);

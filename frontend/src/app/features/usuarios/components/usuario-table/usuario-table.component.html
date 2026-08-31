@@ -1,0 +1,94 @@
+<div class="usuarios-container">
+  <div class="cabecera">
+    <div class="header-titulo">
+      <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver()"></button>
+      <h2>Usuarios</h2>
+    </div>
+    <p-button label="Nuevo usuario" icon="pi pi-plus" (onClick)="nuevo.emit()" />
+  </div>
+
+  <div class="filtros">
+    <input
+      pInputText
+      type="text"
+      placeholder="Buscar por usuario, nombre o apellido..."
+      [value]="filtro()"
+      (input)="filtro.set($any($event.target).value)"
+      class="buscador-input"
+    />
+
+    <div class="filtro-activos">
+      <p-toggleswitch
+        [(ngModel)]="mostrarInactivos"
+        [ngModelOptions]="{ standalone: true }"
+        (ngModelChange)="mostrarInactivos.set($event)"
+      />
+      <span>Ver inactivos</span>
+    </div>
+  </div>
+
+  <div class="tabla-scroll">
+  <p-table
+    [value]="usuariosFiltrados()"
+    [loading]="usuarioService.cargando()"
+    [paginator]="true"
+    [rows]="10"
+    [rowHover]="true"
+    dataKey="id"
+    styleClass="tabla-usuarios"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Usuario</th>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Rol</th>
+        <th>Estado</th>
+        <th class="col-acciones">Acciones</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-usuario>
+      <tr [class.fila-inactiva]="!usuario.activo">
+        <td>{{ usuario.username }}</td>
+        <td>{{ usuario.nombre }}</td>
+        <td>{{ usuario.apellido }}</td>
+        <td>
+          <span class="etiqueta-rol" [class]="'rol-' + usuario.rol.toLowerCase()">
+            {{ usuario.rol === 'ADMIN' ? 'Admin' : 'Empleado' }}
+          </span>
+        </td>
+        <td>
+          <span class="etiqueta-estado" [class.activo]="usuario.activo" [class.inactivo]="!usuario.activo">
+            {{ usuario.activo ? 'Activo' : 'Inactivo' }}
+          </span>
+        </td>
+        <td class="col-acciones">
+          <div class="botones-fila">
+            <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm boton-accion color-editar" (click)="editar.emit(usuario)" pTooltip="Editar"></button>
+            @if (usuario.activo) {
+              <button pButton icon="pi pi-trash" class="p-button-text p-button-sm boton-accion color-eliminar" (click)="abrirConfirmDesactivar(usuario)" pTooltip="Desactivar"></button>
+            }
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="empty-msg">No se encontraron usuarios</td>
+      </tr>
+    </ng-template>
+  </p-table>
+  </div>
+</div>
+
+<app-confirm-dialog
+  [visible]="dialogVisible()"
+  titulo="Desactivar usuario"
+  [mensaje]="'¿Desactivar a ' + usuarioADesactivar()?.nombre + ' ' + usuarioADesactivar()?.apellido + '? No podrá volver a iniciar sesión.'"
+  labelConfirmar="Desactivar"
+  [cargando]="usuarioService.cargando()"
+  (confirmado)="onConfirmado()"
+  (cancelado)="cerrarDialog()"
+/>

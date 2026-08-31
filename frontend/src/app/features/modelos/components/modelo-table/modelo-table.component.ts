@@ -1,4 +1,5 @@
 import { Component, inject, OnInit, output, signal, computed } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -30,6 +31,7 @@ import { ModeloResponse } from '../../models/modelo.model';
 export class ModeloTableComponent implements OnInit {
   readonly modeloService = inject(ModeloService);
   readonly marcaService = inject(MarcaService);
+  private readonly location = inject(Location);
 
   readonly nuevo = output<void>();
   readonly editar = output<ModeloResponse>();
@@ -48,6 +50,10 @@ export class ModeloTableComponent implements OnInit {
       return coincideMarca && coincideTexto;
     });
   });
+
+  volver() {
+    this.location.back();
+  }
 
   ngOnInit() {
     if (this.marcaService.marcas().length === 0) {

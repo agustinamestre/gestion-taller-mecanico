@@ -1,5 +1,7 @@
 package com.taller.gestion_taller.infrastructure.service;
 
+import com.taller.gestion_taller.application.command.usuario.CambiarPasswordCommand;
+import com.taller.gestion_taller.application.command.usuario.ModificarPerfilPropioCommand;
 import com.taller.gestion_taller.application.command.usuario.ModificarUsuarioCommand;
 import com.taller.gestion_taller.application.command.usuario.RegistrarUsuarioCommand;
 import com.taller.gestion_taller.application.usecases.usuario.*;
@@ -18,6 +20,8 @@ public class UsuarioService {
     private final ModificarUsuario modificarUsuarioUseCase;
     private final DesactivarUsuario desactivarUsuarioUseCase;
     private final ObtenerPerfilPropio obtenerPerfilPropioUseCase;
+    private final ModificarPerfilPropio modificarPerfilPropioUseCase;
+    private final CambiarPassword cambiarPasswordUseCase;
 
     @Transactional
     public Usuario registrar(RegistrarUsuarioCommand command) {
@@ -47,5 +51,15 @@ public class UsuarioService {
     @Transactional(readOnly = true)
     public Usuario obtenerPerfilPropio(String username) {
         return obtenerPerfilPropioUseCase.obtener(username);
+    }
+
+    @Transactional
+    public Usuario modificarPerfilPropio(ModificarPerfilPropioCommand command) {
+        return modificarPerfilPropioUseCase.modificar(command);
+    }
+
+    @Transactional
+    public void cambiarPassword(CambiarPasswordCommand command) {
+        cambiarPasswordUseCase.cambiar(command);
     }
 }

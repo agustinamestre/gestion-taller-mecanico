@@ -27,6 +27,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
+  background: var(--bg-color);
+  border-radius: var(--radius);
+  padding: 1rem;
 }
 
 @mixin dato-base {

@@ -1,0 +1,23 @@
+<div class="usuarios-shell">
+  @switch (vista()) {
+    @case ('tabla') {
+      <app-usuario-table
+        (nuevo)="abrirNuevo()"
+        (editar)="editarUsuario($event)"
+      />
+    }
+    @case ('form-nuevo') {
+      <app-usuario-form
+        (guardado)="onGuardado()"
+        (cancelar)="volver()"
+      />
+    }
+    @case ('form-editar') {
+      <app-usuario-form
+        [edicion]="true"
+        (guardado)="onGuardado()"
+        (cancelar)="volver()"
+      />
+    }
+  }
+</div>

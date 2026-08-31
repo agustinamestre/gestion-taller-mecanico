@@ -36,4 +36,15 @@ public class UsuarioBeanConfiguration {
     public ObtenerPerfilPropio obtenerPerfilPropioUseCase(UsuarioRepository usuarioRepository) {
         return new ObtenerPerfilPropioUseCase(usuarioRepository);
     }
+
+    @Bean
+    public ModificarPerfilPropio modificarPerfilPropioUseCase(UsuarioRepository usuarioRepository) {
+        return new ModificarPerfilPropioUseCase(usuarioRepository);
+    }
+
+    @Bean
+    public CambiarPassword cambiarPasswordUseCase(UsuarioRepository usuarioRepository,
+                                                   PasswordEncoder passwordEncoder) {
+        return new CambiarPasswordUseCase(usuarioRepository, passwordEncoder);
+    }
 }

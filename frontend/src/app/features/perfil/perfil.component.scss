@@ -1,0 +1,86 @@
+@use 'etiquetas' as *;
+@use 'detalle' as *;
+@use 'tablas' as *;
+@use 'formularios' as *;
+
+.detalle-container {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaciado);
+}
+
+.cabecera {
+  @include cabecera-detalle;
+  flex-wrap: wrap;
+}
+
+.cabecera-titulo {
+  @include cabecera-titulo-detalle;
+
+  h2 { margin: 0; color: var(--text-main); }
+}
+
+.cabecera-acciones {
+  @include cabecera-acciones-detalle;
+}
+
+.ficha {
+  @include ficha-card;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ficha-form {
+  @include ficha-form-box;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  input { width: 100%; }
+
+  &.campo-error input {
+    border-color: var(--error-color) !important;
+  }
+}
+
+.error-msg {
+  font-size: 0.75rem;
+  color: var(--error-color);
+}
+
+.form-footer {
+  @include form-footer;
+}
+
+.ficha-datos {
+  @include ficha-datos-grid;
+}
+
+.dato {
+  @include dato-base;
+}
+
+.etiqueta-rol {
+  @include etiqueta-base;
+
+  &.rol-admin { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
+  &.rol-empleado { background: var(--fondo-tenue-primario); color: var(--primary-color); }
+}
+
+@include en-mobile {
+  @include detalle-responsive;
+}

@@ -38,6 +38,7 @@
 
 .dato {
   @include dato-base;
+  &.full { grid-column: 1 / -1; }
 }
 
 .etiqueta-estado {

@@ -1,4 +1,5 @@
 import { Component, inject, output, signal, computed } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TableModule } from 'primeng/table';
 import { ButtonModule } from 'primeng/button';
@@ -26,6 +27,7 @@ import { MarcaResponse } from '../../models/marca.model';
 })
 export class MarcaTableComponent {
   readonly marcaService = inject(MarcaService);
+  private readonly location = inject(Location);
 
   readonly nuevo = output<void>();
   readonly editar = output<MarcaResponse>();
@@ -39,5 +41,9 @@ export class MarcaTableComponent {
     if (!texto) return base;
     return base.filter((m) => m.nombre.toLowerCase().includes(texto));
   });
+
+  volver() {
+    this.location.back();
+  }
 
 }

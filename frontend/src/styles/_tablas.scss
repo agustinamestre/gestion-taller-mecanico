@@ -17,6 +17,12 @@
   margin-bottom: var(--espaciado);
 }
 
+@mixin header-titulo-listado {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 @mixin filtros-listado {
   display: flex;
   align-items: center;

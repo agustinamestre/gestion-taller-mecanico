@@ -75,6 +75,13 @@ public class PresupuestoBeanConfiguration {
     }
 
     @Bean
+    public EliminarPresupuestosVencidosYRechazados eliminarPresupuestosVencidosYRechazadosUseCase(PresupuestoRepository presupuestoRepository) {
+        return new EliminarPresupuestosVencidosYRechazadosUseCase(
+                presupuestoRepository
+        );
+    }
+
+    @Bean
     public AsociarVehiculoAPresupuesto asociarVehiculoAPresupuestoUseCase(
             PresupuestoRepository presupuestoRepository,
             VehiculoRepository vehiculoRepository,
