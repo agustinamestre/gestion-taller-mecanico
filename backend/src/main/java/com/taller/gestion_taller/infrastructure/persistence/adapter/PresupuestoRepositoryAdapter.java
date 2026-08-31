@@ -80,4 +80,9 @@ public class PresupuestoRepositoryAdapter implements PresupuestoRepository {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public void deleteById(Long id) {
+        jpaPresupuestoRepository.deleteById(id);
+    }
+
 }
