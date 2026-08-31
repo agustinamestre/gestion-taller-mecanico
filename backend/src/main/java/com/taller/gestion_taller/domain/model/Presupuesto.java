@@ -30,18 +30,6 @@ public class Presupuesto {
     @Builder.Default
     private List<ItemPresupuesto> items = new ArrayList<>();
 
-    /**
-     * Punto de entrada oficial para crear un nuevo presupuesto.
-     * <p>
-     * Soporta el flujo del taller donde un presupuesto puede emitirse "en frío"
-     * (sin vehículo registrado) cuando un cliente potencial pide cotización.
-     * <p>
-     * Estado inicial: {@link EstadoPresupuesto#PENDIENTE}.<br>
-     * Fecha emisión: hoy.<br>
-     * Fecha vencimiento: hoy + {@value #DIAS_VENCIMIENTO_DEFAULT} días.
-     * <p>
-     * El vehículo es opcional (R1). Para asociarlo posteriormente usar {@link #asociarVehiculo(Vehiculo)}.
-     */
     public static Presupuesto crearNuevo(Vehiculo vehiculo, String observaciones) {
         LocalDate hoy = LocalDate.now();
         return Presupuesto.builder()
@@ -115,6 +103,17 @@ public class Presupuesto {
         }
         validarInvariantesParaNuevoEstado(nuevoEstado);
         this.estado = nuevoEstado;
+    }
+
+    public void marcarComoVencido() {
+        if (this.estado != EstadoPresupuesto.PENDIENTE) {
+            throw new BusinessRunTimeException(
+                    BusinessErrors.transicionEstadoInvalida(this.estado, EstadoPresupuesto.VENCIDO));
+        }
+        if (!this.fechaVencimiento.isBefore(LocalDate.now())) {
+            throw new BusinessRunTimeException(BusinessErrors.presupuestoAunNoVencido());
+        }
+        this.estado = EstadoPresupuesto.VENCIDO;
     }
 
     public void asociarVehiculo(Vehiculo vehiculo) {

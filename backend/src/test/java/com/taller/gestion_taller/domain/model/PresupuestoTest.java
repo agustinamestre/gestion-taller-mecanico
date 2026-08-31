@@ -63,13 +63,16 @@ class PresupuestoTest {
         }
 
         @Test
-        @DisplayName("permite marcar como vencido aunque no tenga vehiculo")
-        void permiteVencerSinVehiculo() {
+        @DisplayName("NO permite vencer via cambiarEstado (solo el job de vencimiento puede hacerlo)")
+        void rechazaVencerViaTransicionGenerica() {
             Presupuesto presupuesto = presupuestoPendiente(null);
 
-            presupuesto.cambiarEstado(EstadoPresupuesto.VENCIDO);
+            assertThatThrownBy(() -> presupuesto.cambiarEstado(EstadoPresupuesto.VENCIDO))
+                    .isInstanceOf(BusinessRunTimeException.class)
+                    .extracting("businessError.code")
+                    .isEqualTo("TRANSICION_ESTADO_INVALIDA");
 
-            assertThat(presupuesto.getEstado()).isEqualTo(EstadoPresupuesto.VENCIDO);
+            assertThat(presupuesto.getEstado()).isEqualTo(EstadoPresupuesto.PENDIENTE);
         }
 
         @Test
@@ -102,6 +105,65 @@ class PresupuestoTest {
                     .isInstanceOf(BusinessRunTimeException.class)
                     .extracting("businessError.code")
                     .isEqualTo("TRANSICION_ESTADO_INVALIDA");
+        }
+    }
+
+    @Nested
+    @DisplayName("marcarComoVencido")
+    class MarcarComoVencido {
+
+        @Test
+        @DisplayName("vence un presupuesto PENDIENTE cuya fecha de vencimiento ya paso")
+        void venceUnPendienteConFechaVencida() {
+            Presupuesto presupuesto = Presupuesto.builder()
+                    .id(1L)
+                    .vehiculo(null)
+                    .estado(EstadoPresupuesto.PENDIENTE)
+                    .fechaVencimiento(java.time.LocalDate.now().minusDays(1))
+                    .items(new ArrayList<>())
+                    .build();
+
+            presupuesto.marcarComoVencido();
+
+            assertThat(presupuesto.getEstado()).isEqualTo(EstadoPresupuesto.VENCIDO);
+        }
+
+        @Test
+        @DisplayName("rechaza vencer si la fecha de vencimiento aun no llego")
+        void rechazaSiFechaAunNoVencio() {
+            Presupuesto presupuesto = Presupuesto.builder()
+                    .id(1L)
+                    .vehiculo(null)
+                    .estado(EstadoPresupuesto.PENDIENTE)
+                    .fechaVencimiento(java.time.LocalDate.now().plusDays(1))
+                    .items(new ArrayList<>())
+                    .build();
+
+            assertThatThrownBy(presupuesto::marcarComoVencido)
+                    .isInstanceOf(BusinessRunTimeException.class)
+                    .extracting("businessError.code")
+                    .isEqualTo("PRESUPUESTO_AUN_NO_VENCIDO");
+
+            assertThat(presupuesto.getEstado()).isEqualTo(EstadoPresupuesto.PENDIENTE);
+        }
+
+        @Test
+        @DisplayName("rechaza vencer un presupuesto que no esta PENDIENTE (ej: APROBADO)")
+        void rechazaSiNoEstaPendiente() {
+            Presupuesto presupuesto = Presupuesto.builder()
+                    .id(1L)
+                    .vehiculo(mock(Vehiculo.class))
+                    .estado(EstadoPresupuesto.APROBADO)
+                    .fechaVencimiento(java.time.LocalDate.now().minusDays(1))
+                    .items(new ArrayList<>())
+                    .build();
+
+            assertThatThrownBy(presupuesto::marcarComoVencido)
+                    .isInstanceOf(BusinessRunTimeException.class)
+                    .extracting("businessError.code")
+                    .isEqualTo("TRANSICION_ESTADO_INVALIDA");
+
+            assertThat(presupuesto.getEstado()).isEqualTo(EstadoPresupuesto.APROBADO);
         }
     }
 

@@ -180,6 +180,13 @@ public final class BusinessErrors {
         );
     }
 
+    public static BusinessError presupuestoAunNoVencido() {
+        return new BusinessError(
+                "PRESUPUESTO_AUN_NO_VENCIDO",
+                "El presupuesto todavia no alcanzo su fecha de vencimiento."
+        );
+    }
+
     public static BusinessError itemNoEncontrado(Long id) {
         return new BusinessError("ITEM_NO_ENCONTRADO", "No se encontro el item con ID: " + id);
     }

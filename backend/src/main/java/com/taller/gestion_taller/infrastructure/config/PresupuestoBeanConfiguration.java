@@ -68,6 +68,13 @@ public class PresupuestoBeanConfiguration {
     }
 
     @Bean
+    public MarcarPresupuestosVencidos marcarPresupuestosVencidosUseCase(PresupuestoRepository presupuestoRepository) {
+        return new MarcarPresupuestosVencidosUseCase(
+                presupuestoRepository
+        );
+    }
+
+    @Bean
     public AsociarVehiculoAPresupuesto asociarVehiculoAPresupuestoUseCase(
             PresupuestoRepository presupuestoRepository,
             VehiculoRepository vehiculoRepository,

@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.infrastructure.persistence.repository;
 
+import com.taller.gestion_taller.domain.model.EstadoPresupuesto;
 import com.taller.gestion_taller.infrastructure.persistence.entity.PresupuestoEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,4 +19,6 @@ public interface JpaPresupuestoRepository extends JpaRepository<PresupuestoEntit
     List<PresupuestoEntity> findByFechaEmisionBetween(LocalDate desde, LocalDate hasta);
 
     List<PresupuestoEntity> findByVehiculo_PatenteAndFechaEmisionBetween(String patente, LocalDate desde, LocalDate hasta);
+
+    List<PresupuestoEntity> findByEstadoAndFechaVencimientoBefore(EstadoPresupuesto estado, LocalDate fecha);
 }
