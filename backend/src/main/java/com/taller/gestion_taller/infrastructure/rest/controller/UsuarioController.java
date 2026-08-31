@@ -1,9 +1,13 @@
 package com.taller.gestion_taller.infrastructure.rest.controller;
 
+import com.taller.gestion_taller.application.command.usuario.CambiarPasswordCommand;
+import com.taller.gestion_taller.application.command.usuario.ModificarPerfilPropioCommand;
 import com.taller.gestion_taller.application.command.usuario.ModificarUsuarioCommand;
 import com.taller.gestion_taller.application.command.usuario.RegistrarUsuarioCommand;
 import com.taller.gestion_taller.domain.model.Usuario;
 import com.taller.gestion_taller.infrastructure.rest.controller.swagger.SwaggerUsuarioController;
+import com.taller.gestion_taller.infrastructure.rest.dto.usuario.request.CambiarPasswordRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.usuario.request.ModificarPerfilPropioRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.usuario.request.ModificarUsuarioRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.usuario.request.UsuarioRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.usuario.response.UsuarioResponse;
@@ -71,5 +75,21 @@ public class UsuarioController implements SwaggerUsuarioController {
         String username = authentication.getName();
         return ResponseEntity.ok(
                 usuarioRestMapper.domainToResponse(usuarioService.obtenerPerfilPropio(username)));
+    }
+
+    @Override
+    public ResponseEntity<UsuarioResponse> modificarPerfilPropio(Authentication authentication,
+                                                                  @Valid @RequestBody ModificarPerfilPropioRequest request) {
+        ModificarPerfilPropioCommand command = usuarioRestMapper.requestToModificarPerfilCommand(authentication.getName(), request);
+        return ResponseEntity.ok(
+                usuarioRestMapper.domainToResponse(usuarioService.modificarPerfilPropio(command)));
+    }
+
+    @Override
+    public ResponseEntity<Void> cambiarPassword(Authentication authentication,
+                                                 @Valid @RequestBody CambiarPasswordRequest request) {
+        CambiarPasswordCommand command = usuarioRestMapper.requestToCambiarPasswordCommand(authentication.getName(), request);
+        usuarioService.cambiarPassword(command);
+        return ResponseEntity.noContent().build();
     }
 }

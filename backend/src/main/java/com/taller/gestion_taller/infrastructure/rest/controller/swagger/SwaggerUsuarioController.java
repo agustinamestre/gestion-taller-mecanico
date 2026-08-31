@@ -1,5 +1,7 @@
 package com.taller.gestion_taller.infrastructure.rest.controller.swagger;
 
+import com.taller.gestion_taller.infrastructure.rest.dto.usuario.request.CambiarPasswordRequest;
+import com.taller.gestion_taller.infrastructure.rest.dto.usuario.request.ModificarPerfilPropioRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.usuario.request.ModificarUsuarioRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.usuario.request.UsuarioRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.usuario.response.UsuarioResponse;
@@ -98,4 +100,28 @@ public interface SwaggerUsuarioController {
             })
     @GetMapping("/me")
     ResponseEntity<UsuarioResponse> obtenerPerfilPropio(Authentication authentication);
+
+    @Operation(summary = "Modificar datos personales propios.",
+            description = "Accesible para cualquier usuario autenticado. Permite cambiar el nombre y apellido propios.",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Datos modificados exitosamente.",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = UsuarioResponse.class))),
+                    @ApiResponse(responseCode = "400", description = "Datos inválidos.",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+            })
+    @PutMapping("/me")
+    ResponseEntity<UsuarioResponse> modificarPerfilPropio(Authentication authentication,
+                                                          @Valid @RequestBody ModificarPerfilPropioRequest request);
+
+    @Operation(summary = "Cambiar contraseña propia.",
+            description = "Accesible para cualquier usuario autenticado. Requiere la contraseña actual.",
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Contraseña modificada exitosamente."),
+                    @ApiResponse(responseCode = "400", description = "Contraseña actual incorrecta o datos inválidos.",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+            })
+    @PutMapping("/me/password")
+    ResponseEntity<Void> cambiarPassword(Authentication authentication,
+                                         @Valid @RequestBody CambiarPasswordRequest request);
 }
