@@ -5,6 +5,10 @@
   @include cabecera-listado;
 }
 
+.header-titulo {
+  @include header-titulo-listado;
+}
+
 .filtros {
   @include filtros-listado;
   gap: 0.75rem;
@@ -35,6 +39,19 @@
   &.estado-aprobado { background: var(--fondo-tenue-exito); color: var(--success-color); }
   &.estado-rechazado { background: var(--fondo-tenue-error); color: var(--error-color); }
   &.estado-vencido { background: var(--fondo-tenue-neutro); color: var(--text-muted); }
+}
+
+::ng-deep .select-estado {
+  min-width: 140px;
+
+  .p-select-label {
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius);
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+
+  &.estado-pendiente .p-select-label { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
 }
 
 .sin-vehiculo {
