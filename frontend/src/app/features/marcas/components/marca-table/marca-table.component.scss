@@ -25,6 +25,10 @@
   @include input-buscador(240px);
 }
 
+.tabla-scroll {
+  @include tabla-scroll-horizontal;
+}
+
 .col-acciones {
   width: 100px;
   text-align: center;

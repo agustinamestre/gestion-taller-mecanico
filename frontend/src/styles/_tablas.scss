@@ -45,6 +45,11 @@
   color: var(--error-color) !important;
 }
 
+@mixin tabla-scroll-horizontal {
+  width: 100%;
+  overflow-x: auto;
+}
+
 @mixin listado-responsive {
   .cabecera {
     flex-direction: column;

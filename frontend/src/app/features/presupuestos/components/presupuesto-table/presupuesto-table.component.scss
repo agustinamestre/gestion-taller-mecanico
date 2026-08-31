@@ -15,6 +15,10 @@
   @include input-buscador;
 }
 
+.tabla-scroll {
+  @include tabla-scroll-horizontal;
+}
+
 .input-fecha {
   width: 150px;
 

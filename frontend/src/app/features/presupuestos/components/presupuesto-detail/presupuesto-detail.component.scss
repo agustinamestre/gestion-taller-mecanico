@@ -83,3 +83,9 @@
   color: var(--text-muted);
   padding: 1.5rem;
 }
+
+@media (max-width: 600px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
