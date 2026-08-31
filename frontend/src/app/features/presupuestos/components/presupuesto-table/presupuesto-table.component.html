@@ -1,5 +1,8 @@
 <div class="cabecera">
-  <h2>Presupuestos</h2>
+  <div class="header-titulo">
+    <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver()"></button>
+    <h2>Presupuestos</h2>
+  </div>
   <p-button label="Nuevo presupuesto" icon="pi pi-plus" (onClick)="nuevoPresupuesto.emit(patente().trim() ? patente().trim().toUpperCase() : null)" />
 </div>
 
@@ -62,9 +65,25 @@
       </td>
       <td>{{ presupuesto.fechaEmision | date:'dd/MM/yyyy' }}</td>
       <td>
-        <span class="etiqueta-estado" [class]="'estado-' + presupuesto.estado.toLowerCase()">
-          {{ presupuesto.estado }}
-        </span>
+        @if (presupuesto.patenteVehiculo && transicionesDe(presupuesto).length > 0) {
+          <p-select
+            [ngModel]="null"
+            (ngModelChange)="onCambiarEstado(presupuesto, $event)"
+            [options]="transicionesDe(presupuesto)"
+            [placeholder]="presupuesto.estado"
+            [disabled]="cambiandoEstadoId() === presupuesto.id"
+            [styleClass]="'select-estado estado-' + presupuesto.estado.toLowerCase()"
+            appendTo="body"
+          >
+            <ng-template let-estado pTemplate="item">
+              <span class="etiqueta-estado" [class]="'estado-' + estado.toLowerCase()">{{ estado }}</span>
+            </ng-template>
+          </p-select>
+        } @else {
+          <span class="etiqueta-estado" [class]="'estado-' + presupuesto.estado.toLowerCase()">
+            {{ presupuesto.estado }}
+          </span>
+        }
       </td>
       <td>{{ presupuesto.total | currency:'ARS':'$' }}</td>
       <td>

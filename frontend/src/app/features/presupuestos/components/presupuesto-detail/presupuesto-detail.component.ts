@@ -5,18 +5,17 @@ import { TableModule } from 'primeng/table';
 import { PresupuestoService } from '../../services/presupuesto.service';
 import { ItemPresupuestoResponse } from '../../models/presupuesto.model';
 import { PresupuestoItemFormComponent } from '../presupuesto-item-form/presupuesto-item-form.component';
-import { PresupuestoCambiarEstadoComponent } from '../presupuesto-cambiar-estado/presupuesto-cambiar-estado.component';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { PresupuestoVehiculoFormComponent } from '../presupuesto-vehiculo-form/presupuesto-vehiculo-form.component';
 
-type Vista = 'detalle' | 'item-form' | 'estado-form' | 'vehiculo-form';
+type Vista = 'detalle' | 'item-form' | 'vehiculo-form';
 
 @Component({
   selector: 'app-presupuesto-detail',
   standalone: true,
   imports: [
     CurrencyPipe, DatePipe, ButtonModule, TableModule,
-    PresupuestoItemFormComponent, PresupuestoCambiarEstadoComponent,
+    PresupuestoItemFormComponent,
     PresupuestoVehiculoFormComponent, ConfirmDialogComponent,
   ],
   templateUrl: './presupuesto-detail.component.html',
@@ -66,15 +65,6 @@ export class PresupuestoDetailComponent {
 
   formatearTipo(tipo: string): string {
     return tipo === 'MANO_DE_OBRA' ? 'Mano de obra' : 'Repuesto';
-  }
-
-  abrirCambiarEstado() {
-    this.vista.set('estado-form');
-  }
-
-  onEstadoGuardado() {
-    this.refrescar();
-    this.irADetalle();
   }
 
   abrirAsociarVehiculo() {

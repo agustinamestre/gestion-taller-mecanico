@@ -1,4 +1,3 @@
-@use 'formularios' as *;
 @use 'etiquetas' as *;
 
 .detail-container {
@@ -71,11 +70,6 @@
 
 .color-eliminar {
   color: var(--error-color) !important;
-}
-
-.detail-footer {
-  @include form-footer;
-  margin-top: 1rem;
 }
 
 .empty-msg {
