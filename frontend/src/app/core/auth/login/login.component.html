@@ -1,0 +1,43 @@
+<div class="login-container">
+  <div class="form-card">
+    <div class="form-icono">
+      <span class="logo-icon">⚙️</span>
+    </div>
+    <h2>G.E.M.A</h2>
+    <p class="form-hint">Ingresá tus credenciales para acceder</p>
+
+    <form [formGroup]="form" (ngSubmit)="ingresar()" novalidate class="form-completo">
+      <div class="campo" [class.campo-error]="invalid('username')">
+        <label for="username">Usuario *</label>
+        <input pInputText id="username" formControlName="username" placeholder="usuario" autocomplete="username" />
+        @if (invalid('username')) {
+          <span class="error-msg">Campo requerido</span>
+        }
+      </div>
+
+      <div class="campo" [class.campo-error]="invalid('password')">
+        <label for="password">Contraseña *</label>
+        <p-password
+          inputId="password"
+          formControlName="password"
+          [feedback]="false"
+          [toggleMask]="true"
+          autocomplete="current-password"
+          styleClass="password-full"
+        />
+        @if (invalid('password')) {
+          <span class="error-msg">Campo requerido</span>
+        }
+      </div>
+
+      <div class="form-footer">
+        <p-button
+          [label]="authService.cargando() ? 'Ingresando...' : 'Ingresar'"
+          [loading]="authService.cargando()"
+          type="submit"
+          styleClass="btn-ingresar"
+        />
+      </div>
+    </form>
+  </div>
+</div>
