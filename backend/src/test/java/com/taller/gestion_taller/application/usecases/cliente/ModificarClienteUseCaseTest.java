@@ -42,6 +42,7 @@ class ModificarClienteUseCaseTest {
         Cliente clienteActualizado = mock(Cliente.class);
 
         when(clienteRepository.findByDni(DNI)).thenReturn(Optional.of(clienteExistente));
+        when(clienteExistente.getDni()).thenReturn(DNI);
         when(clienteExistente.actualizarDatos(COMMAND)).thenReturn(clienteExistente);
         when(clienteRepository.save(clienteExistente)).thenReturn(clienteActualizado);
 
