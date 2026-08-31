@@ -15,4 +15,5 @@ public interface PresupuestoRepository {
     List<Presupuesto> findByFechaEmisionBetween(LocalDate desde, LocalDate hasta);
     List<Presupuesto> findByPatenteAndFechaEmisionBetween(String patente, LocalDate desde, LocalDate hasta);
     List<Presupuesto> findByEstadoAndFechaVencimientoBefore(EstadoPresupuesto estado, LocalDate fecha);
+    void deleteById(Long id);
 }
