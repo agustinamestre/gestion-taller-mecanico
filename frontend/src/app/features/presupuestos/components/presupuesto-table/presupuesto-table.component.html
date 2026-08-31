@@ -33,6 +33,7 @@
   }
 </div>
 
+<div class="tabla-scroll">
 <p-table
   [value]="presupuestoService.listado()"
   [loading]="presupuestoService.cargando()"
@@ -75,3 +76,4 @@
     <tr><td colspan="6" class="sin-resultados">No hay presupuestos para mostrar</td></tr>
   </ng-template>
 </p-table>
+</div>

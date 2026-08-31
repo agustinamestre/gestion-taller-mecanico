@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { InputTextModule } from 'primeng/inputtext';
 import { AvatarModule } from 'primeng/avatar';
@@ -9,6 +10,7 @@ import { ToastModule } from 'primeng/toast';
   selector: 'app-layout',
   standalone: true,
   imports: [
+    CommonModule,
     RouterOutlet,
     RouterModule,
     InputTextModule,
@@ -21,4 +23,13 @@ import { ToastModule } from 'primeng/toast';
 })
 export class LayoutComponent {
   readonly currentYear = new Date().getFullYear();
+  readonly sidebarAbierto = signal(false);
+
+  toggleSidebar(): void {
+    this.sidebarAbierto.update(abierto => !abierto);
+  }
+
+  cerrarSidebar(): void {
+    this.sidebarAbierto.set(false);
+  }
 }

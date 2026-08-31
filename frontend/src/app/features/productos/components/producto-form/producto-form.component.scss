@@ -46,3 +46,13 @@
   @include form-footer;
   margin-top: var(--espaciado);
 }
+
+@media (max-width: 600px) {
+  .grilla-campos {
+    grid-template-columns: 1fr;
+  }
+
+  .campo.ancho-completo {
+    grid-column: 1;
+  }
+}

@@ -16,6 +16,10 @@
   @include input-buscador;
 }
 
+.tabla-scroll {
+  @include tabla-scroll-horizontal;
+}
+
 .filtro-activos {
   display: flex;
   align-items: center;

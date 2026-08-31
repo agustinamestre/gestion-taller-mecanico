@@ -3,6 +3,9 @@
 <div class="app-layout">
 
   <header class="topbar">
+    <button class="btn-hamburguesa" type="button" (click)="toggleSidebar()" aria-label="Abrir menú">
+      <i class="pi pi-bars"></i>
+    </button>
     <div class="topbar-logo">
       <span class="logo-icon">⚙️</span>
       <span class="logo-text">G.E.M.A</span>
@@ -18,19 +21,21 @@
 
   <div class="cuerpo">
 
-    <aside class="sidebar">
+    <aside class="sidebar" [class.abierto]="sidebarAbierto()">
       <nav class="nav-menu">
         <ul>
-          <li><a routerLink="/dashboard" routerLinkActive="active"><i class="pi pi-home"></i> <span>Dashboard</span></a></li>
-          <li><a routerLink="/clientes" routerLinkActive="active"><i class="pi pi-users"></i> <span>Clientes</span></a></li>
-          <li><a routerLink="/vehiculos" routerLinkActive="active"><i class="pi pi-car"></i> <span>Vehículos</span></a></li>
-          <li><a routerLink="/ordenes" routerLinkActive="active"><i class="pi pi-file-edit"></i> <span>Órdenes de Trabajo</span></a></li>
-          <li><a routerLink="/productos" routerLinkActive="active"><i class="pi pi-box"></i> <span>Productos</span></a></li>
-          <li><a routerLink="/presupuestos" routerLinkActive="active"><i class="pi pi-box"></i> <span>Presupuestos</span></a></li>
-          <li><a routerLink="/configuracion" routerLinkActive="active"><i class="pi pi-cog"></i> <span>Configuración</span></a></li>
+          <li><a routerLink="/dashboard" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-home"></i> <span>Dashboard</span></a></li>
+          <li><a routerLink="/clientes" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-users"></i> <span>Clientes</span></a></li>
+          <li><a routerLink="/vehiculos" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-car"></i> <span>Vehículos</span></a></li>
+          <li><a routerLink="/ordenes" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-file-edit"></i> <span>Órdenes de Trabajo</span></a></li>
+          <li><a routerLink="/productos" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-box"></i> <span>Productos</span></a></li>
+          <li><a routerLink="/presupuestos" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-box"></i> <span>Presupuestos</span></a></li>
+          <li><a routerLink="/configuracion" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-cog"></i> <span>Configuración</span></a></li>
         </ul>
       </nav>
     </aside>
+
+    <div class="backdrop" *ngIf="sidebarAbierto()" (click)="cerrarSidebar()"></div>
 
     <main class="content-area">
       <router-outlet></router-outlet>
