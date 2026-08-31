@@ -76,8 +76,8 @@
   font-size: 0.8rem;
   font-weight: 600;
 
-  &.tipo-repuesto { background: #dbeafe; color: var(--primary-color); }
-  &.tipo-mano_de_obra { background: #fef3c7; color: var(--warning-color); }
+  &.tipo-repuesto { background: var(--fondo-tenue-primario); color: var(--primary-color); }
+  &.tipo-mano_de_obra { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
 }
 
 @media (max-width: 600px) {

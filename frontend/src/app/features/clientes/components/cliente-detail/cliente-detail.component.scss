@@ -68,8 +68,8 @@
   font-size: 0.8rem;
   font-weight: 600;
 
-  &.activo { background: #d1fae5; color: var(--success-color); }
-  &.inactivo { background: #e2e8f0; color: var(--text-muted); }
+  &.activo { background: var(--fondo-tenue-exito); color: var(--success-color); }
+  &.inactivo { background: var(--fondo-tenue-neutro); color: var(--text-muted); }
 }
 
 // ── Vehículos ────────────────────────────────────────────────────────────
