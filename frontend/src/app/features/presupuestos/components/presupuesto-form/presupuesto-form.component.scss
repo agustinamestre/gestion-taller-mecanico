@@ -1,0 +1,85 @@
+.detalle-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.ficha-form {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: var(--espaciado);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-header h2 {
+  margin: 0;
+  color: var(--text-main);
+}
+
+.mensaje-carga {
+  color: var(--text-muted);
+}
+
+.vehiculo-no-encontrado {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--text-main);
+}
+
+.seccion-label {
+  display: block;
+  font-weight: 500;
+  color: var(--text-main);
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+
+  .opcional {
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+}
+
+.vehiculo-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-color);
+  border-radius: var(--radius);
+  padding: 0.85rem 1rem;
+}
+
+.vehiculo-info-datos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+
+  .patente { font-weight: 700; font-size: 1rem; color: var(--primary-color); }
+  .detalle { color: var(--text-main); font-size: 0.9rem; }
+  .cliente { color: var(--text-muted); font-size: 0.85rem; }
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  label { font-weight: 500; color: var(--text-main); font-size: 0.9rem; }
+  textarea { width: 100%; }
+}
+
+.ayuda {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 1;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}

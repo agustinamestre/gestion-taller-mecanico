@@ -1,3 +1,5 @@
+import { SituacionIva } from "../../clientes/models/cliente.model";
+
 export type EstadoPresupuesto = 'PENDIENTE' | 'APROBADO' | 'RECHAZADO' | 'VENCIDO';
 
 export interface ItemPresupuestoResponse {
@@ -50,12 +52,36 @@ export interface ModificarItemPresupuestoRequest {
   precioUnitario: number;
 }
 
+export interface AsociarVehiculoDatosVehiculoNuevo {
+  patente: string;
+  modeloId: number;
+  anio: number;
+  kilometrajeActual: number;
+}
+
+export interface AsociarVehiculoDatosClienteNuevo {
+  dni: string;
+  nombre: string;
+  apellido: string;
+  telefono: string;
+  email: string;
+  direccion: string;
+  situacionIva: SituacionIva;
+}
+
+export interface AsociarVehiculoAPresupuestoRequest {
+  vehiculoId?: number;
+  datosVehiculoNuevo?: AsociarVehiculoDatosVehiculoNuevo;
+  clienteId?: number;
+  datosClienteNuevo?: AsociarVehiculoDatosClienteNuevo;
+}
+
 export interface CambiarEstadoPresupuestoRequest {
   nuevoEstado: EstadoPresupuesto;
 }
 
 export const TRANSICIONES_VALIDAS: Record<EstadoPresupuesto, EstadoPresupuesto[]> = {
-  PENDIENTE: ['APROBADO', 'RECHAZADO', 'VENCIDO'],
+  PENDIENTE: ['APROBADO', 'RECHAZADO'],
   APROBADO: [],
   RECHAZADO: [],
   VENCIDO: [],

@@ -1,0 +1,100 @@
+@if (presupuesto; as p) {
+
+  @switch (vista()) {
+
+    @case ('detalle') {
+      <div class="detail-container">
+        <div class="detail-header">
+          <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver.emit()"></button>
+            <h2>
+              @if (p.patenteVehiculo) {
+                {{ p.patenteVehiculo }}
+              } @else {
+                Sin vehículo asociado
+                @if (esEditable) {
+                  <button pButton label="Asociar vehículo" icon="pi pi-link" class="p-button-text p-button-sm" (click)="abrirAsociarVehiculo()"></button>
+                }
+              }
+            </h2>
+          <span class="etiqueta-estado" [class]="'estado-' + p.estado.toLowerCase()">{{ p.estado }}</span>
+        </div>
+
+        <div class="info-grid">
+          <div><span class="label">Fecha emisión</span><span class="value">{{ p.fechaEmision | date:'dd/MM/yyyy' }}</span></div>
+          <div><span class="label">Fecha vencimiento</span><span class="value">{{ p.fechaVencimiento | date:'dd/MM/yyyy' }}</span></div>
+          <div><span class="label">Total</span><span class="value total">{{ p.total | currency:'ARS':'$' }}</span></div>
+        </div>
+
+        @if (p.observaciones) {
+          <p class="observaciones">{{ p.observaciones }}</p>
+        }
+
+        <div class="items-header">
+          <h3>Ítems</h3>
+          @if (esEditable) {
+            <p-button label="Agregar ítem" icon="pi pi-plus" size="small" (onClick)="abrirNuevoItem()" />
+          }
+        </div>
+
+        <p-table [value]="p.items" dataKey="id" styleClass="tabla-items">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Descripción</th>
+              <th>Tipo</th>
+              <th>Cantidad</th>
+              <th>Precio unitario</th>
+              @if (esEditable) { <th style="width: 6rem">Acciones</th> }
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-item>
+            <tr>
+              <td>{{ item.descripcion }}</td>
+              <td><span class="etiqueta-tipo" [class]="'tipo-' + item.tipo.toLowerCase()">{{ formatearTipo(item.tipo) }}</span></td>
+              <td>{{ item.cantidad }}</td>
+              <td>{{ item.precioUnitario | currency:'ARS':'$' }}</td>
+              @if (esEditable) {
+                <td>
+                  <div class="botones-fila">
+                    <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm" (click)="abrirEditarItem(item)"></button>
+                    <button pButton icon="pi pi-trash" class="p-button-text p-button-sm color-eliminar" (click)="pedirEliminarItem(item)"></button>
+                  </div>
+                </td>
+              }
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr><td [attr.colspan]="esEditable ? 6 : 5" class="empty-msg">Todavía no se agregaron ítems</td></tr>
+          </ng-template>
+        </p-table>
+
+        <div class="detail-footer">
+          @if (esEditable && p.patenteVehiculo) {
+            <p-button label="Cambiar estado" icon="pi pi-refresh" [outlined]="true" (onClick)="abrirCambiarEstado()" />
+          }
+        </div>
+      </div>
+    }
+
+    @case ('item-form') {
+      <app-presupuesto-item-form (guardado)="onItemGuardado()" (cancelar)="irADetalle()" />
+    }
+
+    @case ('estado-form') {
+      <app-presupuesto-cambiar-estado (guardado)="onEstadoGuardado()" (cancelar)="irADetalle()" />
+    }
+
+    @case ('vehiculo-form') {
+      <app-presupuesto-vehiculo-form (guardado)="onVehiculoAsociado()" (cancelar)="irADetalle()" />
+    }
+
+  }
+
+  <app-confirm-dialog
+    [visible]="mostrarConfirmEliminar()"
+    titulo="Eliminar ítem"
+    [mensaje]="'¿Seguro que querés eliminar &quot;' + (itemAEliminar()?.descripcion ?? '') + '&quot;?'"
+    [cargando]="presupuestoService.cargando()"
+    (confirmado)="confirmarEliminarItem()"
+    (cancelado)="cancelarEliminarItem()"
+  />
+}
