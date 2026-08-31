@@ -1,0 +1,85 @@
+<div class="form-container">
+  <div class="form-card">
+    <div class="form-icono">
+      <i class="pi pi-user"></i>
+    </div>
+    <h2>{{ edicion() ? 'Modificar usuario' : 'Nuevo usuario' }}</h2>
+    <p class="form-hint">{{ edicion() ? 'Actualizá los datos del usuario' : 'Completá los datos para registrar un nuevo usuario' }}</p>
+
+    <form [formGroup]="form" (ngSubmit)="guardar()" novalidate class="form-completo">
+      @if (edicion()) {
+        <div class="campo">
+          <label>Usuario</label>
+          <input pInputText [value]="usernameActual()" disabled />
+        </div>
+      } @else {
+        <div class="campo" [class.campo-error]="invalid('username')">
+          <label for="username">Usuario *</label>
+          <input pInputText id="username" formControlName="username" placeholder="usuario" autocomplete="username" />
+          @if (invalid('username')) {
+            <span class="error-msg">Campo requerido</span>
+          }
+        </div>
+
+        <div class="campo" [class.campo-error]="invalid('password')">
+          <label for="password">Contraseña *</label>
+          <p-password
+            inputId="password"
+            formControlName="password"
+            [feedback]="false"
+            [toggleMask]="true"
+            autocomplete="new-password"
+            styleClass="password-full"
+          />
+          @if (invalid('password')) {
+            <span class="error-msg">Mínimo 6 caracteres</span>
+          }
+        </div>
+      }
+
+      <div class="campo" [class.campo-error]="invalid('nombre')">
+        <label for="nombre">Nombre *</label>
+        <input pInputText id="nombre" formControlName="nombre" placeholder="Nombre" />
+        @if (invalid('nombre')) {
+          <span class="error-msg">Campo requerido</span>
+        }
+      </div>
+
+      <div class="campo" [class.campo-error]="invalid('apellido')">
+        <label for="apellido">Apellido *</label>
+        <input pInputText id="apellido" formControlName="apellido" placeholder="Apellido" />
+        @if (invalid('apellido')) {
+          <span class="error-msg">Campo requerido</span>
+        }
+      </div>
+
+      <div class="campo" [class.campo-error]="invalid('rol')">
+        <label for="rol">Rol *</label>
+        <p-select
+          inputId="rol"
+          formControlName="rol"
+          [options]="roles"
+          placeholder="Seleccionar rol"
+        />
+        @if (invalid('rol')) {
+          <span class="error-msg">Seleccioná un rol</span>
+        }
+      </div>
+
+      <div class="form-footer">
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          [outlined]="true"
+          (onClick)="cancelar.emit()"
+          type="button"
+        />
+        <p-button
+          [label]="usuarioService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar usuario')"
+          [loading]="usuarioService.cargando()"
+          type="submit"
+        />
+      </div>
+    </form>
+  </div>
+</div>
