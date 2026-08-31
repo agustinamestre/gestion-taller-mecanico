@@ -1,0 +1,53 @@
+@use 'formularios' as *;
+
+.detalle-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.ficha-form {
+  @include ficha-form-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  h2 { margin: 0; color: var(--text-main); }
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label { font-weight: 500; color: var(--text-main); font-size: 0.9rem; }
+}
+
+.seccion-label {
+  font-weight: 500;
+  color: var(--text-main);
+  font-size: 0.9rem;
+}
+
+.resumen-listo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--fondo-tenue-exito);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  color: var(--success-color);
+  font-size: 0.9rem;
+  font-weight: 500;
+
+  i { font-size: 1.1rem; }
+}
+
+.form-footer {
+  @include form-footer;
+}

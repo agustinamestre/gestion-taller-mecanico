@@ -10,6 +10,8 @@ import {
   ItemPresupuestoRequest,
   ModificarItemPresupuestoRequest,
   CambiarEstadoPresupuestoRequest,
+  ItemPresupuestoResponse,
+  AsociarVehiculoAPresupuestoRequest,
 } from '../models/presupuesto.model';
 
 const API_BASE = `${environment.apiUrl}/presupuestos`;
@@ -25,22 +27,19 @@ export class PresupuestoService {
   readonly seleccionado = signal<PresupuestoResponse | null>(null);
   readonly estado = signal<EstadoCarga>('idle');
   readonly mensajeError = signal<string | null>(null);
+  readonly itemEnEdicion = signal<ItemPresupuestoResponse | null>(null);
 
   readonly cargando = computed(() => this.estado() === 'cargando');
 
-  listar() {
+  listar(filtros?: { patente?: string; fechaDesde?: string; fechaHasta?: string }) {
     this.estado.set('cargando');
     this.mensajeError.set(null);
-    return this.http.get<PresupuestoSummaryResponse[]>(API_BASE).pipe(
-      tap(lista => { this.listado.set(lista); this.estado.set('exito'); }),
-      catchError((err: HttpErrorResponse) => this.manejarError(err))
-    );
-  }
 
-  buscarPorPatente(patente: string) {
-    this.estado.set('cargando');
-    this.mensajeError.set(null);
-    const params = new HttpParams().set('patente', patente);
+    let params = new HttpParams();
+    if (filtros?.patente) params = params.set('patente', filtros.patente);
+    if (filtros?.fechaDesde) params = params.set('fechaDesde', filtros.fechaDesde);
+    if (filtros?.fechaHasta) params = params.set('fechaHasta', filtros.fechaHasta);
+
     return this.http.get<PresupuestoSummaryResponse[]>(API_BASE, { params }).pipe(
       tap(lista => { this.listado.set(lista); this.estado.set('exito'); }),
       catchError((err: HttpErrorResponse) => this.manejarError(err))
@@ -69,6 +68,10 @@ export class PresupuestoService {
     );
   }
 
+  seleccionarItem(item: ItemPresupuestoResponse | null) {
+    this.itemEnEdicion.set(item);
+  }
+
   agregarItem(presupuestoId: number, request: ItemPresupuestoRequest) {
     this.estado.set('cargando');
     this.mensajeError.set(null);
@@ -77,6 +80,19 @@ export class PresupuestoService {
         this.seleccionado.set(actualizado);
         this.estado.set('exito');
         this.toast.exito('Ítem agregado correctamente');
+      }),
+      catchError((err: HttpErrorResponse) => this.manejarError(err))
+    );
+  }
+
+  asociarVehiculo(presupuestoId: number, request: AsociarVehiculoAPresupuestoRequest) {
+    this.estado.set('cargando');
+    this.mensajeError.set(null);
+    return this.http.patch<PresupuestoResponse>(`${API_BASE}/${presupuestoId}/vehiculo`, request).pipe(
+      tap(actualizado => {
+        this.seleccionado.set(actualizado);
+        this.estado.set('exito');
+        this.toast.exito('Vehículo asociado correctamente');
       }),
       catchError((err: HttpErrorResponse) => this.manejarError(err))
     );
@@ -114,6 +130,9 @@ export class PresupuestoService {
       tap(() => {
         this.estado.set('exito');
         this.toast.exito('Estado actualizado correctamente');
+        this.listado.update(lista =>
+          lista.map(p => p.id === presupuestoId ? { ...p, estado: request.nuevoEstado } : p)
+        );
       }),
       catchError((err: HttpErrorResponse) => this.manejarError(err))
     );

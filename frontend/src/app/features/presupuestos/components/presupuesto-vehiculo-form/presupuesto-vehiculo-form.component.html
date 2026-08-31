@@ -1,0 +1,89 @@
+<div class="detalle-container">
+  <div class="ficha-form">
+
+    <div class="form-header">
+      <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="cancelar.emit()"></button>
+      <h2>Asociar vehículo</h2>
+    </div>
+
+    <div class="campo">
+      <label class="seccion-label">¿El vehículo ya está registrado?</label>
+      <p-selectButton
+        [options]="opcionesModoVehiculo"
+        [ngModel]="modoVehiculo()"
+        (ngModelChange)="elegirModoVehiculo($event)"
+        [ngModelOptions]="{ standalone: true }"
+        optionLabel="label"
+        optionValue="value"
+      />
+    </div>
+
+    @if (modoVehiculo() === 'existente') {
+      <div class="campo">
+        <label>Vehículo *</label>
+        <app-vehiculo-selector (vehiculoSeleccionado)="onVehiculoExistente($event)" />
+      </div>
+    }
+
+    @if (modoVehiculo() === 'nuevo') {
+
+      <div class="campo">
+        <label class="seccion-label">¿El cliente ya está registrado?</label>
+        <p-selectButton
+          [options]="opcionesModoCliente"
+          [ngModel]="modoCliente()"
+          (ngModelChange)="elegirModoCliente($event)"
+          [ngModelOptions]="{ standalone: true }"
+          optionLabel="label"
+          optionValue="value"
+        />
+      </div>
+
+      @if (modoCliente() === 'existente') {
+        <div class="campo">
+          <label>Cliente *</label>
+          <app-cliente-selector (clienteSeleccionado)="onClienteExistente($event)" />
+        </div>
+      }
+
+      @if (modoCliente() === 'nuevo' && !datosClienteNuevo()) {
+        <app-cliente-form [soloDatos]="true" (datosListos)="onDatosClienteListos($event)" />
+      }
+
+      @if (modoCliente() === 'nuevo' && datosClienteNuevo(); as datos) {
+        <div class="resumen-listo">
+          <i class="pi pi-check-circle"></i>
+          <span>Cliente listo: {{ datos.nombre }} {{ datos.apellido }}</span>
+        </div>
+      }
+
+      @if (clienteResuelto() && !datosVehiculoNuevo()) {
+        <app-vehiculo-form
+          [soloDatos]="true"
+          [ocultarSelectorCliente]="modoCliente() === 'nuevo'"
+          [clienteIdPreseteado]="clienteIdParaVehiculoNuevo()"
+          (datosListos)="onDatosVehiculoListos($event)"
+        />
+      }
+
+      @if (datosVehiculoNuevo(); as datosVeh) {
+        <div class="resumen-listo">
+          <i class="pi pi-check-circle"></i>
+          <span>Vehículo listo: {{ datosVeh.patente }}</span>
+        </div>
+      }
+
+    }
+
+    <div class="form-footer">
+      <p-button label="Cancelar" severity="secondary" [outlined]="true" (onClick)="cancelar.emit()" type="button" />
+      <p-button
+        [label]="labelBoton()"
+        [loading]="presupuestoService.cargando()"
+        [disabled]="modoVehiculo() === null || (modoVehiculo() === 'nuevo' && modoCliente() === null)"
+        (onClick)="confirmar()"
+      />
+    </div>
+
+  </div>
+</div>
