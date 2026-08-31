@@ -6,6 +6,13 @@
   align-items: center;
   justify-content: center;
   padding: var(--espaciado);
+  position: relative;
+}
+
+.volver-btn {
+  position: absolute;
+  top: var(--espaciado);
+  left: var(--espaciado);
 }
 
 .search-card {

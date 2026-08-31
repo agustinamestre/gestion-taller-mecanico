@@ -72,20 +72,22 @@
 
     </div>
 
-    <div class="form-footer">
-      <p-button
-        label="Cancelar"
-        severity="secondary"
-        [outlined]="true"
-        (onClick)="cancelar.emit()"
-        type="button"
-      />
-      <p-button
-        [label]="clienteService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar cliente')"
-        [loading]="clienteService.cargando()"
-        type="submit"
-      />
-    </div>
+    @if (!soloDatos()) {
+      <div class="form-footer">
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          [outlined]="true"
+          (onClick)="cancelar.emit()"
+          type="button"
+        />
+        <p-button
+          [label]="clienteService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar cliente')"
+          [loading]="clienteService.cargando()"
+          type="submit"
+        />
+      </div>
+    }
   </form>
 
 </div>

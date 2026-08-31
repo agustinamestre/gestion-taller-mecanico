@@ -5,7 +5,7 @@ import { SelectButtonModule } from 'primeng/selectbutton';
 import { ProductoService } from '../../services/producto.service';
 import { ProductoResponse, TipoProducto } from '../../models/producto.model';
 import { FormsModule } from '@angular/forms';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, Location } from '@angular/common';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 
 interface FiltroOpcion {
@@ -22,6 +22,7 @@ interface FiltroOpcion {
 })
 export class ProductoTableComponent {
   readonly productoService = inject(ProductoService);
+  private readonly location = inject(Location);
 
   readonly nuevoProducto = output<void>();
   readonly verDetalle = output<ProductoResponse>();
@@ -37,6 +38,10 @@ export class ProductoTableComponent {
 
   constructor() {
     this.productoService.listar().subscribe();
+  }
+
+  volver() {
+    this.location.back();
   }
 
   formatearTipo(tipo: TipoProducto): string {

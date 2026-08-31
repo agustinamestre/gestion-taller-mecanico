@@ -1,4 +1,5 @@
 import { Component, inject, output, signal } from '@angular/core';
+import { Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
@@ -13,6 +14,7 @@ import { VehiculoService } from '../../services/vehiculo.service';
 })
 export class VehiculoSearchComponent {
   readonly vehiculoService = inject(VehiculoService);
+  private readonly location = inject(Location);
 
   readonly vehiculoEncontrado = output<void>();
   readonly nuevo = output<void>();
@@ -30,5 +32,9 @@ export class VehiculoSearchComponent {
 
   onKeydown(event: KeyboardEvent) {
     if (event.key === 'Enter') this.buscar();
+  }
+
+  volver() {
+    this.location.back();
   }
 }

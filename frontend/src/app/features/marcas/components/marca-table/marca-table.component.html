@@ -1,6 +1,9 @@
 <div class="marcas-container">
   <div class="cabecera">
-    <h2>Marcas</h2>
+    <div class="header-titulo">
+      <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver()"></button>
+      <h2>Marcas</h2>
+    </div>
     <p-button label="Nueva marca" icon="pi pi-plus" (onClick)="nuevo.emit()" />
   </div>
 

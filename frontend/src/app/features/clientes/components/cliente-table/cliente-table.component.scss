@@ -5,6 +5,10 @@
   @include cabecera-listado;
 }
 
+.header-titulo {
+  @include header-titulo-listado;
+}
+
 .filtros {
   @include filtros-listado;
   justify-content: space-between;
