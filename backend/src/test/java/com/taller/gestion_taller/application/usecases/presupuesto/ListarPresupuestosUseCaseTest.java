@@ -17,13 +17,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ObtenerPresupuestosPorPatenteUseCaseTest {
+public class ListarPresupuestosUseCaseTest {
 
     @Mock
     private PresupuestoRepository presupuestoRepository;
 
     @InjectMocks
-    private ListarPresupuestosUseCase obtenerPresupuestosPorPatenteUseCase;
+    private ListarPresupuestosUseCase useCase;
 
     @Test
     @DisplayName("debe filtrar por patente y rango de fechas cuando ambos estan presentes")
@@ -40,7 +40,7 @@ public class ObtenerPresupuestosPorPatenteUseCaseTest {
         when(presupuestoRepository.findByPatenteAndFechaEmisionBetween(patente, desde, hasta))
                 .thenReturn(presupuestos);
 
-        List<Presupuesto> result = obtenerPresupuestosPorPatenteUseCase.listar(patente, desde, hasta);
+        List<Presupuesto> result = useCase.listar(patente, desde, hasta);
 
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -55,7 +55,7 @@ public class ObtenerPresupuestosPorPatenteUseCaseTest {
 
         when(presupuestoRepository.findByFechaEmisionBetween(desde, hasta)).thenReturn(List.of());
 
-        List<Presupuesto> result = obtenerPresupuestosPorPatenteUseCase.listar(null, desde, hasta);
+        List<Presupuesto> result = useCase.listar(null, desde, hasta);
 
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -74,7 +74,7 @@ public class ObtenerPresupuestosPorPatenteUseCaseTest {
 
         when(presupuestoRepository.findByPatente(patente)).thenReturn(presupuestos);
 
-        List<Presupuesto> result = obtenerPresupuestosPorPatenteUseCase.listar(patente, null, null);
+        List<Presupuesto> result = useCase.listar(patente, null, null);
 
         assertNotNull(result);
         assertEquals(1, result.size());
@@ -91,7 +91,7 @@ public class ObtenerPresupuestosPorPatenteUseCaseTest {
 
         when(presupuestoRepository.findAll()).thenReturn(presupuestos);
 
-        List<Presupuesto> result = obtenerPresupuestosPorPatenteUseCase.listar(null, null, null);
+        List<Presupuesto> result = useCase.listar(null, null, null);
 
         assertNotNull(result);
         assertEquals(2, result.size());
