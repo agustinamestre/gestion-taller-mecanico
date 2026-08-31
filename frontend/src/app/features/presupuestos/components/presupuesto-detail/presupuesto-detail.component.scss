@@ -1,3 +1,6 @@
+@use 'formularios' as *;
+@use 'etiquetas' as *;
+
 .detail-container {
   max-width: 850px;
   margin: 0 auto;
@@ -17,11 +20,7 @@
 }
 
 .etiqueta-estado {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius);
-  font-size: 0.8rem;
-  font-weight: 600;
+  @include etiqueta-base;
 
   &.estado-pendiente { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
   &.estado-aprobado { background: var(--fondo-tenue-exito); color: var(--success-color); }
@@ -59,11 +58,7 @@
 }
 
 .etiqueta-tipo {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius);
-  font-size: 0.8rem;
-  font-weight: 600;
+  @include etiqueta-base;
 
   &.tipo-repuesto { background: var(--fondo-tenue-primario); color: var(--primary-color); }
   &.tipo-mano_de_obra { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
@@ -79,11 +74,8 @@
 }
 
 .detail-footer {
-  display: flex;
-  justify-content: flex-end;
-  padding-top: 1rem;
+  @include form-footer;
   margin-top: 1rem;
-  border-top: 1px solid var(--border-color);
 }
 
 .empty-msg {

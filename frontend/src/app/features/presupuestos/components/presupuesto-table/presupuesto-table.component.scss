@@ -1,21 +1,18 @@
+@use 'tablas' as *;
+@use 'etiquetas' as *;
+
 .cabecera {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--espaciado);
+  @include cabecera-listado;
 }
 
 .filtros {
-  display: flex;
-  align-items: center;
+  @include filtros-listado;
   gap: 0.75rem;
-  margin-bottom: var(--espaciado);
   flex-wrap: wrap;
 }
 
 .buscador-input {
-  width: 280px;
-  border-radius: var(--radius) !important;
+  @include input-buscador;
 }
 
 .input-fecha {
@@ -28,11 +25,7 @@
 }
 
 .etiqueta-estado {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius);
-  font-size: 0.8rem;
-  font-weight: 600;
+  @include etiqueta-base;
 
   &.estado-pendiente { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
   &.estado-aprobado { background: var(--fondo-tenue-exito); color: var(--success-color); }
@@ -46,7 +39,7 @@
 }
 
 .boton-accion.color-ver {
-  color: var(--primary-color) !important;
+  @include boton-color-ver;
 }
 
 .sin-resultados {
@@ -55,21 +48,8 @@
   padding: var(--espaciado);
 }
 
-@media (max-width: 768px) {
-  .cabecera {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .filtros {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .buscador-input {
-    width: 100% !important;
-  }
+@include en-mobile {
+  @include listado-responsive;
 
   .input-fecha {
     width: 100% !important;

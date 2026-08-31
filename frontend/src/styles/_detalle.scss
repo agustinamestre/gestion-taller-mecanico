@@ -1,0 +1,63 @@
+@mixin cabecera-detalle($align: center) {
+  display: flex;
+  justify-content: space-between;
+  align-items: $align;
+  gap: 1rem;
+}
+
+@mixin cabecera-titulo-detalle($align: center) {
+  display: flex;
+  align-items: $align;
+  gap: 0.75rem;
+}
+
+@mixin cabecera-acciones-detalle {
+  display: flex;
+  gap: 0.5rem;
+}
+
+@mixin ficha-card {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: var(--espaciado);
+}
+
+@mixin ficha-datos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@mixin dato-base {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+
+  .label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .valor {
+    font-size: 0.95rem;
+    color: var(--text-main);
+  }
+}
+
+@mixin detalle-responsive {
+  .ficha-datos {
+    grid-template-columns: 1fr;
+  }
+
+  .cabecera {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cabecera-acciones {
+    width: 100%;
+  }
+}

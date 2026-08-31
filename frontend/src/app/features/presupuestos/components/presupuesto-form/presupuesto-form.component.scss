@@ -1,3 +1,5 @@
+@use 'formularios' as *;
+
 .detalle-container {
   max-width: 700px;
   margin: 0 auto;
@@ -77,9 +79,5 @@
 }
 
 .form-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
+  @include form-footer;
 }

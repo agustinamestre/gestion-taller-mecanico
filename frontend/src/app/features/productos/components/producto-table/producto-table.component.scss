@@ -1,23 +1,17 @@
+@use 'tablas' as *;
+@use 'etiquetas' as *;
+
 .cabecera {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: var(--espaciado);
+  @include cabecera-listado;
 }
 
 .filtros {
-  display: flex;
-  align-items: center;
+  @include filtros-listado;
   justify-content: space-between;
-  margin-bottom: var(--espaciado);
 }
 
 .etiqueta-tipo {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius);
-  font-size: 0.8rem;
-  font-weight: 600;
+  @include etiqueta-base;
 
   &.tipo-repuesto { background: var(--fondo-tenue-primario); color: var(--primary-color); }
   &.tipo-mano_de_obra { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
@@ -40,19 +34,18 @@ tr:hover .boton-editar-inline {
 }
 
 .botones-fila {
-  display: flex;
-  gap: 0.25rem;
+  @include botones-fila;
 }
 
 .boton-accion {
   &.color-ver {
-    color: var(--primary-color) !important;
+    @include boton-color-ver;
   }
   &.color-editar {
-    color: var(--secondary-color) !important;
+    @include boton-color-editar;
   }
   &.color-eliminar {
-    color: var(--error-color) !important;
+    @include boton-color-eliminar;
   }
 }
 

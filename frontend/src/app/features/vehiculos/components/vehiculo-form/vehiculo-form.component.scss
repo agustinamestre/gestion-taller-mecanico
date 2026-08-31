@@ -1,15 +1,11 @@
+@use 'formularios' as *;
+
 .ficha-form {
-  max-width: 680px;
-  margin: 0 auto;
-  background: var(--surface-color);
-  border-radius: var(--radius);
-  border: 1px solid var(--border-color);
-  padding: var(--espaciado);
+  @include ficha-form-box(680px);
 }
 
 .form-header h2 {
-  margin: 0 0 var(--espaciado) 0;
-  color: var(--text-main);
+  @include titulo-form-header;
 }
 
 .form-grid {
@@ -50,12 +46,8 @@
 }
 
 .form-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
+  @include form-footer;
   margin-top: var(--espaciado);
-  padding-top: 1rem;
-  border-top: 1px solid var(--border-color);
 }
 
 @media (max-width: 600px) {
