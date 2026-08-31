@@ -1,3 +1,7 @@
+@use 'etiquetas' as *;
+@use 'detalle' as *;
+@use 'tablas' as *;
+
 .detalle-container {
   max-width: 700px;
   margin: 0 auto;
@@ -7,90 +11,50 @@
 }
 
 .cabecera {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 1rem;
+  @include cabecera-detalle(flex-start);
 }
 
 .cabecera-titulo {
-  display: flex;
-  align-items: flex-start;   
-  gap: 0.75rem;
+  @include cabecera-titulo-detalle(flex-start);
   min-width: 0;
   flex: 1;
 
   h2 {
     margin: 0;
     color: var(--text-main);
-    word-break: break-word;   
+    word-break: break-word;
     min-width: 0;
   }
 }
 
 .cabecera-acciones {
-  display: flex;
-  gap: 0.5rem;
+  @include cabecera-acciones-detalle;
   flex-shrink: 0;
 }
 
 .ficha {
-  background: var(--surface-color);
-  border-radius: var(--radius);
-  border: 1px solid var(--border-color);
-  padding: var(--espaciado);
+  @include ficha-card;
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
 .ficha-datos {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.25rem;
+  @include ficha-datos-grid;
 }
 
 .dato {
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
+  @include dato-base;
   &.full { grid-column: 1 / -1; }
-
-  .label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .valor {
-    font-size: 0.95rem;
-    color: var(--text-main);
-  }
 }
 
 .etiqueta-tipo {
-  display: inline-block;
-  padding: 0.2rem 0.6rem;
-  border-radius: var(--radius);
-  font-size: 0.8rem;
-  font-weight: 600;
+  @include etiqueta-base;
 
   &.tipo-repuesto { background: var(--fondo-tenue-primario); color: var(--primary-color); }
   &.tipo-mano_de_obra { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
 }
 
-@media (max-width: 600px) {
-  .ficha-datos {
-    grid-template-columns: 1fr;
-  }
-
-  .cabecera {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .cabecera-acciones {
-    width: 100%;
-  }
+@include en-mobile {
+  @include detalle-responsive;
 }

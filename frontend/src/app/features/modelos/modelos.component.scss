@@ -1,5 +1,5 @@
+@use 'tablas' as *;
+
 .modelos-shell {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+  @include shell-listado;
 }

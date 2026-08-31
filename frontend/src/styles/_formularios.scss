@@ -1,0 +1,51 @@
+@mixin form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+@mixin form-card($max-width: 420px) {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: 2rem;
+  width: 100%;
+  max-width: $max-width;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+@mixin ficha-form-box($max-width: none) {
+  @if $max-width != none {
+    max-width: $max-width;
+    margin: 0 auto;
+  }
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+  padding: var(--espaciado);
+}
+
+@mixin titulo-form-header {
+  margin: 0 0 var(--espaciado) 0;
+  color: var(--text-main);
+}
+
+@mixin form-icono {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--fondo-tenue-primario);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  i {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+  }
+}
