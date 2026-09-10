@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, output, signal } from '@angular/core';
+import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
 import {
   FormBuilder,
   Validators,
@@ -9,13 +9,13 @@ import { InputTextModule } from 'primeng/inputtext';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
+import { DatePicker } from 'primeng/datepicker';
 import { VehiculoService } from '../../services/vehiculo.service';
+import { VehiculoRequest } from '../../models/vehiculo.model';
 import { MarcaService } from '../../../marcas/services/marca.service';
 import { ModeloService } from '../../../modelos/services/modelo.service';
 import { ClienteService } from '../../../clientes/services/cliente.service';
 import { ClienteResponse } from '../../../clientes/models/cliente.model';
-import { ModeloResponse } from '../../../modelos/models/modelo.model';
-import { computed } from '@angular/core';
 import { ClienteSelectorComponent } from '../../../../shared/components/cliente-selector/cliente-selector.component';
 
 @Component({
@@ -27,6 +27,7 @@ import { ClienteSelectorComponent } from '../../../../shared/components/cliente-
     InputNumberModule,
     SelectModule,
     ButtonModule,
+    DatePicker,
     ClienteSelectorComponent,
   ],
   templateUrl: './vehiculo-form.component.html',
@@ -41,7 +42,10 @@ export class VehiculoFormComponent implements OnInit {
 
   readonly edicion = input(false);
   readonly clienteIdPreseteado = input<number | null>(null);
+  readonly soloDatos = input(false);
+  readonly ocultarSelectorCliente = input(false);
   readonly guardado = output<void>();
+  readonly datosListos = output<VehiculoRequest>();
   readonly cancelar = output<void>();
 
   readonly enviado = signal(false);
@@ -64,12 +68,19 @@ export class VehiculoFormComponent implements OnInit {
     anio: [null as number | null, [Validators.required, Validators.min(1900), Validators.max(this.anioActual)]],
     clienteId: [null as number | null, Validators.required],
     kilometrajeActual: [null as number | null, [Validators.required, Validators.min(0)]],
+    fechaUltimoService: [null as Date | null],
   });
 
   ngOnInit() {
     this.form.get('modeloId')?.disable();
     this.marcaService.listar().subscribe();
     this.modeloService.listar().subscribe();
+
+    if (this.ocultarSelectorCliente()) {
+      const clienteIdControl = this.form.get('clienteId');
+      clienteIdControl?.clearValidators();
+      clienteIdControl?.updateValueAndValidity();
+    }
 
     if (this.clienteIdPreseteado()) {
       this.form.patchValue({ clienteId: this.clienteIdPreseteado() });
@@ -91,6 +102,7 @@ export class VehiculoFormComponent implements OnInit {
         anio: vehiculo.anio,
         clienteId: vehiculo.cliente.id,
         kilometrajeActual: vehiculo.kilometrajeActual,
+        fechaUltimoService: vehiculo.fechaUltimoService ? this.parsearFecha(vehiculo.fechaUltimoService) : null,
       });
 
       this.form.get('patente')?.disable();
@@ -126,6 +138,19 @@ export class VehiculoFormComponent implements OnInit {
     if (this.form.invalid) return;
 
     const val = this.form.getRawValue();
+    const fechaUltimoService = val.fechaUltimoService ? this.formatearFecha(val.fechaUltimoService) : undefined;
+
+    if (this.soloDatos()) {
+      this.datosListos.emit({
+        patente: val.patente!,
+        modeloId: val.modeloId!,
+        anio: val.anio!,
+        clienteId: val.clienteId!,
+        kilometrajeActual: val.kilometrajeActual!,
+        fechaUltimoService,
+      });
+      return;
+    }
 
     if (this.edicion()) {
       const vehiculo = this.vehiculoService.vehiculoActual()!;
@@ -133,6 +158,7 @@ export class VehiculoFormComponent implements OnInit {
         modeloId: val.modeloId!,
         anio: val.anio!,
         clienteId: val.clienteId!,
+        fechaUltimoService,
       }).subscribe({ next: () => this.guardado.emit() });
     } else {
       this.vehiculoService.registrar({
@@ -141,7 +167,20 @@ export class VehiculoFormComponent implements OnInit {
         anio: val.anio!,
         clienteId: val.clienteId!,
         kilometrajeActual: val.kilometrajeActual!,
+        fechaUltimoService,
       }).subscribe({ next: () => this.guardado.emit() });
     }
+  }
+
+  private formatearFecha(fecha: Date): string {
+    const anio = fecha.getFullYear();
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    return `${anio}-${mes}-${dia}`;
+  }
+
+  private parsearFecha(fecha: string): Date {
+    const [anio, mes, dia] = fecha.split('-').map(Number);
+    return new Date(anio, mes - 1, dia);
   }
 }

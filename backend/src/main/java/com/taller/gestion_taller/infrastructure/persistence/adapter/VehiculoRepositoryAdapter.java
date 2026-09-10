@@ -8,6 +8,7 @@ import com.taller.gestion_taller.infrastructure.persistence.repository.JpaVehicu
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -60,6 +61,20 @@ public class VehiculoRepositoryAdapter implements VehiculoRepository {
     @Override
     public List<Vehiculo> findByPatenteContainingAndActivoTrue(String patente) {
         return jpaVehiculoRepository.findByPatenteContainingIgnoreCaseAndActivoTrue(patente).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Vehiculo> findByActivoTrueAndFechaUltimoServiceBefore(LocalDate umbral) {
+        return jpaVehiculoRepository.findByActivoTrueAndFechaUltimoServiceBefore(umbral).stream()
+                .map(mapper::toDomain)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Vehiculo> findByIdIn(List<Long> ids) {
+        return jpaVehiculoRepository.findAllById(ids).stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }

@@ -4,6 +4,7 @@ import com.taller.gestion_taller.infrastructure.persistence.entity.VehiculoEntit
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,4 +14,5 @@ public interface JpaVehiculoRepository extends JpaRepository<VehiculoEntity, Lon
     List<VehiculoEntity> findByClienteId(Long clienteId);
     List<VehiculoEntity> findByActivoTrue();
     List<VehiculoEntity> findByPatenteContainingIgnoreCaseAndActivoTrue(String patente);
+    List<VehiculoEntity> findByActivoTrueAndFechaUltimoServiceBefore(LocalDate umbral);
 }

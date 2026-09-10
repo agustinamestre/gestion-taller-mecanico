@@ -25,7 +25,7 @@ public class ModificarVehiculoUseCase implements ModificarVehiculo {
         Modelo modelo = buscarModelo(command.modeloId());
 
         return vehiculoRepository.save(
-                vehiculo.actualizarDatos(modelo, command.anio(), cliente)
+                vehiculo.actualizarDatos(modelo, command.anio(), cliente, command.fechaUltimoService())
         );
     }
 

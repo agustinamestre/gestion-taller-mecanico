@@ -21,6 +21,7 @@ public class VehiculoService {
     private final ModificarVehiculo modificarVehiculoUseCase;
     private final ActualizarKilometraje actualizarKilometrajeUseCase;
     private final DesactivarVehiculo desactivarVehiculoUseCase;
+    private final ObtenerVehiculoPorId obtenerVehiculoPorIdUseCase;
 
     @Transactional
     public Vehiculo registrarVehiculo(RegistrarVehiculoCommand command) {
@@ -50,5 +51,10 @@ public class VehiculoService {
     @Transactional
     public void desactivarVehiculo(Long id) {
         desactivarVehiculoUseCase.desactivarVehiculo(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Vehiculo obtenerPorId(Long id) {
+        return obtenerVehiculoPorIdUseCase.obtener(id);
     }
 }

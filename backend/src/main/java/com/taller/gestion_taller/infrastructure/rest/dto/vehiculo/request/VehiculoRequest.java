@@ -4,6 +4,8 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
+
 public record VehiculoRequest(
         @NotBlank(message = "La patente es obligatoria")
         String patente,
@@ -19,5 +21,7 @@ public record VehiculoRequest(
 
         @NotNull(message = "El kilometraje es obligatorio")
         @Min(value = 0, message = "El kilometraje debe ser mayor o igual a 0")
-        Integer kilometrajeActual
+        Integer kilometrajeActual,
+
+        LocalDate fechaUltimoService
 ) {}
