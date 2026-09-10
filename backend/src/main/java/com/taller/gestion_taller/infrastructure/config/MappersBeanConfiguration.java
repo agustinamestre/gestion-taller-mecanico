@@ -89,7 +89,12 @@ public class MappersBeanConfiguration {
     public UsuarioRestMapper usuarioRestMapper() {
         return Mappers.getMapper(UsuarioRestMapper.class);
     }
-    
+
+    @Bean
+    public AlertaRestMapper alertaRestMapper() {
+        return Mappers.getMapper(AlertaRestMapper.class);
+    }
+
     // Persistence mappers
     @Bean
     public ClientePersistenceMapper clientePersistenceMapper() {
@@ -134,5 +139,10 @@ public class MappersBeanConfiguration {
     @Bean
     public UsuarioPersistenceMapper usuarioPersistenceMapper() {
         return Mappers.getMapper(UsuarioPersistenceMapper.class);
+    }
+
+    @Bean
+    public AlertaPersistenceMapper alertaPersistenceMapper() {
+        return Mappers.getMapper(AlertaPersistenceMapper.class);
     }
 }
