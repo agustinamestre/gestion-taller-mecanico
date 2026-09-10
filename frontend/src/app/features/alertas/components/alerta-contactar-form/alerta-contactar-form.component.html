@@ -1,0 +1,54 @@
+<div class="form-container">
+  <div class="form-card">
+    <div class="form-icono">
+      <i class="pi pi-phone"></i>
+    </div>
+    <h2>Marcar como contactado</h2>
+    @if (alertaService.alertaSeleccionada(); as alerta) {
+      <p class="form-hint">Vehículo <strong>{{ alerta.patenteVehiculo }}</strong> — {{ alerta.nombreCliente }}</p>
+    }
+
+    <div class="form-completo">
+      <div class="campo" [class.campo-error]="invalidMedio()">
+        <label>Medio de contacto *</label>
+        <p-select
+          [(ngModel)]="medioContacto"
+          [options]="opcionesMedio"
+          optionLabel="label"
+          optionValue="value"
+          placeholder="Seleccioná un medio"
+        />
+        @if (invalidMedio()) {
+          <span class="error-msg">Seleccioná un medio de contacto</span>
+        }
+      </div>
+
+      <div class="campo">
+        <label>Observaciones</label>
+        <textarea
+          pTextarea
+          rows="3"
+          [(ngModel)]="observaciones"
+          placeholder="Observaciones (opcional)"
+        ></textarea>
+      </div>
+
+      <div class="form-footer">
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          [outlined]="true"
+          [disabled]="alertaService.cargando()"
+          (onClick)="cancelar.emit()"
+          type="button"
+        />
+        <p-button
+          [label]="alertaService.cargando() ? 'Guardando...' : 'Confirmar'"
+          [loading]="alertaService.cargando()"
+          (onClick)="confirmar()"
+          type="button"
+        />
+      </div>
+    </div>
+  </div>
+</div>
