@@ -1,0 +1,57 @@
+@use 'tablas' as *;
+@use 'etiquetas' as *;
+
+.cabecera {
+  @include cabecera-listado;
+}
+
+.header-titulo {
+  @include header-titulo-listado;
+}
+
+.filtros {
+  @include filtros-listado;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.buscador-input {
+  @include input-buscador;
+}
+
+.select-contactado {
+  width: 170px;
+}
+
+.tabla-scroll {
+  @include tabla-scroll-horizontal;
+}
+
+.etiqueta-estado {
+  @include etiqueta-base;
+
+  &.estado-pendiente { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
+  &.estado-contactada { background: var(--fondo-tenue-exito); color: var(--success-color); }
+}
+
+.botones-fila {
+  @include botones-fila;
+}
+
+.boton-accion.color-ver {
+  @include boton-color-ver;
+}
+
+.sin-resultados {
+  text-align: center;
+  color: var(--text-muted);
+  padding: var(--espaciado);
+}
+
+@include en-mobile {
+  @include listado-responsive;
+
+  .select-contactado {
+    width: 100% !important;
+  }
+}
