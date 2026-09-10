@@ -44,10 +44,6 @@ public final class BusinessErrors {
         return new BusinessError("MARCA_DUPLICADA", "Ya existe una marca con el nombre: " + nombre);
     }
 
-    public static BusinessError marcaYaDesactivada() {
-        return new BusinessError("MARCA_YA_DESACTIVADA", "La marca ya se encuentra desactivada.");
-    }
-
     public static BusinessError marcaNoEncontrada() {
         return new BusinessError("MARCA_NO_ENCONTRADA", "No se encontro la marca ingresada.");
     }
@@ -60,10 +56,6 @@ public final class BusinessErrors {
         return new BusinessError("MODELO_NO_ENCONTRADO", "No se encontro el modelo ingresado.");
     }
 
-    public static BusinessError modeloYaDesactivado() {
-        return new BusinessError("MODELO_YA_DESACTIVADO", "El modelo que ingreso se encuentra desactivado.");
-    }
-
     public static BusinessError productoDuplicado(String nombre, TipoProducto tipo) {
         return new BusinessError("PRODUCTO_DUPLICADO", MessageFormat.format("Ya existe un producto con el nombre {0} y tipo {1}", nombre, tipo));
     }
@@ -74,10 +66,6 @@ public final class BusinessErrors {
 
     public static BusinessError productosNoEncontradosPorTipo(String tipo) {
         return new BusinessError("PRODUCTOS_NO_ENCONTRADOS", "No se encontraron productos del tipo: " + tipo);
-    }
-
-    public static BusinessError productoYaDesactivado() {
-        return new BusinessError("PRODUCTO_YA_DESACTIVADO", "El producto ya se encuentra desactivado.");
     }
 
     public static BusinessError vehiculoPatenteDuplicada() {
@@ -133,6 +121,11 @@ public final class BusinessErrors {
                 "ORDEN_SIN_DESCRIPCION",
                 "La descripción del problema es obligatoria."
         );
+    }
+
+    public static BusinessError ordenSinIdentificacionVehiculo() {
+        return new BusinessError("ORDEN_SIN_IDENTIFICACION",
+                "Para registrar la orden hace falta indicar un vehículo: enviá la patente o el presupuesto de origen");
     }
     
     public static BusinessError ordenSinUsuarioCreacion() {
@@ -273,6 +266,27 @@ public final class BusinessErrors {
         return new BusinessError(
                 "USUARIO_YA_DESACTIVADO",
                 "El usuario con ID " + id + " ya se encuentra desactivado."
+        );
+    }
+
+    public static BusinessError passwordActualIncorrecta() {
+        return new BusinessError(
+                "PASSWORD_ACTUAL_INCORRECTA",
+                "La contraseña actual ingresada es incorrecta."
+        );
+    }
+
+    public static BusinessError alertaNoEncontrada(Long id) {
+        return new BusinessError(
+                "ALERTA_NO_ENCONTRADA",
+                "No se encontro la alerta con ID: " + id
+        );
+    }
+
+    public static BusinessError alertaYaContactada() {
+        return new BusinessError(
+                "ALERTA_YA_CONTACTADA",
+                "La alerta ya fue marcada como contactada."
         );
     }
 }
