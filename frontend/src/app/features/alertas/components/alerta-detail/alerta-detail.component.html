@@ -1,0 +1,68 @@
+@if (alerta; as a) {
+  <div class="detalle-container">
+
+    <div class="cabecera">
+      <div class="cabecera-titulo">
+        <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver.emit()"></button>
+        <h2>{{ a.patenteVehiculo }}</h2>
+        <span class="etiqueta-estado" [class.estado-contactada]="a.contactado" [class.estado-pendiente]="!a.contactado">
+          {{ a.contactado ? 'Contactada' : 'Pendiente' }}
+        </span>
+      </div>
+    </div>
+
+    <div class="ficha">
+      <div class="ficha-datos">
+        <div class="dato">
+          <span class="label">Cliente</span>
+          <span class="valor">{{ a.nombreCliente }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Tipo de alerta</span>
+          <span class="valor">{{ a.tipo === 'SERVICE_VENCIDO' ? 'Service vencido' : a.tipo }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Fecha de alerta</span>
+          <span class="valor">{{ a.fechaAlerta | date:'dd/MM/yyyy' }}</span>
+        </div>
+        @if (vehiculo) {
+          <div class="dato">
+            <span class="label">Marca / Modelo</span>
+            <span class="valor">{{ vehiculo.marca }} {{ vehiculo.modelo }}</span>
+          </div>
+          <div class="dato">
+            <span class="label">Año</span>
+            <span class="valor">{{ vehiculo.anio }}</span>
+          </div>
+          <div class="dato">
+            <span class="label">Kilometraje</span>
+            <span class="valor">{{ vehiculo.kilometrajeActual | number }} km</span>
+          </div>
+        }
+      </div>
+    </div>
+
+    @if (a.contactado) {
+      <div class="ficha ficha-contacto">
+        <h3>Datos del contacto</h3>
+        <div class="ficha-datos">
+          <div class="dato">
+            <span class="label">Fecha de contacto</span>
+            <span class="valor">{{ a.fechaContacto | date:'dd/MM/yyyy' }}</span>
+          </div>
+          <div class="dato">
+            <span class="label">Medio de contacto</span>
+            <span class="valor">{{ a.medioContacto === 'WHATSAPP' ? 'WhatsApp' : 'Email' }}</span>
+          </div>
+          @if (a.observaciones) {
+            <div class="dato dato-full">
+              <span class="label">Observaciones</span>
+              <span class="valor">{{ a.observaciones }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+  </div>
+}
