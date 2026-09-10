@@ -1,0 +1,21 @@
+<div class="alertas-shell">
+  @switch (vista()) {
+    @case ('tabla') {
+      <app-alerta-table
+        (verDetalle)="verDetalle($event)"
+        (contactar)="abrirContactar($event)"
+      />
+    }
+    @case ('detalle') {
+      <app-alerta-detail
+        (volver)="volver()"
+      />
+    }
+    @case ('contactar') {
+      <app-alerta-contactar-form
+        (guardado)="volver()"
+        (cancelar)="volver()"
+      />
+    }
+  }
+</div>
