@@ -1,0 +1,61 @@
+@use 'etiquetas' as *;
+@use 'detalle' as *;
+@use 'tablas' as *;
+
+.detalle-container {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cabecera {
+  @include cabecera-detalle;
+  margin-bottom: var(--espaciado);
+  flex-wrap: wrap;
+}
+
+.cabecera-titulo {
+  @include cabecera-titulo-detalle;
+
+  h2 { margin: 0; color: var(--text-main); }
+}
+
+.cabecera-acciones {
+  @include cabecera-acciones-detalle;
+}
+
+.ficha {
+  @include ficha-card;
+  margin-bottom: var(--espaciado);
+}
+
+.ficha-contacto {
+  h3 {
+    margin: 0 0 0.75rem 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-main);
+  }
+}
+
+.ficha-datos {
+  @include ficha-datos-grid;
+}
+
+.dato {
+  @include dato-base;
+}
+
+.dato-full {
+  grid-column: 1 / -1;
+}
+
+.etiqueta-estado {
+  @include etiqueta-base;
+
+  &.estado-pendiente { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
+  &.estado-contactada { background: var(--fondo-tenue-exito); color: var(--success-color); }
+}
+
+@include en-mobile {
+  @include detalle-responsive;
+}

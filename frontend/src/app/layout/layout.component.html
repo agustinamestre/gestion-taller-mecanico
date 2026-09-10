@@ -1,5 +1,3 @@
-<p-toast position="top-right" />
-
 <div class="app-layout">
 
   <header class="topbar">
@@ -14,8 +12,46 @@
       <input type="text" pInputText placeholder="Buscar patente, cliente o DNI..." />
     </div>
     <div class="user-profile">
-      <i class="pi pi-bell" pBadge value="2"></i>
-      <p-avatar label="AM" shape="circle" styleClass="user-avatar"></p-avatar>
+      @if (alertaService.pendientesCount() > 0) {
+        <i
+          class="pi pi-bell campana-alertas"
+          pBadge
+          [value]="alertaService.pendientesCount().toString()"
+          severity="danger"
+          (click)="panelAlertas.toggle($event); onAbrirPanelAlertas()"
+        ></i>
+      } @else {
+        <i
+          class="pi pi-bell campana-alertas"
+          (click)="panelAlertas.toggle($event); onAbrirPanelAlertas()"
+        ></i>
+      }
+      <p-popover #panelAlertas>
+        <div class="panel-alertas">
+          <h4>Alertas pendientes</h4>
+          @if (alertaService.listado().length === 0) {
+            <p class="sin-alertas">No hay alertas pendientes</p>
+          } @else {
+            <ul>
+              @for (alerta of alertaService.listado().slice(0, 5); track alerta.id) {
+                <li (click)="irAAlertas(panelAlertas)">
+                  <span class="patente">{{ alerta.patenteVehiculo }}</span>
+                  <span class="cliente">{{ alerta.nombreCliente }}</span>
+                  <span class="fecha">{{ alerta.fechaAlerta | date:'dd/MM/yyyy' }}</span>
+                </li>
+              }
+            </ul>
+          }
+          <button pButton label="Ver todas" class="p-button-text p-button-sm" (click)="irAAlertas(panelAlertas)"></button>
+        </div>
+      </p-popover>
+      <p-avatar
+        [label]="iniciales"
+        shape="circle"
+        styleClass="user-avatar"
+        (click)="menu.toggle($event)"
+      ></p-avatar>
+      <p-menu #menu [model]="menuUsuario" [popup]="true"></p-menu>
     </div>
   </header>
 
@@ -30,6 +66,8 @@
           <li><a routerLink="/ordenes" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-file-edit"></i> <span>Órdenes de Trabajo</span></a></li>
           <li><a routerLink="/productos" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-box"></i> <span>Productos</span></a></li>
           <li><a routerLink="/presupuestos" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-box"></i> <span>Presupuestos</span></a></li>
+          <li><a routerLink="/alertas" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-exclamation-triangle"></i> <span>Alertas de Service</span></a></li>
+          <li *ngIf="esAdmin"><a routerLink="/usuarios" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-users"></i> <span>Usuarios</span></a></li>
           <li><a routerLink="/configuracion" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-cog"></i> <span>Configuración</span></a></li>
         </ul>
       </nav>
