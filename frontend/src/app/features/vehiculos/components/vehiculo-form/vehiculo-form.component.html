@@ -80,32 +80,46 @@
         </div>
       }
 
-      <div class="campo full">
-        <label>Cliente propietario *</label>
-        <app-cliente-selector
-          [clienteIdInicial]="clienteIdParaSelector()"
-          (clienteSeleccionado)="onClienteSeleccionado($event)"
+      <div class="campo">
+        <label>Fecha último service</label>
+        <p-datepicker
+          formControlName="fechaUltimoService"
+          dateFormat="dd/mm/yy"
+          [showIcon]="true"
+          placeholder="Seleccioná una fecha"
         />
-        <span class="error-msg" [style.visibility]="invalid('clienteId') ? 'visible' : 'hidden'">
-          Seleccioná un cliente
-        </span>
       </div>
+
+      @if (!ocultarSelectorCliente()) {
+        <div class="campo full">
+          <label>Cliente propietario *</label>
+          <app-cliente-selector
+            [clienteIdInicial]="clienteIdParaSelector()"
+            (clienteSeleccionado)="onClienteSeleccionado($event)"
+          />
+          <span class="error-msg" [style.visibility]="invalid('clienteId') ? 'visible' : 'hidden'">
+            Seleccioná un cliente
+          </span>
+        </div>
+      }
     </div>
 
-    <div class="form-footer">
-      <p-button
-        label="Cancelar"
-        severity="secondary"
-        [outlined]="true"
-        (onClick)="cancelar.emit()"
-        type="button"
-      />
-      <p-button
-        [label]="vehiculoService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar vehículo')"
-        [loading]="vehiculoService.cargando()"
-        type="submit"
-      />
-    </div>
+    @if (!soloDatos()) {
+      <div class="form-footer">
+        <p-button
+          label="Cancelar"
+          severity="secondary"
+          [outlined]="true"
+          (onClick)="cancelar.emit()"
+          type="button"
+        />
+        <p-button
+          [label]="vehiculoService.cargando() ? 'Guardando...' : (edicion() ? 'Guardar cambios' : 'Registrar vehículo')"
+          [loading]="vehiculoService.cargando()"
+          type="submit"
+        />
+      </div>
+    }
   </form>
 
 </div>

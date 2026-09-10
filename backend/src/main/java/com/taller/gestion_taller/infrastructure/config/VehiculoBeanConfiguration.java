@@ -53,4 +53,9 @@ public class VehiculoBeanConfiguration {
     public DesactivarVehiculo desactivarVehiculoUseCase(VehiculoRepository vehiculoRepository) {
         return new DesactivarVehiculoUseCase(vehiculoRepository);
     }
+
+    @Bean
+    public ObtenerVehiculoPorId obtenerVehiculoPorIdUseCase(VehiculoRepository vehiculoRepository) {
+        return new ObtenerVehiculoPorIdUseCase(vehiculoRepository);
+    }
 }

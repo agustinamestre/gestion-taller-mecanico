@@ -49,7 +49,7 @@ public class RegistrarVehiculoUseCaseTest {
 
     @BeforeEach
     void setUp() {
-        command = new RegistrarVehiculoCommand("ABC-123", 1L, 2020, 1L, 15000);
+        command = new RegistrarVehiculoCommand("ABC-123", 1L, 2020, 1L, 15000, null);
         cliente = Cliente.builder().id(1L).activo(true).build();
         Marca marca = Marca.builder().id(1L).build();
         modelo = Modelo.builder().id(1L).marca(marca).build();

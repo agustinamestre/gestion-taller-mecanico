@@ -91,7 +91,7 @@ class VehiculoTest {
             Modelo nuevoModelo = mock(Modelo.class);
             Cliente nuevoCliente = mock(Cliente.class);
 
-            Vehiculo actualizado = original.actualizarDatos(nuevoModelo, 2024, nuevoCliente);
+            Vehiculo actualizado = original.actualizarDatos(nuevoModelo, 2024, nuevoCliente, null);
 
             assertThat(actualizado).isNotSameAs(original);
             assertThat(actualizado.getModelo()).isSameAs(nuevoModelo);
@@ -106,7 +106,7 @@ class VehiculoTest {
             Vehiculo vehiculo = Vehiculo.crearNuevo(
                     PATENTE, mock(Modelo.class), ANIO, mock(Cliente.class), KM);
 
-            assertThatThrownBy(() -> vehiculo.actualizarDatos(mock(Modelo.class), 2024, null))
+            assertThatThrownBy(() -> vehiculo.actualizarDatos(mock(Modelo.class), 2024, null, null))
                     .isInstanceOf(BusinessRunTimeException.class)
                     .extracting("businessError.code")
                     .isEqualTo("VEHICULO_SIN_CLIENTE");
@@ -118,7 +118,7 @@ class VehiculoTest {
             Vehiculo vehiculo = Vehiculo.crearNuevo(
                     PATENTE, mock(Modelo.class), ANIO, mock(Cliente.class), KM);
 
-            assertThatThrownBy(() -> vehiculo.actualizarDatos(null, 2024, mock(Cliente.class)))
+            assertThatThrownBy(() -> vehiculo.actualizarDatos(null, 2024, mock(Cliente.class), null))
                     .isInstanceOf(BusinessRunTimeException.class)
                     .extracting("businessError.code")
                     .isEqualTo("VEHICULO_SIN_MODELO");

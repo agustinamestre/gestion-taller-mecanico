@@ -32,7 +32,7 @@ public class Vehiculo {
                 .build();
     }
 
-    public Vehiculo actualizarDatos(Modelo nuevoModelo, Integer nuevoAnio, Cliente nuevoCliente) {
+    public Vehiculo actualizarDatos(Modelo nuevoModelo, Integer nuevoAnio, Cliente nuevoCliente, LocalDate nuevaFechaUltimoService) {
         if (nuevoCliente == null) {
             throw new BusinessRunTimeException(BusinessErrors.vehiculoSinCliente());
         }
@@ -43,6 +43,7 @@ public class Vehiculo {
                 .modelo(nuevoModelo)
                 .anio(nuevoAnio)
                 .cliente(nuevoCliente)
+                .fechaUltimoService(nuevaFechaUltimoService)
                 .build();
     }
 

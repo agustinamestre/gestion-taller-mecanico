@@ -2,6 +2,8 @@ package com.taller.gestion_taller.infrastructure.rest.dto.vehiculo.request;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
+
 public record ModificarVehiculoRequest(
         @NotNull(message = "El modelo es obligatorio")
         Long modeloId,
@@ -10,5 +12,7 @@ public record ModificarVehiculoRequest(
         Integer anio,
 
         @NotNull(message = "El cliente es obligatorio")
-        Long clienteId
+        Long clienteId,
+
+        LocalDate fechaUltimoService
 ) {}

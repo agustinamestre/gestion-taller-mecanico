@@ -66,7 +66,8 @@ public class AsociarVehiculoAPresupuestoUseCase implements AsociarVehiculoAPresu
                 datosVehiculo.modeloId(),
                 datosVehiculo.anio(),
                 clienteId,
-                datosVehiculo.kilometrajeActual()
+                datosVehiculo.kilometrajeActual(),
+                null
         ));
     }
 

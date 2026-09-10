@@ -46,7 +46,7 @@ class ModificarVehiculoUseCaseTest {
 
     @BeforeEach
     void setUp() {
-        command = new ModificarVehiculoCommand(2L, 2022, 2L);
+        command = new ModificarVehiculoCommand(2L, 2022, 2L, null);
 
         cliente = Cliente.builder().id(2L).activo(true).build();
         Marca marca = Marca.builder().id(1L).build();

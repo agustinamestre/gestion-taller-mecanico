@@ -1,6 +1,7 @@
 package com.taller.gestion_taller.domain.repositories;
 
 import com.taller.gestion_taller.domain.model.Vehiculo;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface VehiculoRepository {
     List<Vehiculo> findAll();
     List<Vehiculo> findByActivoTrue();
     List<Vehiculo> findByPatenteContainingAndActivoTrue(String patente);
+    List<Vehiculo> findByActivoTrueAndFechaUltimoServiceBefore(LocalDate umbral);
+    List<Vehiculo> findByIdIn(List<Long> ids);
 }

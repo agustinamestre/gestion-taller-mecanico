@@ -15,6 +15,7 @@ export interface VehiculoResponse {
   kilometrajeActual: number;
   cliente: ClienteSummaryResponse;
   activo: boolean;
+  fechaUltimoService?: string;
 }
 export interface VehiculoRequest {
   patente: string;
@@ -22,12 +23,14 @@ export interface VehiculoRequest {
   anio: number;
   clienteId: number;
   kilometrajeActual: number;
+  fechaUltimoService?: string;
 }
 
 export interface ModificarVehiculoRequest {
   modeloId: number;
   anio: number;
   clienteId: number;
+  fechaUltimoService?: string;
 }
 
 export interface ActualizarKilometrajeRequest {
