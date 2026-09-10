@@ -26,6 +26,9 @@ export class PerfilComponent implements OnInit {
   readonly form = this.fb.group({
     nombre: ['', [Validators.required]],
     apellido: ['', [Validators.required]],
+    telefono: ['', [Validators.required]],
+    email: ['', [Validators.email]],
+    direccion: ['', [Validators.required]],
   });
 
   ngOnInit() {
@@ -48,7 +51,13 @@ export class PerfilComponent implements OnInit {
   editar() {
     const perfil = this.perfilService.perfil();
     if (!perfil) return;
-    this.form.patchValue({ nombre: perfil.nombre, apellido: perfil.apellido });
+    this.form.patchValue({
+      nombre: perfil.nombre,
+      apellido: perfil.apellido,
+      telefono: perfil.telefono,
+      email: perfil.email,
+      direccion: perfil.direccion,
+    });
     this.enviado.set(false);
     this.editando.set(true);
   }
@@ -63,7 +72,13 @@ export class PerfilComponent implements OnInit {
 
     const val = this.form.getRawValue();
     this.perfilService
-      .modificarPerfil({ nombre: val.nombre!, apellido: val.apellido! })
+      .modificarPerfil({
+        nombre: val.nombre!,
+        apellido: val.apellido!,
+        telefono: val.telefono!,
+        email: val.email || null,
+        direccion: val.direccion!,
+      })
       .subscribe({
         next: () => {
           this.notification.exito('Tus datos fueron actualizados correctamente.');

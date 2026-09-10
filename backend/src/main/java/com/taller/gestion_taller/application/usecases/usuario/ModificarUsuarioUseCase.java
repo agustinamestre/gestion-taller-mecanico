@@ -21,6 +21,9 @@ public class ModificarUsuarioUseCase implements ModificarUsuario {
         Usuario modificado = usuario.toBuilder()
                 .nombre(command.nombre())
                 .apellido(command.apellido())
+                .telefono(command.telefono())
+                .email(command.email())
+                .direccion(command.direccion())
                 .rol(command.rol())
                 .build();
 

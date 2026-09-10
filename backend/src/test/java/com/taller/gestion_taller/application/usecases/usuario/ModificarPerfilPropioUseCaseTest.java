@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 class ModificarPerfilPropioUseCaseTest {
 
     private static final ModificarPerfilPropioCommand COMMAND = new ModificarPerfilPropioCommand(
-            "jperez", "Juan", "Perez Actualizado"
+            "jperez", "Juan", "Perez Actualizado", "1122334455", "jperez@taller.com", "Calle Falsa 123"
     );
 
     @Mock
@@ -47,6 +47,9 @@ class ModificarPerfilPropioUseCaseTest {
 
         Usuario usuarioModificado = usuarioExistente.toBuilder()
                 .apellido("Perez Actualizado")
+                .telefono("1122334455")
+                .email("jperez@taller.com")
+                .direccion("Calle Falsa 123")
                 .build();
 
         when(usuarioRepository.findByUsername("jperez")).thenReturn(Optional.of(usuarioExistente));

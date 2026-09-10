@@ -48,7 +48,9 @@ export class UsuarioTableComponent {
       (u) =>
         u.username.toLowerCase().includes(texto) ||
         u.nombre.toLowerCase().includes(texto) ||
-        u.apellido.toLowerCase().includes(texto)
+        u.apellido.toLowerCase().includes(texto) ||
+        u.telefono.toLowerCase().includes(texto) ||
+        (u.email ?? '').toLowerCase().includes(texto)
     );
   });
 

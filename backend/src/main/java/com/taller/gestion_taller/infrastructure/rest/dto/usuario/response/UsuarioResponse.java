@@ -7,6 +7,9 @@ public record UsuarioResponse(
         String username,
         String nombre,
         String apellido,
+        String telefono,
+        String email,
+        String direccion,
         Rol rol,
         boolean activo
 ) {}

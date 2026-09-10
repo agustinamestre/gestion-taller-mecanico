@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 class ModificarUsuarioUseCaseTest {
 
     private static final ModificarUsuarioCommand COMMAND = new ModificarUsuarioCommand(
-            1L, "Juan", "Perez Actualizado", Rol.ADMIN
+            1L, "Juan", "Perez Actualizado", "1122334455", "jperez@taller.com", "Calle Falsa 123", Rol.ADMIN
     );
 
     @Mock
@@ -47,6 +47,9 @@ class ModificarUsuarioUseCaseTest {
 
         Usuario usuarioModificado = usuarioExistente.toBuilder()
                 .apellido("Perez Actualizado")
+                .telefono("1122334455")
+                .email("jperez@taller.com")
+                .direccion("Calle Falsa 123")
                 .rol(Rol.ADMIN)
                 .build();
 
