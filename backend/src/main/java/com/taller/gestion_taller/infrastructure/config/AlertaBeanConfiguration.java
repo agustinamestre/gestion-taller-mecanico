@@ -26,9 +26,9 @@ public class AlertaBeanConfiguration {
     }
 
     @Bean
-    public ListarAlertasConVehiculos listarAlertasConVehiculosUseCase(AlertaRepository alertaRepository,
-                                                                       VehiculoRepository vehiculoRepository) {
-        return new ListarAlertasConVehiculosUseCase(
+    public ListarAlertasConVehiculo listarAlertasConVehiculoUseCase(AlertaRepository alertaRepository,
+                                                                     VehiculoRepository vehiculoRepository) {
+        return new ListarAlertasConVehiculoUseCase(
                 alertaRepository,
                 vehiculoRepository
         );

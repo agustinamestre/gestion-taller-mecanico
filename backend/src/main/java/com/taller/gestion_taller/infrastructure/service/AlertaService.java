@@ -4,7 +4,7 @@ import com.taller.gestion_taller.application.command.alerta.MarcarAlertaContacta
 import com.taller.gestion_taller.application.usecases.alerta.AlertaConVehiculo;
 import com.taller.gestion_taller.application.usecases.alerta.ContarAlertasPendientes;
 import com.taller.gestion_taller.application.usecases.alerta.GenerarAlertasService;
-import com.taller.gestion_taller.application.usecases.alerta.ListarAlertasConVehiculos;
+import com.taller.gestion_taller.application.usecases.alerta.ListarAlertasConVehiculo;
 import com.taller.gestion_taller.application.usecases.alerta.MarcarAlertaContactada;
 import com.taller.gestion_taller.application.usecases.vehiculo.ObtenerVehiculoPorId;
 import com.taller.gestion_taller.domain.model.Alerta;
@@ -20,7 +20,7 @@ public class AlertaService {
 
     private final GenerarAlertasService generarAlertasServiceUseCase;
     private final MarcarAlertaContactada marcarAlertaContactadaUseCase;
-    private final ListarAlertasConVehiculos listarAlertasConVehiculosUseCase;
+    private final ListarAlertasConVehiculo listarAlertasConVehiculoUseCase;
     private final ContarAlertasPendientes contarAlertasPendientesUseCase;
     private final ObtenerVehiculoPorId obtenerVehiculoPorIdUseCase;
 
@@ -37,7 +37,7 @@ public class AlertaService {
 
     @Transactional(readOnly = true)
     public List<AlertaConVehiculo> listarConVehiculo(String patente, Boolean contactado) {
-        return listarAlertasConVehiculosUseCase.listar(patente, contactado);
+        return listarAlertasConVehiculoUseCase.listar(patente, contactado);
     }
 
     @Transactional(readOnly = true)
