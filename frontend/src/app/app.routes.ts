@@ -49,6 +49,10 @@ export const routes: Routes = [
         loadComponent: () => import('./features/presupuestos/presupuestos.component').then(c => c.PresupuestosComponent)
       },
       {
+        path: 'ordenes',
+        loadComponent: () => import('./features/ordenes/ordenes-trabajo.component').then(c => c.OrdenesTrabajoComponent)
+      },
+      {
         path: 'alertas',
         loadComponent: () => import('./features/alertas/alertas.component').then(c => c.AlertasComponent)
       },
