@@ -39,9 +39,7 @@ export class ClienteSelectorComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.clienteService.clientes().length === 0) {
-      this.clienteService.listar().subscribe();
-    }
+    this.clienteService.listar().subscribe();
   }
 
   buscar(event: AutoCompleteCompleteEvent) {
