@@ -128,13 +128,6 @@ public final class BusinessErrors {
                 "Para registrar la orden hace falta indicar un vehículo: enviá la patente o el presupuesto de origen");
     }
     
-    public static BusinessError ordenSinUsuarioCreacion() {
-        return new BusinessError(
-                "ORDEN_SIN_USUARIO_CREACION",
-                "El usuario de creación es obligatorio."
-        );
-    }
-
     public static BusinessError presupuestoNoEncontrado(Long id) {
         return new BusinessError("PRESUPUESTO_NO_ENCONTRADO", "No se encontro el presupuesto con ID: " + id);
     }
