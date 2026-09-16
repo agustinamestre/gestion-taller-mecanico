@@ -22,6 +22,11 @@ public class RegistrarOrdenTrabajoUseCase implements RegistrarOrdenTrabajo {
 
     @Override
     public OrdenTrabajo registrar(RegistrarOrdenTrabajoCommand command) {
+
+        if (command.presupuestoId() == null && (command.patente() == null || command.patente().isBlank())) {
+            throw new BusinessRunTimeException(BusinessErrors.ordenSinIdentificacionVehiculo());
+        }
+
         OrdenTrabajo orden = command.presupuestoId() != null
                 ? construirDesdePresupuesto(command)
                 : construirDesdePatente(command);
@@ -65,13 +70,6 @@ public class RegistrarOrdenTrabajoUseCase implements RegistrarOrdenTrabajo {
         }
     }
 
-    /**
-     * Si el comando incluye una patente ademas del presupuesto, debe coincidir con la del
-     * vehiculo del presupuesto. Esto evita inconsistencias silenciosas en los datos cuando el
-     * frontend o un cliente API envian informacion contradictoria.
-     * <p>
-     * La comparacion es case-insensitive y se ignora cuando la patente no fue provista.
-     */
     private void validarCoherenciaPatente(String patenteRecibida, Vehiculo vehiculoDelPresupuesto) {
         if (patenteRecibida == null || patenteRecibida.isBlank()) {
             return;
