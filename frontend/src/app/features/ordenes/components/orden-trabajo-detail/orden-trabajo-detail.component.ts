@@ -6,8 +6,8 @@ import { TableModule } from 'primeng/table';
 import { TextareaModule } from 'primeng/textarea';
 import { OrdenTrabajoService } from '../../services/orden-trabajo.service';
 import { ItemOrdenTrabajoResponse, ESTADOS_MODIFICABLES } from '../../models/orden-trabajo.model';
-import { OrdenTrabajoItemFormComponent } from '../orden-trabajo-item-form/orden-trabajo-item-form.component';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
+import { ItemFormComponent, ItemFormResultado } from '../../../../shared/components/item-form/item-form.component';
 
 type Vista = 'detalle' | 'item-form';
 type OrigenItem = 'presupuesto' | 'orden';
@@ -28,7 +28,7 @@ interface ItemUnificado {
   standalone: true,
   imports: [
     CurrencyPipe, DatePipe, FormsModule, ButtonModule, TableModule, TextareaModule,
-    OrdenTrabajoItemFormComponent, ConfirmDialogComponent,
+    ItemFormComponent, ConfirmDialogComponent,
   ],
   templateUrl: './orden-trabajo-detail.component.html',
   styleUrl: './orden-trabajo-detail.component.scss',
@@ -91,6 +91,18 @@ export class OrdenTrabajoDetailComponent {
   abrirEditarItem(item: ItemOrdenTrabajoResponse) {
     this.ordenTrabajoService.seleccionarItem(item);
     this.vista.set('item-form');
+  }
+
+  onGuardarItem(datos: ItemFormResultado) {
+    const orden = this.orden;
+    if (!orden) return;
+
+    const item = this.ordenTrabajoService.itemEnEdicion();
+    const request$ = item
+      ? this.ordenTrabajoService.modificarItem(orden.id, item.id, datos)
+      : this.ordenTrabajoService.agregarItem(orden.id, datos);
+
+    request$.subscribe({ next: () => this.onItemGuardado() });
   }
 
   onItemGuardado() {

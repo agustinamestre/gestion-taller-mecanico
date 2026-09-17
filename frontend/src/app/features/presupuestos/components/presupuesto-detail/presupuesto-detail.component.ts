@@ -4,9 +4,9 @@ import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { PresupuestoService } from '../../services/presupuesto.service';
 import { ItemPresupuestoResponse } from '../../models/presupuesto.model';
-import { PresupuestoItemFormComponent } from '../presupuesto-item-form/presupuesto-item-form.component';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { PresupuestoVehiculoFormComponent } from '../presupuesto-vehiculo-form/presupuesto-vehiculo-form.component';
+import { ItemFormComponent, ItemFormResultado } from '../../../../shared/components/item-form/item-form.component';
 
 type Vista = 'detalle' | 'item-form' | 'vehiculo-form';
 
@@ -15,8 +15,7 @@ type Vista = 'detalle' | 'item-form' | 'vehiculo-form';
   standalone: true,
   imports: [
     CurrencyPipe, DatePipe, ButtonModule, TableModule,
-    PresupuestoItemFormComponent,
-    PresupuestoVehiculoFormComponent, ConfirmDialogComponent,
+    PresupuestoVehiculoFormComponent, ItemFormComponent, ConfirmDialogComponent,
   ],
   templateUrl: './presupuesto-detail.component.html',
   styleUrl: './presupuesto-detail.component.scss',
@@ -56,6 +55,18 @@ export class PresupuestoDetailComponent {
   abrirEditarItem(item: ItemPresupuestoResponse) {
     this.presupuestoService.seleccionarItem(item);
     this.vista.set('item-form');
+  }
+
+  onGuardarItem(datos: ItemFormResultado) {
+    const presupuesto = this.presupuesto;
+    if (!presupuesto) return;
+
+    const item = this.presupuestoService.itemEnEdicion();
+    const request$ = item
+      ? this.presupuestoService.modificarItem(presupuesto.id, item.id, datos)
+      : this.presupuestoService.agregarItem(presupuesto.id, datos);
+
+    request$.subscribe({ next: () => this.onItemGuardado() });
   }
 
   onItemGuardado() {

@@ -79,7 +79,12 @@
     }
 
     @case ('item-form') {
-      <app-orden-trabajo-item-form (guardado)="onItemGuardado()" (cancelar)="irADetalle()" />
+      <app-item-form
+        [itemEnEdicion]="ordenTrabajoService.itemEnEdicion()"
+        [cargando]="ordenTrabajoService.cargando()"
+        (guardado)="onGuardarItem($event)"
+        (cancelar)="irADetalle()"
+      />
     }
 
   }

@@ -1,30 +1,42 @@
-import { Component, computed, inject, OnInit, output, signal } from '@angular/core';
+import { Component, computed, inject, input, OnInit, output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SelectModule } from 'primeng/select';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
-import { PresupuestoService } from '../../services/presupuesto.service';
-import { ProductoService } from '../../../productos/services/producto.service';
-import { TipoProducto } from '../../../productos/models/producto.model';
+import { ProductoService } from '../../../features/productos/services/producto.service';
+import { TipoProducto } from '../../../features/productos/models/producto.model';
+
+export interface ItemEditable {
+  productoId: number;
+  descripcion: string;
+  cantidad: number;
+  precioUnitario: number;
+}
+
+export interface ItemFormResultado {
+  productoId: number;
+  descripcion: string;
+  cantidad: number;
+  precioUnitario: number;
+}
 
 @Component({
-  selector: 'app-presupuesto-item-form',
+  selector: 'app-item-form',
   standalone: true,
   imports: [FormsModule, SelectModule, SelectButtonModule, InputNumberModule, InputTextModule, ButtonModule],
-  templateUrl: './presupuesto-item-form.component.html',
-  styleUrl: './presupuesto-item-form.component.scss',
+  templateUrl: './item-form.component.html',
+  styleUrl: './item-form.component.scss',
 })
-export class PresupuestoItemFormComponent implements OnInit {
-  readonly presupuestoService = inject(PresupuestoService);
+export class ItemFormComponent implements OnInit {
   readonly productoService = inject(ProductoService);
 
-  readonly guardado = output<void>();
-  readonly cancelar = output<void>();
+  readonly itemEnEdicion = input<ItemEditable | null>(null);
+  readonly cargando = input(false);
 
-  readonly presupuesto = computed(() => this.presupuestoService.seleccionado());
-  readonly itemEnEdicion = computed(() => this.presupuestoService.itemEnEdicion());
+  readonly guardado = output<ItemFormResultado>();
+  readonly cancelar = output<void>();
 
   readonly filtroTipo = signal<TipoProducto | null>(null);
   readonly productoIdSeleccionado = signal<number | null>(null);
@@ -75,23 +87,13 @@ export class PresupuestoItemFormComponent implements OnInit {
   }
 
   guardar() {
-    const presupuesto = this.presupuesto();
-    const productoId = this.productoIdSeleccionado();
-    const descripcion = this.descripcion().trim();
-    const cantidad = this.cantidad();
-    const precio = this.precio();
+    if (this.invalido()) return;
 
-    if (!presupuesto || this.invalido()) return;
-
-    const item = this.itemEnEdicion();
-    if (item) {
-      this.presupuestoService.modificarItem(presupuesto.id, item.id, {
-        productoId: productoId!, descripcion, cantidad: cantidad!, precioUnitario: precio!,
-      }).subscribe({ next: () => this.guardado.emit() });
-    } else {
-      this.presupuestoService.agregarItem(presupuesto.id, {
-        productoId: productoId!, descripcion, cantidad: cantidad!, precioUnitario: precio!,
-      }).subscribe({ next: () => this.guardado.emit() });
-    }
+    this.guardado.emit({
+      productoId: this.productoIdSeleccionado()!,
+      descripcion: this.descripcion().trim(),
+      cantidad: this.cantidad()!,
+      precioUnitario: this.precio()!,
+    });
   }
 }
