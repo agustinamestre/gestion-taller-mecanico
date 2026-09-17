@@ -1,0 +1,22 @@
+<p-autoComplete
+  [ngModel]="seleccion"
+  (ngModelChange)="onModelChange($event)"
+  [ngModelOptions]="{ standalone: true }"
+  [suggestions]="sugerencias()"
+  (completeMethod)="buscar($event)"
+  (onSelect)="onSeleccion($event)"
+  (onClear)="onClear()"
+  [showClear]="true"
+  [forceSelection]="true"
+  [disabled]="disabled()"
+  [placeholder]="placeholder()"
+  optionLabel="etiquetaCompleta"
+  styleClass="selector-presupuesto"
+>
+  <ng-template let-presupuesto pTemplate="item">
+    <div class="opcion-presupuesto">
+      <span class="patente">Patente: {{ presupuesto.patenteVehiculo }}</span>
+      <span class="detalle">Total: {{ presupuesto.total | currency:'ARS' }}</span>
+    </div>
+  </ng-template>
+</p-autoComplete>

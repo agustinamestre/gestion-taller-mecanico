@@ -71,7 +71,12 @@
     }
 
     @case ('item-form') {
-      <app-presupuesto-item-form (guardado)="onItemGuardado()" (cancelar)="irADetalle()" />
+      <app-item-form
+        [itemEnEdicion]="presupuestoService.itemEnEdicion()"
+        [cargando]="presupuestoService.cargando()"
+        (guardado)="onGuardarItem($event)"
+        (cancelar)="irADetalle()"
+      />
     }
 
     @case ('vehiculo-form') {

@@ -50,8 +50,8 @@
       <div class="form-footer">
         <p-button label="Cancelar" severity="secondary" [outlined]="true" (onClick)="cancelar.emit()" type="button" />
         <p-button
-          [label]="presupuestoService.cargando() ? 'Guardando...' : 'Confirmar'"
-          [loading]="presupuestoService.cargando()"
+          [label]="cargando() ? 'Guardando...' : 'Confirmar'"
+          [loading]="cargando()"
           [disabled]="invalido()"
           (onClick)="guardar()"
         />

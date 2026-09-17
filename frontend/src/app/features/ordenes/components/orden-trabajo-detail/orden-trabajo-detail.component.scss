@@ -1,0 +1,101 @@
+@use 'etiquetas' as *;
+
+.detail-container {
+  max-width: 850px;
+  margin: 0 auto;
+  background: var(--surface-color);
+  border-radius: var(--radius);
+  padding: var(--espaciado);
+  border: 1px solid var(--border-color);
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+
+  h2 { margin: 0; flex: 1; color: var(--text-main); }
+}
+
+.etiqueta-estado {
+  @include etiqueta-base;
+
+  &.estado-ingresado { background: var(--fondo-tenue-primario); color: var(--primary-color); }
+  &.estado-en_reparacion { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
+  &.estado-finalizado { background: var(--fondo-tenue-exito); color: var(--success-color); }
+  &.estado-entregado { background: var(--fondo-tenue-neutro); color: var(--text-muted); }
+  &.estado-cancelado { background: var(--fondo-tenue-error); color: var(--error-color); }
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  background: var(--bg-color);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 1rem;
+
+  .label { display: block; font-size: 0.8rem; color: var(--text-muted); }
+  .value { font-weight: 600; color: var(--text-main); }
+  .total { color: var(--primary-color); font-size: 1.1rem; }
+}
+
+.descripcion-problema {
+  margin-bottom: 1.5rem;
+
+  .label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
+  p { margin: 0; color: var(--text-main); }
+  textarea { width: 100%; margin-top: 0.35rem; }
+}
+
+.descripcion-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.descripcion-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.items-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 0 0.75rem 0;
+
+  h3 { margin: 0; color: var(--text-main); }
+}
+
+.etiqueta-tipo {
+  @include etiqueta-base;
+
+  &.tipo-repuesto { background: var(--fondo-tenue-primario); color: var(--primary-color); }
+  &.tipo-mano_de_obra { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
+}
+
+.botones-fila {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.color-eliminar {
+  color: var(--error-color) !important;
+}
+
+.empty-msg {
+  text-align: center;
+  color: var(--text-muted);
+  padding: 1.5rem;
+}
+
+@media (max-width: 600px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}

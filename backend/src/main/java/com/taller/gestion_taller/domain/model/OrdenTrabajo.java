@@ -35,16 +35,19 @@ public class OrdenTrabajo {
         if (vehiculo == null) {
             throw new BusinessRunTimeException(BusinessErrors.ordenSinVehiculo());
         }
-        if (descripcionProblema == null || descripcionProblema.isBlank()) {
+
+        String descripcionFinal = (descripcionProblema != null && !descripcionProblema.isBlank())
+                ? descripcionProblema
+                : (presupuesto != null ? presupuesto.getObservaciones() : null);
+
+        if (descripcionFinal == null || descripcionFinal.isBlank()) {
             throw new BusinessRunTimeException(BusinessErrors.ordenSinDescripcion());
         }
-        if (usuarioCreacionId == null) {
-            throw new BusinessRunTimeException(BusinessErrors.ordenSinUsuarioCreacion());
-        }
+
         return OrdenTrabajo.builder()
                 .vehiculo(vehiculo)
                 .presupuesto(presupuesto)
-                .descripcionProblema(descripcionProblema)
+                .descripcionProblema(descripcionFinal)
                 .usuarioCreacionId(usuarioCreacionId)
                 .estado(EstadoOrdenTrabajo.INGRESADO)
                 .fechaIngreso(LocalDate.now())
@@ -104,10 +107,17 @@ public class OrdenTrabajo {
     }
 
     public BigDecimal calcularTotal() {
-        if (items == null || items.isEmpty()) return BigDecimal.ZERO;
-        return items.stream()
+        BigDecimal totalItemsOrden = (items == null || items.isEmpty())
+                ? BigDecimal.ZERO
+                : items.stream()
                 .map(ItemOrdenTrabajo::calcularSubtotal)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal totalPresupuesto = (presupuesto != null)
+                ? presupuesto.calcularTotal()
+                : BigDecimal.ZERO;
+
+        return totalItemsOrden.add(totalPresupuesto);
     }
 
     private void asegurarOrdenEsModificable() {

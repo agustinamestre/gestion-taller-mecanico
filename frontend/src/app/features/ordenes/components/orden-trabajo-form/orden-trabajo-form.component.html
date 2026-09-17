@@ -1,0 +1,65 @@
+<div class="detalle-container">
+  <div class="ficha ficha-form">
+    <h2>Nueva orden de trabajo</h2>
+
+    <p-selectButton [options]="opcionesModoOrigen" optionLabel="label" optionValue="value"
+      [ngModel]="modoOrigen()" (ngModelChange)="elegirModoOrigen($event)"></p-selectButton>
+
+    @if (modoOrigen() === 'presupuesto') {
+      <div class="campo">
+        <label>Presupuesto de origen</label>
+        <app-presupuesto-selector (presupuestoSeleccionado)="onPresupuestoSeleccionado($event)" />
+
+        @if (presupuestoElegido(); as p) {
+          <div class="presupuesto-elegido">
+            @if (observacionesPresupuesto()) {
+              <p class="detalle">{{ observacionesPresupuesto() }}</p>
+            } @else {
+              <p class="detalle vacio">Este presupuesto no tiene observaciones cargadas.</p>
+            }
+
+            <div class="presupuesto-elegido-meta">
+              <span class="detalle">Total: {{ p.total | currency:'ARS':'$' }}</span>
+              <span class="etiqueta-estado estado-aprobado">{{ p.estado }}</span>
+            </div>
+          </div>
+
+          @if (!observacionesPresupuesto()) {
+            <div class="campo">
+              <label>Descripción del problema</label>
+              <textarea pTextarea rows="3" placeholder="Ingrese descripción del problema"
+              [ngModel]="descripcionProblema()" (ngModelChange)="descripcionProblema.set($event)"></textarea>
+            </div>
+          }
+        }
+      </div>
+    }
+
+    @if (modoOrigen() === 'directa') {
+      <div class="campo">
+        <label>Vehículo</label>
+        <app-vehiculo-selector (vehiculoSeleccionado)="onVehiculoSeleccionado($event)" />
+      </div>
+
+      <div class="campo">
+        <label>Descripción del problema</label>
+        <textarea pTextarea rows="3" placeholder="Ingrese descripción del problema"
+         [ngModel]="descripcionProblema()" (ngModelChange)="descripcionProblema.set($event)"></textarea>
+      </div>
+    }
+
+    @if (modoOrigen()) {
+      <div class="campo">
+        <label>Responsable</label>
+        <p-select [options]="usuarioService.usuariosActivos()" optionLabel="nombre" optionValue="id"
+          [ngModel]="usuarioCreacionId()" (ngModelChange)="usuarioCreacionId.set($event)"
+          placeholder="Seleccionar usuario"></p-select>
+      </div>
+
+      <div class="form-footer">
+        <button pButton label="Cancelar" severity="secondary" [outlined]="true" (click)="cancelar.emit()"></button>
+        <button pButton label="Crear orden" [disabled]="!listoParaGuardar()" (click)="guardar()"></button>
+      </div>
+    }
+  </div>
+</div>

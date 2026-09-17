@@ -1,0 +1,19 @@
+<div class="ordenes-trabajo-container">
+  @switch (vista()) {
+    @case ('busqueda') {
+      <app-orden-trabajo-table
+        (nuevaOrden)="irAAlta()"
+        (verDetalle)="irADetalle($event)"
+      />
+    }
+    @case ('alta') {
+      <app-orden-trabajo-form
+        (creada)="onCreada($event)"
+        (cancelar)="irABusqueda()"
+      />
+    }
+    @case ('detalle') {
+      <app-orden-trabajo-detail (volver)="irABusqueda()" />
+    }
+  }
+</div>
