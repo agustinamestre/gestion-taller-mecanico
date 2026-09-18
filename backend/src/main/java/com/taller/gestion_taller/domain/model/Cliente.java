@@ -60,4 +60,14 @@ public class Cliente {
         }
     }
 
+    public Cliente reactivar() {
+        if (this.activo) {
+            throw new BusinessRunTimeException(BusinessErrors.clienteYaActivo());
+        }
+        return this.toBuilder()
+                .activo(true)
+                .fechaModificacion(LocalDate.now())
+                .build();
+    }
+
 }

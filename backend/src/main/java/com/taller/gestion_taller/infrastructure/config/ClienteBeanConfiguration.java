@@ -9,6 +9,8 @@ import com.taller.gestion_taller.application.usecases.cliente.ListarClientes;
 import com.taller.gestion_taller.application.usecases.cliente.ListarClientesUseCase;
 import com.taller.gestion_taller.application.usecases.cliente.ModificarCliente;
 import com.taller.gestion_taller.application.usecases.cliente.ModificarClienteUseCase;
+import com.taller.gestion_taller.application.usecases.cliente.ReactivarCliente;
+import com.taller.gestion_taller.application.usecases.cliente.ReactivarClienteUseCase;
 import com.taller.gestion_taller.application.usecases.cliente.RegistrarCliente;
 import com.taller.gestion_taller.application.usecases.cliente.RegistrarClienteUseCase;
 import com.taller.gestion_taller.domain.repositories.ClienteRepository;
@@ -44,5 +46,10 @@ public class ClienteBeanConfiguration {
     @Bean
     public DarDeBajaCliente darDeBajaClienteUseCase(ClienteRepository clienteRepository) {
         return new DarDeBajaClienteUseCase(clienteRepository);
+    }
+
+    @Bean
+    public ReactivarCliente reactivarClienteUseCase(ClienteRepository clienteRepository) {
+        return new ReactivarClienteUseCase(clienteRepository);
     }
 }
