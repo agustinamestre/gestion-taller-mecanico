@@ -33,6 +33,11 @@ public class UsuarioBeanConfiguration {
     }
 
     @Bean
+    public ReactivarUsuario reactivarUsuarioUseCase(UsuarioRepository usuarioRepository) {
+        return new ReactivarUsuarioUseCase(usuarioRepository);
+    }
+
+    @Bean
     public ObtenerPerfilPropio obtenerPerfilPropioUseCase(UsuarioRepository usuarioRepository) {
         return new ObtenerPerfilPropioUseCase(usuarioRepository);
     }

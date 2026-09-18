@@ -19,6 +19,7 @@ public class UsuarioService {
     private final ObtenerUsuarios obtenerUsuariosUseCase;
     private final ModificarUsuario modificarUsuarioUseCase;
     private final DesactivarUsuario desactivarUsuarioUseCase;
+    private final ReactivarUsuario reactivarUsuarioUseCase;
     private final ObtenerPerfilPropio obtenerPerfilPropioUseCase;
     private final ModificarPerfilPropio modificarPerfilPropioUseCase;
     private final CambiarPassword cambiarPasswordUseCase;
@@ -46,6 +47,11 @@ public class UsuarioService {
     @Transactional
     public void desactivar(Long id) {
         desactivarUsuarioUseCase.desactivar(id);
+    }
+
+    @Transactional
+    public void reactivar(Long id) {
+        reactivarUsuarioUseCase.reactivar(id);
     }
 
     @Transactional(readOnly = true)

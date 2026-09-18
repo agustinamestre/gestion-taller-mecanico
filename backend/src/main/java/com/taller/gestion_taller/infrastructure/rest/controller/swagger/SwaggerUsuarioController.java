@@ -91,6 +91,20 @@ public interface SwaggerUsuarioController {
     @DeleteMapping("/{id}/desactivar")
     ResponseEntity<Void> desactivar(@PathVariable Long id);
 
+    @Operation(summary = "Reactivar un usuario.",
+            description = "Solo accesible por ADMIN. Permite que un usuario desactivado vuelva a loguearse.",
+            responses = {
+                    @ApiResponse(responseCode = "204", description = "Usuario reactivado exitosamente."),
+                    @ApiResponse(responseCode = "404", description = "Usuario no encontrado.",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+                    @ApiResponse(responseCode = "400", description = "El usuario ya estaba activo.",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+                    @ApiResponse(responseCode = "403", description = "Sin permisos de administrador.",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+            })
+    @PatchMapping("/{id}/reactivar")
+    ResponseEntity<Void> reactivar(@PathVariable Long id);
+
     @Operation(summary = "Obtener perfil propio.",
             description = "Accesible para cualquier usuario autenticado. Devuelve los datos del usuario del token.",
             responses = {
