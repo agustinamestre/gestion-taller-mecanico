@@ -61,4 +61,10 @@ public class ClienteController implements SwaggerClienteController {
         clienteService.darDeBajaCliente(nroDocumento);
         return ResponseEntity.noContent().build();
     }
+
+    @Override
+    public ResponseEntity<Void> reactivar(@PathVariable String nroDocumento) {
+        clienteService.reactivarCliente(nroDocumento);
+        return ResponseEntity.noContent().build();
+    }
 }

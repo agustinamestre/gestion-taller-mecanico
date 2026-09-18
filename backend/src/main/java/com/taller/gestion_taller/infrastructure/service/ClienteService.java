@@ -6,6 +6,7 @@ import com.taller.gestion_taller.application.usecases.cliente.DarDeBajaCliente;
 import com.taller.gestion_taller.application.usecases.cliente.ListarCliente;
 import com.taller.gestion_taller.application.usecases.cliente.ListarClientes;
 import com.taller.gestion_taller.application.usecases.cliente.ModificarCliente;
+import com.taller.gestion_taller.application.usecases.cliente.ReactivarCliente;
 import com.taller.gestion_taller.application.usecases.cliente.RegistrarCliente;
 import com.taller.gestion_taller.domain.model.Cliente;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class ClienteService {
     private final ListarCliente listarClienteUseCase;
     private final ModificarCliente modificarClienteUseCase;
     private final DarDeBajaCliente darDeBajaClienteUseCase;
+    private final ReactivarCliente reactivarClienteUseCase;
 
     @Transactional
     public Cliente registrarCliente(RegistrarClienteCommand command) {
@@ -47,5 +49,10 @@ public class ClienteService {
     @Transactional
     public void darDeBajaCliente(String nroDocumento) {
         darDeBajaClienteUseCase.darDeBaja(nroDocumento);
+    }
+
+    @Transactional
+    public void reactivarCliente(String nroDocumento) {
+        reactivarClienteUseCase.reactivar(nroDocumento);
     }
 }

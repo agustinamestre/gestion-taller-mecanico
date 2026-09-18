@@ -88,4 +88,19 @@ public interface SwaggerClienteController {
     ResponseEntity<Void> desactivar(
             @Parameter(description = "Número de documento del cliente", required = true)
             @PathVariable String nroDocumento);
+
+    @Operation(summary = "Reactivar cliente", description = "Reactiva un cliente previamente dado de baja")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Cliente reactivado correctamente"),
+            @ApiResponse(responseCode = "400", description = "El cliente ya se encuentra activo",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Cliente no encontrado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error técnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @PatchMapping("/{nroDocumento}/reactivar")
+    ResponseEntity<Void> reactivar(
+            @Parameter(description = "Número de documento del cliente", required = true)
+            @PathVariable String nroDocumento);
 }

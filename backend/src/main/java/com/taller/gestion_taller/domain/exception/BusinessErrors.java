@@ -40,6 +40,10 @@ public final class BusinessErrors {
         return new BusinessError("CLIENTE_INACTIVO", "No se puede realizar la operación ya que el cliente se encuentra inactivo.");
     }
 
+    public static BusinessError clienteYaActivo() {
+        return new BusinessError("CLIENTE_YA_ACTIVO", "El cliente ya se encuentra activo.");
+    }
+
     public static BusinessError marcaDuplicada(String nombre) {
         return new BusinessError("MARCA_DUPLICADA", "Ya existe una marca con el nombre: " + nombre);
     }
@@ -259,6 +263,13 @@ public final class BusinessErrors {
         return new BusinessError(
                 "USUARIO_YA_DESACTIVADO",
                 "El usuario con ID " + id + " ya se encuentra desactivado."
+        );
+    }
+
+    public static BusinessError usuarioYaActivo(Long id) {
+        return new BusinessError(
+                "USUARIO_YA_ACTIVO",
+                "El usuario con ID " + id + " ya se encuentra activo."
         );
     }
 
