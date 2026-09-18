@@ -71,6 +71,12 @@ public class UsuarioController implements SwaggerUsuarioController {
     }
 
     @Override
+    public ResponseEntity<Void> reactivar(@PathVariable Long id) {
+        usuarioService.reactivar(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
     public ResponseEntity<UsuarioResponse> obtenerPerfilPropio(Authentication authentication) {
         String username = authentication.getName();
         return ResponseEntity.ok(
