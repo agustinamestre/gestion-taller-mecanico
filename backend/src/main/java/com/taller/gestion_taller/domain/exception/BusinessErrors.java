@@ -170,6 +170,22 @@ public final class BusinessErrors {
         );
     }
 
+    public static BusinessError presupuestoSinDni() {
+        return new BusinessError(
+                "PRESUPUESTO_SIN_DNI",
+                "Debe ingresar el DNI del cliente cuando el presupuesto no tiene un vehículo asociado."
+        );
+    }
+
+    public static BusinessError dniInconsistenteConVehiculo(String dniRecibido) {
+        return new BusinessError(
+                "DNI_INCONSISTENTE_CON_VEHICULO",
+                MessageFormat.format(
+                        "El DNI recibido (''{0}'') no coincide con el del cliente titular del vehículo.",
+                        dniRecibido)
+        );
+    }
+
     public static BusinessError presupuestoAunNoVencido() {
         return new BusinessError(
                 "PRESUPUESTO_AUN_NO_VENCIDO",

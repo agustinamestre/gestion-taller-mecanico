@@ -6,6 +6,7 @@ import java.time.LocalDate;
 public record PresupuestoSummaryResponse(
         Long id,
         String patenteVehiculo,
+        String dni,
         LocalDate fechaEmision,
         LocalDate fechaVencimiento,
         String estado,
