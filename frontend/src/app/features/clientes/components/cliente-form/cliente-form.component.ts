@@ -4,7 +4,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectModule } from 'primeng/select';
 import { ButtonModule } from 'primeng/button';
 import { ClienteService } from '../../services/cliente.service';
-import { SituacionIva } from '../../models/cliente.model';
+import { ClienteRequest, SituacionIva } from '../../models/cliente.model';
 
 interface SituacionIvaOpcion {
   label: string;
@@ -23,7 +23,9 @@ export class ClienteFormComponent implements OnInit {
   readonly clienteService = inject(ClienteService);
 
   readonly edicion = input(false);
+  readonly soloDatos = input(false);
   readonly guardado = output<void>();
+  readonly datosListos = output<ClienteRequest>();
   readonly cancelar = output<void>();
 
   readonly enviado = signal(false);
@@ -69,6 +71,11 @@ export class ClienteFormComponent implements OnInit {
     if (this.form.invalid) return;
 
     const val = this.form.getRawValue() as any;
+
+    if (this.soloDatos()) {
+      this.datosListos.emit(val);
+      return;
+    }
 
     if (this.edicion()) {
       this.clienteService.modificar(this.dniOriginal!, val).subscribe({
