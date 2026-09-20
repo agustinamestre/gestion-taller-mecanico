@@ -31,14 +31,13 @@ export class PresupuestoService {
 
   readonly cargando = computed(() => this.estado() === 'cargando');
 
-  listar(filtros?: { patente?: string; fechaDesde?: string; fechaHasta?: string }) {
+  listar(filtros?: { patente?: string; dni?: string }) {
     this.estado.set('cargando');
     this.mensajeError.set(null);
 
     let params = new HttpParams();
     if (filtros?.patente) params = params.set('patente', filtros.patente);
-    if (filtros?.fechaDesde) params = params.set('fechaDesde', filtros.fechaDesde);
-    if (filtros?.fechaHasta) params = params.set('fechaHasta', filtros.fechaHasta);
+    if (filtros?.dni) params = params.set('dni', filtros.dni);
 
     return this.http.get<PresupuestoSummaryResponse[]>(API_BASE, { params }).pipe(
       tap(lista => { this.listado.set(lista); this.estado.set('exito'); }),

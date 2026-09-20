@@ -12,23 +12,16 @@
     type="text"
     placeholder="Filtrar por patente..."
     [(ngModel)]="patente"
-    style="text-transform: uppercase"
     class="buscador-input"
     (keyup.enter)="buscar()"
   />
-  <p-datepicker
-    [(ngModel)]="fechaDesde"
-    placeholder="Desde"
-    dateFormat="dd/mm/yy"
-    [showIcon]="true"
-    class="input-fecha"
-  />
-  <p-datepicker
-    [(ngModel)]="fechaHasta"
-    placeholder="Hasta"
-    dateFormat="dd/mm/yy"
-    [showIcon]="true"
-    class="input-fecha"
+  <input
+    pInputText
+    type="text"
+    placeholder="Filtrar por DNI..."
+    [(ngModel)]="dni"
+    class="buscador-input"
+    (keyup.enter)="buscar()"
   />
   <p-button label="Buscar" icon="pi pi-search" [loading]="presupuestoService.cargando()" (onClick)="buscar()" />
   @if (tieneFiltrosActivos) {
