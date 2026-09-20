@@ -44,14 +44,6 @@ public class PresupuestoRepositoryAdapter implements PresupuestoRepository {
     }
 
     @Override
-    public List<Presupuesto> findByPatente(String patente) {
-        return jpaPresupuestoRepository.findByVehiculoPatente(patente)
-                .stream()
-                .map(mapper::toDomain)
-                .toList();
-    }
-
-    @Override
     public List<Presupuesto> findAll() {
         return jpaPresupuestoRepository.findAll()
                 .stream()
@@ -60,15 +52,8 @@ public class PresupuestoRepositoryAdapter implements PresupuestoRepository {
     }
 
     @Override
-    public List<Presupuesto> findByFechaEmisionBetween(LocalDate desde, LocalDate hasta) {
-        return jpaPresupuestoRepository.findByFechaEmisionBetween(desde, hasta).stream()
-                .map(mapper::toDomain)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Presupuesto> findByPatenteAndFechaEmisionBetween(String patente, LocalDate desde, LocalDate hasta) {
-        return jpaPresupuestoRepository.findByVehiculo_PatenteAndFechaEmisionBetween(patente, desde, hasta).stream()
+    public List<Presupuesto> buscar(String patente, String dni) {
+        return jpaPresupuestoRepository.buscar(patente, dni).stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }

@@ -10,10 +10,8 @@ import java.util.Optional;
 public interface PresupuestoRepository {
     Presupuesto save(Presupuesto presupuesto);
     Optional<Presupuesto> findById(Long id);
-    List<Presupuesto> findByPatente(String patente);
     List<Presupuesto> findAll();
-    List<Presupuesto> findByFechaEmisionBetween(LocalDate desde, LocalDate hasta);
-    List<Presupuesto> findByPatenteAndFechaEmisionBetween(String patente, LocalDate desde, LocalDate hasta);
+    List<Presupuesto> buscar(String patente, String dni);
     List<Presupuesto> findByEstadoAndFechaVencimientoBefore(EstadoPresupuesto estado, LocalDate fecha);
     void deleteById(Long id);
 }

@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -36,8 +35,8 @@ public class PresupuestoService {
     }
 
     @Transactional(readOnly = true)
-    public List<Presupuesto> listarPresupuestos(String patente, LocalDate fechaDesde, LocalDate fechaHasta) {
-        return listarPresupuestosUseCase.listar(patente, fechaDesde, fechaHasta);
+    public List<Presupuesto> listarPresupuestos(String patente, String dni) {
+        return listarPresupuestosUseCase.listar(patente, dni);
     }
 
     @Transactional

@@ -8,6 +8,7 @@ import java.util.List;
 public record PresupuestoResponse (
          Long id,
          String patenteVehiculo,
+         String dni,
          LocalDate fechaEmision,
          LocalDate fechaVencimiento,
          String estado,
