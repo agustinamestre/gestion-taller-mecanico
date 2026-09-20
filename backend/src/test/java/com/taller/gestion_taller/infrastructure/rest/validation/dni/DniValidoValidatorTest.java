@@ -8,9 +8,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-/**
- * Unit tests for class {@link DniValidoValidator}
- */
 class DniValidoValidatorTest {
 
     private static final String DNI_VALIDO_8_DIGITOS = "12345678";
@@ -43,21 +40,27 @@ class DniValidoValidatorTest {
     }
 
     @Test
-    @DisplayName("Un DNI es inválido si es null")
-    void dni_es_invalido_si_es_null() {
-        assertErrorCuandoDniEs(null, "El numero de DNI es obligatorio.");
+    @DisplayName("Un DNI null es válido para este validator (lo obligatorio lo controla @NotBlank)")
+    void dni_null_es_valido_para_dni_valido() {
+        var isDniValid = dniValidator.isValid(null, mock(ConstraintValidatorContext.class));
+
+        assertTrue(isDniValid);
     }
 
     @Test
-    @DisplayName("Un DNI es inválido si es string vacío")
-    void dni_es_invalido_si_es_string_vacio() {
-        assertErrorCuandoDniEs("", "El numero de DNI es obligatorio.");
+    @DisplayName("Un DNI vacío es válido para este validator (lo obligatorio lo controla @NotBlank)")
+    void dni_vacio_es_valido_para_dni_valido() {
+        var isDniValid = dniValidator.isValid("", mock(ConstraintValidatorContext.class));
+
+        assertTrue(isDniValid);
     }
 
     @Test
-    @DisplayName("Un DNI es inválido si contiene solo espacios")
-    void dni_es_invalido_si_contiene_solo_espacios() {
-        assertErrorCuandoDniEs("   ", "El numero de DNI es obligatorio.");
+    @DisplayName("Un DNI con solo espacios es válido para este validator (lo obligatorio lo controla @NotBlank)")
+    void dni_con_solo_espacios_es_valido_para_dni_valido() {
+        var isDniValid = dniValidator.isValid("   ", mock(ConstraintValidatorContext.class));
+
+        assertTrue(isDniValid);
     }
 
     @Test
