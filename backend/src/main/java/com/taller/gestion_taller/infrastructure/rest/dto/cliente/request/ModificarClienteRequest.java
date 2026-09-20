@@ -7,6 +7,7 @@ import com.taller.gestion_taller.infrastructure.rest.validation.telefono.Telefon
 import jakarta.validation.constraints.NotBlank;
 
 public record ModificarClienteRequest(
+        @NotBlank(message = "El numero de DNI es obligatorio.")
         @DniValido
         String dni,
         @NotBlank(message = "El nombre es obligatorio.")
