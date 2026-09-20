@@ -31,6 +31,13 @@
       </div>
 
       <form [formGroup]="form" (ngSubmit)="guardar()" novalidate>
+        <div class="campo" [class.campo-error]="invalid('dni')">
+          <label>DNI del cliente{{ vehiculoElegido() ? '' : ' *' }}</label>
+          <input pInputText type="text" formControlName="dni" placeholder="12345678" />
+          @if (invalid('dni')) {
+            <span class="error-msg">DNI inválido</span>
+          }
+        </div>
         <div class="campo">
           <label>Observaciones</label>
           <textarea pTextarea formControlName="observaciones" rows="3" placeholder="Observaciones opcionales"></textarea>
