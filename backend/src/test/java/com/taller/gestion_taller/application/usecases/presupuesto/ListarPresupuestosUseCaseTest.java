@@ -10,7 +10,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,63 +25,60 @@ public class ListarPresupuestosUseCaseTest {
     private ListarPresupuestosUseCase useCase;
 
     @Test
-    @DisplayName("debe filtrar por patente y rango de fechas cuando ambos estan presentes")
-    public void debeFiltrarPorPatenteYFechasCuandoAmbosEstanPresentes() {
+    @DisplayName("debe filtrar por patente y dni cuando estan presentes")
+    public void debeFiltrarPorPatenteYDniCuandoEstanPresentes() {
         String patente = "ABC123";
-        LocalDate desde = LocalDate.of(2026, 1, 1);
-        LocalDate hasta = LocalDate.of(2026, 1, 31);
+        String dni = "12345678";
         Vehiculo vehiculo = Vehiculo.builder().patente(patente).build();
         List<Presupuesto> presupuestos = List.of(
-                Presupuesto.builder().id(1L).vehiculo(vehiculo).build(),
-                Presupuesto.builder().id(2L).vehiculo(vehiculo).build()
+                Presupuesto.builder().id(1L).vehiculo(vehiculo).dni(dni).build(),
+                Presupuesto.builder().id(2L).vehiculo(vehiculo).dni(dni).build()
         );
 
-        when(presupuestoRepository.findByPatenteAndFechaEmisionBetween(patente, desde, hasta))
-                .thenReturn(presupuestos);
+        when(presupuestoRepository.buscar(patente, dni)).thenReturn(presupuestos);
 
-        List<Presupuesto> result = useCase.listar(patente, desde, hasta);
+        List<Presupuesto> result = useCase.listar(patente, dni);
 
         assertNotNull(result);
         assertEquals(2, result.size());
-        verify(presupuestoRepository).findByPatenteAndFechaEmisionBetween(patente, desde, hasta);
+        verify(presupuestoRepository).buscar(patente, dni);
     }
 
     @Test
-    @DisplayName("debe filtrar solo por rango de fechas cuando no hay patente")
-    public void debeFiltrarSoloPorFechasCuandoNoHayPatente() {
-        LocalDate desde = LocalDate.of(2026, 1, 1);
-        LocalDate hasta = LocalDate.of(2026, 1, 31);
+    @DisplayName("debe filtrar solo por dni cuando no hay patente")
+    public void debeFiltrarSoloPorDniCuandoNoHayPatente() {
+        String dni = "12345678";
+        Presupuesto presupuesto = Presupuesto.builder().id(1L).dni(dni).build();
 
-        when(presupuestoRepository.findByFechaEmisionBetween(desde, hasta)).thenReturn(List.of());
+        when(presupuestoRepository.buscar(null, dni)).thenReturn(List.of(presupuesto));
 
-        List<Presupuesto> result = useCase.listar(null, desde, hasta);
+        List<Presupuesto> result = useCase.listar(null, dni);
 
         assertNotNull(result);
-        assertTrue(result.isEmpty());
-        verify(presupuestoRepository).findByFechaEmisionBetween(desde, hasta);
-        verify(presupuestoRepository, never()).findByPatente(any());
+        assertEquals(1, result.size());
+        verify(presupuestoRepository).buscar(null, dni);
     }
 
     @Test
-    @DisplayName("debe filtrar solo por patente cuando no hay rango de fechas")
-    public void debeFiltrarSoloPorPatenteCuandoNoHayFechas() {
+    @DisplayName("debe filtrar solo por patente cuando no hay dni")
+    public void debeFiltrarSoloPorPatenteCuandoNoHayDni() {
         String patente = "ABC123";
         Vehiculo vehiculo = Vehiculo.builder().patente(patente).build();
         List<Presupuesto> presupuestos = List.of(
                 Presupuesto.builder().id(1L).vehiculo(vehiculo).build()
         );
 
-        when(presupuestoRepository.findByPatente(patente)).thenReturn(presupuestos);
+        when(presupuestoRepository.buscar(patente, null)).thenReturn(presupuestos);
 
-        List<Presupuesto> result = useCase.listar(patente, null, null);
+        List<Presupuesto> result = useCase.listar(patente, null);
 
         assertNotNull(result);
         assertEquals(1, result.size());
-        verify(presupuestoRepository).findByPatente(patente);
+        verify(presupuestoRepository).buscar(patente, null);
     }
 
     @Test
-    @DisplayName("debe retornar todos los presupuestos cuando no hay patente ni fechas")
+    @DisplayName("debe retornar todos los presupuestos cuando no hay ningun filtro")
     public void debeRetornarTodosCuandoNoHayFiltros() {
         List<Presupuesto> presupuestos = List.of(
                 Presupuesto.builder().id(1L).build(),
@@ -91,10 +87,11 @@ public class ListarPresupuestosUseCaseTest {
 
         when(presupuestoRepository.findAll()).thenReturn(presupuestos);
 
-        List<Presupuesto> result = useCase.listar(null, null, null);
+        List<Presupuesto> result = useCase.listar(null, null);
 
         assertNotNull(result);
         assertEquals(2, result.size());
         verify(presupuestoRepository).findAll();
+        verify(presupuestoRepository, never()).buscar(any(), any());
     }
 }

@@ -4,8 +4,9 @@ import com.taller.gestion_taller.domain.model.Presupuesto;
 import com.taller.gestion_taller.domain.repositories.PresupuestoRepository;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
+
+import static org.apache.commons.lang3.StringUtils.isAllBlank;
 
 @RequiredArgsConstructor
 public class ListarPresupuestosUseCase implements ListarPresupuestos {
@@ -13,19 +14,13 @@ public class ListarPresupuestosUseCase implements ListarPresupuestos {
     private final PresupuestoRepository presupuestoRepository;
 
     @Override
-    public List<Presupuesto> listar(String patente, LocalDate fechaDesde, LocalDate fechaHasta) {
-        boolean tienePatente = patente != null && !patente.isBlank();
-        boolean tieneFechas = fechaDesde != null && fechaHasta != null;
+    public List<Presupuesto> listar(String patente, String dni) {
 
-        if (tienePatente && tieneFechas) {
-            return presupuestoRepository.findByPatenteAndFechaEmisionBetween(patente, fechaDesde, fechaHasta);
+        boolean sinFiltros = isAllBlank(patente, dni);
+
+        if (sinFiltros) {
+            return presupuestoRepository.findAll();
         }
-        if (tieneFechas) {
-            return presupuestoRepository.findByFechaEmisionBetween(fechaDesde, fechaHasta);
-        }
-        if (tienePatente) {
-            return presupuestoRepository.findByPatente(patente);
-        }
-        return presupuestoRepository.findAll();
+        return presupuestoRepository.buscar(patente, dni);
     }
 }
