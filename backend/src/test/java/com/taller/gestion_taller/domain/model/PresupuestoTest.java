@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @DisplayName("Presupuesto (agregado)")
 class PresupuestoTest {
@@ -175,7 +176,10 @@ class PresupuestoTest {
         @DisplayName("asocia el vehiculo cuando el presupuesto esta PENDIENTE y no tiene vehiculo")
         void asociaVehiculoExitosamente() {
             Presupuesto presupuesto = presupuestoPendiente(null);
+            Cliente cliente = mock(Cliente.class);
+            when(cliente.getDni()).thenReturn("12345678");
             Vehiculo vehiculo = mock(Vehiculo.class);
+            when(vehiculo.getCliente()).thenReturn(cliente);
 
             presupuesto.asociarVehiculo(vehiculo);
 
@@ -223,6 +227,116 @@ class PresupuestoTest {
                     .isEqualTo("PRESUPUESTO_NO_PENDIENTE");
 
             assertThat(presupuesto.getVehiculo()).isNull();
+        }
+
+        @Test
+        @DisplayName("asocia el vehiculo y toma el dni del cliente cuando el presupuesto no tenia dni")
+        void asociaYCompletaDniDesdeCliente() {
+            Presupuesto presupuesto = presupuestoPendiente(null);
+            Cliente cliente = mock(Cliente.class);
+            when(cliente.getDni()).thenReturn("12345678");
+            Vehiculo vehiculo = mock(Vehiculo.class);
+            when(vehiculo.getCliente()).thenReturn(cliente);
+
+            presupuesto.asociarVehiculo(vehiculo);
+
+            assertThat(presupuesto.getVehiculo()).isSameAs(vehiculo);
+            assertThat(presupuesto.getDni()).isEqualTo("12345678");
+        }
+
+        @Test
+        @DisplayName("rechaza asociar si el dni existente no coincide con el del cliente titular del vehiculo")
+        void rechazaSiDniNoCoincideConCliente() {
+            Presupuesto presupuesto = Presupuesto.builder()
+                    .id(1L)
+                    .vehiculo(null)
+                    .dni("11111111")
+                    .estado(EstadoPresupuesto.PENDIENTE)
+                    .items(new ArrayList<>())
+                    .build();
+            Cliente cliente = mock(Cliente.class);
+            when(cliente.getDni()).thenReturn("22222222");
+            Vehiculo vehiculo = mock(Vehiculo.class);
+            when(vehiculo.getCliente()).thenReturn(cliente);
+
+            assertThatThrownBy(() -> presupuesto.asociarVehiculo(vehiculo))
+                    .isInstanceOf(BusinessRunTimeException.class)
+                    .extracting("businessError.code")
+                    .isEqualTo("DNI_INCONSISTENTE_CON_VEHICULO");
+
+            assertThat(presupuesto.getVehiculo()).isNull();
+        }
+    }
+
+    @Nested
+    @DisplayName("crearNuevo")
+    class CrearNuevo {
+
+        @Test
+        @DisplayName("rechaza crear sin vehiculo y sin dni")
+        void rechazaSinVehiculoYSinDni() {
+            assertThatThrownBy(() -> Presupuesto.crearNuevo(null, null, "obs"))
+                    .isInstanceOf(BusinessRunTimeException.class)
+                    .extracting("businessError.code")
+                    .isEqualTo("PRESUPUESTO_SIN_DNI");
+        }
+
+        @Test
+        @DisplayName("rechaza crear sin vehiculo y con dni en blanco")
+        void rechazaSinVehiculoYConDniBlanco() {
+            assertThatThrownBy(() -> Presupuesto.crearNuevo(null, "   ", "obs"))
+                    .isInstanceOf(BusinessRunTimeException.class)
+                    .extracting("businessError.code")
+                    .isEqualTo("PRESUPUESTO_SIN_DNI");
+        }
+
+        @Test
+        @DisplayName("crea el presupuesto sin vehiculo cuando se envia dni")
+        void creaSinVehiculoConDni() {
+            Presupuesto presupuesto = Presupuesto.crearNuevo(null, "12345678", "obs");
+
+            assertThat(presupuesto.getVehiculo()).isNull();
+            assertThat(presupuesto.getDni()).isEqualTo("12345678");
+        }
+
+        @Test
+        @DisplayName("autocompleta el dni con el del cliente del vehiculo cuando no se envia dni")
+        void autocompletaDniDesdeVehiculoCuandoNoSeEnviaDni() {
+            Cliente cliente = mock(Cliente.class);
+            when(cliente.getDni()).thenReturn("87654321");
+            Vehiculo vehiculo = mock(Vehiculo.class);
+            when(vehiculo.getCliente()).thenReturn(cliente);
+
+            Presupuesto presupuesto = Presupuesto.crearNuevo(vehiculo, null, "obs");
+
+            assertThat(presupuesto.getDni()).isEqualTo("87654321");
+        }
+
+        @Test
+        @DisplayName("permite crear con vehiculo cuando el dni enviado coincide con el del cliente")
+        void permiteCrearConVehiculoYDniCoincidente() {
+            Cliente cliente = mock(Cliente.class);
+            when(cliente.getDni()).thenReturn("87654321");
+            Vehiculo vehiculo = mock(Vehiculo.class);
+            when(vehiculo.getCliente()).thenReturn(cliente);
+
+            Presupuesto presupuesto = Presupuesto.crearNuevo(vehiculo, "87654321", "obs");
+
+            assertThat(presupuesto.getDni()).isEqualTo("87654321");
+        }
+
+        @Test
+        @DisplayName("rechaza crear con vehiculo cuando el dni enviado no coincide con el del cliente")
+        void rechazaCrearConVehiculoYDniNoCoincidente() {
+            Cliente cliente = mock(Cliente.class);
+            when(cliente.getDni()).thenReturn("87654321");
+            Vehiculo vehiculo = mock(Vehiculo.class);
+            when(vehiculo.getCliente()).thenReturn(cliente);
+
+            assertThatThrownBy(() -> Presupuesto.crearNuevo(vehiculo, "11111111", "obs"))
+                    .isInstanceOf(BusinessRunTimeException.class)
+                    .extracting("businessError.code")
+                    .isEqualTo("DNI_INCONSISTENTE_CON_VEHICULO");
         }
     }
 }

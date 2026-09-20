@@ -18,7 +18,7 @@ public class RegistrarPresupuestoUseCase implements RegistrarPresupuesto {
     @Override
     public Presupuesto registrar(RegistrarPresupuestoCommand command) {
         Vehiculo vehiculo = resolverVehiculo(command.vehiculoId());
-        Presupuesto nuevoPresupuesto = Presupuesto.crearNuevo(vehiculo, command.observaciones());
+        Presupuesto nuevoPresupuesto = Presupuesto.crearNuevo(vehiculo, command.dni(), command.observaciones());
         return presupuestoRepository.save(nuevoPresupuesto);
     }
 

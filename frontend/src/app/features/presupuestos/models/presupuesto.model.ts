@@ -16,6 +16,7 @@ export interface ItemPresupuestoResponse {
 export interface PresupuestoResponse {
   id: number;
   patenteVehiculo: string;
+  dni: string;
   fechaEmision: string;
   fechaVencimiento: string;
   estado: EstadoPresupuesto;
@@ -27,6 +28,7 @@ export interface PresupuestoResponse {
 export interface PresupuestoSummaryResponse {
   id: number;
   patenteVehiculo: string | null;
+  dni: string;
   fechaEmision: string;
   fechaVencimiento: string;
   estado: EstadoPresupuesto;
@@ -35,6 +37,7 @@ export interface PresupuestoSummaryResponse {
 
 export interface PresupuestoRequest {
   vehiculoId: number | null;
+  dni?: string;
   observaciones?: string;
 }
 

@@ -6,6 +6,7 @@ import com.taller.gestion_taller.domain.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,6 +14,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
+import static org.apache.commons.lang3.StringUtils.isBlank;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 @Getter
 @Builder(toBuilder = true)
@@ -23,6 +27,7 @@ public class Presupuesto {
 
     private Long id;
     private Vehiculo vehiculo;
+    private String dni;
     private LocalDate fechaEmision;
     private LocalDate fechaVencimiento;
     private EstadoPresupuesto estado;
@@ -30,16 +35,34 @@ public class Presupuesto {
     @Builder.Default
     private List<ItemPresupuesto> items = new ArrayList<>();
 
-    public static Presupuesto crearNuevo(Vehiculo vehiculo, String observaciones) {
+    public static Presupuesto crearNuevo(Vehiculo vehiculo, String dni, String observaciones) {
         LocalDate hoy = LocalDate.now();
         return Presupuesto.builder()
                 .vehiculo(vehiculo)
+                .dni(resolverDni(vehiculo, dni))
                 .observaciones(observaciones)
                 .estado(EstadoPresupuesto.PENDIENTE)
                 .fechaEmision(hoy)
                 .fechaVencimiento(hoy.plusDays(DIAS_VENCIMIENTO_DEFAULT))
                 .items(new ArrayList<>())
                 .build();
+    }
+
+    private static String resolverDni(Vehiculo vehiculo, String dni) {
+        if (vehiculo == null) {
+            if (isBlank(dni)) {
+                throw new BusinessRunTimeException(BusinessErrors.presupuestoSinDni());
+            }
+            return dni;
+        }
+
+        String dniCliente = vehiculo.getCliente().getDni();
+
+        if (isNotBlank(dni) && !dni.equalsIgnoreCase(dniCliente.trim())) {
+            throw new BusinessRunTimeException(BusinessErrors.dniInconsistenteConVehiculo(dni));
+        }
+
+        return dniCliente;
     }
 
     public List<ItemPresupuesto> getItems() {
@@ -126,7 +149,13 @@ public class Presupuesto {
             throw new BusinessRunTimeException(BusinessErrors.presupuestoYaTieneVehiculo());
         }
 
+        String dniCliente = vehiculo.getCliente().getDni();
+        if (this.dni != null && !this.dni.equals(dniCliente)) {
+            throw new BusinessRunTimeException(BusinessErrors.dniInconsistenteConVehiculo(this.dni));
+        }
+
         this.vehiculo = vehiculo;
+        this.dni = dniCliente;
     }
 
     private void validarInvariantesParaNuevoEstado(EstadoPresupuesto nuevoEstado) {

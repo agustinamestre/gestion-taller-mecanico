@@ -11,11 +11,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "Presupuestos", description = "Operaciones sobre presupuestos del taller")
@@ -51,7 +49,7 @@ public interface SwaggerPresupuestoController {
 
     @Operation(
             summary = "Listar presupuestos",
-            description = "Retorna todos los presupuestos, filtrando opcionalmente por patente del vehículo y/o rango de fecha de emisión"
+            description = "Retorna todos los presupuestos, filtrando opcionalmente por patente del vehículo y/o DNI del cliente"
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Presupuestos encontrados",
@@ -64,10 +62,8 @@ public interface SwaggerPresupuestoController {
     ResponseEntity<List<PresupuestoSummaryResponse>> listar(
             @Parameter(description = "Patente del vehículo (opcional)")
             @RequestParam(required = false) String patente,
-            @Parameter(description = "Fecha de emisión desde (opcional, formato yyyy-MM-dd)")
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaDesde,
-            @Parameter(description = "Fecha de emisión hasta (opcional, formato yyyy-MM-dd)")
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaHasta);
+            @Parameter(description = "DNI del cliente asociado al presupuesto (opcional)")
+            @RequestParam(required = false) String dni);
 
     @Operation(summary = "Agregar ítem al presupuesto", description = "Agrega un nuevo ítem a un presupuesto existente")
     @ApiResponses({

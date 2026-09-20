@@ -10,9 +10,8 @@ public class DniValidoValidator implements ConstraintValidator<DniValido, String
     @Override
     public boolean isValid(String nroTributario, ConstraintValidatorContext context) {
 
-        if(isBlank(nroTributario)){
-            setMessage(context, "El numero de DNI es obligatorio.");
-            return false;
+        if (isBlank(nroTributario)) {
+            return true;
         }
 
         if (!isNumeric(nroTributario)) {

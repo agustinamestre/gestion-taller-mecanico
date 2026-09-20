@@ -25,6 +25,9 @@ public class PresupuestoEntity {
     @JoinColumn(name = "vehiculo_id")
     private VehiculoEntity vehiculo;
 
+    @Column(name = "dni", length = 8)
+    private String dni;
+
     @Column(name = "fecha_emision", nullable = false)
     private LocalDate fechaEmision;
 

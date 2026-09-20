@@ -66,7 +66,8 @@ class AsociarVehiculoAPresupuestoUseCaseTest {
     @DisplayName("Debe asociar un vehiculo existente al presupuesto")
     void debeAsociarVehiculoExistenteExitosamente() {
         Presupuesto presupuesto = presupuestoPendienteSinVehiculo();
-        Vehiculo vehiculo = Vehiculo.builder().id(5L).patente("ABC123").build();
+        Cliente cliente = Cliente.builder().id(3L).dni("12345678").build();
+        Vehiculo vehiculo = Vehiculo.builder().id(5L).patente("ABC123").cliente(cliente).build();
 
         AsociarVehiculoAPresupuestoCommand command =
                 new AsociarVehiculoAPresupuestoCommand(PRESUPUESTO_ID, 5L, null, null, null);
@@ -92,7 +93,8 @@ class AsociarVehiculoAPresupuestoUseCaseTest {
         AsociarVehiculoAPresupuestoCommand command =
                 new AsociarVehiculoAPresupuestoCommand(PRESUPUESTO_ID, null, datosVehiculo, 7L, null);
 
-        Vehiculo vehiculoNuevo = Vehiculo.builder().id(99L).patente("XYZ789").build();
+        Cliente clienteExistente = Cliente.builder().id(7L).dni("12345678").build();
+        Vehiculo vehiculoNuevo = Vehiculo.builder().id(99L).patente("XYZ789").cliente(clienteExistente).build();
 
         when(presupuestoRepository.findById(PRESUPUESTO_ID)).thenReturn(Optional.of(presupuesto));
         when(registrarVehiculoUseCase.registrar(new RegistrarVehiculoCommand("XYZ789", 3L, 2022, 7L, 0, null)))
@@ -118,7 +120,7 @@ class AsociarVehiculoAPresupuestoUseCaseTest {
                 new AsociarVehiculoAPresupuestoCommand(PRESUPUESTO_ID, null, datosVehiculo, null, datosCliente);
 
         Cliente clienteNuevo = Cliente.builder().id(50L).dni("12345678").build();
-        Vehiculo vehiculoNuevo = Vehiculo.builder().id(99L).patente("XYZ789").build();
+        Vehiculo vehiculoNuevo = Vehiculo.builder().id(99L).patente("XYZ789").cliente(clienteNuevo).build();
 
         when(presupuestoRepository.findById(PRESUPUESTO_ID)).thenReturn(Optional.of(presupuesto));
         when(registrarClienteUseCase.registrarCliente(new RegistrarClienteCommand(

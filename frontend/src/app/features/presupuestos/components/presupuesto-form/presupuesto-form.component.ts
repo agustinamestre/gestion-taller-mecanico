@@ -1,6 +1,7 @@
 import { Component, inject, input, OnInit, output, signal } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
 import { TextareaModule } from 'primeng/textarea';
+import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { PresupuestoService } from '../../services/presupuesto.service';
 import { VehiculoService } from '../../../vehiculos/services/vehiculo.service';
@@ -10,7 +11,7 @@ import { VehiculoSelectorComponent } from '../../../../shared/components/vehicul
 @Component({
   selector: 'app-presupuesto-form',
   standalone: true,
-  imports: [ReactiveFormsModule, TextareaModule, ButtonModule, VehiculoSelectorComponent],
+  imports: [ReactiveFormsModule, TextareaModule, InputTextModule, ButtonModule, VehiculoSelectorComponent],
   templateUrl: './presupuesto-form.component.html',
   styleUrl: './presupuesto-form.component.scss',
 })
@@ -26,8 +27,10 @@ export class PresupuestoFormComponent implements OnInit {
   readonly buscandoVehiculo = signal(false);
   readonly vehiculoNoEncontrado = signal(false);
   readonly vehiculoElegido = signal<VehiculoResponse | null>(null);
+  readonly enviado = signal(false);
 
   readonly form = this.fb.group({
+    dni: ['', [Validators.required, Validators.pattern(/^\d{7,8}$/)]],
     observaciones: ['', Validators.maxLength(500)],
   });
 
@@ -40,6 +43,7 @@ export class PresupuestoFormComponent implements OnInit {
       next: (vehiculo) => {
         this.buscandoVehiculo.set(false);
         this.vehiculoElegido.set(vehiculo);
+        this.actualizarCampoDni();
       },
       error: () => {
         this.buscandoVehiculo.set(false);
@@ -50,18 +54,46 @@ export class PresupuestoFormComponent implements OnInit {
 
   onVehiculoSeleccionado(vehiculo: VehiculoResponse | null) {
     this.vehiculoElegido.set(vehiculo);
+    this.actualizarCampoDni();
   }
 
   quitarVehiculo() {
     this.vehiculoElegido.set(null);
+    this.actualizarCampoDni();
+  }
+
+  campo(nombre: string): AbstractControl {
+    return this.form.get(nombre)!;
+  }
+
+  invalid(nombre: string): boolean {
+    const c = this.campo(nombre);
+    return c.invalid && (c.touched || this.enviado());
+  }
+
+  private actualizarCampoDni() {
+    const dni = this.form.controls.dni;
+    const vehiculo = this.vehiculoElegido();
+
+    if (vehiculo) {
+      dni.setValue(vehiculo.cliente.dni);
+      dni.disable();
+      dni.setValidators([Validators.pattern(/^\d{7,8}$/)]);
+    } else {
+      dni.enable();
+      dni.setValidators([Validators.required, Validators.pattern(/^\d{7,8}$/)]);
+    }
+    dni.updateValueAndValidity();
   }
 
   guardar() {
+    this.enviado.set(true);
     if (this.form.invalid) return;
     const vehiculo = this.vehiculoElegido();
 
     this.presupuestoService.registrar({
       vehiculoId: vehiculo ? vehiculo.id : null,
+      dni: vehiculo ? undefined : (this.form.value.dni || undefined),
       observaciones: this.form.value.observaciones || undefined,
     }).subscribe({
       next: (presupuesto) => this.creado.emit(presupuesto.id),

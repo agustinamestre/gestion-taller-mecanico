@@ -13,12 +13,13 @@ import java.util.List;
 @Repository
 public interface JpaPresupuestoRepository extends JpaRepository<PresupuestoEntity, Long> {
 
-    @Query("SELECT p FROM PresupuestoEntity p JOIN p.vehiculo v WHERE v.patente = :patente")
-    List<PresupuestoEntity> findByVehiculoPatente(@Param("patente") String patente);
-
-    List<PresupuestoEntity> findByFechaEmisionBetween(LocalDate desde, LocalDate hasta);
-
-    List<PresupuestoEntity> findByVehiculo_PatenteAndFechaEmisionBetween(String patente, LocalDate desde, LocalDate hasta);
-
     List<PresupuestoEntity> findByEstadoAndFechaVencimientoBefore(EstadoPresupuesto estado, LocalDate fecha);
+
+    @Query("""
+        SELECT p FROM PresupuestoEntity p
+        LEFT JOIN p.vehiculo v
+        WHERE (:patente IS NULL OR v.patente = :patente)
+        AND (:dni IS NULL OR p.dni = :dni)
+    """)
+    List<PresupuestoEntity> buscar(@Param("patente") String patente, @Param("dni") String dni);
 }
