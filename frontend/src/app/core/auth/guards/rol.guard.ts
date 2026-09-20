@@ -12,6 +12,6 @@ export const adminGuard: CanActivateFn = () => {
     return true;
   }
 
-  notification.advertencia('No tenés permisos para acceder a esta sección.');
+  notification.advertencia('Página no encontrada.');
   return router.createUrlTree(['/dashboard']);
 };
