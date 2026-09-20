@@ -10,12 +10,10 @@ import com.taller.gestion_taller.infrastructure.rest.mapper.PresupuestoRestMappe
 import com.taller.gestion_taller.infrastructure.service.PresupuestoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -44,12 +42,10 @@ public class PresupuestoController implements SwaggerPresupuestoController {
     @Override
     public ResponseEntity<List<PresupuestoSummaryResponse>> listar(
             @RequestParam(required = false) String patente,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaDesde,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaHasta,
             @RequestParam(required = false) String dni) {
 
         List<PresupuestoSummaryResponse> response = presupuestoService
-                .listarPresupuestos(patente, fechaDesde, fechaHasta, dni)
+                .listarPresupuestos(patente, dni)
                 .stream()
                 .map(presupuestoRestMapper::domainToResumenResponse)
                 .toList();
