@@ -45,10 +45,11 @@ public class PresupuestoController implements SwaggerPresupuestoController {
     public ResponseEntity<List<PresupuestoSummaryResponse>> listar(
             @RequestParam(required = false) String patente,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaDesde,
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaHasta) {
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaHasta,
+            @RequestParam(required = false) String dni) {
 
         List<PresupuestoSummaryResponse> response = presupuestoService
-                .listarPresupuestos(patente, fechaDesde, fechaHasta)
+                .listarPresupuestos(patente, fechaDesde, fechaHasta, dni)
                 .stream()
                 .map(presupuestoRestMapper::domainToResumenResponse)
                 .toList();

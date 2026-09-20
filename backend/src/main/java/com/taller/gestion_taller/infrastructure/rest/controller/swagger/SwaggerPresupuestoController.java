@@ -51,7 +51,7 @@ public interface SwaggerPresupuestoController {
 
     @Operation(
             summary = "Listar presupuestos",
-            description = "Retorna todos los presupuestos, filtrando opcionalmente por patente del vehículo y/o rango de fecha de emisión"
+            description = "Retorna todos los presupuestos, filtrando opcionalmente por patente del vehículo, rango de fecha de emisión y/o DNI del cliente"
     )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Presupuestos encontrados",
@@ -67,7 +67,9 @@ public interface SwaggerPresupuestoController {
             @Parameter(description = "Fecha de emisión desde (opcional, formato yyyy-MM-dd)")
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaDesde,
             @Parameter(description = "Fecha de emisión hasta (opcional, formato yyyy-MM-dd)")
-            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaHasta);
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaHasta,
+            @Parameter(description = "DNI del cliente asociado al presupuesto (opcional)")
+            @RequestParam(required = false) String dni);
 
     @Operation(summary = "Agregar ítem al presupuesto", description = "Agrega un nuevo ítem a un presupuesto existente")
     @ApiResponses({
