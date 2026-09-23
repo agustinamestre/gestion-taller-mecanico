@@ -12,6 +12,6 @@ public interface PresupuestoRepository {
     Optional<Presupuesto> findById(Long id);
     List<Presupuesto> findAll();
     List<Presupuesto> buscar(String patente, String dni);
-    List<Presupuesto> findByEstadoAndFechaVencimientoBefore(EstadoPresupuesto estado, LocalDate fecha);
+    List<Presupuesto> findByEstadoInAndFechaVencimientoBefore(List<EstadoPresupuesto> estados, LocalDate fecha);
     void deleteById(Long id);
 }
