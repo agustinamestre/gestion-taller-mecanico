@@ -10,7 +10,7 @@ public enum EstadoPresupuesto {
     APROBADO {
         @Override
         public boolean puedeTransicionarA(EstadoPresupuesto nuevo) {
-            return false;
+            return nuevo == VENCIDO;
         }
     },
     RECHAZADO {
@@ -24,8 +24,19 @@ public enum EstadoPresupuesto {
         public boolean puedeTransicionarA(EstadoPresupuesto nuevo) {
             return false;
         }
+    },
+    UTILIZADO {
+        @Override
+        public boolean puedeTransicionarA(EstadoPresupuesto nuevo) {
+            return false;
+        }
+    },
+    CANCELADO {
+        @Override
+        public boolean puedeTransicionarA(EstadoPresupuesto nuevo) {
+            return false;
+        }
     };
 
     public abstract boolean puedeTransicionarA(EstadoPresupuesto nuevo);
 }
-

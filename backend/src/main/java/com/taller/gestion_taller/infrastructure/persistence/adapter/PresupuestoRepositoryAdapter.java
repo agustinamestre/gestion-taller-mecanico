@@ -30,7 +30,7 @@ public class PresupuestoRepositoryAdapter implements PresupuestoRepository {
             return mapper.toDomain(jpaPresupuestoRepository.save(entity));
         }
 
-        PresupuestoEntity entity = jpaPresupuestoRepository.findById(presupuesto.getId())
+        PresupuestoEntity entity = jpaPresupuestoRepository.findByIdConDetalle(presupuesto.getId())
                 .orElseThrow(() -> new NotFoundException(
                         BusinessErrors.presupuestoNoEncontrado(presupuesto.getId())));
 
@@ -40,12 +40,12 @@ public class PresupuestoRepositoryAdapter implements PresupuestoRepository {
 
     @Override
     public Optional<Presupuesto> findById(Long id) {
-        return jpaPresupuestoRepository.findById(id).map(mapper::toDomain);
+        return jpaPresupuestoRepository.findByIdConDetalle(id).map(mapper::toDomain);
     }
 
     @Override
     public List<Presupuesto> findAll() {
-        return jpaPresupuestoRepository.findAll()
+        return jpaPresupuestoRepository.findAllConDetalle()
                 .stream()
                 .map(mapper::toDomain)
                 .toList();
@@ -59,8 +59,8 @@ public class PresupuestoRepositoryAdapter implements PresupuestoRepository {
     }
 
     @Override
-    public List<Presupuesto> findByEstadoAndFechaVencimientoBefore(EstadoPresupuesto estado, LocalDate fecha) {
-        return jpaPresupuestoRepository.findByEstadoAndFechaVencimientoBefore(estado, fecha).stream()
+    public List<Presupuesto> findByEstadoInAndFechaVencimientoBefore(List<EstadoPresupuesto> estados, LocalDate fecha) {
+        return jpaPresupuestoRepository.findByEstadoInAndFechaVencimientoBefore(estados, fecha).stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }

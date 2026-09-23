@@ -39,8 +39,9 @@ public class OrdenTrabajoBeanConfiguration {
     }
 
     @Bean
-    public CambiarEstadoOrdenTrabajo cambiarEstadoOrdenTrabajoUseCase(OrdenTrabajoRepository ordenTrabajoRepository) {
-        return new CambiarEstadoOrdenTrabajoUseCase(ordenTrabajoRepository);
+    public CambiarEstadoOrdenTrabajo cambiarEstadoOrdenTrabajoUseCase(OrdenTrabajoRepository ordenTrabajoRepository,
+                                                                      PresupuestoRepository presupuestoRepository) {
+        return new CambiarEstadoOrdenTrabajoUseCase(ordenTrabajoRepository, presupuestoRepository);
     }
 
     @Bean

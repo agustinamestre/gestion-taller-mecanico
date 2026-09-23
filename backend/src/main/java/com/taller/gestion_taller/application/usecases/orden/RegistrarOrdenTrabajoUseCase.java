@@ -42,11 +42,16 @@ public class RegistrarOrdenTrabajoUseCase implements RegistrarOrdenTrabajo {
         validarPresupuestoConvertibleAOrden(presupuesto);
         validarCoherenciaPatente(command.patente(), presupuesto.getVehiculo());
 
-        return OrdenTrabajo.crearNueva(
+        OrdenTrabajo orden = OrdenTrabajo.crearNueva(
                 presupuesto.getVehiculo(),
                 presupuesto,
                 command.descripcionProblema(),
                 command.usuarioCreacionId());
+
+        presupuesto.marcarComoUtilizado();
+        presupuestoRepository.save(presupuesto);
+
+        return orden;
     }
 
     private OrdenTrabajo construirDesdePatente(RegistrarOrdenTrabajoCommand command) {

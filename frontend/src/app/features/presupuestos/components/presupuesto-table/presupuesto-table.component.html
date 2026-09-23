@@ -23,6 +23,15 @@
     class="buscador-input"
     (keyup.enter)="buscar()"
   />
+  <p-select
+    [ngModel]="filtroEstado()"
+    (ngModelChange)="filtroEstado.set($event)"
+    [options]="opcionesFiltroEstado"
+    optionLabel="label"
+    optionValue="value"
+    styleClass="select-filtro-estado"
+    appendTo="body"
+  />
   <p-button label="Buscar" icon="pi pi-search" [loading]="presupuestoService.cargando()" (onClick)="buscar()" />
   @if (tieneFiltrosActivos) {
     <p-button label="Limpiar" [text]="true" (onClick)="limpiarFiltros()" />
@@ -31,7 +40,7 @@
 
 <div class="tabla-scroll">
 <p-table
-  [value]="presupuestoService.listado()"
+  [value]="listadoFiltrado()"
   [loading]="presupuestoService.cargando()"
   [paginator]="true"
   [rows]="10"

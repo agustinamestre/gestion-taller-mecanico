@@ -11,16 +11,19 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MarcarPresupuestosVencidosUseCase implements MarcarPresupuestosVencidos {
 
+    private static final List<EstadoPresupuesto> ESTADOS_VENCIBLES =
+            List.of(EstadoPresupuesto.PENDIENTE, EstadoPresupuesto.APROBADO);
+
     private final PresupuestoRepository presupuestoRepository;
 
     @Override
     public int marcar() {
-        List<Presupuesto> pendientesVencidos = presupuestoRepository.findByEstadoAndFechaVencimientoBefore(
-                EstadoPresupuesto.PENDIENTE, LocalDate.now());
+        List<Presupuesto> vencidos = presupuestoRepository.findByEstadoInAndFechaVencimientoBefore(
+                ESTADOS_VENCIBLES, LocalDate.now());
 
-        pendientesVencidos.forEach(Presupuesto::marcarComoVencido);
-        pendientesVencidos.forEach(presupuestoRepository::save);
+        vencidos.forEach(Presupuesto::marcarComoVencido);
+        vencidos.forEach(presupuestoRepository::save);
 
-        return pendientesVencidos.size();
+        return vencidos.size();
     }
 }

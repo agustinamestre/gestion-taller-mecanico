@@ -24,6 +24,8 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 public class Presupuesto {
 
     private static final int DIAS_VENCIMIENTO_DEFAULT = 30;
+    private static final List<EstadoPresupuesto> ESTADOS_VENCIBLES =
+            List.of(EstadoPresupuesto.PENDIENTE, EstadoPresupuesto.APROBADO);
 
     private Long id;
     private Vehiculo vehiculo;
@@ -129,7 +131,7 @@ public class Presupuesto {
     }
 
     public void marcarComoVencido() {
-        if (this.estado != EstadoPresupuesto.PENDIENTE) {
+        if (!ESTADOS_VENCIBLES.contains(this.estado)) {
             throw new BusinessRunTimeException(
                     BusinessErrors.transicionEstadoInvalida(this.estado, EstadoPresupuesto.VENCIDO));
         }
@@ -137,6 +139,22 @@ public class Presupuesto {
             throw new BusinessRunTimeException(BusinessErrors.presupuestoAunNoVencido());
         }
         this.estado = EstadoPresupuesto.VENCIDO;
+    }
+
+    public void marcarComoUtilizado() {
+        if (this.estado != EstadoPresupuesto.APROBADO) {
+            throw new BusinessRunTimeException(
+                    BusinessErrors.transicionEstadoInvalida(this.estado, EstadoPresupuesto.UTILIZADO));
+        }
+        this.estado = EstadoPresupuesto.UTILIZADO;
+    }
+
+    public void cancelar() {
+        if (this.estado != EstadoPresupuesto.UTILIZADO) {
+            throw new BusinessRunTimeException(
+                    BusinessErrors.transicionEstadoInvalida(this.estado, EstadoPresupuesto.CANCELADO));
+        }
+        this.estado = EstadoPresupuesto.CANCELADO;
     }
 
     public void asociarVehiculo(Vehiculo vehiculo) {
