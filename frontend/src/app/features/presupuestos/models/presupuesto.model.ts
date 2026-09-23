@@ -1,6 +1,6 @@
 import { SituacionIva } from "../../clientes/models/cliente.model";
 
-export type EstadoPresupuesto = 'PENDIENTE' | 'APROBADO' | 'RECHAZADO' | 'VENCIDO';
+export type EstadoPresupuesto = 'PENDIENTE' | 'APROBADO' | 'RECHAZADO' | 'VENCIDO' | 'UTILIZADO' | 'CANCELADO';
 
 export interface ItemPresupuestoResponse {
   id: number;
@@ -88,4 +88,6 @@ export const TRANSICIONES_VALIDAS: Record<EstadoPresupuesto, EstadoPresupuesto[]
   APROBADO: [],
   RECHAZADO: [],
   VENCIDO: [],
+  UTILIZADO: [],
+  CANCELADO: [],
 };

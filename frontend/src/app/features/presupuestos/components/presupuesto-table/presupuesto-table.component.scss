@@ -17,6 +17,10 @@
 
 .buscador-input {
   @include input-buscador;
+
+  ::ng-deep .select-filtro-estado {
+    min-width: 140px;
+  }
 }
 
 .tabla-scroll {
@@ -30,6 +34,8 @@
   &.estado-aprobado { background: var(--fondo-tenue-exito); color: var(--success-color); }
   &.estado-rechazado { background: var(--fondo-tenue-error); color: var(--error-color); }
   &.estado-vencido { background: var(--fondo-tenue-neutro); color: var(--text-muted); }
+  &.estado-utilizado { background: var(--fondo-tenue-neutro); color: var(--text-muted); }
+  &.estado-cancelado { background: var(--fondo-tenue-error); color: var(--error-color); }
 }
 
 ::ng-deep .select-estado {
