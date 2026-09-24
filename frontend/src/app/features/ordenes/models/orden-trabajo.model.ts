@@ -24,6 +24,7 @@ export interface OrdenTrabajoResponse {
   itemsPresupuesto: ItemPresupuestoResponse[];
   itemsOrden: ItemOrdenTrabajoResponse[];
   total: number;
+  facturada: boolean;
 }
 
 export interface RegistrarOrdenTrabajoRequest {
