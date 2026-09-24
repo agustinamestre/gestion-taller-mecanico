@@ -1,7 +1,5 @@
 package com.taller.gestion_taller.infrastructure.persistence.adapter;
 
-import com.taller.gestion_taller.domain.exception.BusinessErrors;
-import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Factura;
 import com.taller.gestion_taller.domain.repositories.FacturaRepository;
 import com.taller.gestion_taller.infrastructure.persistence.entity.FacturaEntity;
@@ -10,7 +8,6 @@ import com.taller.gestion_taller.infrastructure.persistence.repository.JpaFactur
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,28 +29,13 @@ public class FacturaRepositoryAdapter implements FacturaRepository {
     }
 
     @Override
-    public Factura actualizarNumeroFactura(Long id, String numeroFactura) {
-        FacturaEntity entity = jpaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(BusinessErrors.facturaNoEncontrada(id)));
-        entity.setNumeroFactura(numeroFactura);
-        jpaRepository.save(entity);
-        return mapper.toDomain(entity);
-    }
-
-    @Override
     public Optional<Factura> findById(Long id) {
         return jpaRepository.findById(id).map(mapper::toDomain);
     }
 
     @Override
-    public Optional<Factura> findByOrdenTrabajoId(Long ordenTrabajoId) {
-        return jpaRepository.findByOrdenTrabajoId(ordenTrabajoId).map(mapper::toDomain);
-    }
-
-    @Override
-    public List<Factura> findByFiltros(Long id, String numeroFactura, String clienteDni,
-                                       LocalDate fechaDesde, LocalDate fechaHasta) {
-        return jpaRepository.findByFiltros(id, numeroFactura, clienteDni, fechaDesde, fechaHasta)
+    public List<Factura> findByFiltros(Long id, String numeroFactura, String clienteDni) {
+        return jpaRepository.findByFiltros(id, numeroFactura, clienteDni)
                 .stream()
                 .map(mapper::toDomain)
                 .toList();
