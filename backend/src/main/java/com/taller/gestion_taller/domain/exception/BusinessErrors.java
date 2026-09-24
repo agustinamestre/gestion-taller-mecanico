@@ -4,7 +4,6 @@ import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.EstadoPresupuesto;
 import com.taller.gestion_taller.domain.model.TipoProducto;
 import java.text.MessageFormat;
-import java.time.LocalDate;
 
 public final class BusinessErrors {
 
@@ -247,10 +246,17 @@ public final class BusinessErrors {
         );
     }
 
-    public static BusinessError rangoFechasInvalido(LocalDate desde, LocalDate hasta) {
+    public static BusinessError facturaYaAnulada(Long id) {
         return new BusinessError(
-                "RANGO_FECHAS_INVALIDO",
-                "La fecha de inicio (" + desde + ") no puede ser posterior a la fecha de fin (" + hasta + ")"
+                "FACTURA_YA_ANULADA",
+                "La factura con ID " + id + " ya se encuentra anulada."
+        );
+    }
+
+    public static BusinessError facturaSinMotivoAnulacion() {
+        return new BusinessError(
+                "FACTURA_SIN_MOTIVO_ANULACION",
+                "Debe indicar un motivo para anular la factura."
         );
     }
 

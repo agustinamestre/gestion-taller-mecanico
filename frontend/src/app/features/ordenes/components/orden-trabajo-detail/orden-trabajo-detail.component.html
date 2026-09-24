@@ -8,6 +8,12 @@
           <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver.emit()"></button>
           <h2>{{ o.patenteVehiculo }}</h2>
           <span class="etiqueta-estado" [class]="'estado-' + o.estado.toLowerCase()">{{ o.estado }}</span>
+          @if (o.facturada) {
+            <span class="etiqueta-facturada">Facturada</span>
+          }
+          @if (esFacturable) {
+            <p-button label="Facturar" icon="pi pi-receipt" size="small" (onClick)="abrirGenerarFactura()" />
+          }
         </div>
 
         <div class="info-grid">
@@ -84,6 +90,14 @@
         [cargando]="ordenTrabajoService.cargando()"
         (guardado)="onGuardarItem($event)"
         (cancelar)="irADetalle()"
+      />
+    }
+
+    @case ('generar-factura') {
+      <app-generar-factura-form
+        [ordenTrabajoId]="o.id"
+        (generada)="onFacturaGenerada()"
+        (cancelar)="cancelarGenerarFactura()"
       />
     }
 

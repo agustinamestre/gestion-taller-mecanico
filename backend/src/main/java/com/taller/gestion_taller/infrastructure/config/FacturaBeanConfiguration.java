@@ -1,9 +1,12 @@
 package com.taller.gestion_taller.infrastructure.config;
 
+import com.taller.gestion_taller.application.usecases.factura.AnularFactura;
+import com.taller.gestion_taller.application.usecases.factura.AnularFacturaUseCase;
 import com.taller.gestion_taller.application.usecases.factura.ConsultarFacturas;
 import com.taller.gestion_taller.application.usecases.factura.ConsultarFacturasUseCase;
 import com.taller.gestion_taller.application.usecases.factura.GenerarFactura;
 import com.taller.gestion_taller.application.usecases.factura.GenerarFacturaUseCase;
+import com.taller.gestion_taller.domain.repositories.ContadorFacturaRepository;
 import com.taller.gestion_taller.domain.repositories.FacturaRepository;
 import com.taller.gestion_taller.domain.repositories.OrdenTrabajoRepository;
 import com.taller.gestion_taller.domain.service.FacturaValidator;
@@ -16,18 +19,27 @@ public class FacturaBeanConfiguration {
 
 
     @Bean
-    public FacturaValidator facturaValidator(FacturaRepository facturaRepository) {
-        return new FacturaValidator(facturaRepository);
+    public FacturaValidator facturaValidator() {
+        return new FacturaValidator();
     }
 
     @Bean
-    public GenerarFactura generarFacturaUseCase(FacturaRepository facturaRepository, FacturaValidator facturaValidator, OrdenTrabajoRepository ordenTrabajoRepository) {
-        return new GenerarFacturaUseCase(facturaRepository, facturaValidator, ordenTrabajoRepository);
+    public GenerarFactura generarFacturaUseCase(FacturaRepository facturaRepository, FacturaValidator facturaValidator,
+                                                 OrdenTrabajoRepository ordenTrabajoRepository,
+                                                 ContadorFacturaRepository contadorFacturaRepository) {
+        return new GenerarFacturaUseCase(facturaRepository, facturaValidator, ordenTrabajoRepository,
+                contadorFacturaRepository);
     }
 
     @Bean
-    public FacturaService facturaService(GenerarFactura generarFacturaUseCase, ConsultarFacturas consultarFacturas) {
-        return new FacturaService(generarFacturaUseCase, consultarFacturas);
+    public AnularFactura anularFacturaUseCase(FacturaRepository facturaRepository, OrdenTrabajoRepository ordenTrabajoRepository) {
+        return new AnularFacturaUseCase(facturaRepository, ordenTrabajoRepository);
+    }
+
+    @Bean
+    public FacturaService facturaService(GenerarFactura generarFacturaUseCase, ConsultarFacturas consultarFacturas,
+                                          AnularFactura anularFacturaUseCase) {
+        return new FacturaService(generarFacturaUseCase, consultarFacturas, anularFacturaUseCase);
     }
 
     @Bean

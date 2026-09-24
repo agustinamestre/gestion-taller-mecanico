@@ -17,5 +17,6 @@ public record OrdenTrabajoResponse(
         Long usuarioCreacionId,
         List<ItemPresupuestoResponse> itemsPresupuesto,
         List<ItemOrdenTrabajoResponse> itemsOrden,
-        BigDecimal total
+        BigDecimal total,
+        boolean facturada
 ) {}

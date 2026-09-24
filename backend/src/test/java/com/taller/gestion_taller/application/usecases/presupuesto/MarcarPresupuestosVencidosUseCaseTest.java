@@ -41,13 +41,16 @@ class MarcarPresupuestosVencidosUseCaseTest {
                 .build();
     }
 
+    private static final List<EstadoPresupuesto> ESTADOS_VENCIBLES =
+            List.of(EstadoPresupuesto.PENDIENTE, EstadoPresupuesto.APROBADO);
+
     @Test
     @DisplayName("Debe marcar como VENCIDO cada presupuesto PENDIENTE con fecha de vencimiento pasada y persistirlo")
     void debeMarcarComoVencidoYPersistirCadaPresupuestoEncontrado() {
         Presupuesto primero = presupuestoPendienteVencido(1L);
         Presupuesto segundo = presupuestoPendienteVencido(2L);
 
-        when(presupuestoRepository.findByEstadoAndFechaVencimientoBefore(eq(EstadoPresupuesto.PENDIENTE), any(LocalDate.class)))
+        when(presupuestoRepository.findByEstadoInAndFechaVencimientoBefore(eq(ESTADOS_VENCIBLES), any(LocalDate.class)))
                 .thenReturn(List.of(primero, segundo));
 
         int cantidad = marcarPresupuestosVencidosUseCase.marcar();
@@ -62,7 +65,7 @@ class MarcarPresupuestosVencidosUseCaseTest {
     @Test
     @DisplayName("No debe hacer nada cuando no hay presupuestos pendientes vencidos")
     void noDebeHacerNadaSiNoHayPresupuestosVencidos() {
-        when(presupuestoRepository.findByEstadoAndFechaVencimientoBefore(eq(EstadoPresupuesto.PENDIENTE), any(LocalDate.class)))
+        when(presupuestoRepository.findByEstadoInAndFechaVencimientoBefore(eq(ESTADOS_VENCIBLES), any(LocalDate.class)))
                 .thenReturn(List.of());
 
         int cantidad = marcarPresupuestosVencidosUseCase.marcar();
