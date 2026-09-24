@@ -1,7 +1,9 @@
 package com.taller.gestion_taller.infrastructure.service;
 
+import com.taller.gestion_taller.application.command.factura.AnularFacturaCommand;
 import com.taller.gestion_taller.application.command.factura.ConsultarFacturasCommand;
 import com.taller.gestion_taller.application.command.factura.GenerarFacturaCommand;
+import com.taller.gestion_taller.application.usecases.factura.AnularFactura;
 import com.taller.gestion_taller.application.usecases.factura.ConsultarFacturas;
 import com.taller.gestion_taller.application.usecases.factura.GenerarFactura;
 import com.taller.gestion_taller.domain.model.Factura;
@@ -17,6 +19,7 @@ public class FacturaService {
 
     private final GenerarFactura generarFacturaUseCase;
     private final ConsultarFacturas consultarFacturasUseCase;
+    private final AnularFactura anularFacturaUseCase;
 
     @Transactional
     public Factura generarFactura(GenerarFacturaCommand command) {
@@ -26,5 +29,10 @@ public class FacturaService {
     @Transactional(readOnly = true)
     public List<Factura> consultarFacturas(ConsultarFacturasCommand command) {
         return consultarFacturasUseCase.consultar(command);
+    }
+
+    @Transactional
+    public Factura anularFactura(AnularFacturaCommand command) {
+        return anularFacturaUseCase.anularFactura(command);
     }
 }
