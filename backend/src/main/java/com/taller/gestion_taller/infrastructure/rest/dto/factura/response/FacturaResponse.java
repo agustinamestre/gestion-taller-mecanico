@@ -1,6 +1,8 @@
 package com.taller.gestion_taller.infrastructure.rest.dto.factura.response;
 
+import com.taller.gestion_taller.domain.model.EstadoFactura;
 import com.taller.gestion_taller.domain.model.FormaPago;
+import com.taller.gestion_taller.domain.model.TipoComprobante;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,4 +23,7 @@ public class FacturaResponse {
     private String clienteDni;
     private BigDecimal total;
     private OrdenTrabajoFacturaResponse ordenTrabajo;
+    private EstadoFactura estado;
+    private String motivoAnulacion;
+    private TipoComprobante tipoComprobante;
 }
