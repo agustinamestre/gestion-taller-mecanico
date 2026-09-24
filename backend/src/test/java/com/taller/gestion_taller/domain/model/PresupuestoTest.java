@@ -149,12 +149,12 @@ class PresupuestoTest {
         }
 
         @Test
-        @DisplayName("rechaza vencer un presupuesto que no esta PENDIENTE (ej: APROBADO)")
+        @DisplayName("rechaza vencer un presupuesto que no esta PENDIENTE ni APROBADO (ej: RECHAZADO)")
         void rechazaSiNoEstaPendiente() {
             Presupuesto presupuesto = Presupuesto.builder()
                     .id(1L)
                     .vehiculo(mock(Vehiculo.class))
-                    .estado(EstadoPresupuesto.APROBADO)
+                    .estado(EstadoPresupuesto.RECHAZADO)
                     .fechaVencimiento(java.time.LocalDate.now().minusDays(1))
                     .items(new ArrayList<>())
                     .build();
@@ -164,7 +164,7 @@ class PresupuestoTest {
                     .extracting("businessError.code")
                     .isEqualTo("TRANSICION_ESTADO_INVALIDA");
 
-            assertThat(presupuesto.getEstado()).isEqualTo(EstadoPresupuesto.APROBADO);
+            assertThat(presupuesto.getEstado()).isEqualTo(EstadoPresupuesto.RECHAZADO);
         }
     }
 
