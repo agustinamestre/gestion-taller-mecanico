@@ -28,6 +28,12 @@
   &.estado-cancelado { background: var(--fondo-tenue-error); color: var(--error-color); }
 }
 
+.etiqueta-facturada {
+  @include etiqueta-base;
+  background: var(--fondo-tenue-primario);
+  color: var(--primary-color);
+}
+
 .info-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

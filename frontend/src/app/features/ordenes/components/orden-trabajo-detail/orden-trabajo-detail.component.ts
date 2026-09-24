@@ -8,8 +8,9 @@ import { OrdenTrabajoService } from '../../services/orden-trabajo.service';
 import { ItemOrdenTrabajoResponse, ESTADOS_MODIFICABLES } from '../../models/orden-trabajo.model';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { ItemFormComponent, ItemFormResultado } from '../../../../shared/components/item-form/item-form.component';
+import { GenerarFacturaFormComponent } from '../../../facturas/components/generar-factura-form/generar-factura-form.component';
 
-type Vista = 'detalle' | 'item-form';
+type Vista = 'detalle' | 'item-form' | 'generar-factura';
 type OrigenItem = 'presupuesto' | 'orden';
 
 interface ItemUnificado {
@@ -28,7 +29,7 @@ interface ItemUnificado {
   standalone: true,
   imports: [
     CurrencyPipe, DatePipe, FormsModule, ButtonModule, TableModule, TextareaModule,
-    ItemFormComponent, ConfirmDialogComponent,
+    ItemFormComponent, ConfirmDialogComponent, GenerarFacturaFormComponent,
   ],
   templateUrl: './orden-trabajo-detail.component.html',
   styleUrl: './orden-trabajo-detail.component.scss',
@@ -52,6 +53,12 @@ export class OrdenTrabajoDetailComponent {
   get esModificable(): boolean {
     const estado = this.orden?.estado;
     return !!estado && ESTADOS_MODIFICABLES.includes(estado);
+  }
+
+  get esFacturable(): boolean {
+    const orden = this.orden;
+    if (!orden) return false;
+    return (orden.estado === 'FINALIZADO' || orden.estado === 'ENTREGADO') && !orden.facturada;
   }
 
   readonly itemsUnificados = computed<ItemUnificado[]>(() => {
@@ -157,5 +164,18 @@ export class OrdenTrabajoDetailComponent {
   cancelarEliminarItem() {
     this.mostrarConfirmEliminar.set(false);
     this.itemAEliminar.set(null);
+  }
+
+  abrirGenerarFactura() {
+    this.vista.set('generar-factura');
+  }
+
+  cancelarGenerarFactura() {
+    this.vista.set('detalle');
+  }
+
+  onFacturaGenerada() {
+    this.refrescar();
+    this.vista.set('detalle');
   }
 }
