@@ -44,6 +44,10 @@ public class OrdenTrabajoEntity {
     @Column(name = "usuario_creacion_id", nullable = false)
     private Long usuarioCreacionId;
 
+    @Column(name = "facturada", nullable = false)
+    @Builder.Default
+    private boolean facturada = false;
+
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private List<ItemOrdenTrabajoEntity> items = new ArrayList<>();

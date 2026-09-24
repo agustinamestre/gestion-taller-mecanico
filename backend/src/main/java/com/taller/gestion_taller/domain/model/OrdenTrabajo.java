@@ -26,6 +26,8 @@ public class OrdenTrabajo {
     private EstadoOrdenTrabajo estado;
     private Long usuarioCreacionId;
     @Builder.Default
+    private boolean facturada = false;
+    @Builder.Default
     private List<ItemOrdenTrabajo> items = new ArrayList<>();
 
     public static OrdenTrabajo crearNueva(Vehiculo vehiculo,
@@ -51,6 +53,7 @@ public class OrdenTrabajo {
                 .usuarioCreacionId(usuarioCreacionId)
                 .estado(EstadoOrdenTrabajo.INGRESADO)
                 .fechaIngreso(LocalDate.now())
+                .facturada(false)
                 .items(new ArrayList<>())
                 .build();
     }
@@ -64,6 +67,20 @@ public class OrdenTrabajo {
             this.fechaEgreso = LocalDate.now();
         }
         this.estado = nuevoEstado;
+    }
+
+    public void marcarComoFacturada() {
+        if (this.estado != EstadoOrdenTrabajo.FINALIZADO && this.estado != EstadoOrdenTrabajo.ENTREGADO) {
+            throw new BusinessRunTimeException(BusinessErrors.ordenNoFacturable(this.estado));
+        }
+        if (this.facturada) {
+            throw new BusinessRunTimeException(BusinessErrors.ordenYaFacturada(this.id));
+        }
+        this.facturada = true;
+    }
+
+    public void desmarcarFacturada() {
+        this.facturada = false;
     }
 
     public void modificar(String descripcionProblema) {
