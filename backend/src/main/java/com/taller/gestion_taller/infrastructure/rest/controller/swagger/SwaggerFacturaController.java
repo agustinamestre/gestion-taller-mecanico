@@ -1,5 +1,6 @@
 package com.taller.gestion_taller.infrastructure.rest.controller.swagger;
 
+import com.taller.gestion_taller.infrastructure.rest.dto.factura.request.AnularFacturaRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.factura.request.GenerarFacturaRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.factura.response.FacturaResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,11 +14,12 @@ import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "Facturas", description = "Gestión de facturas.")
@@ -63,16 +65,6 @@ public interface SwaggerFacturaController {
                             name = "clienteDni",
                             description = "DNI del cliente para filtrar todas sus facturas.",
                             example = "12345678"
-                    ),
-                    @Parameter(
-                            name = "fechaDesde",
-                            description = "Fecha de inicio del rango de emisión. Formato: yyyy-MM-dd.",
-                            example = "2026-01-01"
-                    ),
-                    @Parameter(
-                            name = "fechaHasta",
-                            description = "Fecha de fin del rango de emisión. Formato: yyyy-MM-dd.",
-                            example = "2026-06-30"
                     )
             },
             responses = {
@@ -81,11 +73,6 @@ public interface SwaggerFacturaController {
                             description = "Listado de facturas obtenido exitosamente. Puede ser una lista vacía si no hay resultados.",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     array = @ArraySchema(schema = @Schema(implementation = FacturaResponse.class)))
-                    ),
-                    @ApiResponse(
-                            responseCode = "400",
-                            description = "Parámetros inválidos. Por ejemplo, fechaDesde posterior a fechaHasta.",
-                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
                     )
             }
     )
@@ -93,9 +80,33 @@ public interface SwaggerFacturaController {
     ResponseEntity<List<FacturaResponse>> consultarFacturas(
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String numeroFactura,
-            @RequestParam(required = false) String clienteDni,
-            @RequestParam(required = false) LocalDate fechaDesde,
-            @RequestParam(required = false) LocalDate fechaHasta
+            @RequestParam(required = false) String clienteDni
     );
+
+    @Operation(
+            summary = "Anular una factura existente.",
+            parameters = {
+                    @Parameter(name = "id", description = "ID de la factura a anular.", example = "4")
+            },
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "Factura anulada exitosamente.",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = FacturaResponse.class))
+                    ),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Error de negocio o datos inválidos. Por ejemplo, la factura ya está anulada o falta el motivo.",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "La factura especificada no fue encontrada.",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+                    )
+            }
+    )
+    @PatchMapping("/{id}/anular")
+    ResponseEntity<FacturaResponse> anularFactura(@PathVariable Long id, @Valid @RequestBody AnularFacturaRequest request);
 }
 
