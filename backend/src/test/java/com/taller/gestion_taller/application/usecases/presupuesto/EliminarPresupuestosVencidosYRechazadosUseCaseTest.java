@@ -39,16 +39,17 @@ class EliminarPresupuestosVencidosYRechazadosUseCaseTest {
                 .build();
     }
 
+    private static final List<EstadoPresupuesto> ESTADOS_ELIMINABLES =
+            List.of(EstadoPresupuesto.VENCIDO, EstadoPresupuesto.RECHAZADO);
+
     @Test
     @DisplayName("Debe eliminar cada presupuesto VENCIDO o RECHAZADO con mas de 180 dias desde su vencimiento")
     void debeEliminarLosPresupuestosEncontradosYRetornarElTotal() {
         Presupuesto vencido = presupuestoConId(1L);
         Presupuesto rechazado = presupuestoConId(2L);
 
-        when(presupuestoRepository.findByEstadoAndFechaVencimientoBefore(eq(EstadoPresupuesto.VENCIDO), any(LocalDate.class)))
-                .thenReturn(List.of(vencido));
-        when(presupuestoRepository.findByEstadoAndFechaVencimientoBefore(eq(EstadoPresupuesto.RECHAZADO), any(LocalDate.class)))
-                .thenReturn(List.of(rechazado));
+        when(presupuestoRepository.findByEstadoInAndFechaVencimientoBefore(eq(ESTADOS_ELIMINABLES), any(LocalDate.class)))
+                .thenReturn(List.of(vencido, rechazado));
 
         int cantidad = eliminarPresupuestosVencidosYRechazadosUseCase.eliminar();
 
@@ -60,9 +61,7 @@ class EliminarPresupuestosVencidosYRechazadosUseCaseTest {
     @Test
     @DisplayName("No debe eliminar nada cuando no hay presupuestos candidatos")
     void noDebeHacerNadaSiNoHayPresupuestosCandidatos() {
-        when(presupuestoRepository.findByEstadoAndFechaVencimientoBefore(eq(EstadoPresupuesto.VENCIDO), any(LocalDate.class)))
-                .thenReturn(List.of());
-        when(presupuestoRepository.findByEstadoAndFechaVencimientoBefore(eq(EstadoPresupuesto.RECHAZADO), any(LocalDate.class)))
+        when(presupuestoRepository.findByEstadoInAndFechaVencimientoBefore(eq(ESTADOS_ELIMINABLES), any(LocalDate.class)))
                 .thenReturn(List.of());
 
         int cantidad = eliminarPresupuestosVencidosYRechazadosUseCase.eliminar();
