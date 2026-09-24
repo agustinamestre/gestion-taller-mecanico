@@ -1,8 +1,11 @@
 package com.taller.gestion_taller.infrastructure.persistence.entity;
 
+import com.taller.gestion_taller.domain.model.EstadoFactura;
 import com.taller.gestion_taller.domain.model.FormaPago;
+import com.taller.gestion_taller.domain.model.TipoComprobante;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +16,7 @@ import java.time.LocalDate;
 @Table(name = "facturas")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class FacturaEntity {
@@ -34,5 +38,16 @@ public class FacturaEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "forma_pago", nullable = false)
     private FormaPago formaPago;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado", nullable = false, length = 20)
+    private EstadoFactura estado;
+
+    @Column(name = "motivo_anulacion")
+    private String motivoAnulacion;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_comprobante", length = 1)
+    private TipoComprobante tipoComprobante;
 
 }
