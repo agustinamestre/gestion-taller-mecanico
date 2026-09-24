@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FormaPagoValida {
-    String message() default "Valores aceptados: [EFECTIVO, TARJETA_CREDITO, TARJETA_DEBITO, TRANSFERENCIA_BANCARIA]";
+    String message() default "Valores aceptados: [EFECTIVO, TRANSFERENCIA_BANCARIA]";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }
