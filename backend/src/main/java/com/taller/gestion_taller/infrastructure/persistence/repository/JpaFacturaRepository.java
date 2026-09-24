@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,14 +41,10 @@ public interface JpaFacturaRepository extends JpaRepository<FacturaEntity, Long>
     WHERE (:id IS NULL OR f.id = :id)
     AND (:numeroFactura IS NULL OR f.numeroFactura = :numeroFactura)
     AND (:clienteDni IS NULL OR c.dni = :clienteDni)
-    AND (CAST(:fechaDesde AS date) IS NULL OR f.fechaEmision >= :fechaDesde)
-    AND (CAST(:fechaHasta AS date) IS NULL OR f.fechaEmision <= :fechaHasta)
     """)
     List<FacturaEntity> findByFiltros(
             @Param("id") Long id,
             @Param("numeroFactura") String numeroFactura,
-            @Param("clienteDni") String clienteDni,
-            @Param("fechaDesde") LocalDate fechaDesde,
-            @Param("fechaHasta") LocalDate fechaHasta
+            @Param("clienteDni") String clienteDni
     );
 }
