@@ -3,10 +3,72 @@
 .login-container {
   min-height: 100vh;
   display: flex;
+  background: var(--surface-color);
+}
+
+// ---- Panel izquierdo: foto ----
+.panel-ilustracion {
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--espaciado) * 2);
+  overflow: hidden;
+
+  background-image: url('/assets/images/login-auto.jpg');
+  background-size: cover;
+  background-position: center 30%;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--primary-color) 35%, transparent) 0%,
+      color-mix(in srgb, var(--primary-color) 45%, transparent) 50%,
+      color-mix(in srgb, var(--primary-color) 80%, black 20%) 100%
+    );
+  }
+}
+
+.overlay-contenido {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 100%;
+}
+
+.panel-texto {
+  max-width: 380px;
+  text-align: center;
+
+  h1 {
+    margin: 0 0 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.4;
+  }
+}
+
+// ---- Panel derecho: formulario ----
+.panel-form {
+  flex: 1;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--espaciado);
-  background: var(--surface-color);
 }
 
 .form-card {
@@ -15,9 +77,10 @@
 
 .form-icono {
   @include form-icono;
+  background: transparent;
 
   .logo-icon {
-    font-size: 1.5rem;
+    font-size: 3rem;
   }
 }
 
@@ -78,5 +141,16 @@ h2 {
 
   :global(.btn-ingresar) {
     width: 100%;
+  }
+}
+
+// ---- Responsive: el panel de foto se oculta en mobile ----
+@media (max-width: 768px) {
+  .panel-ilustracion {
+    display: none;
+  }
+
+  .panel-form {
+    flex: 1 1 100%;
   }
 }
