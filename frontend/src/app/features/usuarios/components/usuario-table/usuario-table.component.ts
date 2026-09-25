@@ -31,11 +31,14 @@ export class UsuarioTableComponent {
 
   readonly nuevo = output<void>();
   readonly editar = output<UsuarioResponse>();
+  readonly ver = output<UsuarioResponse>();
 
   readonly filtro = signal('');
   readonly mostrarInactivos = signal(false);
   readonly dialogVisible = signal(false);
   readonly usuarioADesactivar = signal<UsuarioResponse | null>(null);
+  readonly dialogReactivarVisible = signal(false);
+  readonly usuarioAReactivar = signal<UsuarioResponse | null>(null);
 
   readonly usuariosFiltrados = computed(() => {
     const texto = this.filtro().toLowerCase().trim();
@@ -74,5 +77,23 @@ export class UsuarioTableComponent {
   cerrarDialog() {
     this.dialogVisible.set(false);
     this.usuarioADesactivar.set(null);
+  }
+
+  abrirConfirmReactivar(usuario: UsuarioResponse) {
+    this.usuarioAReactivar.set(usuario);
+    this.dialogReactivarVisible.set(true);
+  }
+
+  onConfirmadoReactivar() {
+    const usuario = this.usuarioAReactivar();
+    if (!usuario) return;
+    this.usuarioService.reactivar(usuario.id).subscribe({
+      next: () => this.cerrarDialogReactivar(),
+    });
+  }
+
+  cerrarDialogReactivar() {
+    this.dialogReactivarVisible.set(false);
+    this.usuarioAReactivar.set(null);
   }
 }

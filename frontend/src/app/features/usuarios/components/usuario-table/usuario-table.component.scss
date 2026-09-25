@@ -74,11 +74,17 @@
 }
 
 .boton-accion {
+  &.color-ver {
+    @include boton-color-ver;
+  }
   &.color-editar {
     @include boton-color-editar;
   }
   &.color-eliminar {
     @include boton-color-eliminar;
+  }
+  &.color-reactivar {
+    @include boton-color-reactivar;
   }
 }
 
