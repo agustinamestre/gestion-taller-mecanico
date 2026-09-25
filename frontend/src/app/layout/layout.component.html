@@ -4,10 +4,10 @@
     <button class="btn-hamburguesa" type="button" (click)="toggleSidebar()" aria-label="Abrir menú">
       <i class="pi pi-bars"></i>
     </button>
-    <div class="topbar-logo">
-      <span class="logo-icon">⚙️</span>
-      <span class="logo-text">G.E.M.A</span>
-    </div>
+    <button type="button" class="topbar-logo" routerLink="/dashboard" aria-label="Ir al dashboard">
+      <span class="logo-icon">🛞</span>
+      <span class="logo-text">G.M.A</span>
+    </button>
     <div class="search-bar">
       <input type="text" pInputText placeholder="Buscar patente, cliente o DNI..." />
     </div>
@@ -60,7 +60,6 @@
     <aside class="sidebar" [class.abierto]="sidebarAbierto()">
       <nav class="nav-menu">
         <ul>
-          <li><a routerLink="/dashboard" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-home"></i> <span>Dashboard</span></a></li>
           <li><a routerLink="/clientes" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-users"></i> <span>Clientes</span></a></li>
           <li><a routerLink="/vehiculos" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-car"></i> <span>Vehículos</span></a></li>
           <li><a routerLink="/ordenes" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-file-edit"></i> <span>Órdenes de Trabajo</span></a></li>
@@ -83,7 +82,7 @@
   </div>
 
   <footer class="app-footer">
-    <p>© {{ currentYear }} G.E.M.A. Gestión y Mantenimiento Automotriz.</p>
+    <p>© {{ currentYear }} G.M.A. Gestión y Mantenimiento Automotriz.</p>
   </footer>
 
 </div>

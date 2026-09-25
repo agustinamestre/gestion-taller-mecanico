@@ -30,11 +30,18 @@
       display: flex;
       align-items: center;
       gap: 0.5rem;
+      background: none;
+      border: none;
+      padding: 0;
       color: var(--primary-color);
       font-weight: 700;
       white-space: nowrap;
+      cursor: pointer;
 
-      .logo-icon { font-size: 1.4rem; }
+      .logo-icon { font-size: 3rem; line-height: 1; }
+      .logo-text { font-size: 2.5rem; line-height: 1; }
+
+      &:hover { opacity: 0.8; }
     }
 
     .search-bar {
@@ -98,8 +105,8 @@
 
               &:hover, &.active {
                 background-color: var(--bg-color);
-                color: var(--secondary-color);
-                border-right: 4px solid var(--secondary-color);
+                color: var(--primary-color);
+                border-right: 4px solid var(--primary-color);
               }
               i { font-size: 1.25rem; }
             }
