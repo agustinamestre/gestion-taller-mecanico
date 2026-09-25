@@ -1,0 +1,49 @@
+@if (usuario) {
+  <div class="detalle-container">
+
+    <div class="cabecera">
+      <div class="cabecera-titulo">
+        <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver.emit()"></button>
+        <h2>{{ usuario.nombre }} {{ usuario.apellido }}</h2>
+        <span class="etiqueta-estado" [class.activo]="usuario.activo" [class.inactivo]="!usuario.activo">
+          {{ usuario.activo ? 'Activo' : 'Inactivo' }}
+        </span>
+      </div>
+      @if (usuario.activo) {
+        <div class="cabecera-acciones">
+          <p-button
+            label="Editar"
+            icon="pi pi-pencil"
+            (onClick)="editar.emit(usuario)"
+          />
+        </div>
+      }
+    </div>
+
+    <div class="ficha">
+      <div class="ficha-datos">
+        <div class="dato">
+          <span class="label">Usuario</span>
+          <span class="valor">{{ usuario.username }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Rol</span>
+          <span class="valor">{{ formatearRol(usuario.rol) }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Teléfono</span>
+          <span class="valor">{{ usuario.telefono }}</span>
+        </div>
+        <div class="dato">
+          <span class="label">Email</span>
+          <span class="valor">{{ usuario.email ?? '-' }}</span>
+        </div>
+        <div class="dato full">
+          <span class="label">Dirección</span>
+          <span class="valor">{{ usuario.direccion }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+}

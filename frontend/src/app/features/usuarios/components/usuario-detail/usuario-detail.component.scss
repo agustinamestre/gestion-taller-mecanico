@@ -1,0 +1,57 @@
+@use 'etiquetas' as *;
+@use 'detalle' as *;
+@use 'tablas' as *;
+
+.detalle-container {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--espaciado);
+}
+
+.cabecera {
+  @include cabecera-detalle;
+  flex-wrap: wrap;
+}
+
+.cabecera-titulo {
+  @include cabecera-titulo-detalle;
+
+  h2 { margin: 0; color: var(--text-main); }
+}
+
+.cabecera-acciones {
+  @include cabecera-acciones-detalle;
+}
+
+.ficha {
+  @include ficha-card;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ficha-datos {
+  @include ficha-datos-grid;
+}
+
+.dato {
+  @include dato-base;
+  &.full { grid-column: 1 / -1; }
+}
+
+.etiqueta-estado {
+  @include etiqueta-base;
+
+  &.activo { background: var(--fondo-tenue-exito); color: var(--success-color); }
+  &.inactivo { background: var(--fondo-tenue-neutro); color: var(--text-muted); }
+}
+
+@include en-mobile {
+  @include detalle-responsive;
+
+  .dato.full {
+    grid-column: 1;
+  }
+}
