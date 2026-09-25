@@ -84,6 +84,21 @@ export class UsuarioService {
     );
   }
 
+  reactivar(id: number) {
+    this.estadoCarga.set('cargando');
+    this.error.set(null);
+
+    return this.http.patch<void>(`${API_BASE}/${id}/reactivar`, {}).pipe(
+      tap(() => {
+        this.usuarios.update((lista) =>
+          lista.map((u) => (u.id === id ? { ...u, activo: true } : u))
+        );
+        this.estadoCarga.set('exito');
+      }),
+      catchError((err: HttpErrorResponse) => this.manejarError(err))
+    );
+  }
+
   limpiarSeleccion() {
     this.usuarioSeleccionado.set(null);
   }
