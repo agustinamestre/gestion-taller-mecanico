@@ -4,6 +4,13 @@
       <app-usuario-table
         (nuevo)="abrirNuevo()"
         (editar)="editarUsuario($event)"
+        (ver)="verDetalle($event)"
+      />
+    }
+    @case ('detalle') {
+      <app-usuario-detail
+        (editar)="editarUsuario($event)"
+        (volver)="volver()"
       />
     }
     @case ('form-nuevo') {
