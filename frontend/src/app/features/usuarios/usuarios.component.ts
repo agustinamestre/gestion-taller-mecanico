@@ -4,13 +4,14 @@ import { NotificationService } from '../../shared/services/notification.service'
 import { UsuarioResponse } from './models/usuario.model';
 import { UsuarioTableComponent } from './components/usuario-table/usuario-table.component';
 import { UsuarioFormComponent } from './components/usuario-form/usuario-form.component';
+import { UsuarioDetailComponent } from './components/usuario-detail/usuario-detail.component';
 
-export type VistaUsuario = 'tabla' | 'form-nuevo' | 'form-editar';
+export type VistaUsuario = 'tabla' | 'form-nuevo' | 'form-editar' | 'detalle';
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [UsuarioTableComponent, UsuarioFormComponent],
+  imports: [UsuarioTableComponent, UsuarioFormComponent, UsuarioDetailComponent],
   templateUrl: './usuarios.component.html',
   styleUrl: './usuarios.component.scss',
 })
@@ -35,6 +36,11 @@ export class UsuariosComponent implements OnInit {
     this.usuarioService.usuarioSeleccionado.set(usuario);
     this.modoActual = 'form-editar';
     this.vista.set('form-editar');
+  }
+
+  verDetalle(usuario: UsuarioResponse) {
+    this.usuarioService.usuarioSeleccionado.set(usuario);
+    this.vista.set('detalle');
   }
 
   volver() {

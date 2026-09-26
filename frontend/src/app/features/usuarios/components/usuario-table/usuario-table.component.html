@@ -43,7 +43,6 @@
         <th>Nombre</th>
         <th>Apellido</th>
         <th>Teléfono</th>
-        <th>Email</th>
         <th>Rol</th>
         <th>Estado</th>
         <th class="col-acciones">Acciones</th>
@@ -56,7 +55,6 @@
         <td>{{ usuario.nombre }}</td>
         <td>{{ usuario.apellido }}</td>
         <td>{{ usuario.telefono }}</td>
-        <td>{{ usuario.email || '-' }}</td>
         <td>
           <span class="etiqueta-rol" [class]="'rol-' + usuario.rol.toLowerCase()">
             {{ usuario.rol === 'ADMIN' ? 'Admin' : 'Empleado' }}
@@ -69,9 +67,12 @@
         </td>
         <td class="col-acciones">
           <div class="botones-fila">
+            <button pButton icon="pi pi-eye" class="p-button-text p-button-sm boton-accion color-ver" (click)="ver.emit(usuario)" pTooltip="Ver detalle"></button>
             <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm boton-accion color-editar" (click)="editar.emit(usuario)" pTooltip="Editar"></button>
             @if (usuario.activo) {
               <button pButton icon="pi pi-trash" class="p-button-text p-button-sm boton-accion color-eliminar" (click)="abrirConfirmDesactivar(usuario)" pTooltip="Desactivar"></button>
+            } @else {
+              <button pButton icon="pi pi-refresh" class="p-button-text p-button-sm boton-accion color-reactivar" (click)="abrirConfirmReactivar(usuario)" pTooltip="Reactivar"></button>
             }
           </div>
         </td>
@@ -95,4 +96,14 @@
   [cargando]="usuarioService.cargando()"
   (confirmado)="onConfirmado()"
   (cancelado)="cerrarDialog()"
+/>
+
+<app-confirm-dialog
+  [visible]="dialogReactivarVisible()"
+  titulo="Reactivar usuario"
+  [mensaje]="'¿Reactivar a ' + usuarioAReactivar()?.nombre + ' ' + usuarioAReactivar()?.apellido + '? Podrá volver a iniciar sesión.'"
+  labelConfirmar="Reactivar"
+  [cargando]="usuarioService.cargando()"
+  (confirmado)="onConfirmadoReactivar()"
+  (cancelado)="cerrarDialogReactivar()"
 />
