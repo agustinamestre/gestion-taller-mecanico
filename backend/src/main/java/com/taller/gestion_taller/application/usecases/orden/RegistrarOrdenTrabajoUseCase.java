@@ -4,6 +4,7 @@ import com.taller.gestion_taller.application.command.orden.RegistrarOrdenTrabajo
 import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
+import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.EstadoPresupuesto;
 import com.taller.gestion_taller.domain.model.OrdenTrabajo;
 import com.taller.gestion_taller.domain.model.Presupuesto;
@@ -41,6 +42,7 @@ public class RegistrarOrdenTrabajoUseCase implements RegistrarOrdenTrabajo {
 
         validarPresupuestoConvertibleAOrden(presupuesto);
         validarCoherenciaPatente(command.patente(), presupuesto.getVehiculo());
+        validarVehiculoSinOrdenActiva(presupuesto.getVehiculo().getPatente());
 
         OrdenTrabajo orden = OrdenTrabajo.crearNueva(
                 presupuesto.getVehiculo(),
@@ -59,6 +61,8 @@ public class RegistrarOrdenTrabajoUseCase implements RegistrarOrdenTrabajo {
                 .orElseThrow(() -> new NotFoundException(
                         BusinessErrors.vehiculoNoEncontrado(command.patente())));
 
+        validarVehiculoSinOrdenActiva(vehiculo.getPatente());
+
         return OrdenTrabajo.crearNueva(
                 vehiculo,
                 null,
@@ -72,6 +76,15 @@ public class RegistrarOrdenTrabajoUseCase implements RegistrarOrdenTrabajo {
         }
         if (presupuesto.getEstado() != EstadoPresupuesto.APROBADO) {
             throw new BusinessRunTimeException(BusinessErrors.presupuestoDebeEstarAprobado());
+        }
+    }
+
+    private void validarVehiculoSinOrdenActiva(String patente) {
+        boolean tieneOrdenActiva = ordenTrabajoRepository.findByFiltros(patente, null).stream()
+                .anyMatch(orden -> orden.getEstado() != EstadoOrdenTrabajo.ENTREGADO
+                        && orden.getEstado() != EstadoOrdenTrabajo.CANCELADO);
+        if (tieneOrdenActiva) {
+            throw new BusinessRunTimeException(BusinessErrors.vehiculoConOrdenActiva(patente));
         }
     }
 
