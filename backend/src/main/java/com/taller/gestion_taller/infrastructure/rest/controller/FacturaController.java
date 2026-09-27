@@ -42,12 +42,16 @@ public class FacturaController implements SwaggerFacturaController {
     public ResponseEntity<List<FacturaResponse>> consultarFacturas(
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String numeroFactura,
-            @RequestParam(required = false) String clienteDni) {
+            @RequestParam(required = false) String clienteDni,
+            @RequestParam(required = false) String patenteVehiculo,
+            @RequestParam(required = false) Long ordenTrabajoId) {
 
         ConsultarFacturasCommand query = ConsultarFacturasCommand.builder()
                 .id(id)
                 .numeroFactura(numeroFactura)
                 .clienteDni(clienteDni)
+                .patenteVehiculo(patenteVehiculo)
+                .ordenTrabajoId(ordenTrabajoId)
                 .build();
 
         List<FacturaResponse> response = facturaService.consultarFacturas(query)

@@ -13,4 +13,6 @@ public class ConsultarFacturasCommand {
     private Long id;
     private String numeroFactura;
     private String clienteDni;
+    private String patenteVehiculo;
+    private Long ordenTrabajoId;
 }

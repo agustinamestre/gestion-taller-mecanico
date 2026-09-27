@@ -36,7 +36,7 @@ class ConsultarFacturasUseCaseTest {
         Factura factura = Factura.builder().id(1L).numeroFactura("F00000001").build();
 
         when(facturaRepository.findByFiltros(
-                command.getId(), command.getNumeroFactura(), command.getClienteDni()))
+                command.getId(), command.getNumeroFactura(), command.getClienteDni(), command.getPatenteVehiculo() ,command.getOrdenTrabajoId()))
                 .thenReturn(List.of(factura));
 
         List<Factura> resultado = useCase.consultar(command);
@@ -49,7 +49,7 @@ class ConsultarFacturasUseCaseTest {
     void debeRetornarListaVaciaSiNoHayCoincidencias() {
         ConsultarFacturasCommand command = ConsultarFacturasCommand.builder().build();
 
-        when(facturaRepository.findByFiltros(null, null, null))
+        when(facturaRepository.findByFiltros(null, null, null, null, null))
                 .thenReturn(Collections.emptyList());
 
         List<Factura> resultado = useCase.consultar(command);
