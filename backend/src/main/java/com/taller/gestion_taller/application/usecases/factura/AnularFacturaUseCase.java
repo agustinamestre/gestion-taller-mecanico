@@ -3,17 +3,19 @@ package com.taller.gestion_taller.application.usecases.factura;
 import com.taller.gestion_taller.application.command.factura.AnularFacturaCommand;
 import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
+import com.taller.gestion_taller.domain.model.EstadoFactura;
 import com.taller.gestion_taller.domain.model.Factura;
-import com.taller.gestion_taller.domain.model.OrdenTrabajo;
 import com.taller.gestion_taller.domain.repositories.FacturaRepository;
-import com.taller.gestion_taller.domain.repositories.OrdenTrabajoRepository;
+import com.taller.gestion_taller.domain.service.FacturaValidator;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class AnularFacturaUseCase implements AnularFactura {
 
     private final FacturaRepository facturaRepository;
-    private final OrdenTrabajoRepository ordenTrabajoRepository;
+    private final FacturaValidator facturaValidator;
 
     @Override
     public Factura anularFactura(AnularFacturaCommand command) {
@@ -21,13 +23,16 @@ public class AnularFacturaUseCase implements AnularFactura {
                 .orElseThrow(() -> new NotFoundException(
                         BusinessErrors.facturaNoEncontrada(command.getFacturaId())));
 
+        List<Factura> facturasActivasDeLaOrden = facturaRepository
+                .findByFiltros(null, null, null, null, factura.getOrdenTrabajo().getId())
+                .stream()
+                .filter(f -> f.getEstado() == EstadoFactura.EMITIDA)
+                .toList();
+
+        facturaValidator.validarAnulacion(factura, facturasActivasDeLaOrden);
+
         factura.anular(command.getMotivo());
-        Factura anulada = facturaRepository.save(factura);
 
-        OrdenTrabajo orden = factura.getOrdenTrabajo();
-        orden.desmarcarFacturada();
-        ordenTrabajoRepository.save(orden);
-
-        return anulada;
+        return facturaRepository.save(factura);
     }
 }

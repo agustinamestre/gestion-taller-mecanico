@@ -32,8 +32,8 @@ public class FacturaBeanConfiguration {
     }
 
     @Bean
-    public AnularFactura anularFacturaUseCase(FacturaRepository facturaRepository, OrdenTrabajoRepository ordenTrabajoRepository) {
-        return new AnularFacturaUseCase(facturaRepository, ordenTrabajoRepository);
+    public AnularFactura anularFacturaUseCase(FacturaRepository facturaRepository, FacturaValidator facturaValidator) {
+        return new AnularFacturaUseCase(facturaRepository, facturaValidator);
     }
 
     @Bean
