@@ -3,6 +3,7 @@ package com.taller.gestion_taller.infrastructure.persistence.entity;
 import com.taller.gestion_taller.domain.model.EstadoFactura;
 import com.taller.gestion_taller.domain.model.FormaPago;
 import com.taller.gestion_taller.domain.model.TipoComprobante;
+import com.taller.gestion_taller.domain.model.TipoFactura;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -25,8 +27,8 @@ public class FacturaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "orden_trabajo_id", referencedColumnName = "id", unique = true)
+    @ManyToOne
+    @JoinColumn(name = "orden_trabajo_id", referencedColumnName = "id")
     private OrdenTrabajoEntity ordenTrabajo;
 
     @Column(name = "numero_factura", unique = true)
@@ -49,5 +51,12 @@ public class FacturaEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_comprobante", length = 1)
     private TipoComprobante tipoComprobante;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_factura", nullable = false, length = 10)
+    private TipoFactura tipoFactura;
+
+    @Column(name = "monto_facturado", nullable = false, precision = 19, scale = 2)
+    private BigDecimal montoFacturado;
 
 }
