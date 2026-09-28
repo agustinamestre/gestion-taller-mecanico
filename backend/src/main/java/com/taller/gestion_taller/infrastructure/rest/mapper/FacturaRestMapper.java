@@ -1,17 +1,15 @@
 package com.taller.gestion_taller.infrastructure.rest.mapper;
 
-import com.taller.gestion_taller.application.command.factura.ConsultarFacturasCommand;
 import com.taller.gestion_taller.application.command.factura.GenerarFacturaCommand;
 import com.taller.gestion_taller.domain.model.Factura;
 import com.taller.gestion_taller.domain.model.FormaPago;
 import com.taller.gestion_taller.domain.model.OrdenTrabajo;
+import com.taller.gestion_taller.domain.model.TipoFactura;
 import com.taller.gestion_taller.infrastructure.rest.dto.factura.request.GenerarFacturaRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.factura.response.FacturaResponse;
 import com.taller.gestion_taller.infrastructure.rest.dto.factura.response.OrdenTrabajoFacturaResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-
-import java.time.LocalDate;
 
 @Mapper(uses = {OrdenTrabajoRestMapper.class})
 public interface FacturaRestMapper {
@@ -32,11 +30,7 @@ public interface FacturaRestMapper {
         return FormaPago.valueOf(formaPago);
     }
 
-    ConsultarFacturasCommand requestParamsToCommand(
-            Long id,
-            String numeroFactura,
-            String clienteDni,
-            LocalDate fechaDesde,
-            LocalDate fechaHasta
-    );
+    default TipoFactura stringToTipoFactura(String tipoFactura) {
+        return TipoFactura.valueOf(tipoFactura);
+    }
 }
