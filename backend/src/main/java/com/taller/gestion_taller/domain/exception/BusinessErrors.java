@@ -2,7 +2,9 @@ package com.taller.gestion_taller.domain.exception;
 
 import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.EstadoPresupuesto;
+import com.taller.gestion_taller.domain.model.TipoFactura;
 import com.taller.gestion_taller.domain.model.TipoProducto;
+import java.math.BigDecimal;
 import java.text.MessageFormat;
 
 public final class BusinessErrors {
@@ -126,6 +128,14 @@ public final class BusinessErrors {
         );
     }
 
+    public static BusinessError vehiculoConOrdenActiva(String patente) {
+        return new BusinessError(
+                "VEHICULO_CON_ORDEN_ACTIVA",
+                "El vehículo con patente '" + patente + "' ya tiene una orden de trabajo activa. " +
+                        "Debe finalizarla o entregarla antes de crear una nueva."
+        );
+    }
+
     public static BusinessError ordenSinIdentificacionVehiculo() {
         return new BusinessError("ORDEN_SIN_IDENTIFICACION",
                 "Para registrar la orden hace falta indicar un vehículo: enviá la patente o el presupuesto de origen");
@@ -232,10 +242,47 @@ public final class BusinessErrors {
         );
     }
 
-    public static BusinessError ordenYaFacturada(Long id) {
+    public static BusinessError ordenNoFacturableComoSenia(EstadoOrdenTrabajo estado) {
         return new BusinessError(
-                "ORDEN_YA_FACTURADA",
-                "La orden de trabajo con ID " + id + " ya tiene una factura asociada."
+                "ORDEN_NO_FACTURABLE_COMO_SENIA",
+                "Solo se puede facturar una seña cuando la orden esta en estado INGRESADO o EN_REPARACION. Estado actual: " + estado
+        );
+    }
+
+    public static BusinessError ordenYaTieneFacturaDeTipo(Long id, TipoFactura tipoFactura) {
+        return new BusinessError(
+                "ORDEN_YA_TIENE_FACTURA_DE_TIPO",
+                "La orden de trabajo con ID " + id + " ya tiene una factura de tipo " + tipoFactura + " asociada."
+        );
+    }
+
+    public static BusinessError montoFacturaSuperaSaldoPendiente(BigDecimal saldoPendiente) {
+        return new BusinessError(
+                "MONTO_FACTURA_SUPERA_SALDO_PENDIENTE",
+                "El monto de la factura supera el saldo pendiente de la orden. Saldo disponible: " + saldoPendiente
+        );
+    }
+
+    public static BusinessError facturaFinalDebeCubrirSaldoTotal(BigDecimal saldoPendiente) {
+        return new BusinessError(
+                "FACTURA_FINAL_DEBE_CUBRIR_SALDO_TOTAL",
+                "La factura final debe cubrir el saldo pendiente completo de la orden. Saldo pendiente: " + saldoPendiente
+        );
+    }
+
+    public static BusinessError noPuedeAnularSeniaConFinalEmitida(Long ordenId) {
+        return new BusinessError(
+                "NO_PUEDE_ANULAR_SENIA_CON_FINAL_EMITIDA",
+                "No se puede anular la seña de la orden de trabajo con ID " + ordenId
+                        + " porque ya existe una factura final emitida para esa orden."
+        );
+    }
+
+    public static BusinessError noPuedeAnularFacturaDeOrdenEntregada(Long ordenId) {
+        return new BusinessError(
+                "NO_PUEDE_ANULAR_FACTURA_DE_ORDEN_ENTREGADA",
+                "No se puede anular una factura de la orden de trabajo con ID " + ordenId
+                        + " porque ya fue entregada."
         );
     }
 
@@ -315,4 +362,5 @@ public final class BusinessErrors {
                 "La alerta ya fue marcada como contactada."
         );
     }
+
 }
