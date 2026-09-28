@@ -66,6 +66,9 @@
   &.color-eliminar {
     @include boton-color-eliminar;
   }
+  &.color-reactivar {
+    @include boton-color-reactivar;
+  }
 }
 
 .empty-msg {

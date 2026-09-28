@@ -64,6 +64,8 @@
           <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm boton-accion color-editar" (click)="editar.emit(cliente)" pTooltip="Editar"></button>
           @if (cliente.activo) {
             <button pButton icon="pi pi-trash" class="p-button-text p-button-sm boton-accion color-eliminar" (click)="abrirConfirmDesactivar(cliente)" pTooltip="Desactivar"></button>
+          } @else {
+            <button pButton icon="pi pi-refresh" class="p-button-text p-button-sm boton-accion color-reactivar" (click)="abrirConfirmReactivar(cliente)" pTooltip="Reactivar"></button>
           }
         </div>
       </td>
@@ -86,4 +88,14 @@
   [cargando]="clienteService.cargando()"
   (confirmado)="onConfirmado()"
   (cancelado)="cerrarDialog()"
+/>
+
+<app-confirm-dialog
+  [visible]="dialogReactivarVisible()"
+  titulo="Reactivar cliente"
+  [mensaje]="'¿Reactivar a ' + clienteAReactivar()?.nombre + ' ' + clienteAReactivar()?.apellido + '?'"
+  labelConfirmar="Reactivar"
+  [cargando]="clienteService.cargando()"
+  (confirmado)="onConfirmadoReactivar()"
+  (cancelado)="cerrarDialogReactivar()"
 />

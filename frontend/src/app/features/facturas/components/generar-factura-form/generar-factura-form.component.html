@@ -1,0 +1,67 @@
+<div class="form-container">
+  <div class="form-card">
+    <div class="form-icono">
+      <i class="pi pi-receipt"></i>
+    </div>
+    <h2>{{ tituloFormulario() }}</h2>
+
+    <div class="form-completo">
+      <div class="campo">
+        <label for="tipoFactura">Tipo de factura *</label>
+        <p-select
+          id="tipoFactura"
+          [options]="opcionesTipoFactura()"
+          optionLabel="label"
+          optionValue="value"
+          [ngModel]="tipoFactura()"
+          (ngModelChange)="tipoFactura.set($event)"
+          emptyMessage="No se encontraron resultados"
+        />
+      </div>
+
+      <div class="campo">
+        <label for="formaPago">Forma de pago *</label>
+        <p-select
+          id="formaPago"
+          [options]="opcionesFormaPago"
+          optionLabel="label"
+          optionValue="value"
+          [ngModel]="formaPago()"
+          (ngModelChange)="formaPago.set($event)"
+          emptyMessage="No se encontraron resultados"
+        />
+      </div>
+
+      <div class="campo">
+        <label for="monto">Monto *</label>
+        <input
+          id="monto"
+          type="number"
+          min="0"
+          [max]="saldoPendiente()"
+          step="0.01"
+          pInputText
+          [disabled]="tipoFactura() === 'FINAL'"
+          [ngModel]="monto()"
+          (ngModelChange)="monto.set($event)"
+        />
+        <small>Saldo pendiente de la orden: {{ saldoPendiente() | currency }}</small>
+        @if (tipoFactura() === 'FINAL') {
+          <small>* La factura final siempre cubre el saldo pendiente completo.</small>
+        }
+        @if (tipoFactura() === 'SENIA' && monto() >= saldoPendiente() && saldoPendiente() > 0) {
+          <small class="aviso-pago-total">Vas a señar el 100% del saldo por adelantado.</small>
+        }
+      </div>
+
+      <div class="form-footer">
+        <p-button label="Cancelar" severity="secondary" [outlined]="true" [disabled]="facturaService.cargando()" (onClick)="cancelar.emit()" type="button" />
+        <p-button
+          [label]="facturaService.cargando() ? 'Generando...' : labelBotonConfirmar()"
+          [loading]="facturaService.cargando()"
+          (onClick)="confirmar()"
+        />
+      </div>
+    </div>
+  </div>
+</div>

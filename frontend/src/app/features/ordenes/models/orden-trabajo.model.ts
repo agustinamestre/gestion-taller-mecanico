@@ -65,3 +65,11 @@ export const TRANSICIONES_VALIDAS_ORDEN: Record<EstadoOrdenTrabajo, EstadoOrdenT
 };
 
 export const ESTADOS_MODIFICABLES: EstadoOrdenTrabajo[] = ['INGRESADO', 'EN_REPARACION'];
+
+export const ESTADO_ORDEN_LABELS: Record<EstadoOrdenTrabajo, string> = {
+  INGRESADO: 'INGRESADO',
+  EN_REPARACION: 'EN REPARACION',
+  FINALIZADO: 'FINALIZADO',
+  ENTREGADO: 'ENTREGADO',
+  CANCELADO: 'CANCELADO',
+};

@@ -100,6 +100,21 @@ export class ClienteService {
     );
   }
 
+  reactivar(dni: string) {
+    this.estadoCarga.set('cargando');
+    this.error.set(null);
+
+    return this.http.patch<void>(`${API_BASE}/${dni}/reactivar`, {}).pipe(
+      tap(() => {
+        this.clientes.update((lista) =>
+          lista.map((c) => (c.dni === dni ? { ...c, activo: true } : c))
+        );
+        this.estadoCarga.set('exito');
+      }),
+      catchError((err: HttpErrorResponse) => this.manejarError(err))
+    );
+  }
+
   limpiarSeleccion() {
     this.clienteSeleccionado.set(null);
   }

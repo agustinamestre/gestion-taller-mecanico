@@ -1,0 +1,10 @@
+<div class="facturas-container">
+  @switch (vista()) {
+    @case ('listado') {
+      <app-factura-table (verDetalle)="irADetalle($event)" />
+    }
+    @case ('detalle') {
+      <app-factura-detail (volver)="irAListado()" />
+    }
+  }
+</div>

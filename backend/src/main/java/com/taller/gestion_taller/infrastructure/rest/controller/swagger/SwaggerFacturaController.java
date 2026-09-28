@@ -65,6 +65,16 @@ public interface SwaggerFacturaController {
                             name = "clienteDni",
                             description = "DNI del cliente para filtrar todas sus facturas.",
                             example = "12345678"
+                    ),
+                    @Parameter(
+                            name = "patenteVehiculo",
+                            description = "Patente del vehículo para filtrar todas sus facturas.",
+                            example = "AB123CD"
+                    ),
+                    @Parameter(
+                            name = "ordenTrabajoId",
+                            description = "ID de la orden de trabajo para filtrar todas sus facturas (incluye emitidas y anuladas).",
+                            example = "7"
                     )
             },
             responses = {
@@ -80,7 +90,9 @@ public interface SwaggerFacturaController {
     ResponseEntity<List<FacturaResponse>> consultarFacturas(
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String numeroFactura,
-            @RequestParam(required = false) String clienteDni
+            @RequestParam(required = false) String clienteDni,
+            @RequestParam(required = false) String patenteVehiculo,
+            @RequestParam(required = false) Long ordenTrabajoId
     );
 
     @Operation(

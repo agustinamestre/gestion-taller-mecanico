@@ -29,6 +29,7 @@
           optionValue="id"
           placeholder="Seleccioná una marca"
           (ngModelChange)="onMarcaChange($event)"
+          emptyMessage="No se encontraron resultados"
         />
         @if (invalid('marcaId')) {
           <span class="error-msg">Seleccioná una marca</span>
@@ -43,7 +44,7 @@
           optionLabel="nombre"
           optionValue="id"
           placeholder="Seleccioná un modelo"
-          emptyMessage="Esta marca no tiene modelos cargados"
+          emptyMessage="No se encontraron resultados"
         />
         @if (invalid('modeloId')) {
           <span class="error-msg">Seleccioná un modelo</span>

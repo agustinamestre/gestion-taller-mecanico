@@ -21,6 +21,8 @@
     optionValue="value"
     class="select-contactado"
     (onChange)="buscar()"
+    emptyMessage="No se encontraron resultados"
+
   />
   <p-button label="Buscar" icon="pi pi-search" [loading]="alertaService.cargando()" (onClick)="buscar()" />
   @if (tieneFiltrosActivos) {

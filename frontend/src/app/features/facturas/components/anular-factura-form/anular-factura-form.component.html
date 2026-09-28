@@ -1,0 +1,30 @@
+<div class="anular-container">
+  <div class="anular-header">
+    <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="cancelar.emit()"></button>
+    <h2>Anular factura</h2>
+  </div>
+
+  <div class="anular-resumen">
+    <span class="label">Factura</span>
+    <span class="value">{{ numeroFactura() }}</span>
+    <span class="label">Total</span>
+    <span class="value">{{ total() | currency:'ARS':'$' }}</span>
+  </div>
+
+  <div class="campo">
+    <label for="motivo">Motivo de la anulación *</label>
+    <textarea
+      pTextarea
+      id="motivo"
+      rows="4"
+      [ngModel]="motivo()"
+      (ngModelChange)="motivo.set($event)"
+      placeholder="Indicá por qué se anula esta factura..."
+    ></textarea>
+  </div>
+
+  <div class="anular-acciones">
+    <p-button label="Cancelar" severity="secondary" [outlined]="true" [disabled]="facturaService.cargando()" (onClick)="cancelar.emit()" />
+    <p-button label="Anular factura" severity="danger" [loading]="facturaService.cargando()" [disabled]="!motivo().trim()" (onClick)="confirmar()" />
+  </div>
+</div>

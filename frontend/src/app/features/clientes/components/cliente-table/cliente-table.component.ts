@@ -34,6 +34,8 @@ export class ClienteTableComponent {
   readonly ver = output<ClienteResponse>();
   readonly dialogVisible = signal(false);
   readonly clienteADesactivar = signal<ClienteResponse | null>(null);
+  readonly dialogReactivarVisible = signal(false);
+  readonly clienteAReactivar = signal<ClienteResponse | null>(null);
 
   readonly filtro = signal('');
   readonly mostrarInactivos = signal(false);
@@ -76,4 +78,21 @@ export class ClienteTableComponent {
     this.clienteADesactivar.set(null);
   }
 
+  abrirConfirmReactivar(cliente: ClienteResponse) {
+    this.clienteAReactivar.set(cliente);
+    this.dialogReactivarVisible.set(true);
+  }
+
+  onConfirmadoReactivar() {
+    const cliente = this.clienteAReactivar();
+    if (!cliente) return;
+    this.clienteService.reactivar(cliente.dni).subscribe({
+      next: () => this.cerrarDialogReactivar(),
+    });
+  }
+
+  cerrarDialogReactivar() {
+    this.dialogReactivarVisible.set(false);
+    this.clienteAReactivar.set(null);
+  }
 }
