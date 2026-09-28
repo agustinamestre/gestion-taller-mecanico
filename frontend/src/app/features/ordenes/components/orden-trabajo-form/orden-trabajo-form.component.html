@@ -53,7 +53,8 @@
         <label>Responsable</label>
         <p-select [options]="usuarioService.usuariosActivos()" optionLabel="nombre" optionValue="id"
           [ngModel]="usuarioCreacionId()" (ngModelChange)="usuarioCreacionId.set($event)"
-          placeholder="Seleccionar usuario"></p-select>
+          emptyMessage="No se encontraron resultados"
+          placeholder="Seleccionar usuario" ></p-select>
       </div>
 
       <div class="form-footer">
