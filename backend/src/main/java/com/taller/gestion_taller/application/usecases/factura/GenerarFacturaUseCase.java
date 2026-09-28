@@ -12,6 +12,8 @@ import com.taller.gestion_taller.domain.repositories.OrdenTrabajoRepository;
 import com.taller.gestion_taller.domain.service.FacturaValidator;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 
 @RequiredArgsConstructor
 public class GenerarFacturaUseCase implements GenerarFactura {
@@ -32,16 +34,14 @@ public class GenerarFacturaUseCase implements GenerarFactura {
                 .orElseThrow(() -> new NotFoundException(
                         BusinessErrors.ordenNoEncontrada(command.getOrdenTrabajoId())));
 
-        facturaValidator.validarOrdenParaFacturacion(orden);
+        List<Factura> facturasActivas = facturaRepository.findActivasByOrdenTrabajoId(orden.getId());
+        facturaValidator.validarNuevaFactura(orden, command.getTipoFactura(), command.getMonto(), facturasActivas);
 
         String numeroFactura = String.format(FORMATO_NUMERO_FACTURA, contadorFacturaRepository.siguienteNumero());
-        Factura factura = Factura.crearNueva(orden, command.getFormaPago(), numeroFactura, TIPO_COMPROBANTE);
-        Factura guardada = facturaRepository.save(factura);
+        Factura factura = Factura.crearNueva(orden, command.getFormaPago(), numeroFactura, TIPO_COMPROBANTE,
+                command.getTipoFactura(), command.getMonto());
 
-        orden.marcarComoFacturada();
-        ordenTrabajoRepository.save(orden);
-
-        return guardada;
+        return facturaRepository.save(factura);
     }
 
 }
