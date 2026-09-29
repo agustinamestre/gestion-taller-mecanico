@@ -50,6 +50,8 @@ export class FacturaService {
     if (filtros?.clienteDni) params = params.set('clienteDni', filtros.clienteDni);
     if (filtros?.patenteVehiculo) params = params.set('patenteVehiculo', filtros.patenteVehiculo);
     if (filtros?.ordenTrabajoId != null) params = params.set('ordenTrabajoId', filtros.ordenTrabajoId);
+    if (filtros?.desde) params = params.set('desde', filtros.desde);
+    if (filtros?.hasta) params = params.set('hasta', filtros.hasta);
 
     return this.http.get<FacturaResponse[]>(API_BASE, { params }).pipe(
       tap((facturas) => {
