@@ -47,13 +47,20 @@ export class ClienteTableComponent {
       : this.clienteService.clientesActivos();
 
     if (!texto) return base;
-    return base.filter(
-      (c) =>
+
+    return base.filter((c) => {
+      const nombreCompleto = `${c.nombre} ${c.apellido}`.toLowerCase();
+      const apellidoNombre = `${c.apellido} ${c.nombre}`.toLowerCase();
+
+      return (
         c.dni.includes(texto) ||
         c.nombre.toLowerCase().includes(texto) ||
         c.apellido.toLowerCase().includes(texto) ||
-        c.email.toLowerCase().includes(texto)
-    );
+        c.email.toLowerCase().includes(texto) ||
+        nombreCompleto.includes(texto) ||
+        apellidoNombre.includes(texto)
+      );
+    });
   });
 
   volver() {
