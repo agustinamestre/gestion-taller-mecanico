@@ -3,7 +3,7 @@
     <div class="form-icono">
       <i class="pi pi-phone"></i>
     </div>
-    <h2>Marcar como contactado</h2>
+    <h2>Contactar</h2>
     @if (alertaService.alertaSeleccionada(); as alerta) {
       <p class="form-hint">Vehículo <strong>{{ alerta.patenteVehiculo }}</strong> — {{ alerta.nombreCliente }}</p>
     }
@@ -44,7 +44,7 @@
           type="button"
         />
         <p-button
-          [label]="alertaService.cargando() ? 'Guardando...' : 'Confirmar'"
+          [label]="alertaService.cargando() ? 'Contactando...' : 'Confirmar'"
           [loading]="alertaService.cargando()"
           (onClick)="confirmar()"
           type="button"
