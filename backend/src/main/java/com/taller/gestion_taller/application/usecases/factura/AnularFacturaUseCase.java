@@ -24,7 +24,7 @@ public class AnularFacturaUseCase implements AnularFactura {
                         BusinessErrors.facturaNoEncontrada(command.getFacturaId())));
 
         List<Factura> facturasActivasDeLaOrden = facturaRepository
-                .findByFiltros(null, null, null, null, factura.getOrdenTrabajo().getId())
+                .findByFiltros(null, null, null, null, factura.getOrdenTrabajo().getId(), null, null)
                 .stream()
                 .filter(f -> f.getEstado() == EstadoFactura.EMITIDA)
                 .toList();

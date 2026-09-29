@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Getter
 @Builder
 @AllArgsConstructor
@@ -15,4 +17,6 @@ public class ConsultarFacturasCommand {
     private String clienteDni;
     private String patenteVehiculo;
     private Long ordenTrabajoId;
+    private LocalDate desde;
+    private LocalDate hasta;
 }

@@ -19,7 +19,9 @@ public class ConsultarFacturasUseCase implements ConsultarFacturas {
                 command.getNumeroFactura(),
                 command.getClienteDni(),
                 command.getPatenteVehiculo(),
-                command.getOrdenTrabajoId()
+                command.getOrdenTrabajoId(),
+                command.getDesde(),
+                command.getHasta()
         );
     }
 }

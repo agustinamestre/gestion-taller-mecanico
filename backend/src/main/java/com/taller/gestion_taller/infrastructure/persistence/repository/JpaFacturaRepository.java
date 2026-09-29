@@ -49,8 +49,8 @@ public interface JpaFacturaRepository extends JpaRepository<FacturaEntity, Long>
     AND (:clienteDni IS NULL OR c.dni = :clienteDni)
     AND (:patenteVehiculo IS NULL OR v.patente = :patenteVehiculo)
     AND (:ordenTrabajoId IS NULL OR ot.id = :ordenTrabajoId)
-    AND (CAST(:desde AS date) IS NULL OR f.fechaEmision >= CAST(:desde AS date))
-    AND (CAST(:hasta AS date) IS NULL OR f.fechaEmision <= CAST(:hasta AS date))
+    AND f.fechaEmision >= COALESCE(:desde, f.fechaEmision)
+    AND f.fechaEmision <= COALESCE(:hasta, f.fechaEmision)
 """)
     List<FacturaEntity> findByFiltros(
             @Param("id") Long id,
