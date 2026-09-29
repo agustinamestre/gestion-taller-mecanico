@@ -1,4 +1,4 @@
-import { Component, effect, inject, output, signal } from '@angular/core';
+import { Component, computed, effect, inject, output, signal } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
@@ -10,6 +10,16 @@ import { FormaPago, FORMA_PAGO_LABELS } from '../../models/factura.model';
 import { AnularFacturaFormComponent } from '../anular-factura-form/anular-factura-form.component';
 
 type Vista = 'detalle' | 'anular-form';
+
+interface ItemFacturaUnificado {
+  id: number;
+  descripcion: string;
+  tipo: string;
+  cantidad: number;
+  precioUnitario: number;
+  subtotal: number;
+  origen: 'presupuesto' | 'orden';
+}
 
 @Component({
   selector: 'app-factura-detail',
@@ -71,6 +81,25 @@ export class FacturaDetailComponent {
   formatearFormaPago(formaPago: FormaPago): string {
     return FORMA_PAGO_LABELS[formaPago];
   }
+
+  readonly itemsUnificados = computed<ItemFacturaUnificado[]>(() => {
+    const orden = this.factura?.ordenTrabajo;
+    if (!orden) return [];
+
+    const deLosPresupuesto: ItemFacturaUnificado[] = (orden.itemsPresupuesto ?? []).map(item => ({
+      id: item.id, descripcion: item.descripcion, tipo: item.tipo,
+      cantidad: item.cantidad, precioUnitario: item.precioUnitario, subtotal: item.subtotal,
+      origen: 'presupuesto',
+    }));
+
+    const deLaOrden: ItemFacturaUnificado[] = (orden.itemsOrden ?? []).map(item => ({
+      id: item.id, descripcion: item.descripcion, tipo: item.tipo,
+      cantidad: item.cantidad, precioUnitario: item.precioUnitario, subtotal: item.subtotal,
+      origen: 'orden',
+    }));
+
+    return [...deLosPresupuesto, ...deLaOrden];
+  });
 
   private chequearFinalEmitida(ordenTrabajoId: number) {
     this.facturaService.obtenerActivasPorOrden(ordenTrabajoId).subscribe({

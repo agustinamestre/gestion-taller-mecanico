@@ -1,4 +1,5 @@
 import { ItemOrdenTrabajoResponse } from "../../ordenes/models/orden-trabajo.model";
+import { ItemPresupuestoResponse } from "../../presupuestos/models/presupuesto.model";
 
 export type FormaPago = 'EFECTIVO' | 'TRANSFERENCIA_BANCARIA';
 
@@ -20,6 +21,7 @@ export interface OrdenTrabajoFacturaResponse {
   fechaEgreso: string | null;
   descripcionProblema: string;
   estado: string;
+  itemsPresupuesto: ItemPresupuestoResponse[];
   itemsOrden: ItemOrdenTrabajoResponse[];
   total: number;
 }
@@ -56,4 +58,6 @@ export interface ConsultarFacturasFiltros {
   clienteDni?: string;
   patenteVehiculo?: string;
   ordenTrabajoId?: number;
+  desde?: string;
+  hasta?: string;
 }

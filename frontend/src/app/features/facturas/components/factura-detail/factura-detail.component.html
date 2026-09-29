@@ -30,7 +30,7 @@
         </div>
 
         <h3>Ítems facturados</h3>
-        <p-table [value]="f.ordenTrabajo.itemsOrden" dataKey="id" styleClass="tabla-items">
+        <p-table [value]="itemsUnificados()" dataKey="id" styleClass="tabla-items">
           <ng-template pTemplate="header">
             <tr>
               <th>Descripción</th>
