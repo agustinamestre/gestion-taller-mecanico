@@ -1,0 +1,48 @@
+<div class="dashboard-container">
+  <div class="dashboard-header">
+    <h2>{{ saludo() }}</h2>
+    <p>Así está la actividad del taller hoy.</p>
+  </div>
+
+  @if (dashboardService.cargando()) {
+    <p class="cargando">Cargando resumen...</p>
+  } @else if (dashboardService.resumen(); as resumen) {
+    <div class="tarjetas">
+      <a class="tarjeta" [class.tarjeta-info]="resumen.ordenesEnCurso > 0" routerLink="/ordenes" [queryParams]="{ estado: ['INGRESADO', 'EN_REPARACION'] }">
+        <i class="pi pi-file-edit icono"></i>
+        <span class="valor">{{ resumen.ordenesEnCurso }}</span>
+        <span class="etiqueta">Órdenes en curso</span>
+      </a>
+
+      <a class="tarjeta" [class.tarjeta-success]="resumen.ordenesListasParaEntregar > 0" routerLink="/ordenes" [queryParams]="{ estado: 'FINALIZADO' }">
+        <i class="pi pi-check-circle icono"></i>
+        <span class="valor">{{ resumen.ordenesListasParaEntregar }}</span>
+        <span class="etiqueta">Listas para entregar</span>
+      </a>
+
+      <a class="tarjeta" [class.tarjeta-warning]="resumen.presupuestosPendientes > 0" routerLink="/presupuestos" [queryParams]="{ estado: 'PENDIENTE' }">
+        <i class="pi pi-clock icono"></i>
+        <span class="valor">{{ resumen.presupuestosPendientes }}</span>
+        <span class="etiqueta">Presupuestos pendientes de respuesta</span>
+      </a>
+
+      <a class="tarjeta" [class.tarjeta-warning]="resumen.presupuestosAprobadosSinOrden > 0" routerLink="/presupuestos" [queryParams]="{ estado: 'APROBADO' }">
+        <i class="pi pi-thumbs-up icono"></i>
+        <span class="valor">{{ resumen.presupuestosAprobadosSinOrden }}</span>
+        <span class="etiqueta">Presupuestos aprobados sin orden</span>
+      </a>
+
+      <a class="tarjeta" [class.tarjeta-error]="resumen.alertasPendientes > 0" routerLink="/alertas">
+        <i class="pi pi-bell icono"></i>
+        <span class="valor">{{ resumen.alertasPendientes }}</span>
+        <span class="etiqueta">Alertas sin contactar</span>
+      </a>
+
+      <a class="tarjeta" routerLink="/facturas" [queryParams]="{ desde: primerDiaDelMes, hasta: hoy }">
+        <i class="pi pi-receipt icono"></i>
+        <span class="valor">{{ resumen.montoFacturadoUltimoMes | currency:'ARS':'$' }}</span>
+        <span class="etiqueta">Facturado en el último mes</span>
+      </a>
+    </div>
+  }
+</div>
