@@ -7,16 +7,21 @@
         <div class="detail-header">
           <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver.emit()"></button>
           <h2>{{ o.patenteVehiculo }}</h2>
-          <span class="etiqueta-estado" [class]="'estado-' + o.estado.toLowerCase()">{{ o.estado }}</span>
+          <span class="etiqueta-estado" [class]="'estado-' + o.estado.toLowerCase()">{{ formatearEstado(o.estado) }}</span>
+          @if (tieneSeniaActiva() && !o.facturada) {
+            <span class="etiqueta-seniada">Señado</span>
+          }
           @if (o.facturada) {
             <span class="etiqueta-facturada">Facturada</span>
           }
           @if (esFacturable) {
-            <p-button label="Facturar" icon="pi pi-receipt" size="small" (onClick)="abrirGenerarFactura()" />
+            <p-button [label]="labelBotonFacturar" icon="pi pi-receipt" size="small" (onClick)="abrirGenerarFactura()" />
           }
         </div>
 
         <div class="info-grid">
+          <div><span class="label">Cliente</span><span class="value">{{ o.nombreCliente }} {{ o.apellidoCliente }}</span></div>
+          <div><span class="label">Teléfono</span><span class="value">{{ o.telefonoCliente }}</span></div>
           <div><span class="label">Fecha ingreso</span><span class="value">{{ o.fechaIngreso | date:'dd/MM/yyyy' }}</span></div>
           <div><span class="label">Fecha egreso</span><span class="value">{{ o.fechaEgreso ? (o.fechaEgreso | date:'dd/MM/yyyy') : '—' }}</span></div>
           <div><span class="label">Total</span><span class="value total">{{ o.total | currency:'ARS':'$' }}</span></div>
@@ -96,6 +101,9 @@
     @case ('generar-factura') {
       <app-generar-factura-form
         [ordenTrabajoId]="o.id"
+        [saldoPendiente]="saldoPendiente()"
+        [puedeFacturarSenia]="puedeFacturarSenia"
+        [puedeFacturarFinal]="puedeFacturarFinal"
         (generada)="onFacturaGenerada()"
         (cancelar)="cancelarGenerarFactura()"
       />

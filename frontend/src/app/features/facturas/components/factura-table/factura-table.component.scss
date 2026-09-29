@@ -1,0 +1,48 @@
+@use 'tablas' as *;
+@use 'etiquetas' as *;
+
+.cabecera {
+  @include cabecera-listado;
+}
+
+.header-titulo {
+  @include header-titulo-listado;
+}
+
+.filtros {
+  @include filtros-listado;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.buscador-input {
+  @include input-buscador;
+}
+
+.tabla-scroll {
+  @include tabla-scroll-horizontal;
+}
+
+.etiqueta-estado {
+  @include etiqueta-base;
+
+  &.estado-emitida { background: var(--fondo-tenue-exito); color: var(--success-color); }
+  &.estado-anulada { background: var(--fondo-tenue-error); color: var(--error-color); }
+}
+
+.etiqueta-tipo-factura {
+  @include etiqueta-base;
+
+  &.tipo-senia { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
+  &.tipo-final { background: var(--fondo-tenue-primario); color: var(--primary-color); }
+}
+
+.sin-resultados {
+  text-align: center;
+  color: var(--text-muted);
+  padding: var(--espaciado);
+}
+
+@include en-mobile {
+  @include listado-responsive;
+}

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +23,7 @@ public class OrdenTrabajoService {
     private final AgregarItemOrdenTrabajo agregarItemOrdenTrabajoUseCase;
     private final ModificarItemOrdenTrabajo modificarItemOrdenTrabajoUseCase;
     private final EliminarItemOrdenTrabajo eliminarItemOrdenTrabajoUseCase;
+    private final VerificarFacturacionOrden verificarFacturacionOrdenUseCase;
 
     @Transactional
     public OrdenTrabajo registrarOrden(RegistrarOrdenTrabajoCommand command) {
@@ -29,8 +31,8 @@ public class OrdenTrabajoService {
     }
 
     @Transactional(readOnly = true)
-    public List<OrdenTrabajo> obtenerOrdenes(String patente, EstadoOrdenTrabajo estado) {
-        return obtenerOrdenesUseCase.obtener(patente, estado);
+    public List<OrdenTrabajo> obtenerOrdenes(String patente, List<EstadoOrdenTrabajo> estados) {
+        return obtenerOrdenesUseCase.obtener(patente, estados);
     }
 
     @Transactional(readOnly = true)
@@ -61,5 +63,15 @@ public class OrdenTrabajoService {
     @Transactional
     public void eliminarItem(EliminarItemOrdenTrabajoCommand command) {
         eliminarItemOrdenTrabajoUseCase.eliminar(command);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean estaTotalmenteFacturada(OrdenTrabajo orden) {
+        return verificarFacturacionOrdenUseCase.estaTotalmenteFacturada(orden);
+    }
+
+    @Transactional(readOnly = true)
+    public Map<Long, Boolean> estanTotalmenteFacturadas(List<OrdenTrabajo> ordenes) {
+        return verificarFacturacionOrdenUseCase.estanTotalmenteFacturadas(ordenes);
     }
 }

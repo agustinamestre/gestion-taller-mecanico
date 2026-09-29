@@ -21,28 +21,13 @@
 .etiqueta-estado {
   @include etiqueta-base;
 
-  &.estado-ingresado { background: var(--fondo-tenue-primario); color: var(--primary-color); }
-  &.estado-en_reparacion { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
-  &.estado-finalizado { background: var(--fondo-tenue-exito); color: var(--success-color); }
-  &.estado-entregado { background: var(--fondo-tenue-neutro); color: var(--text-muted); }
-  &.estado-cancelado { background: var(--fondo-tenue-error); color: var(--error-color); }
-}
-
-.etiqueta-facturada {
-  @include etiqueta-base;
-  background: var(--fondo-tenue-primario);
-  color: var(--primary-color);
-}
-
-.etiqueta-seniada {
-  @include etiqueta-base;
-  background: var(--fondo-tenue-advertencia);
-  color: var(--warning-color);
+  &.estado-emitida { background: var(--fondo-tenue-exito); color: var(--success-color); }
+  &.estado-anulada { background: var(--fondo-tenue-error); color: var(--error-color); }
 }
 
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   background: var(--bg-color);
   border-radius: var(--radius);
@@ -54,35 +39,15 @@
   .total { color: var(--primary-color); font-size: 1.1rem; }
 }
 
-.descripcion-problema {
+.motivo-anulacion,
+.orden-info {
   margin-bottom: 1.5rem;
 
   .label { display: block; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem; }
   p { margin: 0; color: var(--text-main); }
-  textarea { width: 100%; margin-top: 0.35rem; }
 }
 
-.descripcion-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.descripcion-acciones {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.items-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 1.5rem 0 0.75rem 0;
-
-  h3 { margin: 0; color: var(--text-main); }
-}
+h3 { color: var(--text-main); margin: 1.5rem 0 0.75rem 0; }
 
 .etiqueta-tipo {
   @include etiqueta-base;
@@ -91,23 +56,27 @@
   &.tipo-mano_de_obra { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
 }
 
-.botones-fila {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.color-eliminar {
-  color: var(--error-color) !important;
-}
-
 .empty-msg {
   text-align: center;
   color: var(--text-muted);
   padding: 1.5rem;
 }
 
+.detail-acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
 @media (max-width: 600px) {
   .info-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
   }
 }

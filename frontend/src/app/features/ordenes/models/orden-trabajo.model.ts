@@ -25,8 +25,10 @@ export interface OrdenTrabajoResponse {
   itemsOrden: ItemOrdenTrabajoResponse[];
   total: number;
   facturada: boolean;
+  nombreCliente: string;
+  apellidoCliente: string;
+  telefonoCliente: string;
 }
-
 export interface RegistrarOrdenTrabajoRequest {
   patente?: string;
   presupuestoId?: number;

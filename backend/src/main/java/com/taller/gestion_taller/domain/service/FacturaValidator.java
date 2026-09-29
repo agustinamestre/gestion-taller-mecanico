@@ -2,26 +2,77 @@ package com.taller.gestion_taller.domain.service;
 
 import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
-import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
-import com.taller.gestion_taller.domain.model.OrdenTrabajo;
-import com.taller.gestion_taller.domain.repositories.FacturaRepository;
-import lombok.RequiredArgsConstructor;
+import com.taller.gestion_taller.domain.model.*;
 
-@RequiredArgsConstructor
+import java.math.BigDecimal;
+import java.util.List;
+
 public class FacturaValidator {
 
-    private final FacturaRepository facturaRepository;
+    public void validarNuevaFactura(OrdenTrabajo orden, TipoFactura tipoFactura, BigDecimal monto,
+                                     List<Factura> facturasActivasDeLaOrden) {
+        validarEstadoSegunTipo(orden, tipoFactura);
+        validarNoDuplicarTipo(orden, tipoFactura, facturasActivasDeLaOrden);
+        validarNoSuperarTotal(orden, monto, facturasActivasDeLaOrden);
+        validarFinalCubreSaldoTotal(tipoFactura, orden, monto, facturasActivasDeLaOrden);
+    }
 
-    public void validarOrdenParaFacturacion(OrdenTrabajo orden) {
-        if (orden.getEstado() != EstadoOrdenTrabajo.FINALIZADO
-                && orden.getEstado() != EstadoOrdenTrabajo.ENTREGADO) {
+    private void validarEstadoSegunTipo(OrdenTrabajo orden, TipoFactura tipoFactura) {
+        if (tipoFactura == TipoFactura.SENIA) {
+            if (orden.getEstado() != EstadoOrdenTrabajo.INGRESADO && orden.getEstado() != EstadoOrdenTrabajo.EN_REPARACION) {
+                throw new BusinessRunTimeException(BusinessErrors.ordenNoFacturableComoSenia(orden.getEstado()));
+            }
+        } else {
+            if (orden.getEstado() != EstadoOrdenTrabajo.FINALIZADO && orden.getEstado() != EstadoOrdenTrabajo.ENTREGADO) {
+                throw new BusinessRunTimeException(BusinessErrors.ordenNoFacturable(orden.getEstado()));
+            }
+        }
+    }
+
+    private void validarNoDuplicarTipo(OrdenTrabajo orden, TipoFactura tipoFactura, List<Factura> facturasActivasDeLaOrden) {
+        boolean yaExiste = facturasActivasDeLaOrden.stream()
+                .anyMatch(factura -> factura.getTipoFactura() == tipoFactura);
+        if (yaExiste) {
+            throw new BusinessRunTimeException(BusinessErrors.ordenYaTieneFacturaDeTipo(orden.getId(), tipoFactura));
+        }
+    }
+
+    private void validarNoSuperarTotal(OrdenTrabajo orden, BigDecimal monto, List<Factura> facturasActivasDeLaOrden) {
+        BigDecimal totalOrden = orden.calcularTotal();
+        BigDecimal montoFacturadoActual = Factura.sumarMontoFacturado(facturasActivasDeLaOrden);
+        BigDecimal saldoPendiente = totalOrden.subtract(montoFacturadoActual);
+        if (monto.compareTo(saldoPendiente) > 0) {
+            throw new BusinessRunTimeException(BusinessErrors.montoFacturaSuperaSaldoPendiente(saldoPendiente));
+        }
+    }
+
+    private void validarFinalCubreSaldoTotal(TipoFactura tipoFactura, OrdenTrabajo orden, BigDecimal monto,
+                                              List<Factura> facturasActivasDeLaOrden) {
+        if (tipoFactura != TipoFactura.FINAL) {
+            return;
+        }
+        BigDecimal totalOrden = orden.calcularTotal();
+        BigDecimal montoFacturadoActual = Factura.sumarMontoFacturado(facturasActivasDeLaOrden);
+        BigDecimal saldoPendiente = totalOrden.subtract(montoFacturadoActual);
+        if (monto.compareTo(saldoPendiente) < 0) {
+            throw new BusinessRunTimeException(BusinessErrors.facturaFinalDebeCubrirSaldoTotal(saldoPendiente));
+        }
+    }
+
+    public void validarAnulacion(Factura factura, List<Factura> facturasActivasDeLaOrden) {
+        if (factura.getOrdenTrabajo().getEstado() == EstadoOrdenTrabajo.ENTREGADO) {
             throw new BusinessRunTimeException(
-                    BusinessErrors.ordenNoFacturable(orden.getEstado()));
+                    BusinessErrors.noPuedeAnularFacturaDeOrdenEntregada(factura.getOrdenTrabajo().getId()));
         }
 
-        facturaRepository.findByOrdenTrabajoId(orden.getId()).ifPresent(f -> {
-            throw new BusinessRunTimeException(
-                    BusinessErrors.ordenYaFacturada(orden.getId()));
-        });
+        if (factura.getTipoFactura() == TipoFactura.SENIA) {
+            boolean tieneFinalEmitida = facturasActivasDeLaOrden.stream()
+                    .anyMatch(f -> f.getTipoFactura() == TipoFactura.FINAL
+                            && f.getEstado() == EstadoFactura.EMITIDA);
+            if (tieneFinalEmitida) {
+                throw new BusinessRunTimeException(
+                        BusinessErrors.noPuedeAnularSeniaConFinalEmitida(factura.getOrdenTrabajo().getId()));
+            }
+        }
     }
 }

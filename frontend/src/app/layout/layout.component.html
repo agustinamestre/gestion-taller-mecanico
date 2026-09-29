@@ -65,7 +65,27 @@
           <li><a routerLink="/facturas" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-receipt"></i> <span>Facturas</span></a></li>
           <li><a routerLink="/alertas" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-exclamation-triangle"></i> <span>Alertas de Service</span></a></li>
           <li *ngIf="esAdmin"><a routerLink="/usuarios" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-users"></i> <span>Usuarios</span></a></li>
-          <li><a routerLink="/configuracion" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-cog"></i> <span>Configuración</span></a></li>
+
+          <li routerLinkActive #configRla="routerLinkActive" (isActiveChange)="onConfigActivo($event)">
+            <button
+              type="button"
+              class="grupo-toggle"
+              [class.con-activo]="configRla.isActive"
+              [attr.aria-expanded]="configAbierto()"
+              aria-controls="submenu-config"
+              (click)="toggleConfig()"
+            >
+              <i class="pi pi-tags"></i>
+              <span>Marcas y Modelos</span>
+              <i class="pi pi-chevron-down chevron" [class.rotado]="configAbierto()"></i>
+            </button>
+            <div id="submenu-config" class="submenu" [class.abierto]="configAbierto()">
+              <ul>
+                <li><a routerLink="/marcas" routerLinkActive="active" (click)="cerrarSidebar()"><span>Marcas</span></a></li>
+                <li><a routerLink="/modelos" routerLinkActive="active" (click)="cerrarSidebar()"><span>Modelos</span></a></li>
+              </ul>
+            </div>
+          </li>
         </ul>
       </nav>
     </aside>

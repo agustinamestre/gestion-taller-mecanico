@@ -35,6 +35,7 @@ export class LayoutComponent {
 
   readonly currentYear = new Date().getFullYear();
   readonly sidebarAbierto = signal(false);
+  readonly configAbierto = signal(false);
   readonly usuario = this.authService.usuario;
 
   constructor() {
@@ -78,5 +79,13 @@ export class LayoutComponent {
 
   cerrarSidebar(): void {
     this.sidebarAbierto.set(false);
+  }
+
+  toggleConfig(): void {
+    this.configAbierto.update(abierto => !abierto);
+  }
+
+  onConfigActivo(activo: boolean): void {
+    if (activo) this.configAbierto.set(true);
   }
 }

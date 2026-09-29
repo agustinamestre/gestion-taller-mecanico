@@ -1,14 +1,15 @@
-import { Component, computed, inject, output, signal } from '@angular/core';
+import { Component, computed, effect, inject, output, signal } from '@angular/core';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TextareaModule } from 'primeng/textarea';
 import { OrdenTrabajoService } from '../../services/orden-trabajo.service';
-import { ItemOrdenTrabajoResponse, ESTADOS_MODIFICABLES } from '../../models/orden-trabajo.model';
+import { ItemOrdenTrabajoResponse, ESTADOS_MODIFICABLES, ESTADO_ORDEN_LABELS, EstadoOrdenTrabajo } from '../../models/orden-trabajo.model';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
 import { ItemFormComponent, ItemFormResultado } from '../../../../shared/components/item-form/item-form.component';
 import { GenerarFacturaFormComponent } from '../../../facturas/components/generar-factura-form/generar-factura-form.component';
+import { FacturaService } from '../../../facturas/services/factura.service';
 
 type Vista = 'detalle' | 'item-form' | 'generar-factura';
 type OrigenItem = 'presupuesto' | 'orden';
@@ -36,15 +37,40 @@ interface ItemUnificado {
 })
 export class OrdenTrabajoDetailComponent {
   readonly ordenTrabajoService = inject(OrdenTrabajoService);
+  private readonly facturaService = inject(FacturaService);
 
   readonly volver = output<void>();
   readonly vista = signal<Vista>('detalle');
+  readonly saldoPendiente = signal<number>(0);
 
   readonly mostrarConfirmEliminar = signal(false);
   readonly itemAEliminar = signal<ItemOrdenTrabajoResponse | null>(null);
 
   readonly editandoDescripcion = signal(false);
   readonly descripcionEditada = signal('');
+  readonly tieneSeniaActiva = signal(false);
+
+  constructor() {
+    effect(() => {
+      const id = this.orden?.id;
+      if (id) {
+        this.cargarEstadoSenia(id);
+      } else {
+        this.tieneSeniaActiva.set(false);
+      }
+    });
+  }
+
+  private cargarEstadoSenia(ordenId: number) {
+    this.facturaService.obtenerActivasPorOrden(ordenId).subscribe({
+      next: (facturas) => {
+        const haySeniaEmitida = facturas.some(
+          (f) => f.estado === 'EMITIDA' && f.tipoFactura === 'SENIA'
+        );
+        this.tieneSeniaActiva.set(haySeniaEmitida);
+      },
+    });
+  }
 
   get orden() {
     return this.ordenTrabajoService.seleccionado();
@@ -55,10 +81,26 @@ export class OrdenTrabajoDetailComponent {
     return !!estado && ESTADOS_MODIFICABLES.includes(estado);
   }
 
+  get puedeFacturarSenia(): boolean {
+    const estado = this.orden?.estado;
+    return (estado === 'INGRESADO' || estado === 'EN_REPARACION') && !this.tieneSeniaActiva();
+  }
+
+  get puedeFacturarFinal(): boolean {
+    const estado = this.orden?.estado;
+    return (estado === 'FINALIZADO' || estado === 'ENTREGADO') && !this.orden?.facturada;
+  }
+
   get esFacturable(): boolean {
-    const orden = this.orden;
-    if (!orden) return false;
-    return (orden.estado === 'FINALIZADO' || orden.estado === 'ENTREGADO') && !orden.facturada;
+    return this.puedeFacturarSenia || this.puedeFacturarFinal;
+  }
+
+  get labelBotonFacturar(): string {
+    return this.puedeFacturarSenia && !this.puedeFacturarFinal ? 'Señar' : 'Facturar';
+  }
+
+  formatearEstado(estado: EstadoOrdenTrabajo): string {
+    return ESTADO_ORDEN_LABELS[estado];
   }
 
   readonly itemsUnificados = computed<ItemUnificado[]>(() => {
@@ -167,6 +209,19 @@ export class OrdenTrabajoDetailComponent {
   }
 
   abrirGenerarFactura() {
+    const orden = this.orden;
+    if (!orden) return;
+
+    this.saldoPendiente.set(orden.total);
+    this.facturaService.obtenerActivasPorOrden(orden.id).subscribe({
+      next: (facturas) => {
+        const facturado = facturas
+          .filter((f) => f.estado === 'EMITIDA')
+          .reduce((acc, f) => acc + f.montoFacturado, 0);
+        this.saldoPendiente.set(orden.total - facturado);
+      },
+    });
+
     this.vista.set('generar-factura');
   }
 
