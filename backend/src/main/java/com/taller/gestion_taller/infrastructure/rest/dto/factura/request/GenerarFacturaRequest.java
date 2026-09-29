@@ -3,7 +3,7 @@ package com.taller.gestion_taller.infrastructure.rest.dto.factura.request;
 import com.taller.gestion_taller.infrastructure.rest.validation.formaPago.FormaPagoValida;
 import com.taller.gestion_taller.infrastructure.rest.validation.tipoFactura.TipoFacturaValida;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,6 +29,6 @@ public class GenerarFacturaRequest {
     private String tipoFactura;
 
     @NotNull(message = "El monto no puede ser nulo.")
-    @Positive(message = "El monto debe ser mayor a cero.")
+    @PositiveOrZero(message = "El monto no puede ser negativo.")
     private BigDecimal monto;
 }
