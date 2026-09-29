@@ -1,11 +1,13 @@
 package com.taller.gestion_taller.infrastructure.persistence.repository;
 
+import com.taller.gestion_taller.domain.model.EstadoFactura;
 import com.taller.gestion_taller.infrastructure.persistence.entity.FacturaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,20 +16,24 @@ public interface JpaFacturaRepository extends JpaRepository<FacturaEntity, Long>
 
     @Query("""
         SELECT f FROM FacturaEntity f
-        JOIN FETCH f.ordenTrabajo ot
-        JOIN FETCH ot.vehiculo v
-        JOIN FETCH v.cliente c
-        JOIN FETCH ot.items
-        WHERE f.ordenTrabajo.id = :ordenTrabajoId
+        WHERE f.estado = :estado AND f.ordenTrabajo.id = :ordenTrabajoId
     """)
-    Optional<FacturaEntity> findByOrdenTrabajoId(@Param("ordenTrabajoId") Long ordenTrabajoId);
+    List<FacturaEntity> findActivasByOrdenTrabajoId(@Param("ordenTrabajoId") Long ordenTrabajoId,
+                                                      @Param("estado") EstadoFactura estado);
+
+    @Query("""
+        SELECT f FROM FacturaEntity f
+        WHERE f.estado = :estado AND f.ordenTrabajo.id IN :ordenTrabajoIds
+    """)
+    List<FacturaEntity> findActivasByOrdenTrabajoIds(@Param("ordenTrabajoIds") List<Long> ordenTrabajoIds,
+                                                       @Param("estado") EstadoFactura estado);
 
     @Query("""
         SELECT f FROM FacturaEntity f
         JOIN FETCH f.ordenTrabajo ot
         JOIN FETCH ot.vehiculo v
         JOIN FETCH v.cliente c
-        JOIN FETCH ot.items
+        LEFT JOIN FETCH ot.items
         WHERE f.id = :id
     """)
     Optional<FacturaEntity> findById(@Param("id") Long id);
@@ -41,10 +47,18 @@ public interface JpaFacturaRepository extends JpaRepository<FacturaEntity, Long>
     WHERE (:id IS NULL OR f.id = :id)
     AND (:numeroFactura IS NULL OR f.numeroFactura = :numeroFactura)
     AND (:clienteDni IS NULL OR c.dni = :clienteDni)
-    """)
+    AND (:patenteVehiculo IS NULL OR v.patente = :patenteVehiculo)
+    AND (:ordenTrabajoId IS NULL OR ot.id = :ordenTrabajoId)
+    AND (CAST(:desde AS date) IS NULL OR f.fechaEmision >= CAST(:desde AS date))
+    AND (CAST(:hasta AS date) IS NULL OR f.fechaEmision <= CAST(:hasta AS date))
+""")
     List<FacturaEntity> findByFiltros(
             @Param("id") Long id,
             @Param("numeroFactura") String numeroFactura,
-            @Param("clienteDni") String clienteDni
+            @Param("clienteDni") String clienteDni,
+            @Param("patenteVehiculo") String patenteVehiculo,
+            @Param("ordenTrabajoId") Long ordenTrabajoId,
+            @Param("desde") LocalDate desde,
+            @Param("hasta") LocalDate hasta
     );
 }
