@@ -52,8 +52,8 @@ public interface SwaggerOrdenTrabajoController {
     ResponseEntity<List<OrdenTrabajoResponse>> obtenerOrdenes(
             @Parameter(description = "Patente del vehiculo (opcional)")
             @RequestParam(required = false) String patente,
-            @Parameter(description = "Estado de la orden (opcional)")
-            @RequestParam(required = false) EstadoOrdenTrabajo estado);
+            @Parameter(description = "Estado(s) de la orden (opcional, se puede repetir el parametro para filtrar por varios estados)")
+            @RequestParam(required = false) List<EstadoOrdenTrabajo> estado);
 
     @Operation(summary = "Obtener orden de trabajo por ID", description = "Retorna una orden de trabajo especifica por su ID unico.")
     @ApiResponses({
