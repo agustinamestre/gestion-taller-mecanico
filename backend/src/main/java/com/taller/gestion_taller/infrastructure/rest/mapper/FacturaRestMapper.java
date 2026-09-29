@@ -11,7 +11,7 @@ import com.taller.gestion_taller.infrastructure.rest.dto.factura.response.OrdenT
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(uses = {OrdenTrabajoRestMapper.class})
+@Mapper(uses = {OrdenTrabajoRestMapper.class, PresupuestoRestMapper.class})
 public interface FacturaRestMapper {
 
     GenerarFacturaCommand requestToCommand(GenerarFacturaRequest request);
@@ -22,6 +22,7 @@ public interface FacturaRestMapper {
     FacturaResponse domainToResponse(Factura factura);
 
     @Mapping(source = "vehiculo.patente", target = "patenteVehiculo")
+    @Mapping(source = "presupuesto.items", target = "itemsPresupuesto")
     @Mapping(source = "items", target = "itemsOrden")
     @Mapping(target = "total", expression = "java(ordenTrabajo.calcularTotal())")
     OrdenTrabajoFacturaResponse ordenToFacturaResponse(OrdenTrabajo ordenTrabajo);
