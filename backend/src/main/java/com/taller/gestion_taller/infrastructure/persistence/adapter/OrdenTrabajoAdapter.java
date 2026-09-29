@@ -37,8 +37,8 @@ public class OrdenTrabajoAdapter implements OrdenTrabajoRepository {
     }
 
     @Override
-    public List<OrdenTrabajo> findByFiltros(String patente, EstadoOrdenTrabajo estado) {
-        return ordenTrabajoJpaRepository.findByFiltros(patente, estado)
+    public List<OrdenTrabajo> findByFiltros(String patente, List<EstadoOrdenTrabajo> estados) {
+        return ordenTrabajoJpaRepository.findByFiltros(patente, estados)
                 .stream()
                 .map(ordenTrabajoPersistenceMapper::toDomain)
                 .toList();

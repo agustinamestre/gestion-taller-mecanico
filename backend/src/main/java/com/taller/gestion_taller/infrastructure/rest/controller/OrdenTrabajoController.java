@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/ordenes")
@@ -28,19 +29,20 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
     public ResponseEntity<OrdenTrabajoResponse> registrar(@Valid @RequestBody RegistrarOrdenTrabajoRequest request) {
         RegistrarOrdenTrabajoCommand command = ordenTrabajoRestMapper.requestToCommand(request);
         OrdenTrabajo orden = ordenTrabajoService.registrarOrden(command);
-        OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden);
+        OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden, ordenTrabajoService.estaTotalmenteFacturada(orden));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @Override
     public ResponseEntity<List<OrdenTrabajoResponse>> obtenerOrdenes(
             @RequestParam(required = false) String patente,
-            @RequestParam(required = false) EstadoOrdenTrabajo estado) {
+            @RequestParam(required = false) List<EstadoOrdenTrabajo> estado) {
 
-        List<OrdenTrabajoResponse> response = ordenTrabajoService
-                .obtenerOrdenes(patente, estado)
+        List<OrdenTrabajo> ordenes = ordenTrabajoService.obtenerOrdenes(patente, estado);
+        Map<Long, Boolean> facturadaPorOrdenId = ordenTrabajoService.estanTotalmenteFacturadas(ordenes);
+        List<OrdenTrabajoResponse> response = ordenes
                 .stream()
-                .map(ordenTrabajoRestMapper::domainToResponse)
+                .map(orden -> ordenTrabajoRestMapper.domainToResponse(orden, facturadaPorOrdenId.get(orden.getId())))
                 .toList();
         return ResponseEntity.ok(response);
     }
@@ -48,7 +50,7 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
     @Override
     public ResponseEntity<OrdenTrabajoResponse> obtenerOrdenPorId(@PathVariable Long id) {
         OrdenTrabajo orden = ordenTrabajoService.obtenerOrdenPorId(id);
-        OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden);
+        OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden, ordenTrabajoService.estaTotalmenteFacturada(orden));
         return ResponseEntity.ok(response);
     }
 
@@ -69,7 +71,7 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
 
         ModificarOrdenTrabajoCommand command = ordenTrabajoRestMapper.toModificarCommand(id, request);
         OrdenTrabajo orden = ordenTrabajoService.modificarOrden(command);
-        OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden);
+        OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden, ordenTrabajoService.estaTotalmenteFacturada(orden));
         return ResponseEntity.ok(response);
     }
 
@@ -79,7 +81,7 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
             @Valid @RequestBody AgregarItemOrdenTrabajoRequest request) {
         AgregarItemOrdenTrabajoCommand command = ordenTrabajoRestMapper.toAgregarItemCommand(id, request);
         OrdenTrabajo orden = ordenTrabajoService.agregarItem(command);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ordenTrabajoRestMapper.domainToResponse(orden));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ordenTrabajoRestMapper.domainToResponse(orden, ordenTrabajoService.estaTotalmenteFacturada(orden)));
     }
 
     @Override
@@ -89,7 +91,7 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
             @Valid @RequestBody ModificarItemOrdenTrabajoRequest request) {
         ModificarItemOrdenTrabajoCommand command = ordenTrabajoRestMapper.toModificarItemCommand(id, itemId, request);
         OrdenTrabajo orden = ordenTrabajoService.modificarItem(command);
-        return ResponseEntity.ok(ordenTrabajoRestMapper.domainToResponse(orden));
+        return ResponseEntity.ok(ordenTrabajoRestMapper.domainToResponse(orden, ordenTrabajoService.estaTotalmenteFacturada(orden)));
     }
 
     @Override

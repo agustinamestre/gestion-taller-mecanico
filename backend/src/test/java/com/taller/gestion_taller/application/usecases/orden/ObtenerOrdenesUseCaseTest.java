@@ -63,9 +63,9 @@ class ObtenerOrdenesUseCaseTest {
     @DisplayName("debe retornar ordenes filtradas por estado")
     void debeRetornarOrdenesPorEstado() {
         List<OrdenTrabajo> ordenes = List.of(mock(OrdenTrabajo.class));
-        when(ordenTrabajoRepository.findByFiltros(null, EstadoOrdenTrabajo.INGRESADO)).thenReturn(ordenes);
+        when(ordenTrabajoRepository.findByFiltros(null, List.of(EstadoOrdenTrabajo.INGRESADO))).thenReturn(ordenes);
 
-        List<OrdenTrabajo> resultado = useCase.obtener(null, EstadoOrdenTrabajo.INGRESADO);
+        List<OrdenTrabajo> resultado = useCase.obtener(null, List.of(EstadoOrdenTrabajo.INGRESADO));
 
         assertThat(resultado).hasSize(1);
         verify(vehiculoRepository, never()).findByPatente(any());
@@ -78,9 +78,9 @@ class ObtenerOrdenesUseCaseTest {
         List<OrdenTrabajo> ordenes = List.of(mock(OrdenTrabajo.class));
 
         when(vehiculoRepository.findByPatente(PATENTE)).thenReturn(Optional.of(vehiculo));
-        when(ordenTrabajoRepository.findByFiltros(PATENTE, EstadoOrdenTrabajo.INGRESADO)).thenReturn(ordenes);
+        when(ordenTrabajoRepository.findByFiltros(PATENTE, List.of(EstadoOrdenTrabajo.INGRESADO))).thenReturn(ordenes);
 
-        List<OrdenTrabajo> resultado = useCase.obtener(PATENTE, EstadoOrdenTrabajo.INGRESADO);
+        List<OrdenTrabajo> resultado = useCase.obtener(PATENTE, List.of(EstadoOrdenTrabajo.INGRESADO));
 
         assertThat(resultado).hasSize(1);
         verify(vehiculoRepository).findByPatente(PATENTE);
