@@ -22,6 +22,8 @@
     [ngModel]="estadoFiltro()"
     (ngModelChange)="estadoFiltro.set($event); buscar()"
     placeholder="Todos los estados"
+    emptyMessage="No se encontraron resultados"
+
   />
   <p-button label="Buscar" icon="pi pi-search" [loading]="ordenTrabajoService.cargando()" (onClick)="buscar()" />
   @if (tieneFiltrosActivos) {
@@ -57,18 +59,18 @@
               [ngModel]="null"
               (ngModelChange)="onCambiarEstado(orden, $event)"
               [options]="transicionesDe(orden)"
-              [placeholder]="orden.estado"
+              [placeholder]="formatearEstado(orden.estado)"
               [disabled]="cambiandoEstadoId() === orden.id"
               [styleClass]="'select-estado estado-' + orden.estado.toLowerCase()"
               appendTo="body"
             >
               <ng-template let-estado pTemplate="item">
-                <span class="etiqueta-estado" [class]="'estado-' + estado.toLowerCase()">{{ estado }}</span>
+                <span class="etiqueta-estado" [class]="'estado-' + estado.toLowerCase()">{{ formatearEstado(estado) }}</span>
               </ng-template>
             </p-select>
           } @else {
             <span class="etiqueta-estado" [class]="'estado-' + orden.estado.toLowerCase()">
-              {{ orden.estado }}
+              {{ formatearEstado(orden.estado) }}
             </span>
           }
         </td>
