@@ -31,13 +31,16 @@ export class OrdenTrabajoService {
 
   readonly cargando = computed(() => this.estado() === 'cargando');
 
-  listar(filtros?: { patente?: string; estado?: EstadoOrdenTrabajo }) {
+  listar(filtros?: { patente?: string; estado?: EstadoOrdenTrabajo | EstadoOrdenTrabajo[] }) {
     this.estado.set('cargando');
     this.mensajeError.set(null);
 
     let params = new HttpParams();
     if (filtros?.patente) params = params.set('patente', filtros.patente);
-    if (filtros?.estado) params = params.set('estado', filtros.estado);
+    if (filtros?.estado) {
+      const estados = Array.isArray(filtros.estado) ? filtros.estado : [filtros.estado];
+      for (const estado of estados) params = params.append('estado', estado);
+    }
 
     return this.http.get<OrdenTrabajoResponse[]>(API_BASE, { params }).pipe(
       tap(lista => { this.listado.set(lista); this.estado.set('exito'); }),

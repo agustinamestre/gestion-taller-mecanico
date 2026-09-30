@@ -1,5 +1,6 @@
 import { Component, inject, output, signal } from '@angular/core';
 import { CurrencyPipe, DatePipe, Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -8,6 +9,7 @@ import { SelectModule } from 'primeng/select';
 import { OrdenTrabajoService } from '../../services/orden-trabajo.service';
 import {
   EstadoOrdenTrabajo,
+  ESTADO_ORDEN_LABELS,
   OrdenTrabajoResponse,
   TRANSICIONES_VALIDAS_ORDEN,
 } from '../../models/orden-trabajo.model';
@@ -22,6 +24,7 @@ import {
 export class OrdenTrabajoTableComponent {
   readonly ordenTrabajoService = inject(OrdenTrabajoService);
   private readonly location = inject(Location);
+  private readonly route = inject(ActivatedRoute);
 
   readonly nuevaOrden = output<void>();
   readonly verDetalle = output<number>();
@@ -39,7 +42,16 @@ export class OrdenTrabajoTableComponent {
   ];
 
   constructor() {
-    this.ordenTrabajoService.listar().subscribe();
+    const estadosParam = this.route.snapshot.queryParamMap.getAll('estado') as EstadoOrdenTrabajo[];
+
+    if (estadosParam.length === 1) {
+      this.estadoFiltro.set(estadosParam[0]);
+      this.ordenTrabajoService.listar({ estado: estadosParam[0] }).subscribe();
+    } else if (estadosParam.length > 1) {
+      this.ordenTrabajoService.listar({ estado: estadosParam }).subscribe();
+    } else {
+      this.ordenTrabajoService.listar().subscribe();
+    }
   }
 
   volver() {
@@ -66,6 +78,10 @@ export class OrdenTrabajoTableComponent {
 
   transicionesDe(orden: OrdenTrabajoResponse): EstadoOrdenTrabajo[] {
     return TRANSICIONES_VALIDAS_ORDEN[orden.estado];
+  }
+
+  formatearEstado(estado: EstadoOrdenTrabajo): string {
+    return ESTADO_ORDEN_LABELS[estado];
   }
 
   onCambiarEstado(orden: OrdenTrabajoResponse, nuevoEstado: EstadoOrdenTrabajo) {

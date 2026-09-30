@@ -1,5 +1,6 @@
 import { Component, computed, inject, output, signal } from '@angular/core';
 import { CurrencyPipe, DatePipe, Location } from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
@@ -22,6 +23,7 @@ const ESTADOS_ACTIVOS: EstadoPresupuesto[] = ['PENDIENTE', 'APROBADO'];
 export class PresupuestoTableComponent {
   readonly presupuestoService = inject(PresupuestoService);
   private readonly location = inject(Location);
+  private readonly route = inject(ActivatedRoute);
 
   readonly nuevoPresupuesto = output<string | null>();
   readonly verDetalle = output<number>();
@@ -52,6 +54,11 @@ export class PresupuestoTableComponent {
   });
 
   constructor() {
+    const estadoParam = this.route.snapshot.queryParamMap.get('estado') as EstadoPresupuesto | null;
+    if (estadoParam && this.opcionesFiltroEstado.some(o => o.value === estadoParam)) {
+      this.filtroEstado.set(estadoParam);
+    }
+
     this.presupuestoService.listar().subscribe();
   }
 

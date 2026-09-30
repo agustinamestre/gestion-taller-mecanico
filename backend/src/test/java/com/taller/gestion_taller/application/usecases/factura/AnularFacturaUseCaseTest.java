@@ -59,7 +59,7 @@ class AnularFacturaUseCaseTest {
         AnularFacturaCommand command = new AnularFacturaCommand(FACTURA_ID, "Error en la forma de pago");
 
         when(facturaRepository.findById(FACTURA_ID)).thenReturn(Optional.of(factura));
-        when(facturaRepository.findByFiltros(null, null, null, null, orden.getId()))
+        when(facturaRepository.findByFiltros(null, null, null, null, orden.getId(), null, null))
                 .thenReturn(List.of(factura));
         when(facturaRepository.save(any(Factura.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -104,7 +104,7 @@ class AnularFacturaUseCaseTest {
         AnularFacturaCommand command = new AnularFacturaCommand(FACTURA_ID, "Nuevo motivo");
 
         when(facturaRepository.findById(FACTURA_ID)).thenReturn(Optional.of(factura));
-        when(facturaRepository.findByFiltros(null, null, null, null, orden.getId()))
+        when(facturaRepository.findByFiltros(null, null, null, null, orden.getId(), null, null))
                 .thenReturn(List.of(factura));
 
         assertThrows(BusinessRunTimeException.class, () -> useCase.anularFactura(command));
@@ -131,7 +131,7 @@ class AnularFacturaUseCaseTest {
         AnularFacturaCommand command = new AnularFacturaCommand(FACTURA_ID, "   ");
 
         when(facturaRepository.findById(FACTURA_ID)).thenReturn(Optional.of(factura));
-        when(facturaRepository.findByFiltros(null, null, null, null, orden.getId()))
+        when(facturaRepository.findByFiltros(null, null, null, null, orden.getId(), null, null))
                 .thenReturn(List.of(factura));
 
         assertThrows(BusinessRunTimeException.class, () -> useCase.anularFactura(command));

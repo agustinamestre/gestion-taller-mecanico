@@ -15,10 +15,10 @@ public interface JpaOrdenTrabajoRepository extends JpaRepository<OrdenTrabajoEnt
     @EntityGraph(attributePaths = {"presupuesto", "presupuesto.items"})
     @Query("SELECT o FROM OrdenTrabajoEntity o JOIN o.vehiculo v " +
             "WHERE (:patente IS NULL OR v.patente = :patente) " +
-            "AND (:estado IS NULL OR o.estado = :estado)")
+            "AND (:estados IS NULL OR o.estado IN :estados)")
     List<OrdenTrabajoEntity> findByFiltros(
             @Param("patente") String patente,
-            @Param("estado") EstadoOrdenTrabajo estado);
+            @Param("estados") List<EstadoOrdenTrabajo> estados);
 
     @Query("""
         SELECT o FROM OrdenTrabajoEntity o

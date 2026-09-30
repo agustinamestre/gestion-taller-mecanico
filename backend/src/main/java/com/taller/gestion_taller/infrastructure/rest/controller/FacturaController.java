@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -44,7 +45,9 @@ public class FacturaController implements SwaggerFacturaController {
             @RequestParam(required = false) String numeroFactura,
             @RequestParam(required = false) String clienteDni,
             @RequestParam(required = false) String patenteVehiculo,
-            @RequestParam(required = false) Long ordenTrabajoId) {
+            @RequestParam(required = false) Long ordenTrabajoId,
+            @RequestParam(required = false) LocalDate desde,
+            @RequestParam(required = false) LocalDate hasta) {
 
         ConsultarFacturasCommand query = ConsultarFacturasCommand.builder()
                 .id(id)
@@ -52,6 +55,8 @@ public class FacturaController implements SwaggerFacturaController {
                 .clienteDni(clienteDni)
                 .patenteVehiculo(patenteVehiculo)
                 .ordenTrabajoId(ordenTrabajoId)
+                .desde(desde)
+                .hasta(hasta)
                 .build();
 
         List<FacturaResponse> response = facturaService.consultarFacturas(query)

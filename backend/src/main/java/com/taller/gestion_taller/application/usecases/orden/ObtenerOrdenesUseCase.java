@@ -17,13 +17,13 @@ public class ObtenerOrdenesUseCase implements ObtenerOrdenes {
     private final VehiculoRepository vehiculoRepository;
 
     @Override
-    public List<OrdenTrabajo> obtener(String patente, EstadoOrdenTrabajo estado) {
+    public List<OrdenTrabajo> obtener(String patente, List<EstadoOrdenTrabajo> estados) {
         if (patente != null) {
             vehiculoRepository.findByPatente(patente)
                     .orElseThrow(() -> new NotFoundException(
                             BusinessErrors.vehiculoNoEncontrado(patente)));
         }
 
-        return ordenTrabajoRepository.findByFiltros(patente, estado);
+        return ordenTrabajoRepository.findByFiltros(patente, estados);
     }
 }
