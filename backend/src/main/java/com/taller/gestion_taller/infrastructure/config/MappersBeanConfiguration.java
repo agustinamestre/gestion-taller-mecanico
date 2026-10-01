@@ -145,4 +145,9 @@ public class MappersBeanConfiguration {
     public AlertaPersistenceMapper alertaPersistenceMapper() {
         return Mappers.getMapper(AlertaPersistenceMapper.class);
     }
+
+    @Bean
+    public RefreshTokenPersistenceMapper refreshTokenPersistenceMapper() {
+        return Mappers.getMapper(RefreshTokenPersistenceMapper.class);
+    }
 }

@@ -3,11 +3,11 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { catchError, tap, throwError } from 'rxjs';
 import { NotificationService } from '../../../shared/services/notification.service';
-import { LoginRequest, LoginResponse } from '../models/auth.model';
+import { LoginRequest, LoginResponse, RefrescarTokenResponse } from '../models/auth.model';
 import { environment } from '../../../../environments/environment';
 
 const API_BASE = `${environment.apiUrl}/auth`;
-const SESSION_KEY = 'gema_session';
+const SESSION_KEY = 'gma_session';
 
 export type EstadoCarga = 'idle' | 'cargando' | 'exito' | 'error';
 
@@ -18,6 +18,7 @@ export interface SesionUsuario {
 
 interface SesionGuardada extends SesionUsuario {
   token: string;
+  refreshToken: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -28,6 +29,7 @@ export class AuthService {
 
   readonly usuario = signal<SesionUsuario | null>(null);
   readonly token = signal<string | null>(null);
+  readonly refreshToken = signal<string | null>(null);
   readonly estadoCarga = signal<EstadoCarga>('idle');
   readonly error = signal<string | null>(null);
 
@@ -44,25 +46,65 @@ export class AuthService {
 
     return this.http.post<LoginResponse>(`${API_BASE}/login`, request).pipe(
       tap((respuesta) => {
-        const sesion: SesionGuardada = {
+        this.guardarSesion({
           token: respuesta.token,
+          refreshToken: respuesta.refreshToken,
           username: respuesta.username,
           rol: respuesta.rol,
-        };
-        localStorage.setItem(SESSION_KEY, JSON.stringify(sesion));
-        this.token.set(sesion.token);
-        this.usuario.set({ username: sesion.username, rol: sesion.rol });
+        });
         this.estadoCarga.set('exito');
       }),
       catchError((err: HttpErrorResponse) => this.manejarError(err))
     );
   }
 
+  refrescarToken() {
+    const refreshTokenActual = this.refreshToken();
+    if (!refreshTokenActual) {
+      return throwError(() => new Error('No hay refresh token disponible'));
+    }
+
+    return this.http
+      .post<RefrescarTokenResponse>(`${API_BASE}/refresh`, { refreshToken: refreshTokenActual })
+      .pipe(
+        tap((respuesta) => {
+          const sesionActual = this.usuario();
+          this.guardarSesion({
+            token: respuesta.accessToken,
+            refreshToken: respuesta.refreshToken,
+            username: sesionActual?.username ?? '',
+            rol: sesionActual?.rol ?? '',
+          });
+        })
+      );
+  }
+
   logout() {
-    localStorage.removeItem(SESSION_KEY);
-    this.token.set(null);
-    this.usuario.set(null);
-    this.router.navigate(['/login']);
+    const refreshTokenActual = this.refreshToken();
+    const finalizarLocal = () => {
+      localStorage.removeItem(SESSION_KEY);
+      this.token.set(null);
+      this.refreshToken.set(null);
+      this.usuario.set(null);
+      this.router.navigate(['/login']);
+    };
+
+    if (!refreshTokenActual) {
+      finalizarLocal();
+      return;
+    }
+
+    this.http.post<void>(`${API_BASE}/logout`, {}).subscribe({
+      next: finalizarLocal,
+      error: finalizarLocal,
+    });
+  }
+
+  private guardarSesion(sesion: SesionGuardada) {
+    localStorage.setItem(SESSION_KEY, JSON.stringify(sesion));
+    this.token.set(sesion.token);
+    this.refreshToken.set(sesion.refreshToken);
+    this.usuario.set({ username: sesion.username, rol: sesion.rol });
   }
 
   private restaurarSesion() {
@@ -74,6 +116,7 @@ export class AuthService {
     try {
       const sesion: SesionGuardada = JSON.parse(guardada);
       this.token.set(sesion.token);
+      this.refreshToken.set(sesion.refreshToken);
       this.usuario.set({ username: sesion.username, rol: sesion.rol });
     } catch {
       localStorage.removeItem(SESSION_KEY);

@@ -2,6 +2,7 @@ package com.taller.gestion_taller.infrastructure.rest.exception.advice;
 
 import com.taller.gestion_taller.domain.exception.BusinessError;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
+import com.taller.gestion_taller.domain.exception.UnauthorizedException;
 import com.taller.gestion_taller.infrastructure.rest.exception.ApiError;
 import com.taller.gestion_taller.infrastructure.rest.exception.ApiErrorResponse;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
@@ -102,6 +103,12 @@ public class GlobalExceptionHandler {
                 }).toList();
 
         return new ApiErrorResponse(requestURI, errors);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(UNAUTHORIZED)
+    public ApiErrorResponse unauthorizedExceptionHandler(UnauthorizedException ex, ServletWebRequest request) {
+        return ApiErrorResponse.crearResponseConError(request.getRequest().getRequestURI(), toApiError(ex.getBusinessError()));
     }
 
     @ExceptionHandler(NotFoundException.class)
