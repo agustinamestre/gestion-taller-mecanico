@@ -92,6 +92,10 @@ public final class BusinessErrors {
     public static BusinessError vehiculoYaDesactivado() {
         return new BusinessError("VEHICULO_YA_DESACTIVADO", "El vehiculo ya se encuentra desactivado.");
     }
+
+    public static BusinessError vehiculoYaActivo() {
+        return new BusinessError("VEHICULO_YA_ACTIVO", "El vehiculo ya se encuentra activo.");
+    }
     
     public static BusinessError vehiculoSinCliente() {
         return new BusinessError(
@@ -361,6 +365,32 @@ public final class BusinessErrors {
                 "ALERTA_YA_CONTACTADA",
                 "La alerta ya fue marcada como contactada."
         );
+    }
+
+    public static BusinessError clienteSinEmail() {
+        return new BusinessError(
+                "CLIENTE_SIN_EMAIL",
+                "El cliente no tiene un email registrado para enviarle la notificación."
+        );
+    }
+
+    public static BusinessError clienteSinTelefono() {
+        return new BusinessError(
+                "CLIENTE_SIN_TELEFONO",
+                "El cliente no tiene un teléfono registrado para enviarle la notificación."
+        );
+    }
+
+    public static BusinessError errorEnvioEmail() {
+        return new BusinessError(
+                "ERROR_ENVIO_EMAIL",
+                "No se pudo enviar el correo de notificación al cliente."
+        );
+    }
+
+    public static BusinessError refreshTokenInvalido() {
+        return new BusinessError("REFRESH_TOKEN_INVALIDO",
+                "El refresh token es inválido o expiró.");
     }
 
 }

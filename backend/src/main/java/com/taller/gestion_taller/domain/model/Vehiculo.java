@@ -56,6 +56,15 @@ public class Vehiculo {
                 .build();
     }
 
+    public Vehiculo reactivar() {
+        if (this.activo) {
+            throw new BusinessRunTimeException(BusinessErrors.vehiculoYaActivo());
+        }
+        return this.toBuilder()
+                .activo(true)
+                .build();
+    }
+
     public static Vehiculo crearNuevo(String patente,
                                       Modelo modelo,
                                       Integer anio,

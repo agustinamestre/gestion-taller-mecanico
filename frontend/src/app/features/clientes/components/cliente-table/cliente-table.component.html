@@ -83,7 +83,7 @@
 <app-confirm-dialog
   [visible]="dialogVisible()"
   titulo="Desactivar cliente"
-  [mensaje]="'¿Desactivar a ' + clienteADesactivar()?.nombre + ' ' + clienteADesactivar()?.apellido + '? Esta acción no se puede deshacer.'"
+  [mensaje]="'¿Desactivar a ' + clienteADesactivar()?.nombre + ' ' + clienteADesactivar()?.apellido + '?'"
   labelConfirmar="Desactivar"
   [cargando]="clienteService.cargando()"
   (confirmado)="onConfirmado()"

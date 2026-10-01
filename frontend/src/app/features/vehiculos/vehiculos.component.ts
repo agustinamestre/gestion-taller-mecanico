@@ -89,8 +89,13 @@ export class VehiculosComponent {
     this.vista.set('detalle');
   }
 
+  onReactivado() {
+    this.notification.exito('El vehículo fue reactivado correctamente.');
+    this.vista.set('detalle');
+  }
+
   onDesactivado() {
-    this.notification.advertencia('El vehículo fue desactivado del sistema.');
+    this.notification.advertencia('El vehículo fue desactivado correctamente.');
     this.vista.set('busqueda');
   }
 }

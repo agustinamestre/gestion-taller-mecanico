@@ -97,15 +97,32 @@ public interface SwaggerVehiculoController {
             @PathVariable Long id,
             @Valid @RequestBody ActualizarKilometrajeRequest request);
 
-    @Operation(summary = "Desactivar vehículo", description = "Desactiva lógicamente un vehículo por ID")
+    @Operation(summary = "Reactivar vehículo", description = "Reactiva un vehículo previamente desactivado (por ejemplo, tras un cambio de dueño)")
     @ApiResponses({
-            @ApiResponse(responseCode = "204", description = "Vehículo desactivado correctamente"),
+            @ApiResponse(responseCode = "204", description = "Vehículo reactivado correctamente"),
+            @ApiResponse(responseCode = "400", description = "El vehículo ya se encuentra activo",
+                    content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "404", description = "Vehículo no encontrado",
                     content = @Content(mediaType = "application/json")),
             @ApiResponse(responseCode = "500", description = "Error técnico",
                     content = @Content(mediaType = "application/json"))
     })
-    @DeleteMapping("/{id}")
+    @PatchMapping("/{id}/reactivar")
+    ResponseEntity<Void> reactivar(
+            @Parameter(description = "ID del vehículo", required = true)
+            @PathVariable Long id);
+
+    @Operation(summary = "Desactivar vehículo", description = "Desactiva un vehículo (por ejemplo, cuando el cliente lo vendió y ya no le pertenece)")
+    @ApiResponses({
+            @ApiResponse(responseCode = "204", description = "Vehículo desactivado correctamente"),
+            @ApiResponse(responseCode = "400", description = "El vehículo ya se encuentra desactivado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "404", description = "Vehículo no encontrado",
+                    content = @Content(mediaType = "application/json")),
+            @ApiResponse(responseCode = "500", description = "Error técnico",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @PatchMapping("/{id}/desactivar")
     ResponseEntity<Void> desactivar(
             @Parameter(description = "ID del vehículo", required = true)
             @PathVariable Long id);
