@@ -2,7 +2,9 @@ package com.taller.gestion_taller.application.usecases.cliente;
 
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Cliente;
+import com.taller.gestion_taller.domain.model.Vehiculo;
 import com.taller.gestion_taller.domain.repositories.ClienteRepository;
+import com.taller.gestion_taller.domain.repositories.VehiculoRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -22,9 +25,13 @@ import static org.mockito.Mockito.*;
 class ReactivarClienteUseCaseTest {
 
     private static final String DNI = "12345678";
+    private static final Long CLIENTE_ID = 1L;
 
     @Mock
     private ClienteRepository clienteRepository;
+
+    @Mock
+    private VehiculoRepository vehiculoRepository;
 
     @InjectMocks
     private ReactivarClienteUseCase useCase;
@@ -37,12 +44,38 @@ class ReactivarClienteUseCaseTest {
         when(clienteRepository.findByDni(DNI)).thenReturn(Optional.of(cliente));
         when(cliente.reactivar()).thenReturn(cliente);
         when(clienteRepository.save(cliente)).thenReturn(cliente);
+        when(cliente.getId()).thenReturn(CLIENTE_ID);
+        when(vehiculoRepository.findByClienteId(CLIENTE_ID)).thenReturn(List.of());
 
         useCase.reactivar(DNI);
 
         verify(clienteRepository).findByDni(DNI);
         verify(cliente).reactivar();
         verify(clienteRepository).save(cliente);
+    }
+
+    @Test
+    @DisplayName("Reactivar un cliente debe reactivar en cascada sus vehiculos inactivos")
+    void debeReactivarVehiculosInactivosEnCascada() {
+        Cliente cliente = mock(Cliente.class);
+        Vehiculo vehiculoActivo = mock(Vehiculo.class);
+        Vehiculo vehiculoInactivo = mock(Vehiculo.class);
+        Vehiculo vehiculoReactivado = mock(Vehiculo.class);
+
+        when(clienteRepository.findByDni(DNI)).thenReturn(Optional.of(cliente));
+        when(cliente.reactivar()).thenReturn(cliente);
+        when(clienteRepository.save(cliente)).thenReturn(cliente);
+        when(cliente.getId()).thenReturn(CLIENTE_ID);
+        when(vehiculoActivo.isActivo()).thenReturn(true);
+        when(vehiculoInactivo.isActivo()).thenReturn(false);
+        when(vehiculoInactivo.reactivar()).thenReturn(vehiculoReactivado);
+        when(vehiculoRepository.findByClienteId(CLIENTE_ID)).thenReturn(List.of(vehiculoActivo, vehiculoInactivo));
+
+        useCase.reactivar(DNI);
+
+        verify(vehiculoInactivo).reactivar();
+        verify(vehiculoActivo, never()).reactivar();
+        verify(vehiculoRepository).save(vehiculoReactivado);
     }
 
     @Test

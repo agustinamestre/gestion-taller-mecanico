@@ -9,22 +9,31 @@
           {{ vehiculo.activo ? 'Activo' : 'Inactivo' }}
         </span>
       </div>
-      @if (vehiculo.activo) {
-        <div class="cabecera-acciones">
+      <div class="cabecera-acciones">
+        @if (!vehiculo.activo) {
+          <p-button
+            label="Reactivar"
+            icon="pi pi-refresh"
+            severity="success"
+            [outlined]="true"
+            (onClick)="abrirDialogo('reactivar')"
+          />
+        }
+        @if (vehiculo.activo) {
           <p-button
             label="Desactivar"
             icon="pi pi-trash"
             severity="danger"
             [outlined]="true"
-            (onClick)="dialogVisible.set(true)"
+            (onClick)="abrirDialogo('desactivar')"
           />
           <p-button
             label="Editar datos"
             icon="pi pi-pencil"
             (onClick)="editar.emit()"
           />
-        </div>
-      }
+        }
+      </div>
     </div>
 
     @if (vehiculo.activo) {
@@ -72,9 +81,11 @@
 
   <app-confirm-dialog
     [visible]="dialogVisible()"
-    titulo="Desactivar vehículo"
-    [mensaje]="'¿Desactivar el vehículo ' + vehiculo.patente + '? Esta acción no se puede deshacer.'"
-    labelConfirmar="Desactivar"
+    [titulo]="accion() === 'reactivar' ? 'Reactivar vehículo' : 'Desactivar vehículo'"
+    [mensaje]="accion() === 'reactivar'
+      ? '¿Reactivar el vehículo ' + vehiculo.patente + '?'
+      : '¿Desactivar el vehículo ' + vehiculo.patente + '?'"
+    [labelConfirmar]="accion() === 'reactivar' ? 'Reactivar' : 'Desactivar'"
     [cargando]="vehiculoService.cargando()"
     (confirmado)="onConfirmado()"
     (cancelado)="dialogVisible.set(false)"

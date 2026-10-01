@@ -70,6 +70,12 @@ public class VehiculoController implements SwaggerVehiculoController {
     }
 
     @Override
+    public ResponseEntity<Void> reactivar(@PathVariable Long id) {
+        vehiculoService.reactivarVehiculo(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Override
     public ResponseEntity<Void> desactivar(@PathVariable Long id) {
         vehiculoService.desactivarVehiculo(id);
         return ResponseEntity.noContent().build();

@@ -49,7 +49,7 @@ export class ClientesComponent implements OnInit {
   }
 
   onDesactivado() {
-    this.notification.advertencia('El cliente fue desactivado del sistema.');
+    this.notification.advertencia('El cliente fue desactivado correctamente.');
     this.vista.set('tabla');
   }
 
@@ -64,5 +64,5 @@ export class ClientesComponent implements OnInit {
     this.vista.set('tabla');
   }
 
-  
+
 }

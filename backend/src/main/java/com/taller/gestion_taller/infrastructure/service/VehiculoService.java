@@ -20,6 +20,7 @@ public class VehiculoService {
     private final GetVehiculoByPatente getVehiculoByPatenteUseCase;
     private final ModificarVehiculo modificarVehiculoUseCase;
     private final ActualizarKilometraje actualizarKilometrajeUseCase;
+    private final ReactivarVehiculo reactivarVehiculoUseCase;
     private final DesactivarVehiculo desactivarVehiculoUseCase;
     private final ObtenerVehiculoPorId obtenerVehiculoPorIdUseCase;
 
@@ -46,6 +47,11 @@ public class VehiculoService {
     @Transactional
     public Vehiculo actualizarKilometraje(Long id, ActualizarKilometrajeCommand command) {
         return actualizarKilometrajeUseCase.actualizar(id, command);
+    }
+
+    @Transactional
+    public void reactivarVehiculo(Long id) {
+        reactivarVehiculoUseCase.reactivarVehiculo(id);
     }
 
     @Transactional

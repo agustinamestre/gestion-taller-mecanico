@@ -19,21 +19,36 @@ export class VehiculoDetailComponent {
   readonly editar = output<void>();
   readonly actualizarKm = output<void>();
   readonly volver = output<void>();
+  readonly reactivado = output<void>();
   readonly desactivado = output<void>();
 
   readonly dialogVisible = signal(false);
+  readonly accion = signal<'reactivar' | 'desactivar'>('reactivar');
 
   get vehiculo() {
     return this.vehiculoService.vehiculoActual();
   }
 
+  abrirDialogo(accion: 'reactivar' | 'desactivar') {
+    this.accion.set(accion);
+    this.dialogVisible.set(true);
+  }
+
   onConfirmado() {
     const vehiculo = this.vehiculo;
     if (!vehiculo) return;
-    this.vehiculoService.desactivar(vehiculo.id).subscribe({
+    const operacion = this.accion() === 'reactivar'
+      ? this.vehiculoService.reactivar(vehiculo.id)
+      : this.vehiculoService.desactivar(vehiculo.id);
+
+    operacion.subscribe({
       next: () => {
         this.dialogVisible.set(false);
-        this.desactivado.emit();
+        if (this.accion() === 'reactivar') {
+          this.reactivado.emit();
+        } else {
+          this.desactivado.emit();
+        }
       },
     });
   }

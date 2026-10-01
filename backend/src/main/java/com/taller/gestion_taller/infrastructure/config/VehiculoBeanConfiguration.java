@@ -50,6 +50,11 @@ public class VehiculoBeanConfiguration {
     }
 
     @Bean
+    public ReactivarVehiculo reactivarVehiculoUseCase(VehiculoRepository vehiculoRepository) {
+        return new ReactivarVehiculoUseCase(vehiculoRepository);
+    }
+
+    @Bean
     public DesactivarVehiculo desactivarVehiculoUseCase(VehiculoRepository vehiculoRepository) {
         return new DesactivarVehiculoUseCase(vehiculoRepository);
     }

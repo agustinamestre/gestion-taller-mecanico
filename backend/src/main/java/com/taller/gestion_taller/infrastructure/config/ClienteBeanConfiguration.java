@@ -44,12 +44,14 @@ public class ClienteBeanConfiguration {
     }
 
     @Bean
-    public DarDeBajaCliente darDeBajaClienteUseCase(ClienteRepository clienteRepository) {
-        return new DarDeBajaClienteUseCase(clienteRepository);
+    public DarDeBajaCliente darDeBajaClienteUseCase(ClienteRepository clienteRepository,
+                                                     VehiculoRepository vehiculoRepository) {
+        return new DarDeBajaClienteUseCase(clienteRepository, vehiculoRepository);
     }
 
     @Bean
-    public ReactivarCliente reactivarClienteUseCase(ClienteRepository clienteRepository) {
-        return new ReactivarClienteUseCase(clienteRepository);
+    public ReactivarCliente reactivarClienteUseCase(ClienteRepository clienteRepository,
+                                                     VehiculoRepository vehiculoRepository) {
+        return new ReactivarClienteUseCase(clienteRepository, vehiculoRepository);
     }
 }

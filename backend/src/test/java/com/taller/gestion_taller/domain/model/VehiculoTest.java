@@ -181,4 +181,33 @@ class VehiculoTest {
                     .isEqualTo("VEHICULO_YA_DESACTIVADO");
         }
     }
+
+    @Nested
+    @DisplayName("reactivar")
+    class Reactivar {
+
+        @Test
+        @DisplayName("reactiva un vehiculo desactivado")
+        void reactivaDesactivado() {
+            Vehiculo vehiculo = Vehiculo.crearNuevo(
+                            PATENTE, mock(Modelo.class), ANIO, mock(Cliente.class), KM)
+                    .desactivar();
+
+            Vehiculo reactivado = vehiculo.reactivar();
+
+            assertThat(reactivado.isActivo()).isTrue();
+        }
+
+        @Test
+        @DisplayName("rechaza reactivar un vehiculo ya activo")
+        void rechazaSiYaEstaActivo() {
+            Vehiculo vehiculo = Vehiculo.crearNuevo(
+                    PATENTE, mock(Modelo.class), ANIO, mock(Cliente.class), KM);
+
+            assertThatThrownBy(vehiculo::reactivar)
+                    .isInstanceOf(BusinessRunTimeException.class)
+                    .extracting("businessError.code")
+                    .isEqualTo("VEHICULO_YA_ACTIVO");
+        }
+    }
 }

@@ -84,11 +84,24 @@ export class VehiculoService {
     );
   }
 
+  reactivar(id: number) {
+    this.estadoCarga.set('cargando');
+    this.error.set(null);
+
+    return this.http.patch<void>(`${API_BASE}/${id}/reactivar`, {}).pipe(
+      tap(() => {
+        this.vehiculoActual.update((v) => (v ? { ...v, activo: true } : v));
+        this.estadoCarga.set('exito');
+      }),
+      catchError((err: HttpErrorResponse) => this.manejarError(err))
+    );
+  }
+
   desactivar(id: number) {
     this.estadoCarga.set('cargando');
     this.error.set(null);
 
-    return this.http.delete<void>(`${API_BASE}/${id}`).pipe(
+    return this.http.patch<void>(`${API_BASE}/${id}/desactivar`, {}).pipe(
       tap(() => {
         this.vehiculoActual.update((v) => (v ? { ...v, activo: false } : v));
         this.estadoCarga.set('exito');
