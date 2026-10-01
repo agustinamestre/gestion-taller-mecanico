@@ -57,10 +57,11 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/auth/login", "/auth/refresh").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/usuarios/me").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/usuarios/me", "/usuarios/me/password").authenticated()
+                        .requestMatchers(HttpMethod.GET, "/usuarios").authenticated()
                         .requestMatchers("/usuarios/**").hasRole("ADMIN")
                         .requestMatchers("/alertas/**").authenticated()
                         .anyRequest().authenticated()
