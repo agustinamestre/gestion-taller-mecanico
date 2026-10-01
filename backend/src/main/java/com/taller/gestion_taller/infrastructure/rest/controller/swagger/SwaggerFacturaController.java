@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "Facturas", description = "Gestión de facturas.")
@@ -75,6 +76,16 @@ public interface SwaggerFacturaController {
                             name = "ordenTrabajoId",
                             description = "ID de la orden de trabajo para filtrar todas sus facturas (incluye emitidas y anuladas).",
                             example = "7"
+                    ),
+                    @Parameter(
+                            name = "desde",
+                            description = "Fecha de emisión mínima (inclusive) para filtrar facturas.",
+                            example = "2026-09-01"
+                    ),
+                    @Parameter(
+                            name = "hasta",
+                            description = "Fecha de emisión máxima (inclusive) para filtrar facturas.",
+                            example = "2026-09-30"
                     )
             },
             responses = {
@@ -92,7 +103,9 @@ public interface SwaggerFacturaController {
             @RequestParam(required = false) String numeroFactura,
             @RequestParam(required = false) String clienteDni,
             @RequestParam(required = false) String patenteVehiculo,
-            @RequestParam(required = false) Long ordenTrabajoId
+            @RequestParam(required = false) Long ordenTrabajoId,
+            @RequestParam(required = false) LocalDate desde,
+            @RequestParam(required = false) LocalDate hasta
     );
 
     @Operation(
