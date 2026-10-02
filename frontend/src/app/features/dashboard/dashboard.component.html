@@ -39,8 +39,23 @@
       </a>
 
       <a class="tarjeta" routerLink="/facturas" [queryParams]="{ desde: primerDiaDelMes, hasta: hoy }">
+        <button
+          type="button"
+          class="toggle-monto"
+          [attr.aria-label]="montoVisible() ? 'Ocultar monto' : 'Mostrar monto'"
+          [attr.title]="montoVisible() ? 'Ocultar monto' : 'Mostrar monto'"
+          (click)="toggleMonto($event)"
+        >
+          <i class="pi" [class.pi-eye]="montoVisible()" [class.pi-eye-slash]="!montoVisible()"></i>
+        </button>
         <i class="pi pi-receipt icono"></i>
-        <span class="valor">{{ resumen.montoFacturadoUltimoMes | currency:'ARS':'$' }}</span>
+        <span class="valor">
+          @if (montoVisible()) {
+            {{ resumen.montoFacturadoUltimoMes | currency:'ARS':'$' }}
+          } @else {
+            $ ••••••
+          }
+        </span>
         <span class="etiqueta">Facturado en el último mes</span>
       </a>
     </div>
