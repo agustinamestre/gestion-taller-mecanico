@@ -48,10 +48,6 @@ export interface GenerarFacturaRequest {
   monto: number;
 }
 
-export interface AnularFacturaRequest {
-  motivo: string;
-}
-
 export interface ConsultarFacturasFiltros {
   id?: number;
   numeroFactura?: string;

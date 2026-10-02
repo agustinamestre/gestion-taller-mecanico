@@ -274,43 +274,6 @@ public final class BusinessErrors {
         );
     }
 
-    public static BusinessError noPuedeAnularSeniaConFinalEmitida(Long ordenId) {
-        return new BusinessError(
-                "NO_PUEDE_ANULAR_SENIA_CON_FINAL_EMITIDA",
-                "No se puede anular la seña de la orden de trabajo con ID " + ordenId
-                        + " porque ya existe una factura final emitida para esa orden."
-        );
-    }
-
-    public static BusinessError noPuedeAnularFacturaDeOrdenEntregada(Long ordenId) {
-        return new BusinessError(
-                "NO_PUEDE_ANULAR_FACTURA_DE_ORDEN_ENTREGADA",
-                "No se puede anular una factura de la orden de trabajo con ID " + ordenId
-                        + " porque ya fue entregada."
-        );
-    }
-
-    public static BusinessError facturaNoEncontrada(Long id) {
-        return new BusinessError(
-                "FACTURA_NO_ENCONTRADA",
-                "No se encontro la factura con ID: " + id
-        );
-    }
-
-    public static BusinessError facturaYaAnulada(Long id) {
-        return new BusinessError(
-                "FACTURA_YA_ANULADA",
-                "La factura con ID " + id + " ya se encuentra anulada."
-        );
-    }
-
-    public static BusinessError facturaSinMotivoAnulacion() {
-        return new BusinessError(
-                "FACTURA_SIN_MOTIVO_ANULACION",
-                "Debe indicar un motivo para anular la factura."
-        );
-    }
-
     public static BusinessError usernameYaExiste(String username) {
         return new BusinessError(
                 "USERNAME_YA_EXISTE",
