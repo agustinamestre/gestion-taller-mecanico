@@ -6,7 +6,6 @@ import { NotificationService } from '../../../shared/services/notification.servi
 import {
   FacturaResponse,
   GenerarFacturaRequest,
-  AnularFacturaRequest,
   ConsultarFacturasFiltros,
 } from '../models/factura.model';
 
@@ -79,23 +78,6 @@ export class FacturaService {
         this.seleccionada.set(factura);
         this.estadoCarga.set('exito');
         this.toast.exito('Factura generada correctamente');
-      }),
-      catchError((err: HttpErrorResponse) => this.manejarError(err))
-    );
-  }
-
-  anular(id: number, request: AnularFacturaRequest) {
-    this.estadoCarga.set('cargando');
-    this.error.set(null);
-
-    return this.http.patch<FacturaResponse>(`${API_BASE}/${id}/anular`, request).pipe(
-      tap((factura) => {
-        this.listado.update((actual) =>
-          actual.map((f) => (f.id === factura.id ? factura : f))
-        );
-        this.seleccionada.set(factura);
-        this.estadoCarga.set('exito');
-        this.toast.exito('Factura anulada correctamente');
       }),
       catchError((err: HttpErrorResponse) => this.manejarError(err))
     );

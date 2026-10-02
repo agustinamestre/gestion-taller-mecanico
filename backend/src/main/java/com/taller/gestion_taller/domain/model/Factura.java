@@ -1,11 +1,8 @@
 package com.taller.gestion_taller.domain.model;
 
-import com.taller.gestion_taller.domain.exception.BusinessErrors;
-import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -52,17 +49,6 @@ public class Factura {
             return false;
         }
         return sumarMontoFacturado(facturasActivas).compareTo(totalOrden) >= 0;
-    }
-
-    public void anular(String motivo) {
-        if (!this.estado.puedeTransicionarA(EstadoFactura.ANULADA)) {
-            throw new BusinessRunTimeException(BusinessErrors.facturaYaAnulada(this.id));
-        }
-        if (StringUtils.isBlank(motivo)) {
-            throw new BusinessRunTimeException(BusinessErrors.facturaSinMotivoAnulacion());
-        }
-        this.estado = EstadoFactura.ANULADA;
-        this.motivoAnulacion = motivo;
     }
 
     public String getClienteDni() {

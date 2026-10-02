@@ -1,7 +1,5 @@
 package com.taller.gestion_taller.infrastructure.config;
 
-import com.taller.gestion_taller.application.usecases.factura.AnularFactura;
-import com.taller.gestion_taller.application.usecases.factura.AnularFacturaUseCase;
 import com.taller.gestion_taller.application.usecases.factura.ConsultarFacturas;
 import com.taller.gestion_taller.application.usecases.factura.ConsultarFacturasUseCase;
 import com.taller.gestion_taller.application.usecases.factura.GenerarFactura;
@@ -32,14 +30,8 @@ public class FacturaBeanConfiguration {
     }
 
     @Bean
-    public AnularFactura anularFacturaUseCase(FacturaRepository facturaRepository, FacturaValidator facturaValidator) {
-        return new AnularFacturaUseCase(facturaRepository, facturaValidator);
-    }
-
-    @Bean
-    public FacturaService facturaService(GenerarFactura generarFacturaUseCase, ConsultarFacturas consultarFacturas,
-                                          AnularFactura anularFacturaUseCase) {
-        return new FacturaService(generarFacturaUseCase, consultarFacturas, anularFacturaUseCase);
+    public FacturaService facturaService(GenerarFactura generarFacturaUseCase, ConsultarFacturas consultarFacturas) {
+        return new FacturaService(generarFacturaUseCase, consultarFacturas);
     }
 
     @Bean

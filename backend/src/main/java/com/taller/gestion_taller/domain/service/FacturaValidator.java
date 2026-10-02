@@ -58,21 +58,4 @@ public class FacturaValidator {
             throw new BusinessRunTimeException(BusinessErrors.facturaFinalDebeCubrirSaldoTotal(saldoPendiente));
         }
     }
-
-    public void validarAnulacion(Factura factura, List<Factura> facturasActivasDeLaOrden) {
-        if (factura.getOrdenTrabajo().getEstado() == EstadoOrdenTrabajo.ENTREGADO) {
-            throw new BusinessRunTimeException(
-                    BusinessErrors.noPuedeAnularFacturaDeOrdenEntregada(factura.getOrdenTrabajo().getId()));
-        }
-
-        if (factura.getTipoFactura() == TipoFactura.SENIA) {
-            boolean tieneFinalEmitida = facturasActivasDeLaOrden.stream()
-                    .anyMatch(f -> f.getTipoFactura() == TipoFactura.FINAL
-                            && f.getEstado() == EstadoFactura.EMITIDA);
-            if (tieneFinalEmitida) {
-                throw new BusinessRunTimeException(
-                        BusinessErrors.noPuedeAnularSeniaConFinalEmitida(factura.getOrdenTrabajo().getId()));
-            }
-        }
-    }
 }
