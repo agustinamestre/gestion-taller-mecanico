@@ -44,15 +44,19 @@ export class ClienteFormComponent implements OnInit {
     nombre: ['', [Validators.required, Validators.minLength(2)]],
     apellido: ['', [Validators.required, Validators.minLength(2)]],
     telefono: ['', [Validators.required]],
-    email: ['', [Validators.required, Validators.email]],
-    direccion: ['', [Validators.required]],
     situacionIva: [null as SituacionIva | null, Validators.required],
+    email: ['', [Validators.email]],
+    direccion: [''],
   });
 
   ngOnInit() {
     const cliente = this.clienteService.clienteSeleccionado();
     if (this.edicion() && cliente) {
-      this.form.patchValue(cliente);
+      this.form.patchValue({
+        ...cliente,
+        email: cliente.email ?? '',
+        direccion: cliente.direccion ?? '',
+      });
       this.dniOriginal = cliente.dni;
     }
   }
@@ -70,7 +74,16 @@ export class ClienteFormComponent implements OnInit {
     this.enviado.set(true);
     if (this.form.invalid) return;
 
-    const val = this.form.getRawValue() as any;
+    const raw = this.form.getRawValue();
+    const val: ClienteRequest = {
+      dni: raw.dni!,
+      nombre: raw.nombre!.trim(),
+      apellido: raw.apellido!.trim(),
+      telefono: raw.telefono!.trim(),
+      situacionIva: raw.situacionIva!,
+      email: raw.email?.trim() || null,
+      direccion: raw.direccion?.trim() || null,
+    };
 
     if (this.soloDatos()) {
       this.datosListos.emit(val);

@@ -16,8 +16,8 @@ export interface ClienteResponse {
   nombre: string;
   apellido: string;
   telefono: string;
-  email: string;
-  direccion: string;
+  email: string | null;
+  direccion: string | null;
   situacionIva: SituacionIva;
   activo: boolean;
   fechaCreacion: string;
@@ -30,8 +30,8 @@ export interface ClienteRequest {
   nombre: string;
   apellido: string;
   telefono: string;
-  email: string;
-  direccion: string;
+  email: string | null;
+  direccion: string | null;
   situacionIva: SituacionIva;
 }
 
@@ -40,7 +40,7 @@ export interface ModificarClienteRequest {
   nombre: string;
   apellido: string;
   telefono: string;
-  email: string;
-  direccion: string;
+  email: string | null;
+  direccion: string | null;
   situacionIva: SituacionIva;
 }

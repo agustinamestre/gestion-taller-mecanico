@@ -67,8 +67,8 @@ export interface AsociarVehiculoDatosClienteNuevo {
   nombre: string;
   apellido: string;
   telefono: string;
-  email: string;
-  direccion: string;
+  email: string | null;
+  direccion: string | null;
   situacionIva: SituacionIva;
 }
 

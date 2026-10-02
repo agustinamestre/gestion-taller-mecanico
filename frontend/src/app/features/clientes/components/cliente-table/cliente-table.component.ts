@@ -51,12 +51,13 @@ export class ClienteTableComponent {
     return base.filter((c) => {
       const nombreCompleto = `${c.nombre} ${c.apellido}`.toLowerCase();
       const apellidoNombre = `${c.apellido} ${c.nombre}`.toLowerCase();
+      const email = (c.email ?? '').toLowerCase();
 
       return (
         c.dni.includes(texto) ||
         c.nombre.toLowerCase().includes(texto) ||
         c.apellido.toLowerCase().includes(texto) ||
-        c.email.toLowerCase().includes(texto) ||
+        email.includes(texto) ||
         nombreCompleto.includes(texto) ||
         apellidoNombre.includes(texto)
       );
