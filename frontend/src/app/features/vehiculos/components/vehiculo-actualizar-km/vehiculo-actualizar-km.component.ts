@@ -1,5 +1,5 @@
 import { Component, computed, inject, output } from '@angular/core';
-import { FormBuilder, Validators, ReactiveFormsModule, AbstractControl } from '@angular/forms';
+import { FormBuilder, Validators, ReactiveFormsModule, AbstractControl, ValidatorFn, ValidationErrors } from '@angular/forms';
 import { DecimalPipe } from '@angular/common';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { ButtonModule } from 'primeng/button';
@@ -23,8 +23,13 @@ export class VehiculoActualizarKmComponent {
   readonly kmActual = computed(() => this.vehiculo()?.kilometrajeActual ?? 0);
 
   readonly form = this.fb.group({
-    kilometrajeActual: [null as number | null, [Validators.required, Validators.min(0)]],
+    kilometrajeActual: [null as number | null, [Validators.required, this.noMenorAlActual()]],
   });
+
+  private noMenorAlActual(): ValidatorFn {
+    return (c: AbstractControl): ValidationErrors | null =>
+      c.value != null && c.value < this.kmActual() ? { min: true } : null;
+  }
 
   campo(nombre: string): AbstractControl { return this.form.get(nombre)!; }
   invalid(nombre: string): boolean {

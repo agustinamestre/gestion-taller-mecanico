@@ -29,11 +29,16 @@
     letter-spacing: 0.05em;
   }
 
-  input , p-select{
+  input,
+  p-select {
     width: 100%;
   }
 
   &.campo-error input {
+    border-color: var(--error-color) !important;
+  }
+
+  &.campo-error ::ng-deep .p-select {
     border-color: var(--error-color) !important;
   }
 }

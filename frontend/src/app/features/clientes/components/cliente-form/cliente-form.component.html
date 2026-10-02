@@ -56,19 +56,16 @@
       </div>
 
       <div class="campo full" [class.campo-error]="invalid('email')">
-        <label for="email">Email *</label>
+        <label for="email">Email</label>
         <input pInputText id="email" formControlName="email" type="email" placeholder="juan@mail.com" />
         @if (invalid('email')) {
           <span class="error-msg">Email inválido</span>
         }
       </div>
 
-      <div class="campo full" [class.campo-error]="invalid('direccion')">
-        <label for="direccion">Dirección *</label>
+      <div class="campo full">
+        <label for="direccion">Dirección</label>
         <input pInputText id="direccion" formControlName="direccion" placeholder="De la Nación 500" />
-        @if (invalid('direccion')) {
-          <span class="error-msg">Campo requerido</span>
-        }
       </div>
 
     </div>
