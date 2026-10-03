@@ -4,9 +4,13 @@ import com.taller.gestion_taller.application.command.alerta.MarcarAlertaContacta
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Alerta;
+import com.taller.gestion_taller.domain.model.Cliente;
 import com.taller.gestion_taller.domain.model.MedioContacto;
 import com.taller.gestion_taller.domain.model.TipoAlerta;
+import com.taller.gestion_taller.domain.model.Vehiculo;
 import com.taller.gestion_taller.domain.repositories.AlertaRepository;
+import com.taller.gestion_taller.domain.repositories.VehiculoRepository;
+import com.taller.gestion_taller.domain.service.NotificadorCliente;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,9 +33,16 @@ import static org.mockito.Mockito.when;
 class MarcarAlertaContactadaUseCaseTest {
 
     private static final Long ALERTA_ID = 1L;
+    private static final Long VEHICULO_ID = 5L;
 
     @Mock
     private AlertaRepository alertaRepository;
+
+    @Mock
+    private VehiculoRepository vehiculoRepository;
+
+    @Mock
+    private NotificadorCliente notificadorCliente;
 
     @InjectMocks
     private MarcarAlertaContactadaUseCase useCase;
@@ -39,22 +50,40 @@ class MarcarAlertaContactadaUseCaseTest {
     private static Alerta alertaPendiente() {
         return Alerta.builder()
                 .id(ALERTA_ID)
-                .vehiculoId(5L)
+                .vehiculoId(VEHICULO_ID)
                 .tipo(TipoAlerta.SERVICE_VENCIDO)
                 .fechaAlerta(LocalDate.now())
                 .contactado(false)
                 .build();
     }
 
+    private static Vehiculo vehiculoConCliente(String email, String telefono) {
+        Cliente cliente = Cliente.builder()
+                .nombre("Juan")
+                .apellido("Perez")
+                .email(email)
+                .telefono(telefono)
+                .build();
+
+        return Vehiculo.builder()
+                .id(VEHICULO_ID)
+                .patente("AA123BB")
+                .cliente(cliente)
+                .build();
+    }
+
     @Test
-    @DisplayName("Debe marcar la alerta como contactada con fecha y medio correctos")
-    void debeMarcarAlertaComoContactadaCorrectamente() {
+    @DisplayName("Debe marcar la alerta como contactada por WhatsApp y notificar por email si el cliente tiene uno")
+    void debeMarcarAlertaComoContactadaYNotificarPorEmailSiCorresponde() {
         Alerta alerta = alertaPendiente();
         MarcarAlertaContactadaCommand command =
-                new MarcarAlertaContactadaCommand(ALERTA_ID, MedioContacto.WHATSAPP, "Cliente confirmo turno");
+                new MarcarAlertaContactadaCommand(ALERTA_ID, "Cliente confirmo turno");
+
+        Vehiculo vehiculo = vehiculoConCliente("cliente@mail.com", "+541123456789");
 
         when(alertaRepository.findById(ALERTA_ID)).thenReturn(Optional.of(alerta));
         when(alertaRepository.save(alerta)).thenReturn(alerta);
+        when(vehiculoRepository.findById(VEHICULO_ID)).thenReturn(Optional.of(vehiculo));
 
         Alerta resultado = useCase.marcar(command);
 
@@ -63,13 +92,51 @@ class MarcarAlertaContactadaUseCaseTest {
         assertThat(resultado.getMedioContacto()).isEqualTo(MedioContacto.WHATSAPP);
         assertThat(resultado.getObservaciones()).isEqualTo("Cliente confirmo turno");
         verify(alertaRepository).save(alerta);
+        verify(notificadorCliente).notificarPorEmail("cliente@mail.com", "Juan Perez", "AA123BB");
+    }
+
+    @Test
+    @DisplayName("No debe notificar por email si el cliente no tiene uno cargado")
+    void noDebeNotificarPorEmailSiElClienteNoTieneUnoCargado() {
+        Alerta alerta = alertaPendiente();
+        MarcarAlertaContactadaCommand command =
+                new MarcarAlertaContactadaCommand(ALERTA_ID, null);
+
+        Vehiculo vehiculo = vehiculoConCliente(null, "+541123456789");
+
+        when(alertaRepository.findById(ALERTA_ID)).thenReturn(Optional.of(alerta));
+        when(alertaRepository.save(alerta)).thenReturn(alerta);
+        when(vehiculoRepository.findById(VEHICULO_ID)).thenReturn(Optional.of(vehiculo));
+
+        useCase.marcar(command);
+
+        verify(notificadorCliente, never()).notificarPorEmail(any(), any(), any());
+    }
+
+    @Test
+    @DisplayName("Debe lanzar excepcion si el cliente no tiene telefono, ya que el contacto siempre es por WhatsApp")
+    void debeLanzarExcepcionSiNoTieneTelefono() {
+        Alerta alerta = alertaPendiente();
+        MarcarAlertaContactadaCommand command =
+                new MarcarAlertaContactadaCommand(ALERTA_ID, null);
+
+        Vehiculo vehiculo = vehiculoConCliente("cliente@mail.com", null);
+
+        when(alertaRepository.findById(ALERTA_ID)).thenReturn(Optional.of(alerta));
+        when(alertaRepository.save(alerta)).thenReturn(alerta);
+        when(vehiculoRepository.findById(VEHICULO_ID)).thenReturn(Optional.of(vehiculo));
+
+        BusinessRunTimeException exception =
+                assertThrows(BusinessRunTimeException.class, () -> useCase.marcar(command));
+
+        assertEquals("CLIENTE_SIN_TELEFONO", exception.getBusinessError().code());
     }
 
     @Test
     @DisplayName("Debe lanzar NotFoundException cuando la alerta no existe")
     void debeLanzarNotFoundExceptionCuandoLaAlertaNoExiste() {
         MarcarAlertaContactadaCommand command =
-                new MarcarAlertaContactadaCommand(ALERTA_ID, MedioContacto.EMAIL, null);
+                new MarcarAlertaContactadaCommand(ALERTA_ID, null);
 
         when(alertaRepository.findById(ALERTA_ID)).thenReturn(Optional.empty());
 
@@ -85,11 +152,11 @@ class MarcarAlertaContactadaUseCaseTest {
         Alerta alertaYaContactada = alertaPendiente().toBuilder()
                 .contactado(true)
                 .fechaContacto(LocalDate.now().minusDays(1))
-                .medioContacto(MedioContacto.EMAIL)
+                .medioContacto(MedioContacto.WHATSAPP)
                 .build();
 
         MarcarAlertaContactadaCommand command =
-                new MarcarAlertaContactadaCommand(ALERTA_ID, MedioContacto.WHATSAPP, null);
+                new MarcarAlertaContactadaCommand(ALERTA_ID, null);
 
         when(alertaRepository.findById(ALERTA_ID)).thenReturn(Optional.of(alertaYaContactada));
 

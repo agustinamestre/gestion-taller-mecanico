@@ -48,6 +48,7 @@ export class LayoutComponent {
 
   irAAlertas(popover: any) {
     popover.hide();
+    this.alertaService.pendientesCount.set(0);
     this.router.navigate(['/alertas']);
   }
 

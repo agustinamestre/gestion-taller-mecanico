@@ -9,20 +9,9 @@
     }
 
     <div class="form-completo">
-      <div class="campo" [class.campo-error]="invalidMedio()">
-        <label>Medio de contacto *</label>
-        <p-select
-          [(ngModel)]="medioContacto"
-          [options]="opcionesMedio"
-          optionLabel="label"
-          optionValue="value"
-          placeholder="Seleccioná un medio"
-          emptyMessage="No se encontraron resultados"
-        />
-        @if (invalidMedio()) {
-          <span class="error-msg">Seleccioná un medio de contacto</span>
-        }
-      </div>
+      <p class="form-hint">
+        Se va a contactar al cliente por WhatsApp. Si tiene un email registrado, también se le va a enviar un mail automáticamente.
+      </p>
 
       <div class="campo">
         <label>Observaciones</label>

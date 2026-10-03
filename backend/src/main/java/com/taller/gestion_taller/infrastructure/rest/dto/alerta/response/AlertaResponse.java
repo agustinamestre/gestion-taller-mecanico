@@ -7,6 +7,7 @@ public record AlertaResponse(
         Long vehiculoId,
         String patenteVehiculo,
         String nombreCliente,
+        String telefonoCliente,
         LocalDate fechaAlerta,
         String tipo,
         boolean contactado,

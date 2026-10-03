@@ -31,13 +31,13 @@ public class Alerta {
                 .build();
     }
 
-    public void marcarComoContactada(MedioContacto medioContacto, String observaciones) {
+    public void marcarComoContactada(String observaciones) {
         if (this.contactado) {
             throw new BusinessRunTimeException(BusinessErrors.alertaYaContactada());
         }
         this.contactado = true;
         this.fechaContacto = LocalDate.now();
-        this.medioContacto = medioContacto;
+        this.medioContacto = MedioContacto.WHATSAPP;
         this.observaciones = observaciones;
     }
 }
