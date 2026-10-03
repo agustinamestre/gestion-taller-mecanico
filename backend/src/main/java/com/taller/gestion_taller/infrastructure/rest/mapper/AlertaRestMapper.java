@@ -19,6 +19,7 @@ public interface AlertaRestMapper {
     @Mapping(target = "id", source = "alerta.id")
     @Mapping(target = "patenteVehiculo", source = "vehiculo.patente")
     @Mapping(target = "nombreCliente", source = "vehiculo.cliente", qualifiedByName = "nombreCompleto")
+    @Mapping(target = "telefonoCliente", source = "vehiculo.cliente.telefono")
     AlertaResponse toResponse(Alerta alerta, Vehiculo vehiculo);
 
     default AlertaResponse toResponse(AlertaConVehiculo alertaConVehiculo) {

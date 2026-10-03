@@ -5,6 +5,7 @@ export interface Alerta {
   vehiculoId: number;
   patenteVehiculo: string;
   nombreCliente: string;
+  telefonoCliente: string | null;
   fechaAlerta: string;
   tipo: string;
   contactado: boolean;
@@ -14,6 +15,5 @@ export interface Alerta {
 }
 
 export interface ContactarAlertaRequest {
-  medioContacto: MedioContacto;
   observaciones?: string;
 }

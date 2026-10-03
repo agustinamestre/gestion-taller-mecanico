@@ -3,6 +3,7 @@ package com.taller.gestion_taller.infrastructure.config;
 import com.taller.gestion_taller.application.usecases.alerta.*;
 import com.taller.gestion_taller.domain.repositories.AlertaRepository;
 import com.taller.gestion_taller.domain.repositories.VehiculoRepository;
+import com.taller.gestion_taller.domain.service.NotificadorCliente;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,9 +20,13 @@ public class AlertaBeanConfiguration {
     }
 
     @Bean
-    public MarcarAlertaContactada marcarAlertaContactadaUseCase(AlertaRepository alertaRepository) {
+    public MarcarAlertaContactada marcarAlertaContactadaUseCase(AlertaRepository alertaRepository,
+                                                                  VehiculoRepository vehiculoRepository,
+                                                                  NotificadorCliente notificadorCliente) {
         return new MarcarAlertaContactadaUseCase(
-                alertaRepository
+                alertaRepository,
+                vehiculoRepository,
+                notificadorCliente
         );
     }
 
