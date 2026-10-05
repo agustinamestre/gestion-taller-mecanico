@@ -124,6 +124,12 @@ export class VehiculoFormComponent implements OnInit {
     control?.markAsTouched();
   }
 
+  normalizarPatente(event: Event) {
+    const valor = (event.target as HTMLInputElement).value;
+    const normalizada = valor.toUpperCase().replace(/\s/g, '');
+    if (normalizada !== valor) this.form.get('patente')?.setValue(normalizada);
+  }
+
   campo(nombre: string): AbstractControl {
     return this.form.get(nombre)!;
   }
