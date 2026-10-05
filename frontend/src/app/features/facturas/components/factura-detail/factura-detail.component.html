@@ -9,8 +9,12 @@
     <div class="info-grid">
       <div><span class="label">Fecha emisión</span><span class="value">{{ f.fechaEmision | date:'dd/MM/yyyy' }}</span></div>
       <div><span class="label">Cliente (DNI)</span><span class="value">{{ f.clienteDni }}</span></div>
+      <div><span class="label">Tipo</span><span class="value">{{ f.tipoFactura === 'SENIA' ? 'Seña' : 'Final' }}</span></div>
       <div><span class="label">Forma de pago</span><span class="value">{{ formatearFormaPago(f.formaPago) }}</span></div>
-      <div><span class="label">Total</span><span class="value total">{{ f.total | currency:'ARS':'$' }}</span></div>
+      <div><span class="label">Monto facturado</span><span class="value total">{{ f.montoFacturado | currency:'ARS':'$' }}</span></div>
+      @if (f.montoFacturado !== f.total) {
+        <div><span class="label">Total de la orden</span><span class="value">{{ f.total | currency:'ARS':'$' }}</span></div>
+      }
     </div>
 
     @if (f.estado === 'ANULADA' && f.motivoAnulacion) {
@@ -25,7 +29,7 @@
       <p>Vehículo {{ f.ordenTrabajo.patenteVehiculo }} — {{ f.ordenTrabajo.descripcionProblema }}</p>
     </div>
 
-    <h3>Ítems facturados</h3>
+    <h3>{{ f.tipoFactura === 'SENIA' ? 'Ítems de la orden (referencia)' : 'Ítems facturados' }}</h3>
     <p-table [value]="itemsUnificados()" dataKey="id" styleClass="tabla-items">
       <ng-template pTemplate="header">
         <tr>
