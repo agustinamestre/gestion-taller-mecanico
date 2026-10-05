@@ -25,13 +25,17 @@ public class OrdenTrabajo {
     private String descripcionProblema;
     private EstadoOrdenTrabajo estado;
     private Long usuarioCreacionId;
+    private boolean incluyeService;
+    private Integer kilometrajeIngreso;
     @Builder.Default
     private List<ItemOrdenTrabajo> items = new ArrayList<>();
 
     public static OrdenTrabajo crearNueva(Vehiculo vehiculo,
                                           Presupuesto presupuesto,
                                           String descripcionProblema,
-                                          Long usuarioCreacionId) {
+                                          Long usuarioCreacionId,
+                                          boolean incluyeService,
+                                          Integer kilometrajeIngreso) {
         if (vehiculo == null) {
             throw new BusinessRunTimeException(BusinessErrors.ordenSinVehiculo());
         }
@@ -49,6 +53,8 @@ public class OrdenTrabajo {
                 .presupuesto(presupuesto)
                 .descripcionProblema(descripcionFinal)
                 .usuarioCreacionId(usuarioCreacionId)
+                .incluyeService(incluyeService)
+                .kilometrajeIngreso(kilometrajeIngreso)
                 .estado(EstadoOrdenTrabajo.INGRESADO)
                 .fechaIngreso(LocalDate.now())
                 .items(new ArrayList<>())
@@ -66,9 +72,16 @@ public class OrdenTrabajo {
         this.estado = nuevoEstado;
     }
 
-    public void modificar(String descripcionProblema) {
+    public void modificar(String descripcionProblema, Boolean incluyeService) {
         asegurarOrdenEsModificable();
         this.descripcionProblema = descripcionProblema;
+        if (incluyeService != null) {
+            this.incluyeService = incluyeService;
+        }
+    }
+
+    public boolean registraServiceAlEntregar() {
+        return this.incluyeService && this.estado == EstadoOrdenTrabajo.ENTREGADO;
     }
 
     public void agregarItem(Producto producto, String descripcion,
@@ -118,6 +131,13 @@ public class OrdenTrabajo {
                 : BigDecimal.ZERO;
 
         return totalItemsOrden.add(totalPresupuesto);
+    }
+
+    // No hay nota de crédito: el total no puede quedar por debajo de lo que ya se facturó.
+    public void validarTotalCubre(BigDecimal montoFacturado) {
+        if (calcularTotal().compareTo(montoFacturado) < 0) {
+            throw new BusinessRunTimeException(BusinessErrors.totalOrdenMenorAFacturado(montoFacturado));
+        }
     }
 
     private void asegurarOrdenEsModificable() {
