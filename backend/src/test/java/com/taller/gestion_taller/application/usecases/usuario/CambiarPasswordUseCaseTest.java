@@ -5,6 +5,7 @@ import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Rol;
 import com.taller.gestion_taller.domain.model.Usuario;
+import com.taller.gestion_taller.domain.repositories.RefreshTokenRepository;
 import com.taller.gestion_taller.domain.repositories.UsuarioRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
@@ -34,6 +34,9 @@ class CambiarPasswordUseCaseTest {
 
     @Mock
     private UsuarioRepository usuarioRepository;
+
+    @Mock
+    private RefreshTokenRepository refreshTokenRepository;
 
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -65,6 +68,7 @@ class CambiarPasswordUseCaseTest {
         useCase.cambiar(COMMAND);
 
         verify(usuarioRepository).save(argThat(u -> u.getPassword().equals("hashNueva")));
+        verify(refreshTokenRepository).revocarTodosPorUsuarioId(1L);
     }
 
     @Test
@@ -94,5 +98,6 @@ class CambiarPasswordUseCaseTest {
 
         assertTrue(exception.getMessage().contains("La contraseña actual ingresada es incorrecta."));
         verify(usuarioRepository, never()).save(any());
+        verify(refreshTokenRepository, never()).revocarTodosPorUsuarioId(any());
     }
 }
