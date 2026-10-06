@@ -17,15 +17,17 @@ public class Alerta {
     private Long vehiculoId;
     private LocalDate fechaAlerta;
     private TipoAlerta tipo;
+    private MotivoAlerta motivo;
     private boolean contactado;
     private LocalDate fechaContacto;
     private MedioContacto medioContacto;
     private String observaciones;
 
-    public static Alerta crearPorServiceVencido(Long vehiculoId) {
+    public static Alerta crearPorServiceVencido(Long vehiculoId, MotivoAlerta motivo) {
         return Alerta.builder()
                 .vehiculoId(vehiculoId)
                 .tipo(TipoAlerta.SERVICE_VENCIDO)
+                .motivo(motivo)
                 .fechaAlerta(LocalDate.now())
                 .contactado(false)
                 .build();
