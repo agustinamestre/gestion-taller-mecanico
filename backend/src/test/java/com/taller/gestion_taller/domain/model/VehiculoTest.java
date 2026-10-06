@@ -151,6 +151,27 @@ class VehiculoTest {
                     .extracting("businessError.code")
                     .isEqualTo("KILOMETRAJEACTUAL_INVALIDO");
         }
+
+        @Test
+        @DisplayName("mantiene el km de alta como referencia del ciclo de service")
+        void mantieneElKmDeAlta() {
+            Vehiculo vehiculo = Vehiculo.crearNuevo(
+                    PATENTE, mock(Modelo.class), ANIO, mock(Cliente.class), KM);
+
+            Vehiculo actualizado = vehiculo.actualizarKilometraje(KM + 20000);
+
+            assertThat(actualizado.kmReferenciaService()).isEqualTo(KM);
+        }
+
+        @Test
+        @DisplayName("si el vehiculo no tiene km de referencia toma el km previo a la actualizacion")
+        void tomaElKmPrevioSiNoHayReferencia() {
+            Vehiculo vehiculo = Vehiculo.builder().kilometrajeActual(80000).build();
+
+            Vehiculo actualizado = vehiculo.actualizarKilometraje(100000);
+
+            assertThat(actualizado.kmReferenciaService()).isEqualTo(80000);
+        }
     }
 
     @Nested

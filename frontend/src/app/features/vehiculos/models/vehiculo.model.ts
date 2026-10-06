@@ -16,6 +16,8 @@ export interface VehiculoResponse {
   cliente: ClienteSummaryResponse;
   activo: boolean;
   fechaUltimoService?: string;
+  kmUltimoService?: number | null;
+  fechaAlta?: string;
 }
 export interface VehiculoRequest {
   patente: string;

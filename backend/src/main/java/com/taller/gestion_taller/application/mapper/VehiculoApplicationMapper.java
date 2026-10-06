@@ -14,5 +14,7 @@ public interface VehiculoApplicationMapper {
     @Mapping(target = "modelo", source = "modelo")
     @Mapping(target = "cliente", source = "cliente")
     @Mapping(target = "activo", constant = "true")
+    @Mapping(target = "fechaAlta", expression = "java(java.time.LocalDate.now())")
+    @Mapping(target = "kilometrajeAlta", source = "command.kilometrajeActual")
     Vehiculo commandToDomain(RegistrarVehiculoCommand command, Modelo modelo, Cliente cliente);
 }

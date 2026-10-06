@@ -18,7 +18,10 @@ public class Vehiculo {
     private Integer anio;
     private Cliente cliente;
     private LocalDate fechaUltimoService;
+    private Integer kmUltimoService;
     private Integer kilometrajeActual;
+    private LocalDate fechaAlta;
+    private Integer kilometrajeAlta;
     @Builder.Default
     private boolean activo = true;
 
@@ -27,12 +30,16 @@ public class Vehiculo {
         if (nuevoKilometraje < this.kilometrajeActual) {
             throw new BusinessRunTimeException(BusinessErrors.campoInvalido("kilometrajeActual", "El nuevo kilometraje no puede ser menor al actual"));
         }
+
+        Integer kmAlta = kmReferenciaService() == null ? this.kilometrajeActual : this.kilometrajeAlta;
         return this.toBuilder()
                 .kilometrajeActual(nuevoKilometraje)
+                .kilometrajeAlta(kmAlta)
                 .build();
     }
 
-    public Vehiculo actualizarDatos(Modelo nuevoModelo, Integer nuevoAnio, Cliente nuevoCliente, LocalDate nuevaFechaUltimoService) {
+    public Vehiculo actualizarDatos(Modelo nuevoModelo, Integer nuevoAnio, Cliente nuevoCliente,
+                                    LocalDate nuevaFechaUltimoService) {
         if (nuevoCliente == null) {
             throw new BusinessRunTimeException(BusinessErrors.vehiculoSinCliente());
         }
@@ -45,6 +52,21 @@ public class Vehiculo {
                 .cliente(nuevoCliente)
                 .fechaUltimoService(nuevaFechaUltimoService)
                 .build();
+    }
+
+    public Vehiculo registrarService(LocalDate fecha) {
+        return this.toBuilder()
+                .fechaUltimoService(fecha)
+                .kmUltimoService(this.kilometrajeActual)
+                .build();
+    }
+
+    public LocalDate fechaReferenciaService() {
+        return fechaUltimoService != null ? fechaUltimoService : fechaAlta;
+    }
+
+    public Integer kmReferenciaService() {
+        return kmUltimoService != null ? kmUltimoService : kilometrajeAlta;
     }
 
     public Vehiculo desactivar() {
@@ -85,6 +107,8 @@ public class Vehiculo {
                 .anio(anio)
                 .cliente(cliente)
                 .kilometrajeActual(kilometrajeActual)
+                .fechaAlta(LocalDate.now())
+                .kilometrajeAlta(kilometrajeActual)
                 .activo(true)
                 .build();
     }
