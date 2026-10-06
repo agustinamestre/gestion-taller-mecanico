@@ -28,7 +28,7 @@ public class EmailService implements NotificadorCliente {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "UTF-8");
 
             helper.setTo(email);
-            helper.setSubject("Service próximo a vencer - " + patenteVehiculo);
+            helper.setSubject("Es momento de hacer el service - " + patenteVehiculo);
             helper.setText(construirCuerpoHtml(nombreCliente, patenteVehiculo), true);
 
             mailSender.send(mimeMessage);
@@ -48,7 +48,7 @@ public class EmailService implements NotificadorCliente {
             <head>
               <meta charset="UTF-8">
               <meta name="viewport" content="width=device-width, initial-scale=1.0">
-              <title>Service próximo a vencer</title>
+              <title>Es momento de hacer el service</title>
             </head>
             <body style="margin:0; padding:0; background-color:#f4f4f5; font-family:Arial, Helvetica, sans-serif;">
               <table role="presentation" width="100%%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f5; padding:24px 0;">
@@ -69,7 +69,7 @@ public class EmailService implements NotificadorCliente {
                           <p style="margin:0 0 16px; font-size:15px; color:#374151; line-height:1.5;">
                             Te recordamos que el service de tu vehículo
                             <strong style="color:#111827;">%s</strong>
-                            está próximo a vencer.
+                            ya está en fecha o kilometraje de service.
                           </p>
                           <p style="margin:0 0 24px; font-size:15px; color:#374151; line-height:1.5;">
                             Contactanos para coordinar un turno y mantener tu vehículo al día.
