@@ -12,7 +12,9 @@ public class FacturaValidator {
     public void validarNuevaFactura(OrdenTrabajo orden, TipoFactura tipoFactura, BigDecimal monto,
                                      List<Factura> facturasActivasDeLaOrden) {
         validarEstadoSegunTipo(orden, tipoFactura);
+        validarMontoSeniaPositivo(tipoFactura, monto);
         validarNoDuplicarTipo(orden, tipoFactura, facturasActivasDeLaOrden);
+        validarFinalConSaldoPendiente(tipoFactura, orden, facturasActivasDeLaOrden);
         validarNoSuperarTotal(orden, monto, facturasActivasDeLaOrden);
         validarFinalCubreSaldoTotal(tipoFactura, orden, monto, facturasActivasDeLaOrden);
     }
@@ -29,7 +31,16 @@ public class FacturaValidator {
         }
     }
 
+    private void validarMontoSeniaPositivo(TipoFactura tipoFactura, BigDecimal monto) {
+        if (tipoFactura == TipoFactura.SENIA && monto.signum() <= 0) {
+            throw new BusinessRunTimeException(BusinessErrors.montoSeniaDebeSerPositivo());
+        }
+    }
+
     private void validarNoDuplicarTipo(OrdenTrabajo orden, TipoFactura tipoFactura, List<Factura> facturasActivasDeLaOrden) {
+        if (tipoFactura != TipoFactura.FINAL) {
+            return;
+        }
         boolean yaExiste = facturasActivasDeLaOrden.stream()
                 .anyMatch(factura -> factura.getTipoFactura() == tipoFactura);
         if (yaExiste) {
@@ -37,10 +48,19 @@ public class FacturaValidator {
         }
     }
 
+    private void validarFinalConSaldoPendiente(TipoFactura tipoFactura, OrdenTrabajo orden,
+                                               List<Factura> facturasActivasDeLaOrden) {
+        if (tipoFactura != TipoFactura.FINAL) {
+            return;
+        }
+        BigDecimal saldoPendiente = Factura.calcularSaldoPendiente(orden.calcularTotal(), facturasActivasDeLaOrden);
+        if (saldoPendiente.signum() <= 0) {
+            throw new BusinessRunTimeException(BusinessErrors.ordenSinSaldoPendiente());
+        }
+    }
+
     private void validarNoSuperarTotal(OrdenTrabajo orden, BigDecimal monto, List<Factura> facturasActivasDeLaOrden) {
-        BigDecimal totalOrden = orden.calcularTotal();
-        BigDecimal montoFacturadoActual = Factura.sumarMontoFacturado(facturasActivasDeLaOrden);
-        BigDecimal saldoPendiente = totalOrden.subtract(montoFacturadoActual);
+        BigDecimal saldoPendiente = Factura.calcularSaldoPendiente(orden.calcularTotal(), facturasActivasDeLaOrden);
         if (monto.compareTo(saldoPendiente) > 0) {
             throw new BusinessRunTimeException(BusinessErrors.montoFacturaSuperaSaldoPendiente(saldoPendiente));
         }
@@ -51,9 +71,7 @@ public class FacturaValidator {
         if (tipoFactura != TipoFactura.FINAL) {
             return;
         }
-        BigDecimal totalOrden = orden.calcularTotal();
-        BigDecimal montoFacturadoActual = Factura.sumarMontoFacturado(facturasActivasDeLaOrden);
-        BigDecimal saldoPendiente = totalOrden.subtract(montoFacturadoActual);
+        BigDecimal saldoPendiente = Factura.calcularSaldoPendiente(orden.calcularTotal(), facturasActivasDeLaOrden);
         if (monto.compareTo(saldoPendiente) < 0) {
             throw new BusinessRunTimeException(BusinessErrors.facturaFinalDebeCubrirSaldoTotal(saldoPendiente));
         }

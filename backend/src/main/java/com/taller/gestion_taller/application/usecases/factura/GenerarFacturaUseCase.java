@@ -37,6 +37,8 @@ public class GenerarFacturaUseCase implements GenerarFactura {
         List<Factura> facturasActivas = facturaRepository.findActivasByOrdenTrabajoId(orden.getId());
         facturaValidator.validarNuevaFactura(orden, command.getTipoFactura(), command.getMonto(), facturasActivas);
 
+        // Una seña sigue siendo seña aunque cubra el 100%: la orden está abierta y su total puede cambiar.
+        // La factura final se emite al finalizar la orden, por el saldo que quede.
         String numeroFactura = String.format(FORMATO_NUMERO_FACTURA, contadorFacturaRepository.siguienteNumero());
         Factura factura = Factura.crearNueva(orden, command.getFormaPago(), numeroFactura, TIPO_COMPROBANTE,
                 command.getTipoFactura(), command.getMonto());

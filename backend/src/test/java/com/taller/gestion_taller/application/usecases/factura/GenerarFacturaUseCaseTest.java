@@ -9,6 +9,7 @@ import com.taller.gestion_taller.domain.model.EstadoFactura;
 import com.taller.gestion_taller.domain.model.EstadoOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.Factura;
 import com.taller.gestion_taller.domain.model.FormaPago;
+import com.taller.gestion_taller.domain.model.ItemOrdenTrabajo;
 import com.taller.gestion_taller.domain.model.OrdenTrabajo;
 import com.taller.gestion_taller.domain.model.SituacionIva;
 import com.taller.gestion_taller.domain.model.TipoComprobante;
@@ -156,6 +157,60 @@ class GenerarFacturaUseCaseTest {
         assertThat(resultado.getNumeroFactura()).isEqualTo("F00000002");
 
         verify(facturaValidator).validarNuevaFactura(orden, TipoFactura.FINAL, BigDecimal.valueOf(700), List.of(seniaEmitida));
+    }
+
+    @Test
+    @DisplayName("Una seña que cubre el saldo pendiente completo se sigue emitiendo como seña")
+    void debeEmitirComoSeniaLaQueCubreElSaldo() {
+        OrdenTrabajo orden = ordenEnReparacionConTotal(BigDecimal.valueOf(1000));
+        Factura seniaPrevia = seniaEmitida(BigDecimal.valueOf(300));
+        GenerarFacturaCommand command = new GenerarFacturaCommand(ORDEN_ID, FormaPago.EFECTIVO, TipoFactura.SENIA, BigDecimal.valueOf(700));
+
+        when(ordenTrabajoRepository.findById(ORDEN_ID)).thenReturn(Optional.of(orden));
+        when(facturaRepository.findActivasByOrdenTrabajoId(ORDEN_ID)).thenReturn(List.of(seniaPrevia));
+        when(contadorFacturaRepository.siguienteNumero()).thenReturn(3L);
+        when(facturaRepository.save(any(Factura.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Factura resultado = useCase.generarFactura(command);
+
+        assertThat(resultado.getTipoFactura()).isEqualTo(TipoFactura.SENIA);
+        assertThat(resultado.getMontoFacturado()).isEqualTo(BigDecimal.valueOf(700));
+        verify(facturaValidator).validarNuevaFactura(orden, TipoFactura.SENIA, BigDecimal.valueOf(700), List.of(seniaPrevia));
+    }
+
+    @Test
+    @DisplayName("Una seña parcial adicional se emite como seña")
+    void debeEmitirComoSeniaUnAdelantoParcial() {
+        OrdenTrabajo orden = ordenEnReparacionConTotal(BigDecimal.valueOf(1000));
+        Factura seniaPrevia = seniaEmitida(BigDecimal.valueOf(300));
+        GenerarFacturaCommand command = new GenerarFacturaCommand(ORDEN_ID, FormaPago.EFECTIVO, TipoFactura.SENIA, BigDecimal.valueOf(200));
+
+        when(ordenTrabajoRepository.findById(ORDEN_ID)).thenReturn(Optional.of(orden));
+        when(facturaRepository.findActivasByOrdenTrabajoId(ORDEN_ID)).thenReturn(List.of(seniaPrevia));
+        when(contadorFacturaRepository.siguienteNumero()).thenReturn(3L);
+        when(facturaRepository.save(any(Factura.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Factura resultado = useCase.generarFactura(command);
+
+        assertThat(resultado.getTipoFactura()).isEqualTo(TipoFactura.SENIA);
+        assertThat(resultado.getMontoFacturado()).isEqualTo(BigDecimal.valueOf(200));
+    }
+
+    private OrdenTrabajo ordenEnReparacionConTotal(BigDecimal total) {
+        ItemOrdenTrabajo item = ItemOrdenTrabajo.builder().cantidad(1).precioUnitario(total).build();
+        return OrdenTrabajo.builder()
+                .id(ORDEN_ID)
+                .estado(EstadoOrdenTrabajo.EN_REPARACION)
+                .items(List.of(item))
+                .build();
+    }
+
+    private Factura seniaEmitida(BigDecimal monto) {
+        return Factura.builder()
+                .tipoFactura(TipoFactura.SENIA)
+                .estado(EstadoFactura.EMITIDA)
+                .montoFacturado(monto)
+                .build();
     }
 
     @Test

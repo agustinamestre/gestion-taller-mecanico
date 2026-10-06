@@ -45,12 +45,12 @@
           [ngModel]="monto()"
           (ngModelChange)="monto.set($event)"
         />
-        <small>Saldo pendiente de la orden: {{ saldoPendiente() | currency }}</small>
+        @if (errorMonto()) {
+          <span class="error-msg">{{ errorMonto() }}</span>
+        }
+        <small>Saldo pendiente de la orden: {{ saldoPendiente() | currency:'ARS':'$' }}</small>
         @if (tipoFactura() === 'FINAL') {
           <small>* La factura final siempre cubre el saldo pendiente completo.</small>
-        }
-        @if (tipoFactura() === 'SENIA' && monto() >= saldoPendiente() && saldoPendiente() > 0) {
-          <small class="aviso-pago-total">Vas a señar el 100% del saldo por adelantado.</small>
         }
       </div>
 
@@ -59,6 +59,7 @@
         <p-button
           [label]="facturaService.cargando() ? 'Generando...' : labelBotonConfirmar()"
           [loading]="facturaService.cargando()"
+          [disabled]="!!errorMonto()"
           (onClick)="confirmar()"
         />
       </div>

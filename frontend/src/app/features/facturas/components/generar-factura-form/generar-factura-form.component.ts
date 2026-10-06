@@ -43,7 +43,14 @@ export class GenerarFacturaFormComponent {
 
   readonly tituloFormulario = computed(() => (this.tipoFactura() === 'SENIA' ? 'Señar' : 'Generar factura'));
 
-  readonly labelBotonConfirmar = computed(() => (this.tipoFactura() === 'SENIA' ? 'Generar seña' : 'Generar factura'));
+  readonly errorMonto = computed<string | null>(() => {
+    const monto = Number(this.monto());
+    if (this.tipoFactura() === 'SENIA' && !(monto > 0)) return 'El monto de la seña debe ser mayor a cero.';
+    if (monto > this.saldoPendiente()) return 'El monto no puede superar el saldo pendiente.';
+    return null;
+  });
+
+  readonly labelBotonConfirmar =computed(() => (this.tipoFactura() === 'SENIA' ? 'Generar seña' : 'Generar factura'));
 
   constructor() {
     effect(() => this.monto.set(this.saldoPendiente()));
@@ -59,6 +66,7 @@ export class GenerarFacturaFormComponent {
   }
 
   confirmar() {
+    if (this.errorMonto()) return;
     this.facturaService.generar({
       ordenTrabajoId: this.ordenTrabajoId(),
       formaPago: this.formaPago(),

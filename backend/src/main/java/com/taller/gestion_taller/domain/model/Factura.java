@@ -44,6 +44,10 @@ public class Factura {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    public static BigDecimal calcularSaldoPendiente(BigDecimal totalOrden, List<Factura> facturasActivas) {
+        return totalOrden.subtract(sumarMontoFacturado(facturasActivas));
+    }
+
     public static boolean estaTotalmenteFacturada(BigDecimal totalOrden, List<Factura> facturasActivas) {
         if (totalOrden.compareTo(BigDecimal.ZERO) <= 0) {
             return false;
