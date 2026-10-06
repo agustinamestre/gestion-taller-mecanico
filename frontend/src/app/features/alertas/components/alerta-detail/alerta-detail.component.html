@@ -22,6 +22,10 @@
           <span class="valor">{{ a.tipo === 'SERVICE_VENCIDO' ? 'Service vencido' : a.tipo }}</span>
         </div>
         <div class="dato">
+          <span class="label">Motivo</span>
+          <span class="valor">{{ etiquetaMotivo(a.motivo) }}</span>
+        </div>
+        <div class="dato">
           <span class="label">Fecha de alerta</span>
           <span class="valor">{{ a.fechaAlerta | date:'dd/MM/yyyy' }}</span>
         </div>

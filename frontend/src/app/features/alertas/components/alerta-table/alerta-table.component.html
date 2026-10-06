@@ -44,7 +44,7 @@
       <th>Patente</th>
       <th>Cliente</th>
       <th>Fecha alerta</th>
-      <th>Tipo</th>
+      <th>Motivo</th>
       <th>Estado</th>
       <th style="width: 8rem">Acciones</th>
     </tr>
@@ -54,7 +54,7 @@
       <td>{{ alerta.patenteVehiculo }}</td>
       <td>{{ alerta.nombreCliente }}</td>
       <td>{{ alerta.fechaAlerta | date:'dd/MM/yyyy' }}</td>
-      <td>{{ alerta.tipo === 'SERVICE_VENCIDO' ? 'Service vencido' : alerta.tipo }}</td>
+      <td>{{ etiquetaMotivo(alerta.motivo) }}</td>
       <td>
         @if (alerta.contactado) {
           <span class="etiqueta-estado estado-contactada">Contactada</span>

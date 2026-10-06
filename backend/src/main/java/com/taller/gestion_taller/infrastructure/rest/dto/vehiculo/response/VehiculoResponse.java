@@ -14,5 +14,7 @@ public record VehiculoResponse (
         Integer kilometrajeActual,
         ClienteSummaryResponse cliente,
         boolean activo,
-        LocalDate fechaUltimoService
+        LocalDate fechaUltimoService,
+        Integer kmUltimoService,
+        LocalDate fechaAlta
 ) { }

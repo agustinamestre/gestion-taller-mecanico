@@ -14,6 +14,7 @@
           formControlName="patente"
           placeholder="AE123FP"
           style="text-transform: uppercase"
+          (input)="normalizarPatente($event)"
         />
         @if (invalid('patente')) {
           <span class="error-msg">Formato inválido. Ej: AE123FP o ABC123</span>

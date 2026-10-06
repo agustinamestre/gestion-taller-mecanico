@@ -44,6 +44,13 @@ public class OrdenTrabajoEntity {
     @Column(name = "usuario_creacion_id", nullable = false)
     private Long usuarioCreacionId;
 
+    // El default completa las órdenes existentes al agregar la columna.
+    @Column(name = "incluye_service", nullable = false)
+    private boolean incluyeService;
+
+    @Column(name = "kilometraje_ingreso")
+    private Integer kilometrajeIngreso;
+
     @OneToMany(mappedBy = "orden", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private List<ItemOrdenTrabajoEntity> items = new ArrayList<>();

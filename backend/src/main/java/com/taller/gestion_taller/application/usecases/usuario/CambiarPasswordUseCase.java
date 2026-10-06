@@ -5,6 +5,7 @@ import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Usuario;
+import com.taller.gestion_taller.domain.repositories.RefreshTokenRepository;
 import com.taller.gestion_taller.domain.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,6 +15,7 @@ public class CambiarPasswordUseCase implements CambiarPassword {
 
     private final UsuarioRepository usuarioRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public void cambiar(CambiarPasswordCommand command) {
@@ -30,5 +32,7 @@ public class CambiarPasswordUseCase implements CambiarPassword {
                 .build();
 
         usuarioRepository.save(modificado);
+        // Cierra todas las sesiones abiertas con la contraseña anterior.
+        refreshTokenRepository.revocarTodosPorUsuarioId(usuario.getId());
     }
 }

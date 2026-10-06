@@ -267,6 +267,34 @@ public final class BusinessErrors {
         );
     }
 
+    public static BusinessError montoSeniaDebeSerPositivo() {
+        return new BusinessError(
+                "MONTO_SENIA_DEBE_SER_POSITIVO",
+                "El monto de la seña debe ser mayor a cero."
+        );
+    }
+
+    public static BusinessError ordenSinSaldoPendiente() {
+        return new BusinessError(
+                "ORDEN_SIN_SALDO_PENDIENTE",
+                "La orden no tiene saldo pendiente para facturar."
+        );
+    }
+
+    public static BusinessError totalOrdenMenorAFacturado(BigDecimal montoFacturado) {
+        return new BusinessError(
+                "TOTAL_ORDEN_MENOR_A_FACTURADO",
+                "El total de la orden no puede quedar por debajo de lo ya facturado. Monto facturado: " + montoFacturado
+        );
+    }
+
+    public static BusinessError ordenConSaldoPendiente(BigDecimal saldoPendiente) {
+        return new BusinessError(
+                "ORDEN_CON_SALDO_PENDIENTE",
+                "La orden no se puede entregar hasta que esté totalmente facturada. Saldo pendiente: " + saldoPendiente
+        );
+    }
+
     public static BusinessError facturaFinalDebeCubrirSaldoTotal(BigDecimal saldoPendiente) {
         return new BusinessError(
                 "FACTURA_FINAL_DEBE_CUBRIR_SALDO_TOTAL",

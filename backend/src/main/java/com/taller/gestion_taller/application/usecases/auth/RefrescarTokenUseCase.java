@@ -40,6 +40,10 @@ public class RefrescarTokenUseCase implements RefrescarToken {
         Usuario usuario = usuarioRepository.findById(refreshToken.getUsuarioId())
                 .orElseThrow(() -> new UnauthorizedException(BusinessErrors.refreshTokenInvalido()));
 
+        if (!usuario.isActivo()) {
+            throw new UnauthorizedException(BusinessErrors.refreshTokenInvalido());
+        }
+
         String nuevoAccessToken = jwtService.generarToken(new UsuarioDetails(usuario));
         String nuevoRefreshToken = generarRefreshToken.generar(usuario.getId());
 

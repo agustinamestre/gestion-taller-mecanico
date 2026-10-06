@@ -69,10 +69,24 @@ class FacturaValidatorTest {
     }
 
     @Test
-    @DisplayName("Rechaza una segunda seña para la misma orden")
-    void rechazaSeniaDuplicada() {
-        OrdenTrabajo orden = ordenConTotal(EstadoOrdenTrabajo.INGRESADO, BigDecimal.valueOf(1000));
-        List<Factura> facturasActivas = List.of(facturaActiva(TipoFactura.SENIA, BigDecimal.valueOf(200)));
+    @DisplayName("Permite varias señas (adelantos de pago) para la misma orden")
+    void permiteVariasSenias() {
+        OrdenTrabajo orden = ordenConTotal(EstadoOrdenTrabajo.EN_REPARACION, BigDecimal.valueOf(1000));
+        List<Factura> facturasActivas = List.of(
+                facturaActiva(TipoFactura.SENIA, BigDecimal.valueOf(100)),
+                facturaActiva(TipoFactura.SENIA, BigDecimal.valueOf(200)));
+
+        assertDoesNotThrow(() ->
+                validator.validarNuevaFactura(orden, TipoFactura.SENIA, BigDecimal.valueOf(300), facturasActivas));
+    }
+
+    @Test
+    @DisplayName("Rechaza una seña adicional que supera el saldo pendiente luego de señas previas")
+    void rechazaSeniaAdicionalQueSuperaSaldo() {
+        OrdenTrabajo orden = ordenConTotal(EstadoOrdenTrabajo.EN_REPARACION, BigDecimal.valueOf(1000));
+        List<Factura> facturasActivas = List.of(
+                facturaActiva(TipoFactura.SENIA, BigDecimal.valueOf(400)),
+                facturaActiva(TipoFactura.SENIA, BigDecimal.valueOf(400)));
 
         assertThrows(BusinessRunTimeException.class, () ->
                 validator.validarNuevaFactura(orden, TipoFactura.SENIA, BigDecimal.valueOf(300), facturasActivas));
@@ -105,6 +119,16 @@ class FacturaValidatorTest {
 
         assertThrows(BusinessRunTimeException.class, () ->
                 validator.validarNuevaFactura(orden, TipoFactura.FINAL, BigDecimal.valueOf(800), facturasActivas));
+    }
+
+    @Test
+    @DisplayName("Rechaza la factura final si las señas ya cubren el total de la orden")
+    void rechazaFinalSinSaldoPendiente() {
+        OrdenTrabajo orden = ordenConTotal(EstadoOrdenTrabajo.FINALIZADO, BigDecimal.valueOf(1000));
+        List<Factura> facturasActivas = List.of(facturaActiva(TipoFactura.SENIA, BigDecimal.valueOf(1000)));
+
+        assertThrows(BusinessRunTimeException.class, () ->
+                validator.validarNuevaFactura(orden, TipoFactura.FINAL, BigDecimal.ZERO, facturasActivas));
     }
 
     @Test
@@ -143,6 +167,15 @@ class FacturaValidatorTest {
 
         assertDoesNotThrow(() ->
                 validator.validarNuevaFactura(orden, TipoFactura.SENIA, BigDecimal.valueOf(300), List.of()));
+    }
+
+    @Test
+    @DisplayName("Rechaza una seña con monto cero")
+    void rechazaSeniaConMontoCero() {
+        OrdenTrabajo orden = ordenConTotal(EstadoOrdenTrabajo.INGRESADO, BigDecimal.valueOf(1000));
+
+        assertThrows(BusinessRunTimeException.class, () ->
+                validator.validarNuevaFactura(orden, TipoFactura.SENIA, BigDecimal.ZERO, List.of()));
     }
 
     @Test

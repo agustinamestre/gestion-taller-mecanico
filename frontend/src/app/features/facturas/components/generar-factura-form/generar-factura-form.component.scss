@@ -44,9 +44,9 @@ h2 {
 
   p-select { width: 100%; }
 
-  .aviso-pago-total {
-    color: var(--primary-color);
-    font-weight: 600;
+  .error-msg {
+    font-size: 0.75rem;
+    color: var(--error-color);
   }
 }
 

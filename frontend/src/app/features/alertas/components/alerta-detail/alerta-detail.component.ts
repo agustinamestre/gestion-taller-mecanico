@@ -3,6 +3,7 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { AlertaService } from '../../services/alerta.service';
 import { VehiculoService } from '../../../vehiculos/services/vehiculo.service';
+import { etiquetaMotivoAlerta } from '../../models/alerta.model';
 
 @Component({
   selector: 'app-alerta-detail',
@@ -12,6 +13,8 @@ import { VehiculoService } from '../../../vehiculos/services/vehiculo.service';
   styleUrl: './alerta-detail.component.scss',
 })
 export class AlertaDetailComponent implements OnInit {
+  readonly etiquetaMotivo = etiquetaMotivoAlerta;
+
   readonly alertaService = inject(AlertaService);
   readonly vehiculoService = inject(VehiculoService);
 

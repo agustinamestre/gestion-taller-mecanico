@@ -35,8 +35,17 @@ public class VehiculoEntity {
     @Column(name = "fecha_ultimo_service")
     private LocalDate fechaUltimoService;
 
+    @Column(name = "km_ultimo_service")
+    private Integer kmUltimoService;
+
     @Column(name = "kilometraje_actual", nullable = false)
     private Integer kilometrajeActual;
+
+    @Column(name = "fecha_alta", nullable = false)
+    private LocalDate fechaAlta;
+
+    @Column(name = "kilometraje_alta")
+    private Integer kilometrajeAlta;
 
     @Column(nullable = false)
     @Builder.Default
