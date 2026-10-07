@@ -2,8 +2,11 @@ package com.taller.gestion_taller.infrastructure.config;
 
 import com.taller.gestion_taller.application.usecases.alerta.*;
 import com.taller.gestion_taller.domain.repositories.AlertaRepository;
+import com.taller.gestion_taller.domain.repositories.OrdenTrabajoRepository;
 import com.taller.gestion_taller.domain.repositories.VehiculoRepository;
 import com.taller.gestion_taller.domain.service.NotificadorCliente;
+import com.taller.gestion_taller.domain.service.PoliticaServiceVehiculo;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,11 +14,21 @@ import org.springframework.context.annotation.Configuration;
 public class AlertaBeanConfiguration {
 
     @Bean
+    public PoliticaServiceVehiculo politicaServiceVehiculo(@Value("${alertas.service.meses:12}") int meses,
+                                                           @Value("${alertas.service.km:10000}") int km) {
+        return new PoliticaServiceVehiculo(meses, km);
+    }
+
+    @Bean
     public GenerarAlertasService generarAlertasServiceUseCase(VehiculoRepository vehiculoRepository,
-                                                               AlertaRepository alertaRepository) {
+                                                               AlertaRepository alertaRepository,
+                                                               PoliticaServiceVehiculo politicaServiceVehiculo,
+                                                               OrdenTrabajoRepository ordenTrabajoRepository) {
         return new GenerarAlertasServiceUseCase(
                 vehiculoRepository,
-                alertaRepository
+                alertaRepository,
+                politicaServiceVehiculo,
+                ordenTrabajoRepository
         );
     }
 
