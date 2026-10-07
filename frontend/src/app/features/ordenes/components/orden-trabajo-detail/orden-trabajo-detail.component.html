@@ -8,11 +8,12 @@
           <button pButton icon="pi pi-arrow-left" class="p-button-text" (click)="volver.emit()"></button>
           <h2>{{ o.patenteVehiculo }}</h2>
           <span class="etiqueta-estado" [class]="'estado-' + o.estado.toLowerCase()">{{ formatearEstado(o.estado) }}</span>
-          @if (tieneSeniaActiva() && !o.facturada) {
-            <span class="etiqueta-seniada">Señado</span>
-          }
-          @if (o.facturada) {
+          @if (o.facturada && estaCerrada) {
             <span class="etiqueta-facturada">Facturada</span>
+          } @else if (o.facturada) {
+            <span class="etiqueta-seniada">Señada 100%</span>
+          } @else if (tieneSeniaActiva()) {
+            <span class="etiqueta-seniada">Señado</span>
           }
           @if (esFacturable) {
             <p-button [label]="labelBotonFacturar" icon="pi pi-receipt" size="small" (onClick)="abrirGenerarFactura()" />
@@ -24,7 +25,14 @@
           <div><span class="label">Teléfono</span><span class="value">{{ o.telefonoCliente }}</span></div>
           <div><span class="label">Fecha ingreso</span><span class="value">{{ o.fechaIngreso | date:'dd/MM/yyyy' }}</span></div>
           <div><span class="label">Fecha egreso</span><span class="value">{{ o.fechaEgreso ? (o.fechaEgreso | date:'dd/MM/yyyy') : '—' }}</span></div>
+          <div><span class="label">Kilometraje actual</span><span class="value">{{ o.kilometrajeIngreso != null ? (o.kilometrajeIngreso | number) + ' km' : '—' }}</span></div>
           <div><span class="label">Total</span><span class="value total">{{ o.total | currency:'ARS':'$' }}</span></div>
+          <div class="incluye-service">
+            <p-checkbox inputId="incluyeService" [binary]="true"
+              [ngModel]="o.incluyeService" (ngModelChange)="cambiarIncluyeService($event)"
+              [disabled]="!esModificable || ordenTrabajoService.cargando()" />
+            <label for="incluyeService">Incluye service</label>
+          </div>
         </div>
 
           <div class="descripcion-problema">

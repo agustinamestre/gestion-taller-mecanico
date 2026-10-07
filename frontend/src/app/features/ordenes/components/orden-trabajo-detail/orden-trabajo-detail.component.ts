@@ -1,9 +1,10 @@
 import { Component, computed, effect, inject, output, signal } from '@angular/core';
-import { CurrencyPipe, DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TextareaModule } from 'primeng/textarea';
+import { CheckboxModule } from 'primeng/checkbox';
 import { OrdenTrabajoService } from '../../services/orden-trabajo.service';
 import { ItemOrdenTrabajoResponse, ESTADOS_MODIFICABLES, ESTADO_ORDEN_LABELS, EstadoOrdenTrabajo } from '../../models/orden-trabajo.model';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
@@ -29,7 +30,7 @@ interface ItemUnificado {
   selector: 'app-orden-trabajo-detail',
   standalone: true,
   imports: [
-    CurrencyPipe, DatePipe, FormsModule, ButtonModule, TableModule, TextareaModule,
+    CurrencyPipe, DatePipe, DecimalPipe, FormsModule, ButtonModule, TableModule, TextareaModule, CheckboxModule,
     ItemFormComponent, ConfirmDialogComponent, GenerarFacturaFormComponent,
   ],
   templateUrl: './orden-trabajo-detail.component.html',
@@ -83,12 +84,17 @@ export class OrdenTrabajoDetailComponent {
 
   get puedeFacturarSenia(): boolean {
     const estado = this.orden?.estado;
-    return (estado === 'INGRESADO' || estado === 'EN_REPARACION') && !this.tieneSeniaActiva();
+    // Se permiten varias señas mientras quede saldo pendiente
+    return (estado === 'INGRESADO' || estado === 'EN_REPARACION') && !this.orden?.facturada;
+  }
+
+  get estaCerrada(): boolean {
+    const estado = this.orden?.estado;
+    return estado === 'FINALIZADO' || estado === 'ENTREGADO';
   }
 
   get puedeFacturarFinal(): boolean {
-    const estado = this.orden?.estado;
-    return (estado === 'FINALIZADO' || estado === 'ENTREGADO') && !this.orden?.facturada;
+    return this.estaCerrada && !this.orden?.facturada && (this.orden?.total ?? 0) > 0;
   }
 
   get esFacturable(): boolean {
@@ -184,6 +190,16 @@ export class OrdenTrabajoDetailComponent {
         this.descripcionEditada.set('');
       },
     });
+  }
+
+  cambiarIncluyeService(incluyeService: boolean) {
+    const orden = this.orden;
+    if (!orden) return;
+
+    this.ordenTrabajoService.modificar(orden.id, {
+      descripcionProblema: orden.descripcionProblema,
+      incluyeService,
+    }).subscribe();
   }
 
   pedirEliminarItem(item: ItemOrdenTrabajoResponse) {

@@ -50,11 +50,21 @@
 
     @if (modoOrigen()) {
       <div class="campo">
-        <label>Responsable</label>
-        <p-select [options]="usuarioService.usuariosActivos()" optionLabel="nombre" optionValue="id"
-          [ngModel]="usuarioCreacionId()" (ngModelChange)="usuarioCreacionId.set($event)"
-          emptyMessage="No se encontraron resultados"
-          placeholder="Seleccionar usuario" ></p-select>
+        <label for="kilometrajeIngreso">Kilometraje actual</label>
+        <p-inputnumber inputId="kilometrajeIngreso" [min]="0" [useGrouping]="true" suffix=" km"
+          [placeholder]="kmActualVehiculo() != null ? 'Actual: ' + (kmActualVehiculo() | number) + ' km' : 'Opcional'"
+          [ngModel]="kilometrajeIngreso()" (ngModelChange)="kilometrajeIngreso.set($event)" />
+        @if (errorKilometraje()) {
+          <span class="error-msg">{{ errorKilometraje() }}</span>
+        } @else {
+          <small class="ayuda">Si lo cargás, se actualiza el kilometraje del vehículo.</small>
+        }
+      </div>
+
+      <div class="campo-check">
+        <p-checkbox inputId="incluyeService" [binary]="true"
+          [ngModel]="incluyeService()" (ngModelChange)="incluyeService.set($event)" />
+        <label for="incluyeService">Incluye service</label>
       </div>
 
       <div class="form-footer">

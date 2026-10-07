@@ -35,10 +35,10 @@ class ModificarOrdenTrabajoUseCaseTest {
         when(ordenTrabajoRepository.save(orden)).thenReturn(orden);
 
         OrdenTrabajo resultado = useCase.modificar(
-                new ModificarOrdenTrabajoCommand(1L, "Nueva descripcion"));
+                new ModificarOrdenTrabajoCommand(1L, "Nueva descripcion", null));
 
         assertThat(resultado).isEqualTo(orden);
-        verify(orden).modificar("Nueva descripcion");
+        verify(orden).modificar("Nueva descripcion", null);
         verify(ordenTrabajoRepository).save(orden);
     }
 
@@ -48,7 +48,7 @@ class ModificarOrdenTrabajoUseCaseTest {
         when(ordenTrabajoRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() ->
-                useCase.modificar(new ModificarOrdenTrabajoCommand(99L, "Nueva descripcion")))
+                useCase.modificar(new ModificarOrdenTrabajoCommand(99L, "Nueva descripcion", null)))
                 .isInstanceOf(NotFoundException.class);
 
         verify(ordenTrabajoRepository, never()).save(any());

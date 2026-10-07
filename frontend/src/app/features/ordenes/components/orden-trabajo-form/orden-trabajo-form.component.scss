@@ -23,6 +23,24 @@
 
   label { font-weight: 500; color: var(--text-main); font-size: 0.9rem; }
   textarea { width: 100%; }
+
+  .error-msg {
+    font-size: 0.75rem;
+    color: var(--error-color);
+  }
+}
+
+.campo-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  label { font-weight: 500; color: var(--text-main); font-size: 0.9rem; cursor: pointer; }
+}
+
+.ayuda {
+  font-size: 0.75rem;
+  color: var(--text-muted);
 }
 
 .presupuesto-elegido {

@@ -44,11 +44,15 @@ public class RegistrarOrdenTrabajoUseCase implements RegistrarOrdenTrabajo {
         validarCoherenciaPatente(command.patente(), presupuesto.getVehiculo());
         validarVehiculoSinOrdenActiva(presupuesto.getVehiculo().getPatente());
 
+        Vehiculo vehiculo = actualizarKilometrajeSiCorresponde(presupuesto.getVehiculo(), command.kilometrajeIngreso());
+
         OrdenTrabajo orden = OrdenTrabajo.crearNueva(
-                presupuesto.getVehiculo(),
+                vehiculo,
                 presupuesto,
                 command.descripcionProblema(),
-                command.usuarioCreacionId());
+                command.usuarioCreacionId(),
+                command.incluyeService(),
+                command.kilometrajeIngreso());
 
         presupuesto.marcarComoUtilizado();
         presupuestoRepository.save(presupuesto);
@@ -64,10 +68,19 @@ public class RegistrarOrdenTrabajoUseCase implements RegistrarOrdenTrabajo {
         validarVehiculoSinOrdenActiva(vehiculo.getPatente());
 
         return OrdenTrabajo.crearNueva(
-                vehiculo,
+                actualizarKilometrajeSiCorresponde(vehiculo, command.kilometrajeIngreso()),
                 null,
                 command.descripcionProblema(),
-                command.usuarioCreacionId());
+                command.usuarioCreacionId(),
+                command.incluyeService(),
+                command.kilometrajeIngreso());
+    }
+
+    private Vehiculo actualizarKilometrajeSiCorresponde(Vehiculo vehiculo, Integer kilometrajeIngreso) {
+        if (kilometrajeIngreso == null || kilometrajeIngreso.equals(vehiculo.getKilometrajeActual())) {
+            return vehiculo;
+        }
+        return vehiculoRepository.save(vehiculo.actualizarKilometraje(kilometrajeIngreso));
     }
 
     private void validarPresupuestoConvertibleAOrden(Presupuesto presupuesto) {

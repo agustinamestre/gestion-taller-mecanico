@@ -1,11 +1,12 @@
 package com.taller.gestion_taller.infrastructure.rest.dto.orden.request;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Min;
 
 public record RegistrarOrdenTrabajoRequest(
         String patente,
         Long presupuestoId,
         String descripcionProblema,
-        @NotNull(message = "El usuario de creacion es obligatorio")
-        Long usuarioCreacionId
+        boolean incluyeService,
+        @Min(value = 0, message = "El kilometraje de ingreso debe ser mayor o igual a 0")
+        Integer kilometrajeIngreso
 ) {}

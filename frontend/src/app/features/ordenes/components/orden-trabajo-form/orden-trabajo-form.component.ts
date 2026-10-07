@@ -4,23 +4,25 @@ import { ButtonModule } from 'primeng/button';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { SelectModule } from 'primeng/select';
 import { TextareaModule } from 'primeng/textarea';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputNumberModule } from 'primeng/inputnumber';
 import { OrdenTrabajoService } from '../../services/orden-trabajo.service';
-import { UsuarioService } from '../../../usuarios/services/usuario.service';
 import { RegistrarOrdenTrabajoRequest } from '../../models/orden-trabajo.model';
 import { PresupuestoSelectorComponent } from '../../../../shared/components/presupuesto-selector/presupuesto-selector.component';
 import { PresupuestoSummaryResponse } from '../../../presupuestos/models/presupuesto.model';
 import { VehiculoSelectorComponent } from '../../../../shared/components/vehiculo-selector/vehiculo-selector.component';
 import { VehiculoResponse } from '../../../vehiculos/models/vehiculo.model';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { PresupuestoService } from '../../../presupuestos/services/presupuesto.service';
+import { VehiculoService } from '../../../vehiculos/services/vehiculo.service';
 
 type ModoOrigen = 'presupuesto' | 'directa';
 
 @Component({
   selector: 'app-orden-trabajo-form',
   standalone: true,
-  imports: [FormsModule, ButtonModule, SelectButtonModule, SelectModule, TextareaModule,
-    PresupuestoSelectorComponent, VehiculoSelectorComponent, CurrencyPipe
+  imports: [FormsModule, ButtonModule, SelectButtonModule, SelectModule, TextareaModule, CheckboxModule, InputNumberModule,
+    PresupuestoSelectorComponent, VehiculoSelectorComponent, CurrencyPipe, DecimalPipe
   ],
   templateUrl: './orden-trabajo-form.component.html',
   styleUrl: './orden-trabajo-form.component.scss',
@@ -28,7 +30,7 @@ type ModoOrigen = 'presupuesto' | 'directa';
 export class OrdenTrabajoFormComponent {
   private readonly ordenTrabajoService = inject(OrdenTrabajoService);
   private readonly presupuestoService = inject(PresupuestoService);
-  readonly usuarioService = inject(UsuarioService);
+  private readonly vehiculoService = inject(VehiculoService);
 
   readonly creada = output<number>();
   readonly cancelar = output<void>();
@@ -45,7 +47,24 @@ export class OrdenTrabajoFormComponent {
   readonly vehiculoElegido = signal<VehiculoResponse | null>(null);
   readonly observacionesPresupuesto = signal<string | null>(null);
   readonly descripcionProblema = signal('');
-  readonly usuarioCreacionId = signal<number | null>(null);
+  readonly incluyeService = signal(false);
+  readonly kilometrajeIngreso = signal<number | null>(null);
+  readonly kmActualVehiculoPresupuesto = signal<number | null>(null);
+
+  readonly kmActualVehiculo = computed(() =>
+    this.modoOrigen() === 'presupuesto'
+      ? this.kmActualVehiculoPresupuesto()
+      : this.vehiculoElegido()?.kilometrajeActual ?? null
+  );
+
+  readonly errorKilometraje = computed<string | null>(() => {
+    const km = this.kilometrajeIngreso();
+    const kmActual = this.kmActualVehiculo();
+    if (km != null && kmActual != null && km < kmActual) {
+      return `No puede ser menor al kilometraje actual (${kmActual.toLocaleString('es-AR')} km).`;
+    }
+    return null;
+  });
 
   readonly listoParaGuardar = computed(() => {
     const origenValido = this.modoOrigen() === 'presupuesto'
@@ -59,12 +78,8 @@ export class OrdenTrabajoFormComponent {
       ? this.descripcionProblema().trim().length > 0
       : true;
 
-    return origenValido && descripcionValida && this.usuarioCreacionId() != null;
+    return origenValido && descripcionValida && !this.errorKilometraje();
   });
-
-  constructor() {
-    this.usuarioService.listar().subscribe();
-  }
 
   elegirModoOrigen(modo: ModoOrigen) {
     this.modoOrigen.set(modo);
@@ -73,16 +88,32 @@ export class OrdenTrabajoFormComponent {
     this.observacionesPresupuesto.set(null);
     this.vehiculoElegido.set(null);
     this.descripcionProblema.set('');
+    this.incluyeService.set(false);
+    this.kilometrajeIngreso.set(null);
+    this.kmActualVehiculoPresupuesto.set(null);
   }
 
   onPresupuestoSeleccionado(presupuesto: PresupuestoSummaryResponse | null) {
     this.presupuestoElegido.set(presupuesto);
     this.presupuestoId.set(presupuesto?.id ?? null);
     this.observacionesPresupuesto.set(null);
+    this.kmActualVehiculoPresupuesto.set(null);
 
     if (presupuesto) {
       this.presupuestoService.obtener(presupuesto.id).subscribe({
         next: (detalle) => this.observacionesPresupuesto.set(detalle.observaciones || null),
+      });
+    }
+
+    const patente = presupuesto?.patenteVehiculo;
+    if (patente) {
+      this.vehiculoService.buscar(patente).subscribe({
+        next: (vehiculos) => {
+          const vehiculo = vehiculos.find((v) => v.patente === patente);
+          if (this.presupuestoElegido()?.id === presupuesto!.id) {
+            this.kmActualVehiculoPresupuesto.set(vehiculo?.kilometrajeActual ?? null);
+          }
+        },
       });
     }
   }
@@ -95,7 +126,8 @@ export class OrdenTrabajoFormComponent {
       if (!this.listoParaGuardar()) return;
 
       const request: RegistrarOrdenTrabajoRequest = {
-        usuarioCreacionId: this.usuarioCreacionId()!,
+        incluyeService: this.incluyeService(),
+        ...(this.kilometrajeIngreso() != null ? { kilometrajeIngreso: this.kilometrajeIngreso()! } : {}),
         ...(this.modoOrigen() === 'presupuesto'
           ? {
               presupuestoId: this.presupuestoId()!,

@@ -15,8 +15,13 @@ public record OrdenTrabajoResponse(
         String descripcionProblema,
         String estado,
         Long usuarioCreacionId,
+        boolean incluyeService,
+        Integer kilometrajeIngreso,
         List<ItemPresupuestoResponse> itemsPresupuesto,
         List<ItemOrdenTrabajoResponse> itemsOrden,
         BigDecimal total,
-        boolean facturada
+        boolean facturada,
+        String nombreCliente,
+        String apellidoCliente,
+        String telefonoCliente
 ) {}

@@ -40,10 +40,10 @@ class RegistrarOrdenTrabajoUseCaseTest {
     private static final String DESCRIPCION = "Ruido en el motor";
 
     private static final RegistrarOrdenTrabajoCommand COMMAND_CON_PRESUPUESTO =
-            new RegistrarOrdenTrabajoCommand(PATENTE, PRESUPUESTO_ID, DESCRIPCION, USUARIO_ID);
+            new RegistrarOrdenTrabajoCommand(PATENTE, PRESUPUESTO_ID, DESCRIPCION, USUARIO_ID, false, null);
 
     private static final RegistrarOrdenTrabajoCommand COMMAND_SIN_PRESUPUESTO =
-            new RegistrarOrdenTrabajoCommand(PATENTE, null, DESCRIPCION, USUARIO_ID);
+            new RegistrarOrdenTrabajoCommand(PATENTE, null, DESCRIPCION, USUARIO_ID, false, null);
 
     @Mock private OrdenTrabajoRepository ordenTrabajoRepository;
     @Mock private VehiculoRepository vehiculoRepository;
@@ -201,7 +201,7 @@ class RegistrarOrdenTrabajoUseCaseTest {
         @DisplayName("debe lanzar BusinessRunTimeException cuando la patente del comando NO coincide con la del presupuesto")
         void lanzaExcepcionCuandoPatenteInconsistente() {
             RegistrarOrdenTrabajoCommand commandPatenteDistinta =
-                    new RegistrarOrdenTrabajoCommand("XYZ999", PRESUPUESTO_ID, DESCRIPCION, USUARIO_ID);
+                    new RegistrarOrdenTrabajoCommand("XYZ999", PRESUPUESTO_ID, DESCRIPCION, USUARIO_ID, false, null);
             Presupuesto presupuesto = Presupuesto.builder()
                     .id(PRESUPUESTO_ID)
                     .estado(EstadoPresupuesto.APROBADO)
@@ -297,6 +297,38 @@ class RegistrarOrdenTrabajoUseCaseTest {
 
             verify(ordenTrabajoRepository, never()).save(any());
             verifyNoInteractions(presupuestoRepository);
+        }
+
+        @Test
+        @DisplayName("debe actualizar el kilometraje del vehiculo con el km de ingreso y marcar si incluye service")
+        void actualizaKilometrajeConElKmDeIngreso() {
+            Vehiculo vehiculoConKm = vehiculo.toBuilder().kilometrajeActual(40000).build();
+            Vehiculo vehiculoActualizado = vehiculoConKm.toBuilder().kilometrajeActual(52000).build();
+            when(vehiculoRepository.findByPatente(PATENTE)).thenReturn(Optional.of(vehiculoConKm));
+            when(ordenTrabajoRepository.findByFiltros(PATENTE, null)).thenReturn(List.of());
+            when(vehiculoRepository.save(any())).thenReturn(vehiculoActualizado);
+            when(ordenTrabajoRepository.save(any())).thenAnswer(inv -> inv.getArgument(0));
+
+            OrdenTrabajo resultado = useCase.registrar(
+                    new RegistrarOrdenTrabajoCommand(PATENTE, null, DESCRIPCION, USUARIO_ID, true, 52000));
+
+            assertThat(resultado.getVehiculo().getKilometrajeActual()).isEqualTo(52000);
+            assertThat(resultado.getKilometrajeIngreso()).isEqualTo(52000);
+            assertThat(resultado.isIncluyeService()).isTrue();
+        }
+
+        @Test
+        @DisplayName("debe rechazar un km de ingreso menor al kilometraje actual del vehiculo")
+        void rechazaKmDeIngresoMenorAlActual() {
+            Vehiculo vehiculoConKm = vehiculo.toBuilder().kilometrajeActual(40000).build();
+            when(vehiculoRepository.findByPatente(PATENTE)).thenReturn(Optional.of(vehiculoConKm));
+            when(ordenTrabajoRepository.findByFiltros(PATENTE, null)).thenReturn(List.of());
+
+            assertThatThrownBy(() -> useCase.registrar(
+                    new RegistrarOrdenTrabajoCommand(PATENTE, null, DESCRIPCION, USUARIO_ID, false, 39000)))
+                    .isInstanceOf(BusinessRunTimeException.class);
+
+            verify(ordenTrabajoRepository, never()).save(any());
         }
     }
 }

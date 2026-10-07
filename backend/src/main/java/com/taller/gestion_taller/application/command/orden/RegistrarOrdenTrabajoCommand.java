@@ -4,5 +4,7 @@ public record RegistrarOrdenTrabajoCommand(
         String patente,
         Long presupuestoId,
         String descripcionProblema,
-        Long usuarioCreacionId
+        Long usuarioCreacionId,
+        boolean incluyeService,
+        Integer kilometrajeIngreso
 ) {}
