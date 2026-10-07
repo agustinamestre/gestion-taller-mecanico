@@ -5,15 +5,20 @@ import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.OrdenTrabajo;
 import com.taller.gestion_taller.domain.model.Producto;
+import com.taller.gestion_taller.domain.model.Factura;
+import com.taller.gestion_taller.domain.repositories.FacturaRepository;
 import com.taller.gestion_taller.domain.repositories.OrdenTrabajoRepository;
 import com.taller.gestion_taller.domain.repositories.ProductoRepository;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 public class ModificarItemOrdenTrabajoUseCase implements ModificarItemOrdenTrabajo {
 
     private final OrdenTrabajoRepository ordenTrabajoRepository;
     private final ProductoRepository productoRepository;
+    private final FacturaRepository facturaRepository;
 
     @Override
     public OrdenTrabajo modificar(ModificarItemOrdenTrabajoCommand command) {
@@ -30,6 +35,14 @@ public class ModificarItemOrdenTrabajoUseCase implements ModificarItemOrdenTraba
 
         orden.modificarItem(command.itemId(), producto, command.descripcion(),
                 command.cantidad(), command.precioUnitario());
+        validarTotalCubreLoFacturado(orden);
         return ordenTrabajoRepository.save(orden);
+    }
+
+    private void validarTotalCubreLoFacturado(OrdenTrabajo orden) {
+        List<Factura> facturasActivas = facturaRepository.findActivasByOrdenTrabajoId(orden.getId());
+        if (!facturasActivas.isEmpty()) {
+            orden.validarTotalCubre(Factura.sumarMontoFacturado(facturasActivas));
+        }
     }
 }
