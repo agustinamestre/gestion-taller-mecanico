@@ -1,6 +1,7 @@
 package com.taller.gestion_taller.infrastructure.persistence.entity;
 
 import com.taller.gestion_taller.domain.model.MedioContacto;
+import com.taller.gestion_taller.domain.model.MotivoAlerta;
 import com.taller.gestion_taller.domain.model.TipoAlerta;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,6 +30,10 @@ public class AlertaEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
     private TipoAlerta tipo;
+
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
+    private MotivoAlerta motivo;
 
     @Column(nullable = false)
     private boolean contactado;

@@ -11,5 +11,5 @@ public interface AlertaRepository {
     Optional<Alerta> findById(Long id);
     List<Alerta> findByFiltros(String patente, Boolean contactado);
     long countByContactadoFalse();
-    boolean existsAlertaVigentePorVehiculo(Long vehiculoId, LocalDate fechaUltimoService);
+    boolean existsAlertaVigentePorVehiculo(Long vehiculoId, LocalDate fechaReferenciaService);
 }

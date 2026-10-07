@@ -54,7 +54,10 @@ public class AlertaRepositoryAdapter implements AlertaRepository {
     }
 
     @Override
-    public boolean existsAlertaVigentePorVehiculo(Long vehiculoId, LocalDate fechaUltimoService) {
-        return jpaAlertaRepository.existsByVehiculoIdAndFechaAlertaGreaterThanEqual(vehiculoId, fechaUltimoService);
+    public boolean existsAlertaVigentePorVehiculo(Long vehiculoId, LocalDate fechaReferenciaService) {
+        if (fechaReferenciaService == null) {
+            return jpaAlertaRepository.existsByVehiculoId(vehiculoId);
+        }
+        return jpaAlertaRepository.existsByVehiculoIdAndFechaAlertaAfter(vehiculoId, fechaReferenciaService);
     }
 }
