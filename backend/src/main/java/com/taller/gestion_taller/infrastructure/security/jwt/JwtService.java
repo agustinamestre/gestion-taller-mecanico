@@ -43,7 +43,8 @@ public class JwtService {
 
     public boolean esTokenValido(String token, UserDetails userDetails) {
         final String username = extraerUsername(token);
-        return username.equals(userDetails.getUsername()) && !esTokenExpirado(token);
+        // Un usuario desactivado deja de tener acceso aunque su token no haya vencido.
+        return username.equals(userDetails.getUsername()) && userDetails.isEnabled() && !esTokenExpirado(token);
     }
 
     private boolean esTokenExpirado(String token) {
