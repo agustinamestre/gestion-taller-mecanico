@@ -1,5 +1,5 @@
 import { Component, inject, output } from '@angular/core';
-import { DecimalPipe } from '@angular/common';
+import { DatePipe, DecimalPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { VehiculoService } from '../../services/vehiculo.service';
@@ -9,7 +9,7 @@ import { signal } from '@angular/core';
 @Component({
   selector: 'app-vehiculo-detail',
   standalone: true,
-  imports: [DecimalPipe, ButtonModule, TagModule, ConfirmDialogComponent],
+  imports: [DatePipe, DecimalPipe, ButtonModule, TagModule, ConfirmDialogComponent],
   templateUrl: './vehiculo-detail.component.html',
   styleUrl: './vehiculo-detail.component.scss',
 })

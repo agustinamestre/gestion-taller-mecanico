@@ -67,6 +67,17 @@
           <span class="valor">{{ vehiculo.kilometrajeActual | number }} km</span>
         </div>
         <div class="dato">
+          <span class="label">Último service</span>
+          <span class="valor">
+            @if (vehiculo.fechaUltimoService) {
+              {{ vehiculo.fechaUltimoService | date:'dd/MM/yyyy' }}
+              @if (vehiculo.kmUltimoService != null) { · {{ vehiculo.kmUltimoService | number }} km }
+            } @else {
+              Sin registrar
+            }
+          </span>
+        </div>
+        <div class="dato">
           <span class="label">Propietario</span>
           <span class="valor">{{ vehiculo.cliente.nombre }} {{ vehiculo.cliente.apellido }}</span>
         </div>
