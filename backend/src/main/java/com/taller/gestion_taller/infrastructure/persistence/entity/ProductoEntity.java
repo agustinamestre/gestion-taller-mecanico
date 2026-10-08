@@ -36,7 +36,4 @@ public class ProductoEntity {
     @Column(name = "precio_actual")
     private BigDecimal precioActual;
 
-    @Column(name = "stock_actual")
-    private Integer stockActual;
-
 }

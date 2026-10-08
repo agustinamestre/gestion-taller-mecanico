@@ -36,7 +36,6 @@ class ListarProductosUseCaseTest {
                 .descripcion("Filtro para motor")
                 .tipo(TipoProducto.REPUESTO)
                 .precioActual(new BigDecimal("1500.00"))
-                .stockActual(10)
                 .build();
         when(productoRepository.findAll()).thenReturn(Collections.singletonList(producto));
 

@@ -8,7 +8,6 @@ import {
   ProductoRequest,
   ModificarProductoRequest,
   ActualizarPrecioRequest,
-  ActualizarStockRequest,
   TipoProducto,
 } from '../models/producto.model';
 
@@ -81,20 +80,6 @@ export class ProductoService {
         this.productoSeleccionado.set(actualizado);
         this.estadoCarga.set('exito');
         this.notification.exito('Precio actualizado correctamente');
-      }),
-      catchError((err: HttpErrorResponse) => this.manejarError(err))
-    );
-  }
-
-  actualizarStock(id: number, request: ActualizarStockRequest) {
-    this.estadoCarga.set('cargando');
-    this.error.set(null);
-    return this.http.patch<ProductoResponse>(`${API_BASE}/${id}/stock`, request).pipe(
-      tap(actualizado => {
-        this.productos.update(lista => lista.map(p => p.id === id ? actualizado : p));
-        this.productoSeleccionado.set(actualizado);
-        this.estadoCarga.set('exito');
-        this.notification.exito('Stock actualizado correctamente');
       }),
       catchError((err: HttpErrorResponse) => this.manejarError(err))
     );

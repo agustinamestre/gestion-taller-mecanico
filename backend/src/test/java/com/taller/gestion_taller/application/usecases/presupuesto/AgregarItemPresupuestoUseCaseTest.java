@@ -57,14 +57,12 @@ class AgregarItemPresupuestoUseCaseTest {
                 .id(10L)
                 .nombre("Filtro de aceite")
                 .precioActual(new BigDecimal("15.00"))
-                .stockActual(50)
                 .build();
 
         productoServicio = Producto.builder()
                 .id(20L)
                 .nombre("Mano de obra - Cambio de aceite")
                 .precioActual(new BigDecimal("50.00"))
-                .stockActual(1000)
                 .build();
     }
 

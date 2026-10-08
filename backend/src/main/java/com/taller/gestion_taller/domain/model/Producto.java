@@ -15,7 +15,6 @@ public class Producto {
     private String descripcion;
     private TipoProducto tipo;
     private BigDecimal precioActual;
-    private Integer stockActual;
 
     public Producto actualizar(String nombre, String descripcion, TipoProducto tipo) {
         return this.toBuilder()
@@ -28,12 +27,6 @@ public class Producto {
     public Producto actualizarPrecio(BigDecimal nuevoPrecio) {
         return this.toBuilder()
                 .precioActual(nuevoPrecio)
-                .build();
-    }
-
-    public Producto actualizarStock(Integer nuevoStock) {
-        return this.toBuilder()
-                .stockActual(nuevoStock)
                 .build();
     }
 

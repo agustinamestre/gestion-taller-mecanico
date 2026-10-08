@@ -39,8 +39,7 @@ class RegistrarProductoUseCaseTest {
                 "Filtro de Aceite", 
                 "Filtro para motor", 
                 "REPUESTO", 
-                new BigDecimal("1500.00"), 
-                10
+                new BigDecimal("1500.00")
         );
 
         Producto producto = Producto.builder()
@@ -67,8 +66,7 @@ class RegistrarProductoUseCaseTest {
                 "Filtro de Aceite", 
                 "Filtro para motor", 
                 "REPUESTO", 
-                new BigDecimal("1500.00"), 
-                10
+                new BigDecimal("1500.00")
         );
 
         when(productoRepository.existePorNombreYTipo("Filtro de Aceite", TipoProducto.REPUESTO)).thenReturn(true);
@@ -87,8 +85,7 @@ class RegistrarProductoUseCaseTest {
                 "Filtro", 
                 "Desc", 
                 "INVALIDO", 
-                BigDecimal.ZERO, 
-                0
+                BigDecimal.ZERO
         );
 
         assertThatThrownBy(() -> useCase.registrar(command))

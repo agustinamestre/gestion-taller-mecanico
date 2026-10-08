@@ -29,12 +29,6 @@
           <p-inputnumber formControlName="precioActual" mode="currency" currency="ARS" locale="es-AR" [min]="0" />
           @if (invalid('precioActual')) { <span class="texto-error">Ingresá un precio válido</span> }
         </div>
-
-        <div class="campo" [class.campo-invalido]="invalid('stockActual')">
-          <label>Stock inicial *</label>
-          <p-inputnumber formControlName="stockActual" [min]="0" [useGrouping]="true" placeholder="0" />
-          @if (invalid('stockActual')) { <span class="texto-error">Ingresá un stock válido</span> }
-        </div>
       }
 
     </div>

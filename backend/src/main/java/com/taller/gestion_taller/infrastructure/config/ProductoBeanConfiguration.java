@@ -46,9 +46,4 @@ public class ProductoBeanConfiguration {
     public ActualizarPrecioProducto actualizarPrecioProductoUseCase(ProductoRepository productoRepository) {
         return new ActualizarPrecioProductoUseCase(productoRepository);
     }
-
-    @Bean
-    public ActualizarStockProducto actualizarStockProductoUseCase(ProductoRepository productoRepository) {
-        return new ActualizarStockProductoUseCase(productoRepository);
-    }
 }

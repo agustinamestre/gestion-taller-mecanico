@@ -5,9 +5,8 @@ import { ProductoTableComponent } from './components/producto-table/producto-tab
 import { ProductoFormComponent } from './components/producto-form/producto-form.component';
 import { ProductoDetailComponent } from './components/producto-detail/producto-detail.component';
 import { ProductoActualizarPrecioComponent } from './components/producto-actualizar-precio/producto-actualizar-precio.component';
-import { ProductoActualizarStockComponent } from './components/producto-actualizar-stock/producto-actualizar-stock.component';
 
-type Vista = 'tabla' | 'alta' | 'edicion' | 'detalle' | 'actualizar-precio' | 'actualizar-stock';
+type Vista = 'tabla' | 'alta' | 'edicion' | 'detalle' | 'actualizar-precio';
 
 @Component({
   selector: 'app-productos',
@@ -17,7 +16,6 @@ type Vista = 'tabla' | 'alta' | 'edicion' | 'detalle' | 'actualizar-precio' | 'a
     ProductoFormComponent,
     ProductoDetailComponent,
     ProductoActualizarPrecioComponent,
-    ProductoActualizarStockComponent,
   ],
   templateUrl: './productos.component.html',
   styleUrl: './productos.component.scss',
@@ -46,11 +44,6 @@ export class ProductosComponent {
   irAActualizarPrecio(producto: ProductoResponse) {
     this.productoService.seleccionar(producto);
     this.vista.set('actualizar-precio');
-  }
-
-  irAActualizarStock(producto: ProductoResponse) {
-    this.productoService.seleccionar(producto);
-    this.vista.set('actualizar-stock');
   }
 
   onGuardado(esAlta: boolean) {

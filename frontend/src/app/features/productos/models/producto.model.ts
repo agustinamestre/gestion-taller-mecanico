@@ -6,7 +6,6 @@ export interface ProductoResponse {
   descripcion: string;
   tipo: TipoProducto;
   precioActual: number;
-  stockActual: number;
 }
 
 export interface ProductoRequest {
@@ -14,7 +13,6 @@ export interface ProductoRequest {
   descripcion: string;
   tipo: string;
   precioActual: number;
-  stockActual: number;
 }
 
 export interface ModificarProductoRequest {
@@ -25,8 +23,4 @@ export interface ModificarProductoRequest {
 
 export interface ActualizarPrecioRequest {
   nuevoPrecio: number;
-}
-
-export interface ActualizarStockRequest {
-  nuevoStock: number;
 }
