@@ -43,4 +43,10 @@ public class OrdenTrabajoAdapter implements OrdenTrabajoRepository {
                 .map(ordenTrabajoPersistenceMapper::toDomain)
                 .toList();
     }
+
+    @Override
+    public boolean existsOrdenEnCursoConService(Long vehiculoId) {
+        return ordenTrabajoJpaRepository.existsByVehiculoIdAndIncluyeServiceTrueAndEstadoIn(vehiculoId,
+                List.of(EstadoOrdenTrabajo.INGRESADO, EstadoOrdenTrabajo.EN_REPARACION, EstadoOrdenTrabajo.FINALIZADO));
+    }
 }

@@ -7,7 +7,7 @@ import { TableModule } from 'primeng/table';
 import { SelectModule } from 'primeng/select';
 import { TooltipModule } from 'primeng/tooltip';
 import { AlertaService } from '../../services/alerta.service';
-import { Alerta } from '../../models/alerta.model';
+import { Alerta, etiquetaMotivoAlerta } from '../../models/alerta.model';
 
 type FiltroContactado = 'todas' | 'pendientes' | 'contactadas';
 
@@ -27,6 +27,8 @@ type FiltroContactado = 'todas' | 'pendientes' | 'contactadas';
   styleUrl: './alerta-table.component.scss',
 })
 export class AlertaTableComponent {
+  readonly etiquetaMotivo = etiquetaMotivoAlerta;
+
   readonly alertaService = inject(AlertaService);
   private readonly location = inject(Location);
 

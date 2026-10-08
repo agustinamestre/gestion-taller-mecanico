@@ -4,5 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 
 public record ModificarOrdenTrabajoRequest(
         @NotBlank(message = "La descripcion del problema es obligatoria")
-        String descripcionProblema
+        String descripcionProblema,
+        Boolean incluyeService
 ) {}

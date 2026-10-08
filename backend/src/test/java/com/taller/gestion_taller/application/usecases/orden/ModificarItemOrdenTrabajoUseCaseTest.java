@@ -4,6 +4,7 @@ import com.taller.gestion_taller.application.command.orden.ModificarItemOrdenTra
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.OrdenTrabajo;
 import com.taller.gestion_taller.domain.model.Producto;
+import com.taller.gestion_taller.domain.repositories.FacturaRepository;
 import com.taller.gestion_taller.domain.repositories.OrdenTrabajoRepository;
 import com.taller.gestion_taller.domain.repositories.ProductoRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -27,6 +28,9 @@ class ModificarItemOrdenTrabajoUseCaseTest {
     @Mock
     private OrdenTrabajoRepository ordenTrabajoRepository;
     @Mock private ProductoRepository productoRepository;
+
+    @Mock
+    private FacturaRepository facturaRepository;
     @InjectMocks
     private ModificarItemOrdenTrabajoUseCase useCase;
 

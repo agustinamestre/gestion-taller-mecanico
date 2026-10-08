@@ -1,3 +1,3 @@
 package com.taller.gestion_taller.application.command.orden;
 
-public record ModificarOrdenTrabajoCommand(Long ordenId, String descripcionProblema) {}
+public record ModificarOrdenTrabajoCommand(Long ordenId, String descripcionProblema, Boolean incluyeService) {}

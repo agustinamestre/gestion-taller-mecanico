@@ -10,4 +10,5 @@ public interface OrdenTrabajoRepository {
     OrdenTrabajo save(OrdenTrabajo ordenTrabajo);
     Optional<OrdenTrabajo> findById(Long id);
     List<OrdenTrabajo> findByFiltros(String patente, List<EstadoOrdenTrabajo> estados);
+    boolean existsOrdenEnCursoConService(Long vehiculoId);
 }

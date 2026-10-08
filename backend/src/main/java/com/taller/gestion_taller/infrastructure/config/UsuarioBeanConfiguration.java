@@ -2,6 +2,7 @@ package com.taller.gestion_taller.infrastructure.config;
 
 import com.taller.gestion_taller.application.mapper.UsuarioApplicationMapper;
 import com.taller.gestion_taller.application.usecases.usuario.*;
+import com.taller.gestion_taller.domain.repositories.RefreshTokenRepository;
 import com.taller.gestion_taller.domain.repositories.UsuarioRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,8 +29,9 @@ public class UsuarioBeanConfiguration {
     }
 
     @Bean
-    public DesactivarUsuario desactivarUsuarioUseCase(UsuarioRepository usuarioRepository) {
-        return new DesactivarUsuarioUseCase(usuarioRepository);
+    public DesactivarUsuario desactivarUsuarioUseCase(UsuarioRepository usuarioRepository,
+                                                      RefreshTokenRepository refreshTokenRepository) {
+        return new DesactivarUsuarioUseCase(usuarioRepository, refreshTokenRepository);
     }
 
     @Bean
@@ -49,7 +51,8 @@ public class UsuarioBeanConfiguration {
 
     @Bean
     public CambiarPassword cambiarPasswordUseCase(UsuarioRepository usuarioRepository,
-                                                   PasswordEncoder passwordEncoder) {
-        return new CambiarPasswordUseCase(usuarioRepository, passwordEncoder);
+                                                   PasswordEncoder passwordEncoder,
+                                                   RefreshTokenRepository refreshTokenRepository) {
+        return new CambiarPasswordUseCase(usuarioRepository, passwordEncoder, refreshTokenRepository);
     }
 }

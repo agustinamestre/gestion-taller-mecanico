@@ -51,6 +51,14 @@
 
   .label { display: block; font-size: 0.8rem; color: var(--text-muted); }
   .value { font-weight: 600; color: var(--text-main); }
+
+  .incluye-service {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    label { font-weight: 600; color: var(--text-main); cursor: pointer; }
+  }
   .total { color: var(--primary-color); font-size: 1.1rem; }
 }
 

@@ -3,6 +3,7 @@ package com.taller.gestion_taller.application.usecases.usuario;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Usuario;
+import com.taller.gestion_taller.domain.repositories.RefreshTokenRepository;
 import com.taller.gestion_taller.domain.repositories.UsuarioRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,9 @@ class DesactivarUsuarioUseCaseTest {
     @Mock
     private UsuarioRepository usuarioRepository;
 
+    @Mock
+    private RefreshTokenRepository refreshTokenRepository;
+
     @InjectMocks
     private DesactivarUsuarioUseCase useCase;
 
@@ -44,6 +48,7 @@ class DesactivarUsuarioUseCaseTest {
         ArgumentCaptor<Usuario> captor = ArgumentCaptor.forClass(Usuario.class);
         verify(usuarioRepository).save(captor.capture());
         assertThat(captor.getValue().isActivo()).isFalse();
+        verify(refreshTokenRepository).revocarTodosPorUsuarioId(ID);
     }
 
     @Test

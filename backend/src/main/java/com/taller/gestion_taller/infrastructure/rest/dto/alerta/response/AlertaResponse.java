@@ -10,6 +10,7 @@ public record AlertaResponse(
         String telefonoCliente,
         LocalDate fechaAlerta,
         String tipo,
+        String motivo,
         boolean contactado,
         LocalDate fechaContacto,
         String medioContacto,

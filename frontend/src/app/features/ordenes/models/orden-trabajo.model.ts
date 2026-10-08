@@ -21,6 +21,8 @@ export interface OrdenTrabajoResponse {
   descripcionProblema: string;
   estado: EstadoOrdenTrabajo;
   usuarioCreacionId: number;
+  incluyeService: boolean;
+  kilometrajeIngreso: number | null;
   itemsPresupuesto: ItemPresupuestoResponse[];
   itemsOrden: ItemOrdenTrabajoResponse[];
   total: number;
@@ -33,11 +35,13 @@ export interface RegistrarOrdenTrabajoRequest {
   patente?: string;
   presupuestoId?: number;
   descripcionProblema?: string;
-  usuarioCreacionId: number;
+  incluyeService: boolean;
+  kilometrajeIngreso?: number;
 }
 
 export interface ModificarOrdenTrabajoRequest {
   descripcionProblema: string;
+  incluyeService?: boolean;
 }
 
 export interface AgregarItemOrdenTrabajoRequest {

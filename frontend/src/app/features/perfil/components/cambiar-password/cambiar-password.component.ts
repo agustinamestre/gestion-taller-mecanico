@@ -4,6 +4,7 @@ import { PasswordModule } from 'primeng/password';
 import { ButtonModule } from 'primeng/button';
 import { PerfilService } from '../../services/perfil.service';
 import { NotificationService } from '../../../../shared/services/notification.service';
+import { AuthService } from '../../../../core/auth/services/auth.service';
 
 @Component({
   selector: 'app-cambiar-password',
@@ -15,6 +16,7 @@ import { NotificationService } from '../../../../shared/services/notification.se
 export class CambiarPasswordComponent {
   private readonly fb = inject(FormBuilder);
   private readonly notification = inject(NotificationService);
+  private readonly authService = inject(AuthService);
   readonly perfilService = inject(PerfilService);
 
   readonly abierto = signal(false);
@@ -59,10 +61,9 @@ export class CambiarPasswordComponent {
       .cambiarPassword({ passwordActual: val.passwordActual!, passwordNueva: val.passwordNueva! })
       .subscribe({
         next: () => {
-          this.notification.exito('Tu contraseña fue actualizada correctamente.');
-          this.form.reset();
-          this.enviado.set(false);
-          this.abierto.set(false);
+          // El backend cierra todas las sesiones del usuario: se vuelve a ingresar con la nueva contraseña.
+          this.notification.exito('Tu contraseña fue actualizada. Ingresá nuevamente con la nueva contraseña.');
+          this.authService.logout();
         },
       });
   }

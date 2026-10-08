@@ -4,6 +4,7 @@ import com.taller.gestion_taller.domain.exception.BusinessErrors;
 import com.taller.gestion_taller.domain.exception.BusinessRunTimeException;
 import com.taller.gestion_taller.domain.exception.NotFoundException;
 import com.taller.gestion_taller.domain.model.Usuario;
+import com.taller.gestion_taller.domain.repositories.RefreshTokenRepository;
 import com.taller.gestion_taller.domain.repositories.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 public class DesactivarUsuarioUseCase implements DesactivarUsuario {
 
     private final UsuarioRepository usuarioRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public void desactivar(Long id) {
@@ -28,5 +30,7 @@ public class DesactivarUsuarioUseCase implements DesactivarUsuario {
                 .build();
 
         usuarioRepository.save(desactivado);
+        // Cierra todas sus sesiones: no va a poder renovar el access token.
+        refreshTokenRepository.revocarTodosPorUsuarioId(id);
     }
 }

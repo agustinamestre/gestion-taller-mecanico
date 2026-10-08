@@ -33,15 +33,23 @@ export class AlertaContactarFormComponent {
   }
 
   private abrirWhatsapp(alerta: { telefonoCliente: string | null; nombreCliente: string; patenteVehiculo: string }) {
-    const telefono = alerta.telefonoCliente?.replace(/\D/g, '');
+    const telefono = this.normalizarTelefonoArgentino(alerta.telefonoCliente);
     if (!telefono) return;
 
     const mensaje =
       `Hola ${alerta.nombreCliente}!\n\n` +
-      `Te recordamos que el service de tu vehículo *${alerta.patenteVehiculo}* está próximo a vencer.\n\n` +
+      `Te recordamos que el service de tu vehículo *${alerta.patenteVehiculo}* ya está en fecha o kilometraje de service.\n\n` +
       `Contactanos para coordinar un turno y mantener tu vehículo al día.\n\n` +
       `— *G.M.A. Gestión y Mantenimiento Automotriz*`;
 
     window.open(`https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`, '_blank');
+  }
+
+  private normalizarTelefonoArgentino(telefono: string | null): string | null {
+    let digitos = telefono?.replace(/\D/g, '').replace(/^00/, '');
+    if (!digitos) return null;
+    if (digitos.startsWith('549')) return digitos;
+    if (digitos.startsWith('54')) digitos = digitos.slice(2);
+    return `549${digitos.replace(/^0/, '')}`;
   }
 }

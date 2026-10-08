@@ -7,11 +7,13 @@ import com.taller.gestion_taller.infrastructure.rest.controller.swagger.SwaggerO
 import com.taller.gestion_taller.infrastructure.rest.dto.orden.request.*;
 import com.taller.gestion_taller.infrastructure.rest.dto.orden.response.OrdenTrabajoResponse;
 import com.taller.gestion_taller.infrastructure.rest.mapper.OrdenTrabajoRestMapper;
+import com.taller.gestion_taller.infrastructure.security.userdetails.UsuarioDetails;
 import com.taller.gestion_taller.infrastructure.service.OrdenTrabajoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +28,10 @@ public class OrdenTrabajoController implements SwaggerOrdenTrabajoController {
     private final OrdenTrabajoRestMapper ordenTrabajoRestMapper;
 
     @Override
-    public ResponseEntity<OrdenTrabajoResponse> registrar(@Valid @RequestBody RegistrarOrdenTrabajoRequest request) {
-        RegistrarOrdenTrabajoCommand command = ordenTrabajoRestMapper.requestToCommand(request);
+    public ResponseEntity<OrdenTrabajoResponse> registrar(@Valid @RequestBody RegistrarOrdenTrabajoRequest request,
+                                                          @AuthenticationPrincipal UsuarioDetails usuarioDetails) {
+        RegistrarOrdenTrabajoCommand command = ordenTrabajoRestMapper.requestToCommand(
+                request, usuarioDetails.getUsuario().getId());
         OrdenTrabajo orden = ordenTrabajoService.registrarOrden(command);
         OrdenTrabajoResponse response = ordenTrabajoRestMapper.domainToResponse(orden, ordenTrabajoService.estaTotalmenteFacturada(orden));
         return ResponseEntity.status(HttpStatus.CREATED).body(response);

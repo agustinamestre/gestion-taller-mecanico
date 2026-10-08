@@ -77,7 +77,9 @@ export class OrdenTrabajoTableComponent {
   }
 
   transicionesDe(orden: OrdenTrabajoResponse): EstadoOrdenTrabajo[] {
-    return TRANSICIONES_VALIDAS_ORDEN[orden.estado];
+    const sinSaldoPendiente = orden.facturada || orden.total === 0;
+    return TRANSICIONES_VALIDAS_ORDEN[orden.estado]
+      .filter(estado => estado !== 'ENTREGADO' || sinSaldoPendiente);
   }
 
   formatearEstado(estado: EstadoOrdenTrabajo): string {

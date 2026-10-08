@@ -18,7 +18,7 @@ public class ModificarOrdenTrabajoUseCase implements ModificarOrdenTrabajo  {
                 .orElseThrow(() -> new NotFoundException(
                         BusinessErrors.ordenNoEncontrada(command.ordenId())));
 
-        orden.modificar(command.descripcionProblema());
+        orden.modificar(command.descripcionProblema(), command.incluyeService());
         return ordenTrabajoRepository.save(orden);
     }
 }

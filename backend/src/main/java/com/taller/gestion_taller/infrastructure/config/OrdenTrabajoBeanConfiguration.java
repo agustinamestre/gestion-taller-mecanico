@@ -1,6 +1,7 @@
 package com.taller.gestion_taller.infrastructure.config;
 
 import com.taller.gestion_taller.application.usecases.orden.*;
+import com.taller.gestion_taller.domain.repositories.FacturaRepository;
 import com.taller.gestion_taller.domain.repositories.OrdenTrabajoRepository;
 import com.taller.gestion_taller.domain.repositories.PresupuestoRepository;
 import com.taller.gestion_taller.domain.repositories.ProductoRepository;
@@ -40,8 +41,11 @@ public class OrdenTrabajoBeanConfiguration {
 
     @Bean
     public CambiarEstadoOrdenTrabajo cambiarEstadoOrdenTrabajoUseCase(OrdenTrabajoRepository ordenTrabajoRepository,
-                                                                      PresupuestoRepository presupuestoRepository) {
-        return new CambiarEstadoOrdenTrabajoUseCase(ordenTrabajoRepository, presupuestoRepository);
+                                                                      PresupuestoRepository presupuestoRepository,
+                                                                      VehiculoRepository vehiculoRepository,
+                                                                      FacturaRepository facturaRepository) {
+        return new CambiarEstadoOrdenTrabajoUseCase(ordenTrabajoRepository, presupuestoRepository, vehiculoRepository,
+                facturaRepository);
     }
 
     @Bean
@@ -57,13 +61,20 @@ public class OrdenTrabajoBeanConfiguration {
 
     @Bean
     public ModificarItemOrdenTrabajo modificarItemOrdenTrabajo(OrdenTrabajoRepository ordenTrabajoRepository,
-                                                               ProductoRepository productoRepository) {
-        return new ModificarItemOrdenTrabajoUseCase(ordenTrabajoRepository, productoRepository);
+                                                               ProductoRepository productoRepository,
+                                                               FacturaRepository facturaRepository) {
+        return new ModificarItemOrdenTrabajoUseCase(ordenTrabajoRepository, productoRepository, facturaRepository);
     }
 
     @Bean
-    public EliminarItemOrdenTrabajo eliminarItemOrdenTrabajo(OrdenTrabajoRepository ordenTrabajoRepository) {
-        return new EliminarItemOrdenTrabajoUseCase(ordenTrabajoRepository);
+    public EliminarItemOrdenTrabajo eliminarItemOrdenTrabajo(OrdenTrabajoRepository ordenTrabajoRepository,
+                                                             FacturaRepository facturaRepository) {
+        return new EliminarItemOrdenTrabajoUseCase(ordenTrabajoRepository, facturaRepository);
+    }
+
+    @Bean
+    public VerificarFacturacionOrden verificarFacturacionOrdenUseCase(FacturaRepository facturaRepository) {
+        return new VerificarFacturacionOrdenUseCase(facturaRepository);
     }
 
 }
