@@ -147,16 +147,34 @@ class GenerarFacturaUseCaseTest {
 
         when(ordenTrabajoRepository.findById(ORDEN_ID)).thenReturn(Optional.of(orden));
         when(facturaRepository.findActivasByOrdenTrabajoId(ORDEN_ID)).thenReturn(List.of(seniaEmitida));
-        when(contadorFacturaRepository.siguienteNumero()).thenReturn(2L);
+        when(facturaRepository.findNumeroFacturaByOrdenTrabajoId(ORDEN_ID)).thenReturn(Optional.of("F00000001"));
         when(facturaRepository.save(any(Factura.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Factura resultado = useCase.generarFactura(command);
 
         assertThat(resultado.getTipoFactura()).isEqualTo(TipoFactura.FINAL);
         assertThat(resultado.getMontoFacturado()).isEqualTo(BigDecimal.valueOf(700));
-        assertThat(resultado.getNumeroFactura()).isEqualTo("F00000002");
+        assertThat(resultado.getNumeroFactura()).isEqualTo("F00000001");
+        verify(contadorFacturaRepository, never()).siguienteNumero();
 
         verify(facturaValidator).validarNuevaFactura(orden, TipoFactura.FINAL, BigDecimal.valueOf(700), List.of(seniaEmitida));
+    }
+
+    @Test
+    @DisplayName("Reutiliza el numero de la orden aunque las facturas previas esten anuladas")
+    void debeReutilizarNumeroDeFacturaAnulada() {
+        OrdenTrabajo orden = ordenEnReparacionConTotal(BigDecimal.valueOf(1000));
+        GenerarFacturaCommand command = new GenerarFacturaCommand(ORDEN_ID, FormaPago.EFECTIVO, TipoFactura.SENIA, BigDecimal.valueOf(200));
+
+        when(ordenTrabajoRepository.findById(ORDEN_ID)).thenReturn(Optional.of(orden));
+        when(facturaRepository.findActivasByOrdenTrabajoId(ORDEN_ID)).thenReturn(List.of());
+        when(facturaRepository.findNumeroFacturaByOrdenTrabajoId(ORDEN_ID)).thenReturn(Optional.of("F00000007"));
+        when(facturaRepository.save(any(Factura.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        Factura resultado = useCase.generarFactura(command);
+
+        assertThat(resultado.getNumeroFactura()).isEqualTo("F00000007");
+        verify(contadorFacturaRepository, never()).siguienteNumero();
     }
 
     @Test

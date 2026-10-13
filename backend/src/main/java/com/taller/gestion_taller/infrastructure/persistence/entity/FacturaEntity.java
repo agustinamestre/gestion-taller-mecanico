@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "facturas")
+@Table(name = "facturas", indexes = @Index(name = "idx_facturas_numero_factura", columnList = "numero_factura"))
 @Getter
 @Setter
 @Builder
@@ -31,7 +31,7 @@ public class FacturaEntity {
     @JoinColumn(name = "orden_trabajo_id", referencedColumnName = "id")
     private OrdenTrabajoEntity ordenTrabajo;
 
-    @Column(name = "numero_factura", unique = true)
+    @Column(name = "numero_factura")
     private String numeroFactura;
 
     @Column(name = "fecha_emision", nullable = false)

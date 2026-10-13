@@ -61,6 +61,11 @@ public class FacturaRepositoryAdapter implements FacturaRepository {
                 .toList();
     }
 
+    @Override
+    public Optional<String> findNumeroFacturaByOrdenTrabajoId(Long ordenTrabajoId) {
+        return jpaRepository.findNumerosByOrdenTrabajoId(ordenTrabajoId).stream().findFirst();
+    }
+
     private Factura toFacturaResumida(FacturaEntity entity) {
         return Factura.builder()
                 .id(entity.getId())

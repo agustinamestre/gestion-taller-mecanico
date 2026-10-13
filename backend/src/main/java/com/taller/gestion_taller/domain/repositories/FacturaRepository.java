@@ -13,4 +13,5 @@ public interface FacturaRepository {
                                  Long ordenTrabajoId, LocalDate desde, LocalDate hasta);
     List<Factura> findActivasByOrdenTrabajoId(Long ordenTrabajoId);
     List<Factura> findActivasByOrdenTrabajoIds(List<Long> ordenTrabajoIds);
+    Optional<String> findNumeroFacturaByOrdenTrabajoId(Long ordenTrabajoId);
 }
