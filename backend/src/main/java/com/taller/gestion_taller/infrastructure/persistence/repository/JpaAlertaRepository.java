@@ -21,5 +21,7 @@ public interface JpaAlertaRepository extends JpaRepository<AlertaEntity, Long> {
 
     long countByContactadoFalse();
 
-    boolean existsByVehiculoIdAndFechaAlertaGreaterThanEqual(Long vehiculoId, LocalDate fechaUltimoService);
+    boolean existsByVehiculoId(Long vehiculoId);
+
+    boolean existsByVehiculoIdAndFechaAlertaGreaterThanEqual(Long vehiculoId, LocalDate fechaReferenciaService);
 }

@@ -6,7 +6,6 @@
         (verDetalle)="irADetalle($event)"
         (editar)="irAEdicion($event)"
         (actualizarPrecio)="irAActualizarPrecio($event)"
-        (actualizarStock)="irAActualizarStock($event)"
       />
     }
     @case ('alta') {
@@ -23,9 +22,6 @@
     }
     @case ('actualizar-precio') {
       <app-producto-actualizar-precio (guardado)="onActualizado()" (cancelar)="onActualizado()" />
-    }
-    @case ('actualizar-stock') {
-      <app-producto-actualizar-stock (guardado)="onActualizado()" (cancelar)="onActualizado()" />
     }
   }
 </div>

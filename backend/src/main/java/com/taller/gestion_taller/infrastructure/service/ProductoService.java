@@ -1,7 +1,6 @@
 package com.taller.gestion_taller.infrastructure.service;
 
 import com.taller.gestion_taller.application.command.producto.ActualizarPrecioProductoCommand;
-import com.taller.gestion_taller.application.command.producto.ActualizarStockProductoCommand;
 import com.taller.gestion_taller.application.command.producto.ModificarProductoCommand;
 import com.taller.gestion_taller.application.command.producto.RegistrarProductoCommand;
 import com.taller.gestion_taller.application.usecases.producto.*;
@@ -22,7 +21,6 @@ public class ProductoService {
     private final ListarProductos listarProductosUseCase;
     private final ObtenerTiposProducto obtenerTiposProductoUseCase;
     private final ActualizarPrecioProducto actualizarPrecioProductoUseCase;
-    private final ActualizarStockProducto actualizarStockProductoUseCase;
 
     @Transactional
     public Producto registrarProducto(RegistrarProductoCommand command) {
@@ -53,11 +51,6 @@ public class ProductoService {
     @Transactional
     public Producto actualizarPrecioProducto(Long id, ActualizarPrecioProductoCommand command) {
         return actualizarPrecioProductoUseCase.actualizar(id, command);
-    }
-
-    @Transactional
-    public Producto actualizarStockProducto(Long id, ActualizarStockProductoCommand command) {
-        return actualizarStockProductoUseCase.actualizar(id, command);
     }
 
 }

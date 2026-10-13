@@ -6,6 +6,5 @@ public record RegistrarProductoCommand(
         String nombre,
         String descripcion,
         String tipo,
-        BigDecimal precioActual,
-        Integer stockActual)
+        BigDecimal precioActual)
 { }

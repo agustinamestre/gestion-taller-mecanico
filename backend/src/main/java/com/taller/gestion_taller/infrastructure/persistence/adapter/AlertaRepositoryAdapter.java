@@ -58,6 +58,6 @@ public class AlertaRepositoryAdapter implements AlertaRepository {
         if (fechaReferenciaService == null) {
             return jpaAlertaRepository.existsByVehiculoId(vehiculoId);
         }
-        return jpaAlertaRepository.existsByVehiculoIdAndFechaAlertaAfter(vehiculoId, fechaReferenciaService);
+        return jpaAlertaRepository.existsByVehiculoIdAndFechaAlertaGreaterThanEqual(vehiculoId, fechaReferenciaService);
     }
 }

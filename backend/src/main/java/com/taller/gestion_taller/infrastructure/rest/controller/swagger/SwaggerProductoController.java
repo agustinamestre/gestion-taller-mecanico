@@ -1,7 +1,6 @@
 package com.taller.gestion_taller.infrastructure.rest.controller.swagger;
 
 import com.taller.gestion_taller.infrastructure.rest.dto.producto.request.ActualizarPrecioRequest;
-import com.taller.gestion_taller.infrastructure.rest.dto.producto.request.ActualizarStockRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.producto.request.ModificarProductoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.producto.request.ProductoRequest;
 import com.taller.gestion_taller.infrastructure.rest.dto.producto.response.ProductoResponse;
@@ -105,22 +104,4 @@ public interface SwaggerProductoController {
             @Parameter(description = "ID del producto", required = true)
             @PathVariable Long id,
             @Valid @RequestBody ActualizarPrecioRequest request);
-
-    @Operation(summary = "Actualizar stock", description = "Actualiza únicamente el stock de un producto")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Stock actualizado correctamente",
-                    content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ProductoResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Datos inválidos en el request",
-                    content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "404", description = "Producto no encontrado",
-                    content = @Content(mediaType = "application/json")),
-            @ApiResponse(responseCode = "500", description = "Error técnico",
-                    content = @Content(mediaType = "application/json"))
-    })
-    @PatchMapping("/{id}/stock")
-    ResponseEntity<ProductoResponse> actualizarStock(
-            @Parameter(description = "ID del producto", required = true)
-            @PathVariable Long id,
-            @Valid @RequestBody ActualizarStockRequest request);
 }

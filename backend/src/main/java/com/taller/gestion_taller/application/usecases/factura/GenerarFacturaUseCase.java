@@ -39,7 +39,9 @@ public class GenerarFacturaUseCase implements GenerarFactura {
 
         // Una seña sigue siendo seña aunque cubra el 100%: la orden está abierta y su total puede cambiar.
         // La factura final se emite al finalizar la orden, por el saldo que quede.
-        String numeroFactura = String.format(FORMATO_NUMERO_FACTURA, contadorFacturaRepository.siguienteNumero());
+        // Todas las facturas de una orden (seña, final, incluso anuladas) comparten el mismo número.
+        String numeroFactura = facturaRepository.findNumeroFacturaByOrdenTrabajoId(orden.getId())
+                .orElseGet(() -> String.format(FORMATO_NUMERO_FACTURA, contadorFacturaRepository.siguienteNumero()));
         Factura factura = Factura.crearNueva(orden, command.getFormaPago(), numeroFactura, TIPO_COMPROBANTE,
                 command.getTipoFactura(), command.getMonto());
 

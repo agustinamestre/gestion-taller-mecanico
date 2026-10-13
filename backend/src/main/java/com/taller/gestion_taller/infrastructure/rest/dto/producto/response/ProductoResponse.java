@@ -9,6 +9,5 @@ public record ProductoResponse (
          String nombre,
          String descripcion,
          TipoProducto tipo,
-         BigDecimal precioActual,
-         Integer stockActual
+         BigDecimal precioActual
 ) { }

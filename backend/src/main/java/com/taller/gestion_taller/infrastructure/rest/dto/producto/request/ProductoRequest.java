@@ -10,6 +10,5 @@ public record ProductoRequest (
         String descripcion,
         @NotBlank(message = "El tipo de producto es obligatorio")
         String tipo,
-        BigDecimal precioActual,
-        Integer stockActual
+        BigDecimal precioActual
 ){ }

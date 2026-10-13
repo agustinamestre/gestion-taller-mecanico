@@ -39,7 +39,6 @@ export class ProductoFormComponent implements OnInit {
     descripcion: ['', Validators.required],
     tipo: [null as string | null, Validators.required],
     precioActual: [null as number | null, [Validators.required, Validators.min(0)]],
-    stockActual: [null as number | null, [Validators.required, Validators.min(0)]],
   });
 
   ngOnInit() {
@@ -50,10 +49,8 @@ export class ProductoFormComponent implements OnInit {
         descripcion: producto.descripcion,
         tipo: producto.tipo,
         precioActual: producto.precioActual,
-        stockActual: producto.stockActual,
       });
       this.form.get('precioActual')?.disable();
-      this.form.get('stockActual')?.disable();
     }
   }
 
@@ -82,7 +79,6 @@ export class ProductoFormComponent implements OnInit {
         descripcion: val.descripcion!,
         tipo: val.tipo!,
         precioActual: val.precioActual!,
-        stockActual: val.stockActual!,
       }).subscribe({ next: () => this.guardado.emit() });
     }
   }

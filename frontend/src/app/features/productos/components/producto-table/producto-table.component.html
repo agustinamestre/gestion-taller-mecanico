@@ -30,7 +30,6 @@
       <th>Nombre</th>
       <th>Tipo</th>
       <th>Precio</th>
-      <th>Stock</th>
       <th style="width: 8rem">Acciones</th>
     </tr>
   </ng-template>
@@ -51,18 +50,6 @@
         </div>
       </td>
       <td>
-        <div class="celda-editable">
-          <span>{{ producto.stockActual }}</span>
-          <button
-            pButton
-            icon="pi pi-pencil"
-            class="p-button-text p-button-sm boton-editar-inline"
-            (click)="actualizarStock.emit(producto)"
-            pTooltip="Actualizar stock"
-          ></button>
-        </div>
-      </td>
-      <td>
         <div class="botones-fila">
           <button pButton icon="pi pi-eye" class="p-button-text p-button-sm boton-accion color-ver" (click)="verDetalle.emit(producto)" pTooltip="Ver detalle"></button>
           <button pButton icon="pi pi-pencil" class="p-button-text p-button-sm boton-accion color-editar" (click)="editar.emit(producto)" pTooltip="Editar"></button>
@@ -71,7 +58,7 @@
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage">
-    <tr><td colspan="5" class="sin-resultados">No hay productos para mostrar</td></tr>
+    <tr><td colspan="4" class="sin-resultados">No hay productos para mostrar</td></tr>
   </ng-template>
 </p-table>
 </div>

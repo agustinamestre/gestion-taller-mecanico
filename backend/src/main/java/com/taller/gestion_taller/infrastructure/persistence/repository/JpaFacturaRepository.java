@@ -29,6 +29,13 @@ public interface JpaFacturaRepository extends JpaRepository<FacturaEntity, Long>
                                                        @Param("estado") EstadoFactura estado);
 
     @Query("""
+        SELECT f.numeroFactura FROM FacturaEntity f
+        WHERE f.ordenTrabajo.id = :ordenTrabajoId
+        ORDER BY f.id ASC
+    """)
+    List<String> findNumerosByOrdenTrabajoId(@Param("ordenTrabajoId") Long ordenTrabajoId);
+
+    @Query("""
         SELECT f FROM FacturaEntity f
         JOIN FETCH f.ordenTrabajo ot
         JOIN FETCH ot.vehiculo v

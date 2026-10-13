@@ -42,7 +42,6 @@ class BuscarProductoPorTipoUseCaseTest {
                 .nombre("pastillas de freno")
                 .tipo(TipoProducto.REPUESTO)
                 .precioActual(new BigDecimal("15000"))
-                .stockActual(10)
                 .build();
     }
 
