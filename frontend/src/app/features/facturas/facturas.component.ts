@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { FacturaService } from './services/factura.service';
 import { FacturaTableComponent } from './components/factura-table/factura-table.component';
 import { FacturaDetailComponent } from './components/factura-detail/factura-detail.component';
@@ -16,7 +17,21 @@ export class FacturasComponent {
   readonly facturaService = inject(FacturaService);
   readonly vista = signal<Vista>('listado');
 
+  private readonly router = inject(Router);
+  private readonly ordenOrigenId: number | null;
+
+  constructor() {
+    const state = this.router.getCurrentNavigation()?.extras?.state;
+    this.ordenOrigenId = state?.['ordenId'] ?? null;
+    if (state?.['facturaId']) this.irADetalle(state['facturaId']);
+  }
+
   irAListado() {
+    if (this.ordenOrigenId) {
+      this.facturaService.limpiarSeleccion();
+      this.router.navigate(['/ordenes'], { state: { ordenId: this.ordenOrigenId } });
+      return;
+    }
     this.facturaService.limpiarSeleccion();
     this.vista.set('listado');
   }

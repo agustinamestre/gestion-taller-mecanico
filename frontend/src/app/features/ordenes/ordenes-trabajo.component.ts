@@ -1,4 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { OrdenTrabajoService } from './services/orden-trabajo.service';
 import { OrdenTrabajoFormComponent } from './components/orden-trabajo-form/orden-trabajo-form.component';
 import { OrdenTrabajoTableComponent } from './components/orden-trabajo-table/orden-trabajo-table.component';
@@ -17,6 +18,11 @@ export class OrdenesTrabajoComponent {
   readonly ordenTrabajoService = inject(OrdenTrabajoService);
   readonly vista = signal<Vista>('busqueda');
   readonly patenteActual = signal<string | null>(null);
+
+  constructor() {
+    const ordenId = inject(Router).getCurrentNavigation()?.extras?.state?.['ordenId'];
+    if (ordenId) this.irADetalle(ordenId);
+  }
 
   irABusqueda() {
     this.ordenTrabajoService.limpiarSeleccion();
