@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public record AgregarItemOrdenTrabajoRequest(
+        @NotNull(message = "El producto es obligatorio")
         Long productoId,
         @NotBlank(message = "La descripcion es obligatoria")
         String descripcion,
