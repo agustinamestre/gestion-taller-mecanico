@@ -23,7 +23,7 @@ public class ItemOrdenTrabajoEntity {
     private OrdenTrabajoEntity orden;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "producto_id")
+    @JoinColumn(name = "producto_id", nullable = false)
     private ProductoEntity producto;
 
     @Enumerated(EnumType.STRING)
