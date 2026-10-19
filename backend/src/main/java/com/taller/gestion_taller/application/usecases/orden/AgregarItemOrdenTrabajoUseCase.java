@@ -21,12 +21,9 @@ public class AgregarItemOrdenTrabajoUseCase implements AgregarItemOrdenTrabajo {
                 .orElseThrow(() -> new NotFoundException(
                         BusinessErrors.ordenNoEncontrada(command.ordenId())));
 
-        Producto producto = null;
-        if (command.productoId() != null) {
-            producto = productoRepository.findById(command.productoId())
-                    .orElseThrow(() -> new NotFoundException(
-                            BusinessErrors.productoNoEncontrado(command.productoId())));
-        }
+        Producto producto = productoRepository.findById(command.productoId())
+                .orElseThrow(() -> new NotFoundException(
+                        BusinessErrors.productoNoEncontrado(command.productoId())));
 
         orden.agregarItem(producto, command.descripcion(), command.cantidad(), command.precioUnitario());
         return ordenTrabajoRepository.save(orden);

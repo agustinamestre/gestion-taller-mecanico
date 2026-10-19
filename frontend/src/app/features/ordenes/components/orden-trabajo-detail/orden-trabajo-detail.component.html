@@ -94,6 +94,38 @@
           </ng-template>
         </p-table>
 
+        <section class="seccion-facturas">
+        <div class="items-header">
+          <h3>Facturas</h3>
+        </div>
+
+        <p-table [value]="facturas()" dataKey="id" styleClass="tabla-items">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>Número</th>
+              <th>Fecha</th>
+              <th>Tipo</th>
+              <th>Monto</th>
+              <th>Estado</th>
+              <th style="width: 4rem"></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-f>
+            <tr class="fila-clickable" (click)="verFactura(f.id)">
+              <td>{{ f.numeroFactura }}</td>
+              <td>{{ f.fechaEmision | date:'dd/MM/yyyy' }}</td>
+              <td><span class="etiqueta-tipo-factura" [class]="'tipo-' + f.tipoFactura.toLowerCase()">{{ f.tipoFactura === 'SENIA' ? 'Seña' : 'Final' }}</span></td>
+              <td>{{ f.montoFacturado | currency:'ARS':'$' }}</td>
+              <td><span class="etiqueta-estado-factura" [class]="'estado-' + f.estado.toLowerCase()">{{ f.estado === 'EMITIDA' ? 'Emitida' : 'Anulada' }}</span></td>
+              <td><i class="pi pi-chevron-right"></i></td>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr><td colspan="6" class="empty-msg">Esta orden todavía no tiene facturas</td></tr>
+          </ng-template>
+        </p-table>
+        </section>
+
       </div>
     }
 

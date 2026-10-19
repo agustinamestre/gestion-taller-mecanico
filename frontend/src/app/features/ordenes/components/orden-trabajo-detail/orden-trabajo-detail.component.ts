@@ -11,6 +11,8 @@ import { ConfirmDialogComponent } from '../../../../shared/components/confirm-di
 import { ItemFormComponent, ItemFormResultado } from '../../../../shared/components/item-form/item-form.component';
 import { GenerarFacturaFormComponent } from '../../../facturas/components/generar-factura-form/generar-factura-form.component';
 import { FacturaService } from '../../../facturas/services/factura.service';
+import { FacturaResponse } from '../../../facturas/models/factura.model';
+import { Router } from '@angular/router';
 
 type Vista = 'detalle' | 'item-form' | 'generar-factura';
 type OrigenItem = 'presupuesto' | 'orden';
@@ -39,6 +41,7 @@ interface ItemUnificado {
 export class OrdenTrabajoDetailComponent {
   readonly ordenTrabajoService = inject(OrdenTrabajoService);
   private readonly facturaService = inject(FacturaService);
+  private readonly router = inject(Router);
 
   readonly volver = output<void>();
   readonly vista = signal<Vista>('detalle');
@@ -50,6 +53,7 @@ export class OrdenTrabajoDetailComponent {
   readonly editandoDescripcion = signal(false);
   readonly descripcionEditada = signal('');
   readonly tieneSeniaActiva = signal(false);
+  readonly facturas = signal<FacturaResponse[]>([]);
 
   constructor() {
     effect(() => {
@@ -58,6 +62,7 @@ export class OrdenTrabajoDetailComponent {
         this.cargarEstadoSenia(id);
       } else {
         this.tieneSeniaActiva.set(false);
+        this.facturas.set([]);
       }
     });
   }
@@ -65,6 +70,7 @@ export class OrdenTrabajoDetailComponent {
   private cargarEstadoSenia(ordenId: number) {
     this.facturaService.obtenerActivasPorOrden(ordenId).subscribe({
       next: (facturas) => {
+        this.facturas.set(facturas);
         const haySeniaEmitida = facturas.some(
           (f) => f.estado === 'EMITIDA' && f.tipoFactura === 'SENIA'
         );
@@ -245,7 +251,13 @@ export class OrdenTrabajoDetailComponent {
     this.vista.set('detalle');
   }
 
+  verFactura(facturaId: number) {
+    this.router.navigate(['/facturas'], { state: { facturaId, ordenId: this.orden?.id } });
+  }
+
   onFacturaGenerada() {
+    const id = this.orden?.id;
+    if (id) this.cargarEstadoSenia(id);
     this.refrescar();
     this.vista.set('detalle');
   }

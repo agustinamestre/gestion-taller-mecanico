@@ -119,3 +119,30 @@
     grid-template-columns: 1fr;
   }
 }
+.etiqueta-tipo-factura {
+  @include etiqueta-base;
+
+  &.tipo-senia { background: var(--fondo-tenue-advertencia); color: var(--warning-color); }
+  &.tipo-final { background: var(--fondo-tenue-primario); color: var(--primary-color); }
+}
+
+.etiqueta-estado-factura {
+  @include etiqueta-base;
+
+  &.estado-emitida { background: var(--fondo-tenue-exito); color: var(--success-color); }
+  &.estado-anulada { background: var(--fondo-tenue-error); color: var(--error-color); }
+}
+
+.seccion-facturas {
+  margin-top: 2.5rem;
+  padding: 1rem;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius);
+
+  .items-header { margin-top: 0; }
+}
+
+.fila-clickable {
+  cursor: pointer;
+}

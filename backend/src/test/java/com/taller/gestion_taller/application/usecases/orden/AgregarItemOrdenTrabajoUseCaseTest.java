@@ -52,29 +52,12 @@ class AgregarItemOrdenTrabajoUseCaseTest {
     }
 
     @Test
-    @DisplayName("debe agregar item sin producto exitosamente")
-    void debeAgregarItemSinProducto() {
-        OrdenTrabajo orden = mock(OrdenTrabajo.class);
-        AgregarItemOrdenTrabajoCommand command = new AgregarItemOrdenTrabajoCommand(
-                1L, null, "Mano de obra", 1, BigDecimal.valueOf(2000));
-
-        when(ordenTrabajoRepository.findById(1L)).thenReturn(Optional.of(orden));
-        when(ordenTrabajoRepository.save(orden)).thenReturn(orden);
-
-        OrdenTrabajo resultado = useCase.agregar(command);
-
-        assertThat(resultado).isEqualTo(orden);
-        verify(productoRepository, never()).findById(any());
-        verify(orden).agregarItem(null, "Mano de obra", 1, BigDecimal.valueOf(2000));
-    }
-
-    @Test
     @DisplayName("debe lanzar excepcion si la orden no existe")
     void debeLanzarExcepcionSiOrdenNoExiste() {
         when(ordenTrabajoRepository.findById(99L)).thenReturn(Optional.empty());
 
         assertThatThrownBy(() -> useCase.agregar(
-                new AgregarItemOrdenTrabajoCommand(99L, null, "desc", 1, BigDecimal.ONE)))
+                new AgregarItemOrdenTrabajoCommand(99L, 1L, "desc", 1, BigDecimal.ONE)))
                 .isInstanceOf(NotFoundException.class);
 
         verify(ordenTrabajoRepository, never()).save(any());
