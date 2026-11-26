@@ -11,6 +11,7 @@ public record OrdenTrabajoResponse(
         String patenteVehiculo,
         Long presupuestoId,
         LocalDate fechaIngreso,
+        LocalDate fechaFinalizacion,
         LocalDate fechaEgreso,
         String descripcionProblema,
         String estado,

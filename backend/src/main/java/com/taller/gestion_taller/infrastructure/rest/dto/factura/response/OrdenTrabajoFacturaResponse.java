@@ -11,6 +11,7 @@ public record OrdenTrabajoFacturaResponse(
         Long id,
         String patenteVehiculo,
         LocalDate fechaIngreso,
+        LocalDate fechaFinalizacion,
         LocalDate fechaEgreso,
         String descripcionProblema,
         String estado,

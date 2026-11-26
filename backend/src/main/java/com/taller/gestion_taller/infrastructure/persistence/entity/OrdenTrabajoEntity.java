@@ -31,6 +31,9 @@ public class OrdenTrabajoEntity {
     @Column(name = "fecha_ingreso", nullable = false)
     private LocalDate fechaIngreso;
 
+    @Column(name = "fecha_finalizacion")
+    private LocalDate fechaFinalizacion;
+
     @Column(name = "fecha_egreso")
     private LocalDate fechaEgreso;
 
