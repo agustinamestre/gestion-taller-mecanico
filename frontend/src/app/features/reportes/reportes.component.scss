@@ -1,0 +1,175 @@
+@use '../../../styles/tablas' as *;
+
+.reportes-container {
+  padding: 1.5rem;
+}
+
+.cabecera {
+  @include cabecera-listado;
+}
+
+.header-titulo {
+  @include header-titulo-listado;
+}
+
+.filtros {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.toggle-monto {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--text-main);
+  }
+}
+
+.campo-fecha {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  label {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+  }
+}
+
+.aviso-rango {
+  color: var(--error-color);
+  font-size: 0.875rem;
+  padding-bottom: 0.5rem;
+}
+
+.cargando {
+  color: var(--text-muted);
+}
+
+.recargando {
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--espaciado);
+  margin-top: var(--espaciado);
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem 1rem;
+  border-radius: var(--radius);
+  background: var(--surface-card, #fff);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  text-align: center;
+
+  .icono {
+    font-size: 1.75rem;
+    color: var(--primary-color);
+  }
+
+  .valor {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text-main);
+  }
+
+  .etiqueta {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+  }
+}
+
+.graficos {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--espaciado);
+  margin-top: var(--espaciado);
+
+  @include en-mobile {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.grafico {
+  padding: 1rem 1.25rem 1.25rem;
+  border-radius: var(--radius);
+  background: var(--surface-card, #fff);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    margin: 0 0 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-main);
+  }
+}
+
+.formas-pago {
+  margin-top: 1rem;
+}
+
+.barra-formas-pago {
+  display: flex;
+  height: 10px;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--fondo-tenue-neutro);
+
+  .tramo {
+    height: 100%;
+  }
+}
+
+.leyenda-formas-pago {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 0.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--text-main);
+
+  .punto {
+    display: inline-block;
+    width: 0.65rem;
+    height: 0.65rem;
+    margin-right: 0.35rem;
+    border-radius: 0;
+  }
+}
+
+.lienzo {
+  position: relative;
+  height: 240px;
+}
+
+.sin-datos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 240px;
+  margin: 0;
+  color: var(--text-muted);
+  text-align: center;
+}

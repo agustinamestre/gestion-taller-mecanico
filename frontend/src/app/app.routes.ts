@@ -71,6 +71,11 @@ export const routes: Routes = [
         loadComponent: () => import('./features/usuarios/usuarios.component').then(c => c.UsuariosComponent),
       },
       {
+        path: 'reportes',
+        canActivate: [adminGuard],
+        loadComponent: () => import('./features/reportes/reportes.component').then(c => c.ReportesComponent),
+      },
+      {
         path: 'perfil',
         loadComponent: () => import('./features/perfil/perfil.component').then(c => c.PerfilComponent),
       },

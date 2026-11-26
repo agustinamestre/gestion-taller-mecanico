@@ -1,0 +1,109 @@
+<div class="reportes-container">
+  <div class="cabecera">
+    <div class="header-titulo">
+      <h2>Reportes</h2>
+    </div>
+  </div>
+
+  <div class="filtros">
+    <div class="campo-fecha">
+      <label for="desde">Desde</label>
+      <p-datepicker
+        inputId="desde"
+        [ngModel]="desde()"
+        (ngModelChange)="cambiarDesde($event)"
+        [maxDate]="hasta() ?? hoy"
+        dateFormat="dd/mm/yy"
+        [showIcon]="true"
+        panelStyleClass="datepicker-compacto"
+        placeholder="Seleccioná una fecha"
+      />
+    </div>
+    <div class="campo-fecha">
+      <label for="hasta">Hasta</label>
+      <p-datepicker
+        inputId="hasta"
+        [ngModel]="hasta()"
+        (ngModelChange)="cambiarHasta($event)"
+        [minDate]="desde()"
+        dateFormat="dd/mm/yy"
+        [showIcon]="true"
+        panelStyleClass="datepicker-compacto"
+        placeholder="Seleccioná una fecha"
+      />
+    </div>
+    @if (rangoInvalido()) {
+      <span class="aviso-rango">Revisá las fechas.</span>
+    }
+    <button
+      type="button"
+      class="toggle-monto"
+      [attr.aria-label]="montoVisible() ? 'Ocultar montos' : 'Mostrar montos'"
+      [attr.title]="montoVisible() ? 'Ocultar montos' : 'Mostrar montos'"
+      (click)="toggleMonto()"
+    >
+      <i class="pi" [class.pi-eye]="montoVisible()" [class.pi-eye-slash]="!montoVisible()"></i>
+      {{ montoVisible() ? 'Ocultar montos' : 'Mostrar montos' }}
+    </button>
+  </div>
+
+  @if (reporte(); as r) {
+    <div class="tarjetas" [class.recargando]="reporteService.cargando()">
+      <div class="tarjeta">
+        <i class="pi pi-receipt icono"></i>
+        <span class="valor">{{ montoVisible() ? (r.totalFacturado | currency:'ARS':'$':'1.0-0') : montoOculto }}</span>
+        <span class="etiqueta">Total facturado</span>
+      </div>
+      <div class="tarjeta">
+        <i class="pi pi-car icono"></i>
+        <span class="valor">{{ r.ordenesIngresadas | number }} / {{ r.ordenesEntregadas | number }}</span>
+        <span class="etiqueta">Autos ingresados / entregados</span>
+      </div>
+      <div class="tarjeta">
+        <i class="pi pi-clock icono"></i>
+        <span class="valor">{{ tiempoPromedio(r) }}</span>
+        <span class="etiqueta">Días promedio de arreglo</span>
+      </div>
+    </div>
+
+    <div class="graficos" [class.recargando]="reporteService.cargando()">
+      <section class="grafico">
+        <h3>Facturado {{ periodoTexto(r.agrupacion) }}</h3>
+        @if (hayFacturacion()) {
+          <div class="lienzo"><p-chart type="bar" [data]="graficoFacturacion()" [options]="opcionesMonto()" /></div>
+
+          @if (formasPago().length > 0) {
+            <div class="formas-pago">
+              <div class="barra-formas-pago" role="img" aria-label="Facturación por forma de pago">
+                @for (f of formasPago(); track f.etiqueta) {
+                  <span class="tramo" [style.width.%]="f.porcentaje" [style.background]="f.color"></span>
+                }
+              </div>
+              <ul class="leyenda-formas-pago">
+                @for (f of formasPago(); track f.etiqueta) {
+                  <li>
+                    <span class="punto" [style.background]="f.color"></span>
+                    {{ f.etiqueta }}: {{ montoVisible() ? (f.monto | currency:'ARS':'$':'1.0-0') : montoOculto }} ({{ f.porcentaje }}%)
+                  </li>
+                }
+              </ul>
+            </div>
+          }
+        } @else {
+          <p class="sin-datos">No hay facturas en estas fechas.</p>
+        }
+      </section>
+
+      <section class="grafico">
+        <h3>Servicios más realizados</h3>
+        @if (hayServicios()) {
+          <div class="lienzo"><p-chart type="bar" [data]="graficoServicios()" [options]="opcionesServicios" /></div>
+        } @else {
+          <p class="sin-datos">No hay trabajos terminados en estas fechas.</p>
+        }
+      </section>
+    </div>
+  } @else if (reporteService.cargando()) {
+    <p class="cargando">Cargando...</p>
+  }
+</div>
