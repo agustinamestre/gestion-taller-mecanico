@@ -24,7 +24,8 @@
           <div><span class="label">Cliente</span><span class="value">{{ o.nombreCliente }} {{ o.apellidoCliente }}</span></div>
           <div><span class="label">Teléfono</span><span class="value">{{ o.telefonoCliente }}</span></div>
           <div><span class="label">Fecha ingreso</span><span class="value">{{ o.fechaIngreso | date:'dd/MM/yyyy' }}</span></div>
-          <div><span class="label">Fecha egreso</span><span class="value">{{ o.fechaEgreso ? (o.fechaEgreso | date:'dd/MM/yyyy') : '—' }}</span></div>
+          <div><span class="label">Fecha finalización</span><span class="value">{{ o.fechaFinalizacion ? (o.fechaFinalizacion | date:'dd/MM/yyyy') : '—' }}</span></div>
+          <div><span class="label">Fecha entrega</span><span class="value">{{ o.fechaEgreso ? (o.fechaEgreso | date:'dd/MM/yyyy') : '—' }}</span></div>
           <div><span class="label">Kilometraje actual</span><span class="value">{{ o.kilometrajeIngreso != null ? (o.kilometrajeIngreso | number) + ' km' : '—' }}</span></div>
           <div><span class="label">Total</span><span class="value total">{{ o.total | currency:'ARS':'$' }}</span></div>
           <div class="incluye-service">
