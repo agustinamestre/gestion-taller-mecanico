@@ -1,6 +1,4 @@
 import { Component, computed, inject, signal } from '@angular/core';
-
-const MONTO_VISIBLE_KEY = 'dashboard.montoVisible';
 import { CurrencyPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { DashboardService } from './services/dashboard.service';
@@ -32,7 +30,9 @@ export class DashboardComponent {
     return username ? `${momento}, ${this.capitalizar(username)}` : momento;
   });
 
-  readonly montoVisible = signal(this.leerMontoVisible());
+  readonly esAdmin = computed(() => this.authService.usuario()?.rol === 'ADMIN');
+
+  readonly montoVisible = signal(false);
 
   constructor() {
     this.dashboardService.obtenerResumen().subscribe();
@@ -42,17 +42,6 @@ export class DashboardComponent {
     event.preventDefault();
     event.stopPropagation();
     this.montoVisible.update((v) => !v);
-    try {
-      localStorage.setItem(MONTO_VISIBLE_KEY, String(this.montoVisible()));
-    } catch {}
-  }
-
-  private leerMontoVisible(): boolean {
-    try {
-      return localStorage.getItem(MONTO_VISIBLE_KEY) !== 'false';
-    } catch {
-      return true;
-    }
   }
 
   private capitalizar(texto: string): string {

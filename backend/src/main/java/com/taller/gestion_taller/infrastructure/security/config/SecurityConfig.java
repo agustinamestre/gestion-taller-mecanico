@@ -62,6 +62,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/usuarios/me").authenticated()
                         .requestMatchers(HttpMethod.PUT, "/usuarios/me", "/usuarios/me/password").authenticated()
                         .requestMatchers("/usuarios", "/usuarios/**").hasRole("ADMIN")
+                        .requestMatchers("/reportes", "/reportes/**").hasRole("ADMIN")
                         .requestMatchers("/alertas/**").authenticated()
                         .anyRequest().authenticated()
                 )

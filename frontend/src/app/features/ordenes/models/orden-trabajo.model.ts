@@ -17,6 +17,7 @@ export interface OrdenTrabajoResponse {
   patenteVehiculo: string;
   presupuestoId: number | null;
   fechaIngreso: string;
+  fechaFinalizacion: string | null;
   fechaEgreso: string | null;
   descripcionProblema: string;
   estado: EstadoOrdenTrabajo;

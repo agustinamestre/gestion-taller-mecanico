@@ -64,6 +64,7 @@
           <li><a routerLink="/presupuestos" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-box"></i> <span>Presupuestos</span></a></li>
           <li><a routerLink="/facturas" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-receipt"></i> <span>Facturas</span></a></li>
           <li><a routerLink="/alertas" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-exclamation-triangle"></i> <span>Alertas de Service</span></a></li>
+          <li *ngIf="esAdmin"><a routerLink="/reportes" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-chart-bar"></i> <span>Reportes</span></a></li>
           <li *ngIf="esAdmin"><a routerLink="/usuarios" routerLinkActive="active" (click)="cerrarSidebar()"><i class="pi pi-users"></i> <span>Usuarios</span></a></li>
 
           <li routerLinkActive #configRla="routerLinkActive" (isActiveChange)="onConfigActivo($event)">

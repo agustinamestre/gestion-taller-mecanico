@@ -42,15 +42,15 @@ function manejarRefresh(
     refreshTokenSubject.next(null);
 
     return authService.refrescarToken().pipe(
-      switchMap((respuesta) => {
-        refrescando = false;
-        refreshTokenSubject.next(respuesta.accessToken);
-        return next(agregarToken(req, respuesta.accessToken));
-      }),
       catchError((err) => {
         refrescando = false;
         authService.logout();
         return throwError(() => err);
+      }),
+      switchMap((respuesta) => {
+        refrescando = false;
+        refreshTokenSubject.next(respuesta.accessToken);
+        return next(agregarToken(req, respuesta.accessToken));
       })
     );
   }

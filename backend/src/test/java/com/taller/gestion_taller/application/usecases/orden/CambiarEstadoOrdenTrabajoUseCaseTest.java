@@ -59,8 +59,8 @@ class CambiarEstadoOrdenTrabajoUseCaseTest {
     }
 
     @Test
-    @DisplayName("debe setear fechaEgreso al pasar a FINALIZADO")
-    void debeSetearFechaEgresoAlFinalizar() {
+    @DisplayName("debe setear fechaFinalizacion al pasar a FINALIZADO")
+    void debeSetearFechaFinalizacionAlFinalizar() {
         OrdenTrabajo orden = OrdenTrabajo.builder()
                 .id(1L)
                 .estado(EstadoOrdenTrabajo.EN_REPARACION)
@@ -70,7 +70,27 @@ class CambiarEstadoOrdenTrabajoUseCaseTest {
 
         useCase.cambiar(new CambiarEstadoOrdenTrabajoCommand(1L, EstadoOrdenTrabajo.FINALIZADO));
 
+        assertThat(orden.getFechaFinalizacion()).isEqualTo(LocalDate.now());
+        assertThat(orden.getFechaEgreso()).isNull();
+        verify(ordenTrabajoRepository).save(orden);
+    }
+
+    @Test
+    @DisplayName("debe setear fechaEgreso al pasar a ENTREGADO")
+    void debeSetearFechaEgresoAlEntregar() {
+        OrdenTrabajo orden = OrdenTrabajo.builder()
+                .id(1L)
+                .estado(EstadoOrdenTrabajo.FINALIZADO)
+                .fechaFinalizacion(LocalDate.now().minusDays(2))
+                .build();
+
+        when(ordenTrabajoRepository.findById(1L)).thenReturn(Optional.of(orden));
+        when(facturaRepository.findActivasByOrdenTrabajoId(1L)).thenReturn(List.of());
+
+        useCase.cambiar(new CambiarEstadoOrdenTrabajoCommand(1L, EstadoOrdenTrabajo.ENTREGADO));
+
         assertThat(orden.getFechaEgreso()).isEqualTo(LocalDate.now());
+        assertThat(orden.getFechaFinalizacion()).isEqualTo(LocalDate.now().minusDays(2));
         verify(ordenTrabajoRepository).save(orden);
     }
 

@@ -21,6 +21,7 @@ public class OrdenTrabajo {
     private Vehiculo vehiculo;
     private Presupuesto presupuesto;
     private LocalDate fechaIngreso;
+    private LocalDate fechaFinalizacion;
     private LocalDate fechaEgreso;
     private String descripcionProblema;
     private EstadoOrdenTrabajo estado;
@@ -67,6 +68,9 @@ public class OrdenTrabajo {
                     BusinessErrors.transicionEstadoInvalidaOrden(this.estado, nuevoEstado));
         }
         if (nuevoEstado == EstadoOrdenTrabajo.FINALIZADO) {
+            this.fechaFinalizacion = LocalDate.now();
+        }
+        if (nuevoEstado == EstadoOrdenTrabajo.ENTREGADO) {
             this.fechaEgreso = LocalDate.now();
         }
         this.estado = nuevoEstado;
